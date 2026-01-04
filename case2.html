@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case 2: Open Space - Sonificationnn</title>
+    <title>Case 2: Open Space - Sonification</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,114 +15,39 @@
     <main>
         <section>
             <h2>Title</h2>
-            <p>Open Space - NASA Data Sonification</p>
+            <p>Open Space - Sonification</p>
            
             <h2>Subtitle</h2>
-            <p>Translating Astronomical Data into Audible Experience</p>
+            <p>St. Lager / Norton Medium</p>
            
             <h2>Date</h2>
             <p>Jan 2026</p>
            
-            <h2>Focus</h2>
-            <p>How can sonification make space data more intuitive and accessible beyond visual representation?</p>
+            <h2>Guiding Question</h2>
+            <p>How can sonification enhance the perception of open spaces?</p>
            
             <h2>Tools</h2>
             <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
            
-            <h2>Context</h2>
-            <p>Independent learning project exploring the science-art overlap, inspired by conversations 10 + years ago with astronomer PhD friends from Groningen, former space engineering colleague from recent space startup, and several musician & sound friends. Built on Matt Russo's "Sonification 101: How to Convert Data into Music with Python" (Medium article and YouTube tutorial), this project investigates how NASA's open datasets can be transformed into musical compositions that make cosmic phenomena accessible through sound.</p>
+            <h2>Collaborators, Context</h2>
+            <p>Independent project inspired by astronomer friends, space engineering colleagues, and musicians</p>
            
             <h2>Process</h2>
             <!-- Placeholders for hand-drawn sketches; upload your images -->
-            <img src="sketch1.png" alt="Data exploration and mapping strategy" class="sketch">
-            <img src="sketch2.png" alt="Musical scale selection and parameter mapping" class="sketch">
-            <img src="sketch3.png" alt="Python script development and testing" class="sketch">
-            <img src="sketch4.png" alt="MIDI output and audio production refinement" class="sketch">
-            
-            <h3>Workflow Steps:</h3>
-            <ol>
-                <li><strong>Environment Setup:</strong> Installed Python sonification libraries (numpy, pandas, midiutil, matplotlib) via Terminal and pip3</li>
-                <li><strong>Data Selection:</strong> Explored NASA Open Data Portal for suitable datasets with temporal and scalar dimensions (exoplanets, asteroid approaches, lunar crater impacts)</li>
-                <li><strong>Data Cleaning:</strong> Used pandas to remove null values, normalize ranges, and sort chronologically</li>
-                <li><strong>Mapping Design:</strong> Created correspondence between data parameters and musical elements (time→beats, size→pitch, intensity→velocity)</li>
-                <li><strong>Scale Selection:</strong> Tested pentatonic vs. major scales for consonance and emotional impact</li>
-                <li><strong>MIDI Generation:</strong> Developed Python script using str2midi() function to convert note names to MIDI numbers and generate .mid files</li>
-                <li><strong>Visualization:</strong> Created matplotlib scatter plots to verify data-to-sound mapping logic</li>
-                <li><strong>Audio Production:</strong> Opened MIDI files in DAW to test different instrument timbres and export final audio</li>
-            </ol>
+            <img src="sketch1.png" alt="Process Sketch 1" class="sketch">
+            <img src="sketch2.png" alt="Process Sketch 2" class="sketch">
+            <img src="sketch3.png" alt="Process Sketch 3" class="sketch">
+            <img src="sketch4.png" alt="Process Sketch 4" class="sketch">
+            <p>Data selection from NASA portal, cleaning with pandas, mapping to musical elements, MIDI generation</p>
            
-            <h2>Learning & Approach</h2>
-            <h3>Hybrid AI-Human Workflow:</h3>
-            <ul>
-                <li><strong>AI-assisted (Grok, Claude):</strong> Initial code structure, debugging syntax errors, exploring NASA data APIs, troubleshooting library installation issues</li>
-                <li><strong>Manual work:</strong> Understanding sonification principles from Matt Russo's tutorial, designing musical mappings informed by conversations with astronomers and musicians, iterating on parameter ranges, evaluating aesthetic quality of output</li>
-                <li><strong>Cross-disciplinary inspiration:</strong> Drawing on insights from Groningen astronomy PhD colleagues about data interpretation, space engineering startup experience with technical constraints, and musician friends' perspectives on auditory perception and emotional impact</li>
-            </ul>
-            
-            <h3>Key Learnings:</h3>
-            <ul>
-                <li>Data sonification sits at the intersection of science and art—it requires both analytical rigor and creative sensibility</li>
-                <li>Scientists and musicians approach "translation" differently: astronomers focus on accurate representation, musicians prioritize emotional resonance. Effective sonification balances both.</li>
-                <li>Musical scale choice dramatically affects emotional reception: pentatonic scales feel more "cosmic" while major scales sound more familiar</li>
-                <li>Time compression is critical: too fast creates chaos, too slow loses engagement</li>
-                <li>Polarity matters: inverting pitch mappings (larger values = lower pitch) can be more intuitive for certain datasets</li>
-                <li>MIDI is a powerful intermediate format—separating data translation from audio production allows greater flexibility</li>
-                <li>The science-art overlap creates opportunities for accessibility: sonification can make visual-heavy astronomy data available to vision-impaired audiences and engage non-technical listeners through aesthetic experience</li>
-            </ul>
-
-            <h3>Reference:</h3>
-            <p><em>Tutorial based on Matt Russo's "Sonification 101: How to Convert Data into Music with Python" and the YouTube series "Sonification with Python - How to Turn Data Into Music w Matt Russo (Part 1)"</em></p>
+            <h2>Explanation / Prompt / Learning</h2>
+            <p>Hybrid AI-human: AI for code/debugging, manual for mappings/design; Learned balance of science/art in sonification</p>
            
-            <h2>Results & Reflection</h2>
-            <p>Successfully created functional Python pipeline for converting CSV data into MIDI compositions. Generated multiple sonification experiments with NASA datasets including exoplanet discoveries and lunar crater impacts. The project demonstrated how auditory design can reveal temporal patterns and scale relationships that are less apparent in visual charts alone.</p>
-            
-            <p><strong>Technical Outcome:</strong> Reusable Python script with customizable parameters for tempo, scale type, note duration, and data-to-sound mappings. Generated portfolio of audio samples demonstrating different astronomical phenomena: planetary systems, impact events, and orbital mechanics translated into distinct sonic signatures.</p>
-            
-            <p><strong>Design Insight:</strong> Sonification works best when it complements—not replaces—visual representation. The most effective applications combine both modalities with clear narrative framing. The science-art overlap offers unique opportunities for both accessibility and public engagement with scientific data.</p>
-            
-            <p><strong>Interdisciplinary Value:</strong> This project bridges technical astronomy backgrounds, engineering constraints from space industry experience, and creative sound design from musical collaboration—demonstrating how cross-pollination between disciplines generates novel approaches to data communication.</p>
-
-            <h2>Next Steps & Extensions</h2>
-            
-            <h3>Immediate Development:</h3>
-            <ul>
-                <li><strong>Code Repository:</strong> Publishing documented Python scripts on GitHub with tutorials for non-programmers</li>
-                <li><strong>Audio Portfolio:</strong> Curating 3-5 exemplar sonifications with accompanying visual animations</li>
-                <li><strong>Documentation:</strong> Creating methodology guide explaining mapping decisions and design rationale</li>
-            </ul>
-
-            <h3>Short-term Applications (Q1-Q2 2026):</h3>
-            <ul>
-                <li><strong>Aerospace Telemetry Sonification:</strong> Extending methodology to orbital data—mapping velocity to timbral sweeps, altitude to harmonic layers. Potential synchronization with 3D visualization for audiovisual demonstrations</li>
-                <li><strong>Digital Humanities Hackathon:</strong> Presenting methodology at interdisciplinary event, exploring collaborative applications with humanities scholars</li>
-                <li><strong>Academic Documentation:</strong> Developing research paper on perceptual aspects of astronomical data sonification—examining how auditory patterns reveal temporal relationships and scale hierarchies differently than visual representation</li>
-            </ul>
-
-            <h3>Medium-term Expansion (Q2-Q3 2026):</h3>
-            <ul>
-                <li><strong>Multi-channel Spatial Audio:</strong> Scaling single-voice compositions to immersive installations using directional sound to represent spatial data dimensions</li>
-                <li><strong>Live Data Streams:</strong> Investigating real-time sonification of active missions (solar weather, satellite telemetry, seismic data from Mars)</li>
-                <li><strong>Educational Toolkit:</strong> Adapting framework for classroom use—enabling students to sonify their own datasets as alternative data analysis method</li>
-            </ul>
-
-            <h3>Long-term Vision (Q3-Q4 2026):</h3>
-            <ul>
-                <li><strong>Installation Work:</strong> Creating public-facing immersive experience ("Data Resonance Space")—multi-channel spatial audio environment where visitors experience cosmic phenomena through synchronized sound and visual projection</li>
-                <li><strong>Cross-domain Application:</strong> Transferring methodology to biological data, climate patterns, or social datasets—demonstrating sonification as generalizable knowledge representation tool</li>
-                <li><strong>Accessibility Research:</strong> Partnering with vision-impaired communities to evaluate sonification as alternative data access method, informing inclusive design practices</li>
-                <li><strong>Professional Audio Community:</strong> Demonstrating applications for broadcast, sound design, and production workflows—bridging scientific sonification with creative audio industries</li>
-            </ul>
-
-            <h3>Open Questions for Future Research:</h3>
-            <ul>
-                <li>How do different listener backgrounds (scientists vs. musicians vs. general public) perceive and interpret sonified data?</li>
-                <li>What mapping strategies best preserve both scientific accuracy and aesthetic coherence across different data types?</li>
-                <li>Can sonification reveal patterns or anomalies that are difficult to detect through traditional visual analysis?</li>
-                <li>How might participatory sonification (audience-controlled parameters) enhance engagement with complex datasets in museum or educational contexts?</li>
-            </ul>
-
-            <h2>Closing</h2>
-            <p>Space isn't silent—it's waiting to be heard through the right translation, where science meets art. This foundation in astronomical sonification opens pathways toward broader applications in data accessibility, scientific communication, and immersive experience design.</p>
+            <h2>Impacts, Results, Follow up</h2>
+            <p>Created audio from space data; Follow-up: GitHub repo, installations, accessibility research</p>
+           
+            <h2>Closing Sentence</h2>
+            <p>Space isn't silent—it's waiting to be heard.</p>
            
             <p><a href="case3.html">The most interesting things happen when something new enters space.</a></p>
         </section>
