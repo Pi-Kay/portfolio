@@ -43,12 +43,13 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #007bff;
+    color: #0b3d91; /* NASA dark blue */
     font-weight: bold;
 }
 
 nav a:hover {
     text-decoration: underline;
+    color: #105bd8; /* Lighter NASA blue for hover */
 }
 
 footer {
