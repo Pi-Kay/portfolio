@@ -65,12 +65,9 @@ a:visited {
 }
 /* Print styles to limit to 1-2 A4 pages */
 @media print {
-    body {
-        font-size: 12pt;
-    }
-    main {
-        page-break-after: avoid;
-    }
+    h2 { page-break-after: avoid; }
+    section { page-break-inside: avoid; }
+}
 }
 section {
     background: #fff;
