@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-/* styles.css */
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -8,79 +15,237 @@ body {
     color: #333;
     line-height: 1.6;
 }
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+    font-size: 2.5em;
+    margin: 0;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.2em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+/* ===== LINKS ===== */
+a {
+    color: #0b3d91;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #105bd8;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #0b3d91;
+}
+
+/* ===== LAYOUT ===== */
 header {
     text-align: center;
     padding: 50px 20px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
-h1 {
-    font-size: 2.5em;
-    margin: 0;
+
+header p {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #666;
 }
+
 main {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
-.cover img {
-    max-width: 100%;
-    height: auto;
+
+section {
+    background: #fff;
+    padding: 30px;
+    border: 1px solid #ddd;
     margin-bottom: 20px;
+    border-radius: 4px;
 }
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-nav li {
-    margin: 10px 0;
-}
-nav a {
-    text-decoration: none;
-    color: #0b3d91; /* NASA dark blue */
-    font-weight: bold;
-}
-nav a:hover {
-    text-decoration: underline;
-    color: #105bd8; /* Lighter NASA blue for hover */
-}
+
 footer {
     text-align: center;
     padding: 20px;
     background-color: #fff;
     border-top: 1px solid #ddd;
     margin-top: 40px;
+    font-size: 0.9em;
+    color: #666;
 }
-/* Global link styles for consistency across all pages */
-a {
-    color: #0b3d91;
-}
-a:hover {
-    color: #105bd8;
-    text-decoration: underline;
-}
-a:visited {
-    color: #0b3d91; /* Ensures visited links stay the same blue */
-}
-/* Print styles to limit to 1-2 A4 pages */
-@media print {
-    h2 { page-break-after: avoid; }
-    section { page-break-inside: avoid; }
-}
-section {
-    background: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
+
+/* ===== COVER PAGE ===== */
+.cover img {
+    max-width: 100%;
+    height: auto;
     margin-bottom: 20px;
+    border-radius: 4px;
 }
-h2 {
-    font-size: 1.5em;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+
+/* ===== NAVIGATION (Index) ===== */
+nav ul {
+    list-style: none;
+    padding: 0;
 }
+
+nav li {
+    margin: 10px 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #0b3d91;
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: #105bd8;
+}
+
+/* ===== CASE NAVIGATION (Back/Next) ===== */
+.case-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0 20px 0;
+    gap: 20px;
+}
+
+.case-nav .button {
+    padding: 12px 28px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0b3d91;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.case-nav .button:hover {
+    background-color: #105bd8;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.case-nav .button.back {
+    margin-right: auto;
+}
+
+.case-nav .button.next {
+    margin-left: auto;
+}
+
+/* ===== IMAGES & SKETCHES ===== */
 .sketch {
     max-width: 200px;
     height: auto;
     margin: 10px;
     display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    background: #fff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    body {
+        background-color: #fff;
+    }
+    
+    h2 { 
+        page-break-after: avoid; 
+    }
+    
+    section { 
+        page-break-inside: avoid;
+        border: none;
+        padding: 10px;
+    }
+    
+    .case-nav {
+        display: none;
+    }
+    
+    header, footer {
+        border: none;
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    
+    h2 {
+        font-size: 1.3em;
+    }
+    
+    main {
+        padding: 10px;
+    }
+    
+    section {
+        padding: 20px;
+    }
+    
+    header {
+        padding: 30px 15px;
+    }
+    
+    .case-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .case-nav .button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .case-nav .button.back,
+    .case-nav .button.next {
+        margin: 0;
+    }
 }
