@@ -11,50 +11,54 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(147, 51, 234, 0.9);
-            border: 2px solid rgba(147, 51, 234, 1);
-            color: white;
-            padding: 14px 24px;
-            border-radius: 30px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 10px 20px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+            font-size: 0.9em;
+            font-weight: 400;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             z-index: 1000;
-            font-family: inherit;
+            font-family: 'Inter', sans-serif;
         }
 
         .sound-toggle:hover,
         .sound-toggle:focus {
-            background: rgba(147, 51, 234, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-            outline: 2px solid rgba(147, 51, 234, 0.5);
+            background: #fff;
+            border-color: #bbb;
+            color: #222;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
 
         .sound-toggle:active {
-            transform: translateY(0);
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
         }
 
         .sound-toggle.off {
-            background: rgba(100, 100, 100, 0.9);
-            border-color: rgba(100, 100, 100, 1);
+            background: #f5f5f5;
+            border-color: #ddd;
+            color: #888;
         }
 
         .sound-toggle.off:hover,
         .sound-toggle.off:focus {
-            background: rgba(100, 100, 100, 1);
-            outline-color: rgba(100, 100, 100, 0.5);
+            background: #fff;
+            border-color: #bbb;
+            color: #555;
         }
 
         .sound-icon {
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
         }
 
@@ -66,16 +70,16 @@
         }
 
         .sonification-info a {
-            color: #9333ea;
+            color: #0b3d91;
             text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
+            transition: color 0.2s ease;
         }
 
         .sonification-info a:hover,
         .sonification-info a:focus {
-            border-bottom-color: #9333ea;
-            outline: 2px solid rgba(147, 51, 234, 0.3);
+            color: #105bd8;
+            text-decoration: underline;
+            outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
 
@@ -102,7 +106,7 @@
 
         a:focus,
         button:focus {
-            outline: 2px solid #9333ea;
+            outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
     </style>
@@ -119,12 +123,14 @@
         <section class="cover">
             <figure>
                 <img src="cover-image.png" 
-                     alt="Paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o."
+                     alt="Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o. Each dot represents a point that can be heard through the sonification tool."
                      role="img">
-                <figcaption class="sonification-info"> Sonification tool<a href="https://claude.ai/public/artifacts/eab40cd4-0b1d-45f0-a867-29a293996a00" 
+                <figcaption class="sonification-info">
+                    Sonified paper with dots and hand-written letters P-o-r-t-f-o-l-i-o. 
+                    Sonification and tool Co-Created with Claude AI <a href="https://claude.ai/public/artifacts/eab40cd4-0b1d-45f0-a867-29a293996a00" 
                        target="_blank" 
                        rel="noopener noreferrer"
-                       aria-label="Co-created with Claude AI - opens in new window">Co-created with Claude</a>.
+                       aria-label="Co-created with Claude AI - opens in new window">co-created with Claude</a>.
                 </figcaption>
             </figure>
 
