@@ -126,8 +126,8 @@
                      alt="Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o. Each dot represents a point that can be heard through the sonification tool."
                      role="img">
                 <figcaption class="sonification-info">
-                    Sonified paper with dots and hand-written letters P-o-r-t-f-o-l-i-o. <br>
-                    Sonification and tool Co-Created with Claude AI <a href="https://claude.ai/public/artifacts/eab40cd4-0b1d-45f0-a867-29a293996a00" 
+                    <strong>About this image:</strong> Sonified paper with dots and hand-written letters P-o-r-t-f-o-l-i-o. 
+                    Sonification tool <a href="https://claude.ai/public/artifacts/eab40cd4-0b1d-45f0-a867-29a293996a00" 
                        target="_blank" 
                        rel="noopener noreferrer"
                        aria-label="Co-created with Claude AI - opens in new window">co-created with Claude</a>.
@@ -149,8 +149,8 @@
     </footer>
 
     <button id="soundToggle" 
-            class="sound-toggle off" 
-            aria-pressed="false"
+            class="sound-toggle" 
+            aria-pressed="true"
             aria-label="Toggle ambient sound sonification">
         <svg class="sound-icon" 
              viewBox="0 0 24 24" 
@@ -163,12 +163,12 @@
             <path d="M11 5L6 9H2v6h4l5 4V5z"/>
             <path id="soundWaves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
         </svg>
-        <span id="soundText" aria-live="polite">Sound Off</span>
+        <span id="soundText" aria-live="polite">Sound On</span>
     </button>
 
     <script>
         var audioContext;
-        var soundEnabled = false;
+        var soundEnabled = true;
         var currentlyPlaying = false;
         var nextPlayTime = 0;
         var animationInterval;
@@ -327,7 +327,11 @@
         });
 
         var waves = document.getElementById('soundWaves');
-        if (waves) waves.style.opacity = '0.3';
+        if (waves) waves.style.opacity = '1';
+        
+        window.addEventListener('load', function() {
+            startAmbientSound();
+        });
     </script>
 </body>
 </html>
