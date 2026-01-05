@@ -3,19 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Portfolio - Petra K.</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Sonification controls styling */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(147, 51, 234, 0.9);
+            border: 2px solid rgba(147, 51, 234, 1);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            font-family: inherit;
+        }
+
+        .sound-toggle:hover,
+        .sound-toggle:focus {
+            background: rgba(147, 51, 234, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            outline: 2px solid rgba(147, 51, 234, 0.5);
+            outline-offset: 2px;
+        }
+
+        .sound-toggle:active {
+            transform: translateY(0);
+        }
+
+        .sound-toggle.off {
+            background: rgba(100, 100, 100, 0.9);
+            border-color: rgba(100, 100, 100, 1);
+        }
+
+        .sound-toggle.off:hover,
+        .sound-toggle.off:focus {
+            background: rgba(100, 100, 100, 1);
+            outline-color: rgba(100, 100, 100, 0.5);
+        }
+
+        .sound-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .sonification-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        .sonification-info a {
+            color: #9333ea;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .sonification-info a:hover,
+        .sonification-info a:focus {
+            border-bottom-color: #9333ea;
+            outline: 2px solid rgba(147, 51, 234, 0.3);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            .sound-toggle {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        a:focus,
+        button:focus {
+            outline: 2px solid #9333ea;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+
     <header>
         <h1>Petra K.</h1>
         <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
     </header>
-    <main>
+
+    <main id="main-content">
         <section class="cover">
-            <!-- Placeholder for cover image; replace with your hand-drawn scan -->
-            <img src="cover-image.png" alt="Hand-drawn Portfolio Cover">
-            <nav>
+            <figure>
+                <img src="cover-image.png" 
+                     alt="Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o. Each dot represents a point that can be heard through the sonification tool."
+                     role="img">
+                <figcaption class="sonification-info">
+                    <strong>About this image:</strong> Sonified paper with dots and hand-written letters P-o-r-t-f-o-l-i-o. 
+                    Sonification tool <a href="https://claude.ai/public/artifacts/eab40cd4-0b1d-45f0-a867-29a293996a00" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Co-created with Claude AI - opens in new window">co-created with Claude</a>.
+                </figcaption>
+            </figure>
+
+            <nav aria-label="Case studies">
                 <ul>
                     <li><a href="case1.html">Case 1: Music AI</a></li>
                     <li><a href="case2.html">Case 2: Open Space</a></li>
@@ -24,8 +139,191 @@
             </nav>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2026 Petra K. All rights reserved.</p>
     </footer>
+
+    <button id="soundToggle" 
+            class="sound-toggle off" 
+            aria-pressed="false"
+            aria-label="Toggle ambient sound sonification">
+        <svg class="sound-icon" 
+             viewBox="0 0 24 24" 
+             fill="none" 
+             stroke="currentColor" 
+             stroke-width="2"
+             aria-hidden="true"
+             role="img">
+            <title>Sound icon</title>
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <path id="soundWaves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span id="soundText" aria-live="polite">Sound Off</span>
+    </button>
+
+    <script>
+        var audioContext;
+        var soundEnabled = false;
+        var currentlyPlaying = false;
+        var nextPlayTime = 0;
+        var animationInterval;
+        
+        function initAudio() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playAmbientTone() {
+            if (!soundEnabled || !audioContext || currentlyPlaying) return;
+            
+            var now = audioContext.currentTime;
+            if (now < nextPlayTime) return;
+            
+            currentlyPlaying = true;
+            
+            var x = Math.random();
+            var y = Math.random();
+            var freq = 220 + (1 - y) * 440;
+            
+            var osc1 = audioContext.createOscillator();
+            var osc2 = audioContext.createOscillator();
+            var osc3 = audioContext.createOscillator();
+            
+            osc1.type = 'sine';
+            osc2.type = 'sine';
+            osc3.type = 'sine';
+            
+            osc1.frequency.value = freq;
+            osc2.frequency.value = freq * 2.01;
+            osc3.frequency.value = freq * 3.02;
+            
+            var g1 = audioContext.createGain();
+            var g2 = audioContext.createGain();
+            var g3 = audioContext.createGain();
+            
+            g1.gain.setValueAtTime(0, now);
+            g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
+            g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+            
+            g2.gain.setValueAtTime(0, now);
+            g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
+            g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+            
+            g3.gain.setValueAtTime(0, now);
+            g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
+            g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+            
+            var reverb = audioContext.createConvolver();
+            var rate = audioContext.sampleRate;
+            var length = rate * 2;
+            var buffer = audioContext.createBuffer(2, length, rate);
+            
+            for (var ch = 0; ch < 2; ch++) {
+                var data = buffer.getChannelData(ch);
+                for (var i = 0; i < length; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                }
+            }
+            reverb.buffer = buffer;
+            
+            var reverbGain = audioContext.createGain();
+            reverbGain.gain.value = 0.4;
+            
+            var pan = audioContext.createStereoPanner();
+            pan.pan.value = (x * 2) - 1;
+            
+            var filter = audioContext.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 2000 + (y * 2000);
+            
+            var master = audioContext.createGain();
+            master.gain.value = 0.15;
+            
+            osc1.connect(g1);
+            osc2.connect(g2);
+            osc3.connect(g3);
+            
+            g1.connect(filter);
+            g2.connect(filter);
+            g3.connect(filter);
+            
+            filter.connect(master);
+            filter.connect(reverbGain);
+            reverbGain.connect(reverb);
+            reverb.connect(master);
+            
+            master.connect(pan);
+            pan.connect(audioContext.destination);
+            
+            var dur = 2 + (Math.random() * 1);
+            osc1.start(now);
+            osc2.start(now);
+            osc3.start(now);
+            osc1.stop(now + dur);
+            osc2.stop(now + dur);
+            osc3.stop(now + dur);
+            
+            nextPlayTime = now + dur + (2 + Math.random() * 4);
+            
+            setTimeout(function() {
+                currentlyPlaying = false;
+            }, dur * 1000);
+        }
+
+        function startAmbientSound() {
+            if (!audioContext) initAudio();
+            soundEnabled = true;
+            
+            if (animationInterval) {
+                clearInterval(animationInterval);
+            }
+            
+            animationInterval = setInterval(function() {
+                if (soundEnabled) {
+                    playAmbientTone();
+                }
+            }, 500);
+        }
+
+        function stopAmbientSound() {
+            soundEnabled = false;
+            if (animationInterval) {
+                clearInterval(animationInterval);
+                animationInterval = null;
+            }
+        }
+
+        function toggleSound() {
+            var button = document.getElementById('soundToggle');
+            var text = document.getElementById('soundText');
+            var waves = document.getElementById('soundWaves');
+            
+            if (!soundEnabled) {
+                startAmbientSound();
+                button.classList.remove('off');
+                button.setAttribute('aria-pressed', 'true');
+                text.textContent = 'Sound On';
+                if (waves) waves.style.opacity = '1';
+            } else {
+                stopAmbientSound();
+                button.classList.add('off');
+                button.setAttribute('aria-pressed', 'false');
+                text.textContent = 'Sound Off';
+                if (waves) waves.style.opacity = '0.3';
+            }
+        }
+
+        document.getElementById('soundToggle').addEventListener('click', toggleSound);
+        
+        document.getElementById('soundToggle').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleSound();
+            }
+        });
+
+        var waves = document.getElementById('soundWaves');
+        if (waves) waves.style.opacity = '0.3';
+    </script>
 </body>
 </html>
