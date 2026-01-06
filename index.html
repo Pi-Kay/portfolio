@@ -62,27 +62,6 @@
             flex-shrink: 0;
         }
 
-        .sonification-info {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 12px;
-            line-height: 1.6;
-        }
-
-        .sonification-info a {
-            color: #0b3d91;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .sonification-info a:hover,
-        .sonification-info a:focus {
-            color: #105bd8;
-            text-decoration: underline;
-            outline: 2px solid rgba(11, 61, 145, 0.2);
-            outline-offset: 2px;
-        }
-
         .sr-only {
             position: absolute;
             width: 1px;
@@ -132,7 +111,6 @@
                      role="img">
                 <p><strong>Sonified paper</strong></p>
                 <br>
-                     
             </figure>
 
             <nav aria-label="Case studies">
@@ -150,8 +128,8 @@
     </footer>
 
     <button id="soundToggle" 
-            class="sound-toggle" 
-            aria-pressed="true"
+            class="sound-toggle off" 
+            aria-pressed="false"
             aria-label="Toggle ambient sound sonification">
         <svg class="sound-icon" 
              viewBox="0 0 24 24" 
@@ -164,18 +142,21 @@
             <path d="M11 5L6 9H2v6h4l5 4V5z"/>
             <path id="soundWaves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
         </svg>
-        <span id="soundText" aria-live="polite">Sound On</span>
+        <span id="soundText" aria-live="polite">Sound Off</span>
     </button>
 
     <script>
         var audioContext;
-        var soundEnabled = true;
+        var soundEnabled = false;
         var currentlyPlaying = false;
         var nextPlayTime = 0;
         var animationInterval;
         
         function initAudio() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
         }
 
         function playAmbientTone() {
@@ -276,18 +257,28 @@
         }
 
         function startAmbientSound() {
-            if (!audioContext) initAudio();
+            var ctx = initAudio();
             soundEnabled = true;
             
-            if (animationInterval) {
-                clearInterval(animationInterval);
-            }
+            // Resume audio context if suspended (critical for mobile)
+            var resumePromise = ctx.state === 'suspended' ? ctx.resume() : Promise.resolve();
             
-            animationInterval = setInterval(function() {
-                if (soundEnabled) {
-                    playAmbientTone();
+            resumePromise.then(function() {
+                // Play first tone IMMEDIATELY in user gesture context
+                playAmbientTone();
+                
+                if (animationInterval) {
+                    clearInterval(animationInterval);
                 }
-            }, 500);
+                
+                animationInterval = setInterval(function() {
+                    if (soundEnabled) {
+                        playAmbientTone();
+                    }
+                }, 500);
+            }).catch(function(err) {
+                console.error('Audio context resume failed:', err);
+            });
         }
 
         function stopAmbientSound() {
@@ -327,28 +318,9 @@
             }
         });
 
+        // Initialize waves opacity for off state
         var waves = document.getElementById('soundWaves');
-        if (waves) waves.style.opacity = '1';
-        
-        var hasStarted = false;
-        
-        function attemptAutoStart() {
-            if (!hasStarted) {
-                hasStarted = true;
-                startAmbientSound();
-            }
-        }
-        
-        document.addEventListener('click', attemptAutoStart, { once: true });
-        document.addEventListener('touchstart', attemptAutoStart, { once: true });
-        document.addEventListener('keydown', attemptAutoStart, { once: true });
-        
-        setTimeout(function() {
-            if (!hasStarted) {
-                var button = document.getElementById('soundToggle');
-                button.style.animation = 'pulse 2s ease-in-out infinite';
-            }
-        }, 3000);
+        if (waves) waves.style.opacity = '0.3';
     </script>
 </body>
 </html>
