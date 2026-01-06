@@ -186,6 +186,11 @@ nav a:hover {
     background: #fafafa;
 }
 
+/* Pencil sketch enhancement - makes hand-drawn elements more visible */
+.pencil-sketch {
+    filter: contrast(1.3) brightness(0.92);
+}
+
 img {
     max-width: 100%;
     height: auto;
