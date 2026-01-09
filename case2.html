@@ -1,4 +1,3 @@
-<!-- case2.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,62 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case 2: Open Space - Sonification</title>
     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Floating sound button (same language as index) */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 10px 20px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 400;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sound-toggle:hover,
+        .sound-toggle:focus {
+            background: #fff;
+            border-color: #bbb;
+            color: #222;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            outline: 2px solid rgba(11,61,145,0.2);
+            outline-offset: 2px;
+        }
+
+        .sound-toggle.off {
+            color: #888;
+        }
+
+        .sound-icon {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <h1>Petra K.</h1>
-        <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
-    </header>
-    <main>
-        <section>
-            <h2>Title</h2>
-            <p>Case 2: Open Space - Sonification</p>
-           
-            <h2>Subtitle</h2>
-            <p>Translating between space, visual and sounds</p>
-           
-            <h2>Date</h2>
-            <p>Jan 2026</p>
-           
-            <h2>Guiding Question</h2>
-            <p>How can sonification enhance the perception of open spaces?</p>
-           
-            <h2>Tools</h2>
-            <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
-           
-            <h2>Collaborators, Context</h2>
-            <p>Independent project exploring science-art overlap inspired by <a> <href = https://www.astromattrusso.com><Matt Russo></a> who shares workflow of sonification on NASA Dataset online.</p>
-           
-            <h2>Process</h2>
-            <!-- Placeholders for hand-drawn sketches; upload your images -->
-            <img src="sketch2.1.png" alt="Process Sketch 1" class="sketch">
-            <img src="sketch2.2.png" alt="Process Sketch 2" class="sketch">
-            <img src="sketch2.3.png" alt="Process Sketch 3" class="sketch">
-            <img src="sketch2.4.png" alt="Process Sketch 3"  class="sketch">
-            <img src="sketch2.5.png" alt="Process Sketch 3"  class="sketch">
-            <img src="sketch2.6.png" alt="Process Sketch 3"  class="sketch">
-            <img src="sketch2.7.png" alt="Process Sketch 3"  class="sketch">
-            <img src="sketch2.8.png" alt="Process Sketch 3"  class="sketch">
-            <p>Environment setup with Python libraries; Data selection and cleaning from NASA portal; Mapping parameters to musical elements; MIDI generation and audio testing</p>
-           
-            <h2>Explanation / Prompt / Learning</h2>
-            <p>AI use vs. manual labour and original work
-                <li>Hybrid workflow: AI for code structure and debugging</li>
-                <li>Manual design for mappings</li>
-                <li>Balance between scientific accuracy and artistic expression</li>
-            </p>
-            <h2>Impacts, Results, Follow up</h2>
-            <p>Improved data accessibility; Follow-up: Public installations.</p>
-           
-            <p><a href="case3.html">The most interesting things happen when something new enters space.</a></p>
-        </section>
-        <nav class="case-nav">
-            <a class="button back" href="case1.html">Back</a>
-            <a class="button next" href="case3.html">Next</a>
-        </nav>
-    </main>
-    <footer>
-        <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
-    </footer>
+<header>
+    <h1>Petra K.</h1>
+    <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
+</header>
+
+<main>
+    <section>
+        <h2>Title</h2>
+        <p>Case 2: Open Space - Sonification</p>
+
+        <h2>Subtitle</h2>
+        <p>Translating between space, visual and sounds</p>
+
+        <h2>Date</h2>
+        <p>Jan 2026</p>
+
+        <h2>Guiding Question</h2>
+        <p>How can sonification enhance the perception of open spaces?</p>
+
+        <h2>Tools</h2>
+        <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
+
+        <h2>Collaborators, Context</h2>
+        <p>
+            Independent project inspired by astronomer friends, space engineering
+            colleagues, and musicians; exploring science-art overlap with NASA's open datasets
+        </p>
+
+        <h2>Process</h2>
+        <img src="sketch2.1.png" alt="Process Sketch 1" class="sketch">
+        <img src="sketch2.2.png" alt="Process Sketch 2" class="sketch">
+        <img src="sketch2.3.png" alt="Process Sketch 3" class="sketch">
+        <img src="sketch2.4.png" alt="Process Sketch 4" class="sketch">
+        <img src="sketch2.5.png" alt="Process Sketch 5" class="sketch">
+        <img src="sketch2.6.png" alt="Process Sketch 6" class="sketch">
+        <img src="sketch2.7.png" alt="Process Sketch 7" class="sketch">
+        <img src="sketch2.8.png" alt="Process Sketch 8" class="sketch">
+
+        <p>
+            Environment setup with Python libraries; data selection and cleaning
+            from NASA portal; mapping parameters to musical elements; MIDI generation
+            and audio testing
+        </p>
+
+        <h2>Explanation / Prompt / Learning</h2>
+        <ul>
+            <li>Hybrid workflow: AI for code structure and debugging</li>
+            <li>Manual design for sonification mappings</li>
+            <li>Balance between scientific accuracy and artistic expression</li>
+        </ul>
+
+        <h2>Impacts, Results, Follow up</h2>
+        <p>Improved data accessibility; follow-up: public installations.</p>
+
+        <p>
+            <a href="case3.html">
+                The most interesting things happen when something new enters space.
+            </a>
+        </p>
+    </section>
+
+    <nav class="case-nav">
+        <a class="button back" href="case1.html">Back</a>
+        <a class="button next" href="case3.html">Next</a>
+    </nav>
+</main>
+
+<footer>
+    <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
+</footer>
+
+<!-- Audio file -->
+<audio id="openSpaceAudio" loop preload="auto">
+    <source src="open-space.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Floating sound button -->
+<button id="soundToggle"
+        class="sound-toggle off"
+        aria-pressed="false"
+        aria-label="Toggle Open Space sound">
+    <svg class="sound-icon"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <path id="soundWaves"
+              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+    <span id="soundText">Sound Off</span>
+</button>
+
+<script>
+    const audio = document.getElementById('openSpaceAudio');
+    const toggle = document.getElementById('soundToggle');
+    const text = document.getElementById('soundText');
+    const waves = document.getElementById('soundWaves');
+
+    let playing = false;
+
+    toggle.addEventListener('click', () => {
+        if (!playing) {
+            audio.play().then(() => {
+                playing = true;
+                toggle.classList.remove('off');
+                toggle.setAttribute('aria-pressed', 'true');
+                text.textContent = 'Sound On';
+                if (waves) waves.style.opacity = '1';
+            });
+        } else {
+            audio.pause();
+            playing = false;
+            toggle.classList.add('off');
+            toggle.setAttribute('aria-pressed', 'false');
+            text.textContent = 'Sound Off';
+            if (waves) waves.style.opacity = '0.3';
+        }
+    });
+
+    if (waves) waves.style.opacity = '0.3';
+</script>
+
 </body>
 </html>
+
