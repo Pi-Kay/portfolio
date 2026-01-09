@@ -155,33 +155,517 @@
 </button>
 
 <script>
-    const audio = document.getElementById('OpenSpaceAudio');
-    const toggle = document.getElementById('soundToggle');
-    const text = document.getElementById('soundText');
-    const waves = document.getElementById('soundWaves');
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Petra K.</title>
+    <link rel="stylesheet" href="styles.css?v=13">
+    <style>
+        /* Sonification controls styling */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 10px 20px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 400;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+        }
+        .sound-toggle:hover,
+        .sound-toggle:focus {
+            background: #fff;
+            border-color: #bbb;
+            color: #222;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            outline: 2px solid rgba(11, 61, 145, 0.2);
+            outline-offset: 2px;
+        }
+        .sound-toggle:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+        .sound-toggle.off {
+            background: #f5f5f5;
+            border-color: #ddd;
+            color: #888;
+        }
+        .sound-toggle.off:hover,
+        .sound-toggle.off:focus {
+            background: #fff;
+            border-color: #bbb;
+            color: #555;
+        }
+        .sound-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        @media (max-width: 640px) {
+            .sound-toggle {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+        a:focus,
+        button:focus {
+            outline: 2px solid rgba(11, 61, 145, 0.2);
+            outline-offset: 2px;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    <header>
+        <h1>Petra K.</h1>
+        <p>Interface Design, Hybrid AI Design and Hybrid Sonification Projects</p>
+    </header>
+    <main id="main-content">
+        <section class="cover">
+            <figure>
+                <canvas id="bannerCanvas" width="800" height="400" aria-label="Hybrid sonification banner visualizing ambient sounds in a moon theme."></canvas>
+                <p><strong></strong></p>
+                <br>
+            </figure>
+            <nav aria-label="Case studies">
+                <ul>
+                    <li><a href="case1.html">Music AI Compliance Doc</a></li>
+                    <li><a href="case2.html">Open Space Data Sonification</a></li>
+                    <li><a href="case3.html">Health Hackathon Prototyping</a></li>
+                </ul>
+                <br>
+            </nav>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Petra K. All rights reserved.</p>
+    </footer>
+    <button id="soundToggle"
+            class="sound-toggle off"
+            aria-pressed="false"
+            aria-label="Toggle ambient sound sonification">
+        <svg class="sound-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             aria-hidden="true"
+             role="img">
+            <title>Sound icon</title>
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <path id="soundWaves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span id="soundText" aria-live="polite">Sound Off</span>
+    </button>
+    <script>
+    var audioContext;
+var soundEnabled = false;
+var scheduleInterval;
+var canvas;
+var ctx;
+var lights = []; // Lights for impact effects
+var fallingStars = []; // Falling stars
+var craters = [
+    { name: "Bailly", diam: 287, lat: -66.5, lon: -69.1 },
+    { name: "Clavius", diam: 245, lat: -58.8, lon: -14.1 }, // Corrected longitude to -14.1
+    { name: "Schickard", diam: 206, lat: -44.3, lon: -55.3 },
+    { name: "Schiller", diam: 180, lat: -51.9, lon: -39.0 },
+    { name: "Gauss", diam: 177, lat: 35.7, lon: 79.0 },
+    { name: "Grimaldi", diam: 172, lat: -5.5, lon: -68.3 },
+    { name: "Hausen", diam: 167, lat: -65.0, lon: -88.1 },
+    { name: "Hecataeus", diam: 167, lat: -21.8, lon: 79.4 },
+    { name: "Ptolemaeus", diam: 164, lat: -9.3, lon: -1.9 },
+    { name: "Riemann", diam: 163, lat: 38.9, lon: 86.8 },
+    { name: "Struve", diam: 164, lat: 22.4, lon: -77.1 },
+    { name: "Longomontanus", diam: 157, lat: -49.6, lon: -21.8 },
+    { name: "J. Herschel", diam: 165, lat: 62.0, lon: -42.0 },
+    { name: "W. Bond", diam: 156, lat: 65.4, lon: -4.5 },
+    { name: "Drygalski", diam: 149, lat: -79.3, lon: -84.9 }
+];
 
-    let playing = false;
+function initCanvas() {
+    canvas = document.getElementById('bannerCanvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    drawBackground();
+    animate();
+}
 
-    toggle.addEventListener('click', () => {
-        if (!playing) {
-            audio.play().then(() => {
-                playing = true;
-                toggle.classList.remove('off');
-                toggle.setAttribute('aria-pressed', 'true');
-                text.textContent = 'Sound On';
-                if (waves) waves.style.opacity = '1';
-            });
+function drawBackground() {
+    // Calm, natural background: Subtle watery nebula gradient with organic filaments
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#001020'); // Deep blue for water-like depth
+    gradient.addColorStop(0.5, '#002040'); // Soft blue tint
+    gradient.addColorStop(1, '#001020');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+   
+    // Faint organic filaments (like underwater currents or microbial threads)
+    ctx.strokeStyle = 'rgba(150, 200, 255, 0.05)'; // Very subtle glow
+    ctx.lineWidth = 0.3;
+    for (let i = 0; i < 15; i++) {
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        for (let j = 0; j < 3; j++) {
+            ctx.quadraticCurveTo(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height,
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            );
+        }
+        ctx.stroke();
+    }
+   
+    // Central element: Subtle moon-like orb with watery reflection
+    const moonX = canvas.width / 2;
+    const moonY = canvas.height / 2;
+    const moonR = 150;
+    const orbGradient = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, moonR);
+    orbGradient.addColorStop(0, 'rgba(200, 220, 255, 0.3)'); // Soft blue light
+    orbGradient.addColorStop(1, 'rgba(100, 150, 200, 0.1)');
+    ctx.fillStyle = orbGradient;
+    ctx.beginPath();
+    ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+    ctx.fill();
+   
+    // Draw moon craters as small dark circles
+    const moonDiam = 3474; // Approximate moon diameter in km
+    ctx.fillStyle = 'rgba(50, 50, 50, 0.5)'; // Dark gray for craters
+    craters.forEach(crater => {
+        const latRad = crater.lat * Math.PI / 180;
+        const lonRad = crater.lon * Math.PI / 180;
+        const cx = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
+        const cy = moonY - moonR * Math.sin(latRad);
+        const cr = moonR * (crater.diam / moonDiam);
+        ctx.beginPath();
+        ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+        ctx.fill();
+    });
+   
+    // Subtle watery ripples (static for stillness)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2, 50 + i * 20, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+}
+
+function createLight(x, y) {
+    return {
+        x: x,
+        y: y,
+        size: Math.random() * 4 + 2,
+        alpha: 0,
+        fadeIn: true
+    };
+}
+
+function drawLight(light) {
+    // Soft, natural light element (diffused glow, like underwater light refraction)
+    const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 4);
+    gradient.addColorStop(0, `rgba(200, 255, 255, ${light.alpha * 0.3})`); // Soft cyan core
+    gradient.addColorStop(0.4, `rgba(200, 255, 255, ${light.alpha * 0.1})`); // Gentle diffusion
+    gradient.addColorStop(1, 'rgba(200, 255, 255, 0)'); // Fade out
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(light.x, light.y, light.size * 4, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function createFallingStar(targetX, targetY, dur) {
+    return {
+        posX: Math.random() * canvas.width,
+        posY: -50, // Start above the canvas
+        targetX: targetX,
+        targetY: targetY,
+        speed: 1 + Math.random() * 2, // Slow fall
+        alpha: 1,
+        dur: dur // For impact size
+    };
+}
+
+function drawFallingStar(star) {
+    // Draw glowing star
+    const gradient = ctx.createRadialGradient(star.posX, star.posY, 0, star.posX, star.posY, 3);
+    gradient.addColorStop(0, `rgba(255, 255, 200, ${star.alpha})`);
+    gradient.addColorStop(1, 'rgba(255, 255, 200, 0)');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(star.posX, star.posY, 3, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    drawBackground(); // Redraw for stillness with subtle elements
+   
+    // Draw lights (impact effects)
+    lights.forEach((light, index) => {
+        drawLight(light);
+       
+        if (light.fadeIn) {
+            light.alpha += 0.005; // Extremely slow fade-in
+            if (light.alpha >= 0.4) light.fadeIn = false; // Low peak for natural light
         } else {
-            audio.pause();
-            playing = false;
-            toggle.classList.add('off');
-            toggle.setAttribute('aria-pressed', 'false');
-            text.textContent = 'Sound Off';
-            if (waves) waves.style.opacity = '0.3';
+            light.alpha -= 0.003; // Slow fade-out
+            if (light.alpha <= 0) lights.splice(index, 1);
         }
     });
+   
+    // Draw and update falling stars
+    fallingStars.forEach((star, index) => {
+        drawFallingStar(star);
+       
+        // Move towards target
+        const dx = star.targetX - star.posX;
+        const dy = star.targetY - star.posY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < star.speed) {
+            // Impact: add light effect at target
+            const lightSize = star.dur * 2 + 4; // Scale light size with duration
+            let impactLight = createLight(star.targetX, star.targetY);
+            impactLight.size = lightSize;
+            lights.push(impactLight);
+            fallingStars.splice(index, 1);
+        } else {
+            star.posX += (dx / dist) * star.speed;
+            star.posY += (dy / dist) * star.speed;
+        }
+    });
+}
 
-    if (waves) waves.style.opacity = '0.3';
+function initAudio() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+}
+
+function createAndPlayTone() {
+    if (!audioContext || !soundEnabled) return;
+   
+    try {
+        var now = audioContext.currentTime;
+        // Choose a random crater
+        const crater = craters[Math.floor(Math.random() * craters.length)];
+        // Normalize position for freq and pan
+        const y_norm = (90 - crater.lat) / 180; // 0 at north, 1 at south
+        const x_norm = (crater.lon + 90) / 180; // 0 at west, 1 at east
+        var freq = 220 + (1 - y_norm) * 440;
+        var dur = 2 + (Math.random() * 1); // Extract dur for visual sync
+        var panValue = (x_norm * 2) - 1;
+       
+        var osc1 = audioContext.createOscillator();
+        var osc2 = audioContext.createOscillator();
+        var osc3 = audioContext.createOscillator();
+       
+        osc1.type = 'sine';
+        osc2.type = 'sine';
+        osc3.type = 'sine';
+       
+        osc1.frequency.value = freq;
+        osc2.frequency.value = freq * 2.01;
+        osc3.frequency.value = freq * 3.02;
+       
+        var g1 = audioContext.createGain();
+        var g2 = audioContext.createGain();
+        var g3 = audioContext.createGain();
+       
+        g1.gain.setValueAtTime(0, now);
+        g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
+        g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+       
+        g2.gain.setValueAtTime(0, now);
+        g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
+        g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+       
+        g3.gain.setValueAtTime(0, now);
+        g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
+        g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+       
+        var reverb = audioContext.createConvolver();
+        var rate = audioContext.sampleRate;
+        var length = rate * 2;
+        var buffer = audioContext.createBuffer(2, length, rate);
+       
+        for (var ch = 0; ch < 2; ch++) {
+            var data = buffer.getChannelData(ch);
+            for (var i = 0; i < length; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+            }
+        }
+        reverb.buffer = buffer;
+       
+        var reverbGain = audioContext.createGain();
+        reverbGain.gain.value = 0.4;
+       
+        var pan = audioContext.createStereoPanner();
+        pan.pan.value = panValue;
+       
+        var filter = audioContext.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 2000 + (y_norm * 2000);
+       
+        var master = audioContext.createGain();
+        master.gain.value = 0.15;
+       
+        osc1.connect(g1);
+        osc2.connect(g2);
+        osc3.connect(g3);
+       
+        g1.connect(filter);
+        g2.connect(filter);
+        g3.connect(filter);
+       
+        filter.connect(master);
+        filter.connect(reverbGain);
+        reverbGain.connect(reverb);
+        reverb.connect(master);
+       
+        master.connect(pan);
+        pan.connect(audioContext.destination);
+       
+        osc1.start(now);
+        osc2.start(now);
+        osc3.start(now);
+        osc1.stop(now + dur);
+        osc2.stop(now + dur);
+        osc3.stop(now + dur);
+       
+        // Add visuals synced to tone: falling star to crater
+        addVisualEffect(crater, freq, panValue, dur);
+    } catch (e) {
+        console.error('Error playing tone:', e);
+    }
+}
+
+function addVisualEffect(crater, freq, panValue, dur) {
+    const delay = 0.5 + Math.random() * 0.5; // Random delay for harmony
+    const moonX = canvas.width / 2;
+    const moonY = canvas.height / 2;
+    const moonR = 150;
+    const latRad = crater.lat * Math.PI / 180;
+    const lonRad = crater.lon * Math.PI / 180;
+    const targetX = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
+    const targetY = moonY - moonR * Math.sin(latRad);
+    setTimeout(() => {
+        fallingStars.push(createFallingStar(targetX, targetY, dur));
+    }, delay * 1000); // Delay in ms
+}
+
+function startAmbientSound() {
+    soundEnabled = true;
+    createAndPlayTone();
+    startScheduling();
+}
+
+function startScheduling() {
+    if (scheduleInterval) {
+        clearInterval(scheduleInterval);
+    }
+   
+    scheduleInterval = setInterval(function() {
+        if (soundEnabled && audioContext) {
+            createAndPlayTone();
+        }
+    }, 5000 + Math.random() * 5000); // Slower intervals for calmer pace
+}
+
+function stopAmbientSound() {
+    soundEnabled = false;
+    if (scheduleInterval) {
+        clearInterval(scheduleInterval);
+        scheduleInterval = null;
+    }
+    lights = [];
+    fallingStars = [];
+}
+
+function toggleSound() {
+    var button = document.getElementById('soundToggle');
+    var text = document.getElementById('soundText');
+    var waves = document.getElementById('soundWaves');
+   
+    if (!soundEnabled) {
+        initAudio(); // Create context on gesture
+        if (audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
+                startAmbientSound();
+            }).catch((err) => {
+                console.error('AudioContext resume failed:', err);
+                alert('Sound failed to start. Please try again or check browser permissions.');
+            });
+        } else {
+            startAmbientSound();
+        }
+        button.classList.remove('off');
+        button.setAttribute('aria-pressed', 'true');
+        text.textContent = 'Sound On';
+        if (waves) waves.style.opacity = '1';
+    } else {
+        stopAmbientSound();
+        button.classList.add('off');
+        button.setAttribute('aria-pressed', 'false');
+        text.textContent = 'Sound Off';
+        if (waves) waves.style.opacity = '0.3';
+    }
+}
+// Initialize canvas on load
+window.addEventListener('load', initCanvas);
+window.addEventListener('resize', () => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    drawBackground();
+});
+// Event listeners (unchanged)
+document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    toggleSound();
+}, { passive: false });
+document.getElementById('soundToggle').addEventListener('click', toggleSound);
+document.getElementById('soundToggle').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSound();
+    }
+});
+var waves = document.getElementById('soundWaves');
+if (waves) waves.style.opacity = '0.3';
+        </script>
+</body>
+</html>
 </script>
 
 </body>
