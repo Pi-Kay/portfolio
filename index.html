@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case 2: Open Space - Sonification</title>
-    <link rel="stylesheet" href="styles.css">
-
+    <title>Portfolio - Petra K.</title>
+    <link rel="stylesheet" href="styles.css?v=13">
     <style>
-        /* Floating sound button (same language as index) */
+        /* Sonification controls styling */
         .sound-toggle {
             position: fixed;
             bottom: 20px;
@@ -20,7 +19,7 @@
             cursor: pointer;
             font-size: 0.9em;
             font-weight: 400;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -34,146 +33,304 @@
             background: #fff;
             border-color: #bbb;
             color: #222;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-            outline: 2px solid rgba(11,61,145,0.2);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
 
+        .sound-toggle:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
         .sound-toggle.off {
+            background: #f5f5f5;
+            border-color: #ddd;
             color: #888;
+        }
+
+        .sound-toggle.off:hover,
+        .sound-toggle.off:focus {
+            background: #fff;
+            border-color: #bbb;
+            color: #555;
         }
 
         .sound-icon {
             width: 18px;
             height: 18px;
+            flex-shrink: 0;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            .sound-toggle {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        a:focus,
+        button:focus {
+            outline: 2px solid rgba(11, 61, 145, 0.2);
+            outline-offset: 2px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
-
 <body>
-<header>
-    <h1>Petra K.</h1>
-    <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
-</header>
+    <a href="#main-content" class="sr-only">Skip to main content</a>
 
-<main>
-    <section>
-        <h2>Title</h2>
-        <p>Case 2: Open Space - Sonification</p>
+    <header>
+        <h1>Petra K.</h1>
+        <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
+    </header>
 
-        <h2>Subtitle</h2>
-        <p>Translating between space, visual and sounds</p>
+    <main id="main-content">
+        <section class="cover">
+            <figure>
+                <img src="cover-image.png" 
+                     alt="Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o."
+                     role="img"
+                <p><strong></strong></p>
+                <br>
+            </figure>
 
-        <h2>Date</h2>
-        <p>Jan 2026</p>
+            <nav aria-label="Case studies">
+                <ul>
+                    <li><a href="case1.html">Case 1: Music AI</a></li>
+                    <li><a href="case2.html">Case 2: Open Space</a></li>
+                    <li><a href="case3.html">Case 3: Health Hack</a></li>
+                </ul>
+            </nav>
+        </section>
+    </main>
 
-        <h2>Guiding Question</h2>
-        <p>How can sonification enhance the perception of open spaces?</p>
+    <footer>
+        <p>&copy; 2026 Petra K. All rights reserved.</p>
+    </footer>
 
-        <h2>Tools</h2>
-        <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
+    <button id="soundToggle" 
+            class="sound-toggle off" 
+            aria-pressed="false"
+            aria-label="Toggle ambient sound sonification">
+        <svg class="sound-icon" 
+             viewBox="0 0 24 24" 
+             fill="none" 
+             stroke="currentColor" 
+             stroke-width="2"
+             aria-hidden="true"
+             role="img">
+            <title>Sound icon</title>
+            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+            <path id="soundWaves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span id="soundText" aria-live="polite">Sound Off</span>
+    </button>
 
-        <h2>Collaborators, Context</h2>
-        <p>
-            Independent project inspired by astronomer friends, space engineering
-            colleagues, and musicians; exploring science-art overlap with NASA's open datasets
-        </p>
+    <script>
+        var audioContext;
+        var soundEnabled = false;
+        var scheduledTones = [];
+        var scheduleInterval;
+        
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioContext;
+        }
 
-        <h2>Process</h2>
-        <img src="sketch2.1.png" alt="Process Sketch 1" class="sketch">
-        <img src="sketch2.2.png" alt="Process Sketch 2" class="sketch">
-        <img src="sketch2.3.png" alt="Process Sketch 3" class="sketch">
-        <img src="sketch2.4.png" alt="Process Sketch 4" class="sketch">
-        <img src="sketch2.5.png" alt="Process Sketch 5" class="sketch">
-        <img src="sketch2.6.png" alt="Process Sketch 6" class="sketch">
-        <img src="sketch2.7.png" alt="Process Sketch 7" class="sketch">
-        <img src="sketch2.8.png" alt="Process Sketch 8" class="sketch">
+        function createAndPlayTone() {
+            if (!audioContext || !soundEnabled) return;
+            
+            try {
+                var now = audioContext.currentTime;
+                var x = Math.random();
+                var y = Math.random();
+                var freq = 220 + (1 - y) * 440;
+                
+                var osc1 = audioContext.createOscillator();
+                var osc2 = audioContext.createOscillator();
+                var osc3 = audioContext.createOscillator();
+                
+                osc1.type = 'sine';
+                osc2.type = 'sine';
+                osc3.type = 'sine';
+                
+                osc1.frequency.value = freq;
+                osc2.frequency.value = freq * 2.01;
+                osc3.frequency.value = freq * 3.02;
+                
+                var g1 = audioContext.createGain();
+                var g2 = audioContext.createGain();
+                var g3 = audioContext.createGain();
+                
+                g1.gain.setValueAtTime(0, now);
+                g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
+                g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+                
+                g2.gain.setValueAtTime(0, now);
+                g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
+                g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+                
+                g3.gain.setValueAtTime(0, now);
+                g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
+                g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+                
+                var reverb = audioContext.createConvolver();
+                var rate = audioContext.sampleRate;
+                var length = rate * 2;
+                var buffer = audioContext.createBuffer(2, length, rate);
+                
+                for (var ch = 0; ch < 2; ch++) {
+                    var data = buffer.getChannelData(ch);
+                    for (var i = 0; i < length; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                    }
+                }
+                reverb.buffer = buffer;
+                
+                var reverbGain = audioContext.createGain();
+                reverbGain.gain.value = 0.4;
+                
+                var pan = audioContext.createStereoPanner();
+                pan.pan.value = (x * 2) - 1;
+                
+                var filter = audioContext.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 2000 + (y * 2000);
+                
+                var master = audioContext.createGain();
+                master.gain.value = 0.15;
+                
+                osc1.connect(g1);
+                osc2.connect(g2);
+                osc3.connect(g3);
+                
+                g1.connect(filter);
+                g2.connect(filter);
+                g3.connect(filter);
+                
+                filter.connect(master);
+                filter.connect(reverbGain);
+                reverbGain.connect(reverb);
+                reverb.connect(master);
+                
+                master.connect(pan);
+                pan.connect(audioContext.destination);
+                
+                var dur = 2 + (Math.random() * 1);
+                osc1.start(now);
+                osc2.start(now);
+                osc3.start(now);
+                osc1.stop(now + dur);
+                osc2.stop(now + dur);
+                osc3.stop(now + dur);
+            } catch (e) {
+                console.error('Error playing tone:', e);
+            }
+        }
 
-        <p>
-            Environment setup with Python libraries; data selection and cleaning
-            from NASA portal; mapping parameters to musical elements; MIDI generation
-            and audio testing
-        </p>
+        function startAmbientSound() {
+            var ctx = initAudio();
+            soundEnabled = true;
+            
+            // Critical: Resume context and play immediately
+            var startAudio = function() {
+                if (ctx.state === 'suspended') {
+                    ctx.resume().then(function() {
+                        // Play first tone immediately after resume
+                        createAndPlayTone();
+                        startScheduling();
+                    }).catch(function(err) {
+                        console.error('Audio resume failed:', err);
+                    });
+                } else {
+                    // Play first tone immediately
+                    createAndPlayTone();
+                    startScheduling();
+                }
+            };
+            
+            startAudio();
+        }
 
-        <h2>Explanation / Prompt / Learning</h2>
-        <ul>
-            <li>Hybrid workflow: AI for code structure and debugging</li>
-            <li>Manual design for sonification mappings</li>
-            <li>Balance between scientific accuracy and artistic expression</li>
-        </ul>
+        function startScheduling() {
+            if (scheduleInterval) {
+                clearInterval(scheduleInterval);
+            }
+            
+            scheduleInterval = setInterval(function() {
+                if (soundEnabled && audioContext) {
+                    createAndPlayTone();
+                }
+            }, 3000 + Math.random() * 3000);
+        }
 
-        <h2>Impacts, Results, Follow up</h2>
-        <p>Improved data accessibility; follow-up: public installations.</p>
+        function stopAmbientSound() {
+            soundEnabled = false;
+            if (scheduleInterval) {
+                clearInterval(scheduleInterval);
+                scheduleInterval = null;
+            }
+        }
 
-        <p>
-            <a href="case3.html">
-                The most interesting things happen when something new enters space.
-            </a>
-        </p>
-    </section>
-
-    <nav class="case-nav">
-        <a class="button back" href="case1.html">Back</a>
-        <a class="button next" href="case3.html">Next</a>
-    </nav>
-</main>
-
-<footer>
-    <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
-</footer>
-
-<!-- Audio file -->
-<audio id="openSpaceAudio" loop preload="auto">
-    <source src="open-space.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Floating sound button -->
-<button id="soundToggle"
-        class="sound-toggle off"
-        aria-pressed="false"
-        aria-label="Toggle Open Space sound">
-    <svg class="sound-icon"
-         viewBox="0 0 24 24"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="2"
-         aria-hidden="true">
-        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        <path id="soundWaves"
-              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-    </svg>
-    <span id="soundText">Sound Off</span>
-</button>
-
-<script>
-    const audio = document.getElementById('openSpaceAudio');
-    const toggle = document.getElementById('soundToggle');
-    const text = document.getElementById('soundText');
-    const waves = document.getElementById('soundWaves');
-
-    let playing = false;
-
-    toggle.addEventListener('click', () => {
-        if (!playing) {
-            audio.play().then(() => {
-                playing = true;
-                toggle.classList.remove('off');
-                toggle.setAttribute('aria-pressed', 'true');
+        function toggleSound() {
+            var button = document.getElementById('soundToggle');
+            var text = document.getElementById('soundText');
+            var waves = document.getElementById('soundWaves');
+            
+            if (!soundEnabled) {
+                startAmbientSound();
+                button.classList.remove('off');
+                button.setAttribute('aria-pressed', 'true');
                 text.textContent = 'Sound On';
                 if (waves) waves.style.opacity = '1';
-            });
-        } else {
-            audio.pause();
-            playing = false;
-            toggle.classList.add('off');
-            toggle.setAttribute('aria-pressed', 'false');
-            text.textContent = 'Sound Off';
-            if (waves) waves.style.opacity = '0.3';
+            } else {
+                stopAmbientSound();
+                button.classList.add('off');
+                button.setAttribute('aria-pressed', 'false');
+                text.textContent = 'Sound Off';
+                if (waves) waves.style.opacity = '0.3';
+            }
         }
-    });
 
-    if (waves) waves.style.opacity = '0.3';
-</script>
+        // Touch events for mobile
+        document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            toggleSound();
+        }, { passive: false });
 
+        document.getElementById('soundToggle').addEventListener('click', toggleSound);
+        
+        document.getElementById('soundToggle').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleSound();
+            }
+        });
+
+        // Initialize waves opacity for off state
+        var waves = document.getElementById('soundWaves');
+        if (waves) waves.style.opacity = '0.3';
+    </script>
 </body>
 </html>
