@@ -135,11 +135,25 @@ var soundEnabled = false;
 var scheduleInterval;
 var canvas;
 var ctx;
-var lights = [];  // Light elements
-var drops = [];   // Water drops
-var audioSource;  // For MP3 playback
-var analyser;     // For real-time audio analysis
-var midiData;     // For MIDI parsing (simple note extraction)
+var lights = []; // Lights for impact effects
+var fallingStars = []; // Falling stars
+var craters = [
+    { name: "Bailly", diam: 287, lat: -66.5, lon: -69.1 },
+    { name: "Clavius", diam: 245, lat: -58.8, lon: -14.1 }, // Corrected longitude to -14.1
+    { name: "Schickard", diam: 206, lat: -44.3, lon: -55.3 },
+    { name: "Schiller", diam: 180, lat: -51.9, lon: -39.0 },
+    { name: "Gauss", diam: 177, lat: 35.7, lon: 79.0 },
+    { name: "Grimaldi", diam: 172, lat: -5.5, lon: -68.3 },
+    { name: "Hausen", diam: 167, lat: -65.0, lon: -88.1 },
+    { name: "Hecataeus", diam: 167, lat: -21.8, lon: 79.4 },
+    { name: "Ptolemaeus", diam: 164, lat: -9.3, lon: -1.9 },
+    { name: "Riemann", diam: 163, lat: 38.9, lon: 86.8 },
+    { name: "Struve", diam: 164, lat: 22.4, lon: -77.1 },
+    { name: "Longomontanus", diam: 157, lat: -49.6, lon: -21.8 },
+    { name: "J. Herschel", diam: 165, lat: 62.0, lon: -42.0 },
+    { name: "W. Bond", diam: 156, lat: 65.4, lon: -4.5 },
+    { name: "Drygalski", diam: 149, lat: -79.3, lon: -84.9 }
+];
 
 function initCanvas() {
     canvas = document.getElementById('bannerCanvas');
@@ -151,170 +165,204 @@ function initCanvas() {
 }
 
 function drawBackground() {
-    // Calm, poetic background: Subtle deep blue gradient for space/water depth
+    // Calm, natural background: Subtle watery nebula gradient with organic filaments
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#001020');  // Deep blue
-    gradient.addColorStop(1, '#000010');  // Darker fade
+    gradient.addColorStop(0, '#001020'); // Deep blue for water-like depth
+    gradient.addColorStop(0.5, '#002040'); // Soft blue tint
+    gradient.addColorStop(1, '#001020');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Central circle (subtle 3D orb, like a calm moon or water surface)
-    const orbGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2 + 20, 0, canvas.width / 2, canvas.height / 2, 150);  // Offset for 3D shadow
-    orbGradient.addColorStop(0, '#e0e0e0');  // Light gray top
-    orbGradient.addColorStop(0.8, '#a0a0a0');  // Mid gray
-    orbGradient.addColorStop(1, '#808080');  // Darker bottom for 3D
+   
+    // Faint organic filaments (like underwater currents or microbial threads)
+    ctx.strokeStyle = 'rgba(150, 200, 255, 0.05)'; // Very subtle glow
+    ctx.lineWidth = 0.3;
+    for (let i = 0; i < 15; i++) {
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        for (let j = 0; j < 3; j++) {
+            ctx.quadraticCurveTo(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height,
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            );
+        }
+        ctx.stroke();
+    }
+   
+    // Central element: Subtle moon-like orb with watery reflection
+    const moonX = canvas.width / 2;
+    const moonY = canvas.height / 2;
+    const moonR = 150;
+    const orbGradient = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, moonR);
+    orbGradient.addColorStop(0, 'rgba(200, 220, 255, 0.3)'); // Soft blue light
+    orbGradient.addColorStop(1, 'rgba(100, 150, 200, 0.1)');
     ctx.fillStyle = orbGradient;
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
+    ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
     ctx.fill();
-    
-    // Subtle eclipse-like edge glow (static, enhanced with sound)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';  // Very faint white halo
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(canvas.width / 2, canvas.height / 2, 152, 0, Math.PI * 2);
-    ctx.stroke();
+   
+    // Draw moon craters as small dark circles
+    const moonDiam = 3474; // Approximate moon diameter in km
+    ctx.fillStyle = 'rgba(50, 50, 50, 0.5)'; // Dark gray for craters
+    craters.forEach(crater => {
+        const latRad = crater.lat * Math.PI / 180;
+        const lonRad = crater.lon * Math.PI / 180;
+        const cx = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
+        const cy = moonY - moonR * Math.sin(latRad);
+        const cr = moonR * (crater.diam / moonDiam);
+        ctx.beginPath();
+        ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+        ctx.fill();
+    });
+   
+    // Subtle watery ripples (static for stillness)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2, 50 + i * 20, 0, Math.PI * 2);
+        ctx.stroke();
+    }
 }
 
-function createLight() {
+function createLight(x, y) {
     return {
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 5 + 3,
+        x: x,
+        y: y,
+        size: Math.random() * 4 + 2,
         alpha: 0,
         fadeIn: true
     };
 }
 
 function drawLight(light) {
-    // Subtle light element (soft glow, like natural light refraction)
-    const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 5);
-    gradient.addColorStop(0, `rgba(255, 255, 200, ${light.alpha * 0.2})`);  // Gentle core
-    gradient.addColorStop(1, `rgba(255, 255, 200, 0)`);  // Fade out
+    // Soft, natural light element (diffused glow, like underwater light refraction)
+    const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 4);
+    gradient.addColorStop(0, `rgba(200, 255, 255, ${light.alpha * 0.3})`); // Soft cyan core
+    gradient.addColorStop(0.4, `rgba(200, 255, 255, ${light.alpha * 0.1})`); // Gentle diffusion
+    gradient.addColorStop(1, 'rgba(200, 255, 255, 0)'); // Fade out
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(light.x, light.y, light.size * 5, 0, Math.PI * 2);
+    ctx.arc(light.x, light.y, light.size * 4, 0, Math.PI * 2);
     ctx.fill();
 }
 
-function createDrop(x, y, dur) {
+function createFallingStar(targetX, targetY, dur) {
     return {
-        x: x,
-        y: y,
-        radius: 0,
-        maxRadius: dur * 5 + 10,  // Subtle size based on duration
-        alpha: 0.3,
-        growthRate: 0.1  // Extremely slow growth for poetic calm
+        posX: Math.random() * canvas.width,
+        posY: -50, // Start above the canvas
+        targetX: targetX,
+        targetY: targetY,
+        speed: 1 + Math.random() * 2, // Slow fall
+        alpha: 1,
+        dur: dur // For impact size
     };
 }
 
-function drawDrop(drop) {
-    // Natural water drop ripple (very subtle concentric waves)
-    ctx.strokeStyle = `rgba(200, 255, 255, ${drop.alpha})`;  // Soft cyan
-    ctx.lineWidth = 0.5;
+function drawFallingStar(star) {
+    // Draw glowing star
+    const gradient = ctx.createRadialGradient(star.posX, star.posY, 0, star.posX, star.posY, 3);
+    gradient.addColorStop(0, `rgba(255, 255, 200, ${star.alpha})`);
+    gradient.addColorStop(1, 'rgba(255, 255, 200, 0)');
+    ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(drop.x, drop.y, drop.radius, 0, Math.PI * 2);
-    ctx.stroke();
-    
-    // Inner ripple for depth
-    if (drop.radius > 5) {
-        ctx.beginPath();
-        ctx.arc(drop.x, drop.y, drop.radius - 5, 0, Math.PI * 2);
-        ctx.stroke();
-    }
+    ctx.arc(star.posX, star.posY, 3, 0, Math.PI * 2);
+    ctx.fill();
 }
 
 function animate() {
     requestAnimationFrame(animate);
-    drawBackground(); // Maintain stillness
-    
-    // Draw lights (very slow, subtle)
+    drawBackground(); // Redraw for stillness with subtle elements
+   
+    // Draw lights (impact effects)
     lights.forEach((light, index) => {
         drawLight(light);
-        
+       
         if (light.fadeIn) {
-            light.alpha += 0.002;  // Super slow fade-in
-            if (light.alpha >= 0.3) light.fadeIn = false;
+            light.alpha += 0.005; // Extremely slow fade-in
+            if (light.alpha >= 0.4) light.fadeIn = false; // Low peak for natural light
         } else {
-            light.alpha -= 0.001;  // Super slow fade-out
+            light.alpha -= 0.003; // Slow fade-out
             if (light.alpha <= 0) lights.splice(index, 1);
         }
     });
-    
-    // Draw drops (very slow expansion)
-    drops.forEach((drop, index) => {
-        drawDrop(drop);
-        
-        drop.radius += drop.growthRate;  // Minimal movement
-        drop.alpha -= 0.0005;  // Almost imperceptible fade
-        if (drop.radius > drop.maxRadius || drop.alpha <= 0) drops.splice(index, 1);
+   
+    // Draw and update falling stars
+    fallingStars.forEach((star, index) => {
+        drawFallingStar(star);
+       
+        // Move towards target
+        const dx = star.targetX - star.posX;
+        const dy = star.targetY - star.posY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < star.speed) {
+            // Impact: add light effect at target
+            const lightSize = star.dur * 2 + 4; // Scale light size with duration
+            let impactLight = createLight(star.targetX, star.targetY);
+            impactLight.size = lightSize;
+            lights.push(impactLight);
+            fallingStars.splice(index, 1);
+        } else {
+            star.posX += (dx / dist) * star.speed;
+            star.posY += (dy / dist) * star.speed;
+        }
     });
-    
-    // Enhance orb subtly when sound is on (3D light/eclipse effect)
-    if (soundEnabled) {
-        // Add faint corona glow at edges
-        const coronaGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 150, canvas.width / 2, canvas.height / 2, 170);
-        coronaGradient.addColorStop(0, 'rgba(255, 255, 200, 0)');
-        coronaGradient.addColorStop(1, 'rgba(255, 255, 200, 0.05)');  // Very subtle light halo
-        ctx.fillStyle = coronaGradient;
-        ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, 170, 0, Math.PI * 2);
-        ctx.fill();
-    }
 }
 
 function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
     }
     return audioContext;
 }
 
 function createAndPlayTone() {
     if (!audioContext || !soundEnabled) return;
-    
+   
     try {
         var now = audioContext.currentTime;
-        var x = Math.random();
-        var y = Math.random();
-        var freq = 220 + (1 - y) * 440;
-        var dur = 2 + (Math.random() * 1);
-        
+        // Choose a random crater
+        const crater = craters[Math.floor(Math.random() * craters.length)];
+        // Normalize position for freq and pan
+        const y_norm = (90 - crater.lat) / 180; // 0 at north, 1 at south
+        const x_norm = (crater.lon + 90) / 180; // 0 at west, 1 at east
+        var freq = 220 + (1 - y_norm) * 440;
+        var dur = 2 + (Math.random() * 1); // Extract dur for visual sync
+        var panValue = (x_norm * 2) - 1;
+       
         var osc1 = audioContext.createOscillator();
         var osc2 = audioContext.createOscillator();
         var osc3 = audioContext.createOscillator();
-        
+       
         osc1.type = 'sine';
         osc2.type = 'sine';
         osc3.type = 'sine';
-        
+       
         osc1.frequency.value = freq;
         osc2.frequency.value = freq * 2.01;
         osc3.frequency.value = freq * 3.02;
-        
+       
         var g1 = audioContext.createGain();
         var g2 = audioContext.createGain();
         var g3 = audioContext.createGain();
-        
+       
         g1.gain.setValueAtTime(0, now);
         g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
         g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-        
+       
         g2.gain.setValueAtTime(0, now);
         g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
         g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-        
+       
         g3.gain.setValueAtTime(0, now);
         g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
         g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-        
+       
         var reverb = audioContext.createConvolver();
         var rate = audioContext.sampleRate;
         var length = rate * 2;
         var buffer = audioContext.createBuffer(2, length, rate);
-        
+       
         for (var ch = 0; ch < 2; ch++) {
             var data = buffer.getChannelData(ch);
             for (var i = 0; i < length; i++) {
@@ -322,68 +370,62 @@ function createAndPlayTone() {
             }
         }
         reverb.buffer = buffer;
-        
+       
         var reverbGain = audioContext.createGain();
         reverbGain.gain.value = 0.4;
-        
+       
         var pan = audioContext.createStereoPanner();
-        pan.pan.value = (x * 2) - 1;
-        
+        pan.pan.value = panValue;
+       
         var filter = audioContext.createBiquadFilter();
         filter.type = 'lowpass';
-        filter.frequency.value = 2000 + (y * 2000);
-        
+        filter.frequency.value = 2000 + (y_norm * 2000);
+       
         var master = audioContext.createGain();
         master.gain.value = 0.15;
-        
+       
         osc1.connect(g1);
         osc2.connect(g2);
         osc3.connect(g3);
-        
+       
         g1.connect(filter);
         g2.connect(filter);
         g3.connect(filter);
-        
+       
         filter.connect(master);
         filter.connect(reverbGain);
         reverbGain.connect(reverb);
         reverb.connect(master);
-        
+       
         master.connect(pan);
-        pan.connect(analyser);
-        analyser.connect(audioContext.destination);
-        
+        pan.connect(audioContext.destination);
+       
         osc1.start(now);
         osc2.start(now);
         osc3.start(now);
         osc1.stop(now + dur);
         osc2.stop(now + dur);
         osc3.stop(now + dur);
-        
-        // Add visuals synced to tone
-        addVisualEffect(freq, pan.pan.value, dur);
+       
+        // Add visuals synced to tone: falling star to crater
+        addVisualEffect(crater, freq, panValue, dur);
     } catch (e) {
         console.error('Error playing tone:', e);
     }
 }
 
-function addVisualEffect(freq, panValue, dur) {
-    const delay = (freq > 440) ? 1.0 : 2.0;  // Even slower delays for calm concurrence
+function addVisualEffect(crater, freq, panValue, dur) {
+    const delay = 0.5 + Math.random() * 0.5; // Random delay for harmony
+    const moonX = canvas.width / 2;
+    const moonY = canvas.height / 2;
+    const moonR = 150;
+    const latRad = crater.lat * Math.PI / 180;
+    const lonRad = crater.lon * Math.PI / 180;
+    const targetX = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
+    const targetY = moonY - moonR * Math.sin(latRad);
     setTimeout(() => {
-        if (freq > 440) {
-            // High freq: Subtle light elements (1-2)
-            for (let i = 0; i < Math.floor(Math.random() * 2) + 1; i++) {
-                lights.push(createLight());
-            }
-        } else {
-            // Low freq: Natural water drop, synced to dur
-            let orbX = canvas.width / 2;
-            let orbY = canvas.height / 2;
-            let dropX = orbX + (panValue * 50) + (Math.random() * 50 - 25);
-            let dropY = orbY + (Math.random() * 50 - 25);
-            drops.push(createDrop(dropX, dropY, dur));
-        }
-    }, delay * 1000);
+        fallingStars.push(createFallingStar(targetX, targetY, dur));
+    }, delay * 1000); // Delay in ms
 }
 
 function startAmbientSound() {
@@ -396,12 +438,12 @@ function startScheduling() {
     if (scheduleInterval) {
         clearInterval(scheduleInterval);
     }
-    
+   
     scheduleInterval = setInterval(function() {
         if (soundEnabled && audioContext) {
             createAndPlayTone();
         }
-    }, 6000 + Math.random() * 4000);  // Slower, calmer pacing
+    }, 5000 + Math.random() * 5000); // Slower intervals for calmer pace
 }
 
 function stopAmbientSound() {
@@ -411,16 +453,16 @@ function stopAmbientSound() {
         scheduleInterval = null;
     }
     lights = [];
-    drops = [];
+    fallingStars = [];
 }
 
 function toggleSound() {
     var button = document.getElementById('soundToggle');
     var text = document.getElementById('soundText');
     var waves = document.getElementById('soundWaves');
-    
+   
     if (!soundEnabled) {
-        initAudio();  // Create context on gesture
+        initAudio(); // Create context on gesture
         if (audioContext.state === 'suspended') {
             audioContext.resume().then(() => {
                 startAmbientSound();
@@ -443,7 +485,6 @@ function toggleSound() {
         if (waves) waves.style.opacity = '0.3';
     }
 }
-
 // Initialize canvas on load
 window.addEventListener('load', initCanvas);
 window.addEventListener('resize', () => {
@@ -451,21 +492,18 @@ window.addEventListener('resize', () => {
     canvas.height = canvas.offsetHeight;
     drawBackground();
 });
-
 // Event listeners (unchanged)
 document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
     e.preventDefault();
     toggleSound();
 }, { passive: false });
 document.getElementById('soundToggle').addEventListener('click', toggleSound);
-
 document.getElementById('soundToggle').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggleSound();
     }
 });
-
 var waves = document.getElementById('soundWaves');
 if (waves) waves.style.opacity = '0.3';
         </script>
