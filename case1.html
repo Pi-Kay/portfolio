@@ -1,176 +1,179 @@
-<!-- case1.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case 1: Music AI - Compliance Guide</title>
+    <title>Case 2: Open Space - Sonification</title>
     <link rel="stylesheet" href="styles.css">
+
     <style>
-        .doc-preview {
-            display: flex;
-            gap: 20px;
-            margin: 20px 0;
-            align-items: flex-start;
-        }
-
-        .doc-thumbnail {
-            flex-shrink: 0;
-            width: 200px;
-            height: 260px;
-            background: #fff;
+        /* Floating sound button (same language as index) */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f5f5f5;
             border: 1px solid #ddd;
-            overflow: hidden;
+            color: #555;
+            padding: 10px 20px;
+            border-radius: 2px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .doc-thumbnail:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .doc-thumbnail embed {
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .doc-info {
-            flex: 1;
-        }
-
-        .doc-title {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #222;
-            margin-bottom: 8px;
-        }
-
-        .doc-meta {
             font-size: 0.9em;
-            color: #666;
-            margin-bottom: 16px;
-        }
-
-        .minimal-btn {
-            display: inline-block;
-            padding: 10px 24px;
-            margin-right: 12px;
-            margin-bottom: 8px;
-            background: transparent;
-            border: 1px solid #333;
-            color: #333;
-            text-decoration: none;
-            font-size: 0.85em;
             font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
         }
 
-        .minimal-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: #333;
-            transition: left 0.3s ease;
-            z-index: -1;
+        .sound-toggle:hover,
+        .sound-toggle:focus {
+            background: #fff;
+            border-color: #bbb;
+            color: #222;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            outline: 2px solid rgba(11,61,145,0.2);
+            outline-offset: 2px;
         }
 
-        .minimal-btn:hover {
-            color: #fff;
-            text-decoration: none;
+        .sound-toggle.off {
+            color: #888;
         }
 
-        .minimal-btn:hover::before {
-            left: 0;
-        }
-
-        @media (max-width: 768px) {
-            .doc-preview {
-                flex-direction: column;
-            }
-
-            .doc-thumbnail {
-                width: 100%;
-                max-width: 300px;
-            }
+        .sound-icon {
+            width: 18px;
+            height: 18px;
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>Petra K.</h1>
-        <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
-    </header>
-    <main>
-        <section>
-            <h2>Title</h2>
-            <p>Case 1: Music AI</p>
-            
-            <h2>Subtitle</h2>
-            <p>Compliance Guide</p>
-            
-            <h2>Date</h2>
-            <p>Dec 2025 - Ongoing</p>
-            
-            <h2>Guiding question</h2>
-            <p>How can creators get a grasp of AI compliance and integrate it in their workflow?</p>
-            
-            <h2>Tools</h2>
-            <p>GitHub, GitPages, Obsidian, AI (Grok, Claude), Apple Pages, Terminal (HTML, CSS, JS), Python, Audacity</p>
-            
-            <h2>Collaborators, Context</h2>
-            <p>Independent Open-Source project</p>
 
-            <h2>Document</h2>
-            <div class="doc-preview">
-                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail">
-                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf">
-                </a>
-                <div class="doc-info">
-                    <div class="doc-title">Guidance on Personal Data in Generative Music Systems</div>
-                    <div class="doc-meta">Version 1.0 | December 2025 | 12 pages</div>
-                    <a href="Music AI Compliance.pdf" target="_blank" class="minimal-btn">VIEW</a>
-                    <a href="Music AI Compliance.pdf" download class="minimal-btn">DOWNLOAD</a>
-                </div>
-            </div>
-            
-            <h2>Process</h2>
-            <!-- Placeholders for hand-drawn sketches; upload your images -->
-            <img src="sketch1.1.png" alt="Process Sketch 1" class="sketch">
-            <img src="sketch1.2.png" alt="Process Sketch 2" class="sketch">
-            <img src="sketch1.3.png" alt="Process Sketch 3" class="sketch">
-            <img src="sketch1.4.png" alt="Process Sketch 4" class="sketch">
-            
-            <h2>Explanation / Prompt / Learning</h2>
-            <p>AI use vs. manual labour and original work</p>
-            <ul>
-                <li>General interest in Audio, Creativity, impact of AI and restrictions as manageable by me</li>
-                <li>Idea generation by AI & Design, expansion to interactive and accessible system by me</li>
-                <li>Gather various AI requirements, review accuracy with several AI's</li>
-                <li>Review of Accessibility Guidelines with several AI's as well as several checks</li>
-                <li>Design manually in Apple Pages to upload image for code prompt by AI</li>
-                <li>Troubleshooting, Adjusting and refining in hybrid</li>
-            </ul>
-            
-            <h2>Impacts, Results, Follow up</h2>
-            <p>Shared publically with regular version control.</p>
-    
-            <p><a href="case2.html">The most interesting things happen when something new enters space.</a></p>
-        </section>
-        <nav class="case-nav">
-            <a class="button back" href="index.html">Back</a>
-            <a class="button next" href="case2.html">Next</a>
-        </nav>
-    </main>
-    <footer>
-        <p>&copy; 2026 Petra K. All rights reserved.</p>
-    </footer>
+<body>
+<header>
+    <h1>Petra K.</h1>
+    <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
+</header>
+
+<main>
+    <section>
+        <h2>Title</h2>
+        <p>Case 2: Open Space - Sonification</p>
+
+        <h2>Subtitle</h2>
+        <p>Translating between space, visual and sounds</p>
+
+        <h2>Date</h2>
+        <p>Jan 2026</p>
+
+        <h2>Guiding Question</h2>
+        <p>How can sonification enhance the perception of open spaces?</p>
+
+        <h2>Tools</h2>
+        <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
+
+        <h2>Collaborators, Context</h2>
+        <p>
+            Independent project inspired by astronomer friends, space engineering
+            colleagues, and musicians; exploring science-art overlap with NASA's open datasets
+        </p>
+
+        <h2>Process</h2>
+        <img src="sketch2.1.png" alt="Process Sketch 1" class="sketch">
+        <img src="sketch2.2.png" alt="Process Sketch 2" class="sketch">
+        <img src="sketch2.3.png" alt="Process Sketch 3" class="sketch">
+        <img src="sketch2.4.png" alt="Process Sketch 4" class="sketch">
+        <img src="sketch2.5.png" alt="Process Sketch 5" class="sketch">
+        <img src="sketch2.6.png" alt="Process Sketch 6" class="sketch">
+        <img src="sketch2.7.png" alt="Process Sketch 7" class="sketch">
+        <img src="sketch2.8.png" alt="Process Sketch 8" class="sketch">
+
+        <p>
+            Environment setup with Python libraries; data selection and cleaning
+            from NASA portal; mapping parameters to musical elements; MIDI generation
+            and audio testing
+        </p>
+
+        <h2>Explanation / Prompt / Learning</h2>
+        <ul>
+            <li>Hybrid workflow: AI for code structure and debugging</li>
+            <li>Manual design for sonification mappings</li>
+            <li>Balance between scientific accuracy and artistic expression</li>
+        </ul>
+
+        <h2>Impacts, Results, Follow up</h2>
+        <p>Improved data accessibility; follow-up: public installations.</p>
+
+        <p>
+            <a href="case3.html">
+                The most interesting things happen when something new enters space.
+            </a>
+        </p>
+    </section>
+
+    <nav class="case-nav">
+        <a class="button back" href="case1.html">Back</a>
+        <a class="button next" href="case3.html">Next</a>
+    </nav>
+</main>
+
+<footer>
+    <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
+</footer>
+
+<!-- Audio file -->
+<audio id="openSpaceAudio" loop preload="auto">
+    <source src="open-space.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Floating sound button -->
+<button id="soundToggle"
+        class="sound-toggle off"
+        aria-pressed="false"
+        aria-label="Toggle Open Space sound">
+    <svg class="sound-icon"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         aria-hidden="true">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <path id="soundWaves"
+              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+    <span id="soundText">Sound Off</span>
+</button>
+
+<script>
+    const audio = document.getElementById('openSpaceAudio');
+    const toggle = document.getElementById('soundToggle');
+    const text = document.getElementById('soundText');
+    const waves = document.getElementById('soundWaves');
+
+    let playing = false;
+
+    toggle.addEventListener('click', () => {
+        if (!playing) {
+            audio.play().then(() => {
+                playing = true;
+                toggle.classList.remove('off');
+                toggle.setAttribute('aria-pressed', 'true');
+                text.textContent = 'Sound On';
+                if (waves) waves.style.opacity = '1';
+            });
+        } else {
+            audio.pause();
+            playing = false;
+            toggle.classList.add('off');
+            toggle.setAttribute('aria-pressed', 'false');
+            text.textContent = 'Sound Off';
+            if (waves) waves.style.opacity = '0.3';
+        }
+    });
+
+    if (waves) waves.style.opacity = '0.3';
+</script>
+
 </body>
 </html>
