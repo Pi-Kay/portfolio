@@ -129,299 +129,294 @@
         </svg>
         <span id="soundText" aria-live="polite">Sound Off</span>
     </button>
-    <script>
-        var audioContext;
-        var soundEnabled = false;
-        var scheduleInterval;
-        var canvas;
-        var ctx;
-        var stars = [];
-        var impacts = [];
+    var audioContext;
+var soundEnabled = false;
+var scheduleInterval;
+var canvas;
+var ctx;
+var stars = [];
+var impacts = [];
+
+<script>
+function initCanvas() {
+    canvas = document.getElementById('bannerCanvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    drawBackground();
+    animate();
+}
+
+function drawBackground() {
+    // Dark space background with moon
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Moon
+    ctx.fillStyle = '#ddd';
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
+    ctx.fill();
+    // Optional: Overlay inverted wave as texture (use CSS background if preferred)
+    // ctx.globalAlpha = 0.2;
+    // var img = new Image();
+    // img.src = 'wave-background.png';
+    // img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // ctx.globalAlpha = 1;
+}
+
+function createStar() {
+    return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 3 + 1,
+        alpha: 0,
+        fadeIn: true
+    };
+}
+
+function createImpact(x, y) {
+    return {
+        x: x,
+        y: y,
+        radius: 0,
+        maxRadius: Math.random() * 30 + 20,
+        alpha: 1
+    };
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    drawBackground(); // Redraw background to clear previous frames
+    
+    // Draw stars (twinkling)
+    stars.forEach((star, index) => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
         
-        function initCanvas() {
-            canvas = document.getElementById('bannerCanvas');
-            ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            drawBackground();
-            animate();
+        if (star.fadeIn) {
+            star.alpha += 0.05;
+            if (star.alpha >= 1) star.fadeIn = false;
+        } else {
+            star.alpha -= 0.02;
+            if (star.alpha <= 0) stars.splice(index, 1);
         }
+    });
+    
+    // Draw impacts (expanding circles on moon)
+    impacts.forEach((impact, index) => {
+        ctx.strokeStyle = `rgba(255, 100, 0, ${impact.alpha})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(impact.x, impact.y, impact.radius, 0, Math.PI * 2);
+        ctx.stroke();
         
-        function drawBackground() {
-            // Dark space background with moon
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // Moon
-            ctx.fillStyle = '#ddd';
-            ctx.beginPath();
-            ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
-            ctx.fill();
-            // Optional: Overlay inverted wave as texture (use CSS background if preferred)
-            // ctx.globalAlpha = 0.2;
-            // var img = new Image();
-            // img.src = 'wave-background.png';
-            // img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            // ctx.globalAlpha = 1;
-        }
+        impact.radius += 1;
+        impact.alpha -= 0.01;
+        if (impact.radius > impact.maxRadius || impact.alpha <= 0) impacts.splice(index, 1);
+    });
+}
+
+function initAudio() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioContext;
+}
+
+function createAndPlayTone() {
+    if (!audioContext || !soundEnabled) return;
+    
+    try {
+        var now = audioContext.currentTime;
+        var x = Math.random();
+        var y = Math.random();
+        var freq = 220 + (1 - y) * 440;
         
-        function createStar() {
-            return {
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 3 + 1,
-                alpha: 0,
-                fadeIn: true
-            };
-        }
+        var osc1 = audioContext.createOscillator();
+        var osc2 = audioContext.createOscillator();
+        var osc3 = audioContext.createOscillator();
         
-        function createImpact(x, y) {
-            return {
-                x: x,
-                y: y,
-                radius: 0,
-                maxRadius: Math.random() * 30 + 20,
-                alpha: 1
-            };
-        }
+        osc1.type = 'sine';
+        osc2.type = 'sine';
+        osc3.type = 'sine';
         
-        function animate() {
-            requestAnimationFrame(animate);
-            drawBackground(); // Redraw background to clear previous frames
-            
-            // Draw stars (twinkling)
-            stars.forEach((star, index) => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fill();
-                
-                if (star.fadeIn) {
-                    star.alpha += 0.05;
-                    if (star.alpha >= 1) star.fadeIn = false;
-                } else {
-                    star.alpha -= 0.02;
-                    if (star.alpha <= 0) stars.splice(index, 1);
-                }
-            });
-            
-            // Draw impacts (expanding circles on moon)
-            impacts.forEach((impact, index) => {
-                ctx.strokeStyle = `rgba(255, 100, 0, ${impact.alpha})`;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(impact.x, impact.y, impact.radius, 0, Math.PI * 2);
-                ctx.stroke();
-                
-                impact.radius += 1;
-                impact.alpha -= 0.01;
-                if (impact.radius > impact.maxRadius || impact.alpha <= 0) impacts.splice(index, 1);
-            });
-        }
+        osc1.frequency.value = freq;
+        osc2.frequency.value = freq * 2.01;
+        osc3.frequency.value = freq * 3.02;
         
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            return audioContext;
-        }
+        var g1 = audioContext.createGain();
+        var g2 = audioContext.createGain();
+        var g3 = audioContext.createGain();
         
-        function createAndPlayTone() {
-            if (!audioContext || !soundEnabled) return;
-            
-            try {
-                var now = audioContext.currentTime;
-                var x = Math.random();
-                var y = Math.random();
-                var freq = 220 + (1 - y) * 440;
-                
-                var osc1 = audioContext.createOscillator();
-                var osc2 = audioContext.createOscillator();
-                var osc3 = audioContext.createOscillator();
-                
-                osc1.type = 'sine';
-                osc2.type = 'sine';
-                osc3.type = 'sine';
-                
-                osc1.frequency.value = freq;
-                osc2.frequency.value = freq * 2.01;
-                osc3.frequency.value = freq * 3.02;
-                
-                var g1 = audioContext.createGain();
-                var g2 = audioContext.createGain();
-                var g3 = audioContext.createGain();
-                
-                g1.gain.setValueAtTime(0, now);
-                g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
-                g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-                
-                g2.gain.setValueAtTime(0, now);
-                g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
-                g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-                
-                g3.gain.setValueAtTime(0, now);
-                g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
-                g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-                
-                var reverb = audioContext.createConvolver();
-                var rate = audioContext.sampleRate;
-                var length = rate * 2;
-                var buffer = audioContext.createBuffer(2, length, rate);
-                
-                for (var ch = 0; ch < 2; ch++) {
-                    var data = buffer.getChannelData(ch);
-                    for (var i = 0; i < length; i++) {
-                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
-                    }
-                }
-                reverb.buffer = buffer;
-                
-                var reverbGain = audioContext.createGain();
-                reverbGain.gain.value = 0.4;
-                
-                var pan = audioContext.createStereoPanner();
-                pan.pan.value = (x * 2) - 1;
-                
-                var filter = audioContext.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 2000 + (y * 2000);
-                
-                var master = audioContext.createGain();
-                master.gain.value = 0.15;
-                
-                osc1.connect(g1);
-                osc2.connect(g2);
-                osc3.connect(g3);
-                
-                g1.connect(filter);
-                g2.connect(filter);
-                g3.connect(filter);
-                
-                filter.connect(master);
-                filter.connect(reverbGain);
-                reverbGain.connect(reverb);
-                reverb.connect(master);
-                
-                master.connect(pan);
-                pan.connect(audioContext.destination);
-                
-                var dur = 2 + (Math.random() * 1);
-                osc1.start(now);
-                osc2.start(now);
-                osc3.start(now);
-                osc1.stop(now + dur);
-                osc2.stop(now + dur);
-                osc3.stop(now + dur);
-                
-                // Add visuals synced to tone
-                addVisualEffect(freq, pan.pan.value);
-            } catch (e) {
-                console.error('Error playing tone:', e);
+        g1.gain.setValueAtTime(0, now);
+        g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
+        g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+        
+        g2.gain.setValueAtTime(0, now);
+        g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
+        g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+        
+        g3.gain.setValueAtTime(0, now);
+        g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
+        g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+        
+        var reverb = audioContext.createConvolver();
+        var rate = audioContext.sampleRate;
+        var length = rate * 2;
+        var buffer = audioContext.createBuffer(2, length, rate);
+        
+        for (var ch = 0; ch < 2; ch++) {
+            var data = buffer.getChannelData(ch);
+            for (var i = 0; i < length; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
             }
         }
+        reverb.buffer = buffer;
         
-        function addVisualEffect(freq, panValue) {
-            if (freq > 440) {
-                // High freq/repeating synth: Twinkling stars
-                for (let i = 0; i < 5; i++) {
-                    stars.push(createStar());
-                }
-            } else {
-                // Low freq: Moon impact
-                let moonX = canvas.width / 2;
-                let moonY = canvas.height / 2;
-                let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50); // Pan affects position
-                let impactY = moonY + (Math.random() * 100 - 50);
-                impacts.push(createImpact(impactX, impactY));
-            }
+        var reverbGain = audioContext.createGain();
+        reverbGain.gain.value = 0.4;
+        
+        var pan = audioContext.createStereoPanner();
+        pan.pan.value = (x * 2) - 1;
+        
+        var filter = audioContext.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 2000 + (y * 2000);
+        
+        var master = audioContext.createGain();
+        master.gain.value = 0.15;
+        
+        osc1.connect(g1);
+        osc2.connect(g2);
+        osc3.connect(g3);
+        
+        g1.connect(filter);
+        g2.connect(filter);
+        g3.connect(filter);
+        
+        filter.connect(master);
+        filter.connect(reverbGain);
+        reverbGain.connect(reverb);
+        reverb.connect(master);
+        
+        master.connect(pan);
+        pan.connect(audioContext.destination);
+        
+        var dur = 2 + (Math.random() * 1);
+        osc1.start(now);
+        osc2.start(now);
+        osc3.start(now);
+        osc1.stop(now + dur);
+        osc2.stop(now + dur);
+        osc3.stop(now + dur);
+        
+        // Add visuals synced to tone
+        addVisualEffect(freq, pan.pan.value);
+    } catch (e) {
+        console.error('Error playing tone:', e);
+    }
+}
+
+function addVisualEffect(freq, panValue) {
+    if (freq > 440) {
+        // High freq/repeating synth: Twinkling stars
+        for (let i = 0; i < 5; i++) {
+            stars.push(createStar());
         }
-        
-        function startAmbientSound() {
-            var ctx = initAudio();
-            soundEnabled = true;
-            
-            var startAudio = function() {
-                if (ctx.state === 'suspended') {
-                    ctx.resume().then(function() {
-                        createAndPlayTone();
-                        startScheduling();
-                    }).catch(function(err) {
-                        console.error('Audio resume failed:', err);
-                    });
-                } else {
-                    createAndPlayTone();
-                    startScheduling();
-                }
-            };
-            
-            startAudio();
+    } else {
+        // Low freq: Moon impact
+        let moonX = canvas.width / 2;
+        let moonY = canvas.height / 2;
+        let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50); // Pan affects position
+        let impactY = moonY + (Math.random() * 100 - 50);
+        impacts.push(createImpact(impactX, impactY));
+    }
+}
+
+function startAmbientSound() {
+    soundEnabled = true;
+    createAndPlayTone();
+    startScheduling();
+}
+
+function startScheduling() {
+    if (scheduleInterval) {
+        clearInterval(scheduleInterval);
+    }
+    
+    scheduleInterval = setInterval(function() {
+        if (soundEnabled && audioContext) {
+            createAndPlayTone();
         }
-        
-        function startScheduling() {
-            if (scheduleInterval) {
-                clearInterval(scheduleInterval);
-            }
-            
-            scheduleInterval = setInterval(function() {
-                if (soundEnabled && audioContext) {
-                    createAndPlayTone();
-                }
-            }, 3000 + Math.random() * 3000);
-        }
-        
-        function stopAmbientSound() {
-            soundEnabled = false;
-            if (scheduleInterval) {
-                clearInterval(scheduleInterval);
-                scheduleInterval = null;
-            }
-            stars = [];
-            impacts = [];
-        }
-        
-        function toggleSound() {
-            var button = document.getElementById('soundToggle');
-            var text = document.getElementById('soundText');
-            var waves = document.getElementById('soundWaves');
-            
-            if (!soundEnabled) {
+    }, 3000 + Math.random() * 3000);
+}
+
+function stopAmbientSound() {
+    soundEnabled = false;
+    if (scheduleInterval) {
+        clearInterval(scheduleInterval);
+        scheduleInterval = null;
+    }
+    stars = [];
+    impacts = [];
+}
+
+function toggleSound() {
+    var button = document.getElementById('soundToggle');
+    var text = document.getElementById('soundText');
+    var waves = document.getElementById('soundWaves');
+    
+    if (!soundEnabled) {
+        initAudio();  // Create context on gesture
+        if (audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
                 startAmbientSound();
-                button.classList.remove('off');
-                button.setAttribute('aria-pressed', 'true');
-                text.textContent = 'Sound On';
-                if (waves) waves.style.opacity = '1';
-            } else {
-                stopAmbientSound();
-                button.classList.add('off');
-                button.setAttribute('aria-pressed', 'false');
-                text.textContent = 'Sound Off';
-                if (waves) waves.style.opacity = '0.3';
-            }
+            }).catch((err) => {
+                console.error('AudioContext resume failed:', err);
+                alert('Sound failed to start. Please try again or check browser permissions.');
+            });
+        } else {
+            startAmbientSound();
         }
-        
-        // Initialize canvas on load
-        window.addEventListener('load', initCanvas);
-        window.addEventListener('resize', () => {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            drawBackground();
-        });
-        
-        // Event listeners (unchanged)
-        document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            toggleSound();
-        }, { passive: false });
-        document.getElementById('soundToggle').addEventListener('click', toggleSound);
-        
-        document.getElementById('soundToggle').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleSound();
-            }
-        });
-        
-        var waves = document.getElementById('soundWaves');
+        button.classList.remove('off');
+        button.setAttribute('aria-pressed', 'true');
+        text.textContent = 'Sound On';
+        if (waves) waves.style.opacity = '1';
+    } else {
+        stopAmbientSound();
+        button.classList.add('off');
+        button.setAttribute('aria-pressed', 'false');
+        text.textContent = 'Sound Off';
         if (waves) waves.style.opacity = '0.3';
-    </script>
+    }
+}
+
+// Initialize canvas on load
+window.addEventListener('load', initCanvas);
+window.addEventListener('resize', () => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    drawBackground();
+});
+
+// Event listeners (unchanged)
+document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    toggleSound();
+}, { passive: false });
+document.getElementById('soundToggle').addEventListener('click', toggleSound);
+
+document.getElementById('soundToggle').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSound();
+    }
+});
+
+var waves = document.getElementById('soundWaves');
+if (waves) waves.style.opacity = '0.3';
+        </script>
 </body>
 </html>
