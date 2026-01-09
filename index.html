@@ -27,7 +27,6 @@
             z-index: 1000;
             font-family: 'Inter', sans-serif;
         }
-
         .sound-toggle:hover,
         .sound-toggle:focus {
             background: #fff;
@@ -37,31 +36,26 @@
             outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
-
         .sound-toggle:active {
             transform: translateY(1px);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
         }
-
         .sound-toggle.off {
             background: #f5f5f5;
             border-color: #ddd;
             color: #888;
         }
-
         .sound-toggle.off:hover,
         .sound-toggle.off:focus {
             background: #fff;
             border-color: #bbb;
             color: #555;
         }
-
         .sound-icon {
             width: 18px;
             height: 18px;
             flex-shrink: 0;
         }
-
         .sr-only {
             position: absolute;
             width: 1px;
@@ -73,7 +67,6 @@
             white-space: nowrap;
             border-width: 0;
         }
-
         @media (max-width: 640px) {
             .sound-toggle {
                 bottom: 16px;
@@ -82,13 +75,11 @@
                 font-size: 14px;
             }
         }
-
         a:focus,
         button:focus {
             outline: 2px solid rgba(11, 61, 145, 0.2);
             outline-offset: 2px;
         }
-
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -97,22 +88,18 @@
 </head>
 <body>
     <a href="#main-content" class="sr-only">Skip to main content</a>
-
     <header>
         <h1>Petra K.</h1>
-        <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
+        <p>Interface Design, Hybrid AI Design, Hybrid AI Design and Hybrid Sonification Projects</p>
     </header>
-
     <main id="main-content">
         <section class="cover">
             <figure>
-                <img src="cover-image.png" 
-                     alt="Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o."
-                     role="img"
+                <canvas id="bannerCanvas" width="800" height="400" aria-label="Hybrid sonification banner visualizing ambient sounds in a moon theme."></canvas>
+                <figcaption>Sonified paper with dots and hand-written letters spelling P-o-r-t-f-o-l-i-o.</figcaption>
                 <p><strong></strong></p>
                 <br>
             </figure>
-
             <nav aria-label="Case studies">
                 <ul>
                     <li><a href="case1.html">Music AI Compliance Doc</a></li>
@@ -123,19 +110,17 @@
             </nav>
         </section>
     </main>
-
     <footer>
         <p>&copy; 2026 Petra K. All rights reserved.</p>
     </footer>
-
-    <button id="soundToggle" 
-            class="sound-toggle off" 
+    <button id="soundToggle"
+            class="sound-toggle off"
             aria-pressed="false"
             aria-label="Toggle ambient sound sonification">
-        <svg class="sound-icon" 
-             viewBox="0 0 24 24" 
-             fill="none" 
-             stroke="currentColor" 
+        <svg class="sound-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
              stroke-width="2"
              aria-hidden="true"
              role="img">
@@ -145,12 +130,94 @@
         </svg>
         <span id="soundText" aria-live="polite">Sound Off</span>
     </button>
-
     <script>
         var audioContext;
         var soundEnabled = false;
-        var scheduledTones = [];
         var scheduleInterval;
+        var canvas;
+        var ctx;
+        var stars = [];
+        var impacts = [];
+        
+        function initCanvas() {
+            canvas = document.getElementById('bannerCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            drawBackground();
+            animate();
+        }
+        
+        function drawBackground() {
+            // Dark space background with moon
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Moon
+            ctx.fillStyle = '#ddd';
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
+            ctx.fill();
+            // Optional: Overlay inverted wave as texture (use CSS background if preferred)
+            // ctx.globalAlpha = 0.2;
+            // var img = new Image();
+            // img.src = 'wave-background.png';
+            // img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            // ctx.globalAlpha = 1;
+        }
+        
+        function createStar() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                alpha: 0,
+                fadeIn: true
+            };
+        }
+        
+        function createImpact(x, y) {
+            return {
+                x: x,
+                y: y,
+                radius: 0,
+                maxRadius: Math.random() * 30 + 20,
+                alpha: 1
+            };
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            drawBackground(); // Redraw background to clear previous frames
+            
+            // Draw stars (twinkling)
+            stars.forEach((star, index) => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (star.fadeIn) {
+                    star.alpha += 0.05;
+                    if (star.alpha >= 1) star.fadeIn = false;
+                } else {
+                    star.alpha -= 0.02;
+                    if (star.alpha <= 0) stars.splice(index, 1);
+                }
+            });
+            
+            // Draw impacts (expanding circles on moon)
+            impacts.forEach((impact, index) => {
+                ctx.strokeStyle = `rgba(255, 100, 0, ${impact.alpha})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(impact.x, impact.y, impact.radius, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                impact.radius += 1;
+                impact.alpha -= 0.01;
+                if (impact.radius > impact.maxRadius || impact.alpha <= 0) impacts.splice(index, 1);
+            });
+        }
         
         function initAudio() {
             if (!audioContext) {
@@ -158,7 +225,7 @@
             }
             return audioContext;
         }
-
+        
         function createAndPlayTone() {
             if (!audioContext || !soundEnabled) return;
             
@@ -245,27 +312,43 @@
                 osc1.stop(now + dur);
                 osc2.stop(now + dur);
                 osc3.stop(now + dur);
+                
+                // Add visuals synced to tone
+                addVisualEffect(freq, pan.pan.value);
             } catch (e) {
                 console.error('Error playing tone:', e);
             }
         }
-
+        
+        function addVisualEffect(freq, panValue) {
+            if (freq > 440) {
+                // High freq/repeating synth: Twinkling stars
+                for (let i = 0; i < 5; i++) {
+                    stars.push(createStar());
+                }
+            } else {
+                // Low freq: Moon impact
+                let moonX = canvas.width / 2;
+                let moonY = canvas.height / 2;
+                let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50); // Pan affects position
+                let impactY = moonY + (Math.random() * 100 - 50);
+                impacts.push(createImpact(impactX, impactY));
+            }
+        }
+        
         function startAmbientSound() {
             var ctx = initAudio();
             soundEnabled = true;
             
-            // Critical: Resume context and play immediately
             var startAudio = function() {
                 if (ctx.state === 'suspended') {
                     ctx.resume().then(function() {
-                        // Play first tone immediately after resume
                         createAndPlayTone();
                         startScheduling();
                     }).catch(function(err) {
                         console.error('Audio resume failed:', err);
                     });
                 } else {
-                    // Play first tone immediately
                     createAndPlayTone();
                     startScheduling();
                 }
@@ -273,7 +356,7 @@
             
             startAudio();
         }
-
+        
         function startScheduling() {
             if (scheduleInterval) {
                 clearInterval(scheduleInterval);
@@ -285,15 +368,17 @@
                 }
             }, 3000 + Math.random() * 3000);
         }
-
+        
         function stopAmbientSound() {
             soundEnabled = false;
             if (scheduleInterval) {
                 clearInterval(scheduleInterval);
                 scheduleInterval = null;
             }
+            stars = [];
+            impacts = [];
         }
-
+        
         function toggleSound() {
             var button = document.getElementById('soundToggle');
             var text = document.getElementById('soundText');
@@ -313,13 +398,20 @@
                 if (waves) waves.style.opacity = '0.3';
             }
         }
-
-        // Touch events for mobile
+        
+        // Initialize canvas on load
+        window.addEventListener('load', initCanvas);
+        window.addEventListener('resize', () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            drawBackground();
+        });
+        
+        // Event listeners (unchanged)
         document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
             e.preventDefault();
             toggleSound();
         }, { passive: false });
-
         document.getElementById('soundToggle').addEventListener('click', toggleSound);
         
         document.getElementById('soundToggle').addEventListener('keydown', function(e) {
@@ -328,8 +420,7 @@
                 toggleSound();
             }
         });
-
-        // Initialize waves opacity for off state
+        
         var waves = document.getElementById('soundWaves');
         if (waves) waves.style.opacity = '0.3';
     </script>
