@@ -129,17 +129,8 @@
         </svg>
         <span id="soundText" aria-live="polite">Sound Off</span>
     </button>
-
     <script>
-var audioContext;
-var soundEnabled = false;
-var scheduleInterval;
-var canvas;
-var ctx;
-var stars = [];
-var impacts = [];
-
-var audioContext;
+    var audioContext;
 var soundEnabled = false;
 var scheduleInterval;
 var canvas;
@@ -207,58 +198,50 @@ function createStar() {
     return {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 2 + 1,
+        size: Math.random() * 3 + 2,  // Larger for glow
         alpha: 0,
-        fadeIn: true,
-        points: 5 + Math.floor(Math.random() * 3)  // 5-7 points for star-like shape
+        fadeIn: true
     };
 }
 
-function drawStar(x, y, size, points, alpha) {
-    // Draw pointed star with glow (real star/microbe abstract)
-    const outerRadius = size * 2;
-    const innerRadius = size;
-    ctx.beginPath();
-    for (let i = 0; i < points * 2; i++) {
-        const radius = i % 2 === 0 ? outerRadius : innerRadius;
-        const angle = (Math.PI / points) * i;
-        ctx.lineTo(
-            x + Math.cos(angle) * radius,
-            y + Math.sin(angle) * radius
-        );
-    }
-    ctx.closePath();
-    
-    // Glow effect
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, outerRadius * 2);
-    gradient.addColorStop(0, `rgba(255, 255, 200, ${alpha})`);  // Yellowish core
-    gradient.addColorStop(1, `rgba(255, 255, 200, 0)`);  // Fade to transparent
+function drawStar(star) {
+    // Soft light flare (ethereal glow, like distant light sources or microbes)
+    const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
+    gradient.addColorStop(0, `rgba(255, 255, 220, ${star.alpha})`);  // Soft yellowish core
+    gradient.addColorStop(0.3, `rgba(255, 255, 220, ${star.alpha * 0.5})`);  // Diffuse mid
+    gradient.addColorStop(1, 'rgba(255, 255, 220, 0)');  // Fade to transparent
     ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);  // Larger diffuse circle
     ctx.fill();
 }
 
-function createImpact(x, y) {
+function createImpact(x, y, dur) {
     return {
         x: x,
         y: y,
-        arms: 6 + Math.floor(Math.random() * 4),  // 6-10 radiating arms for fractal/microbial burst
+        arms: 6 + Math.floor(Math.random() * 4),  // 6-10 radiating arms
         length: 0,
-        maxLength: Math.random() * 50 + 30,
-        alpha: 1
+        maxLength: dur * 20 + 30,  // Scale max size with audio duration
+        alpha: 1,
+        curveFactor: Math.random() * 0.5 + 0.2  // For organic curvature
     };
 }
 
 function drawImpact(impact) {
-    // Abstract fractal burst (meteor impact/microbial spore release)
+    // Abstract fractal burst (slower, with curvature for microbial realism)
     ctx.strokeStyle = `rgba(255, 150, 50, ${impact.alpha})`;  // Orange-red glow
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 1;
     for (let i = 0; i < impact.arms; i++) {
-        const angle = (Math.PI * 2 / impact.arms) * i + Math.random() * 0.2;  // Irregular angles
-        const endX = impact.x + Math.cos(angle) * impact.length * (1 + Math.random() * 0.3);  // Jagged extension
-        const endY = impact.y + Math.sin(angle) * impact.length * (1 + Math.random() * 0.3);
+        const angle = (Math.PI * 2 / impact.arms) * i + Math.random() * 0.1;  // Slight irregularity
+        const endX = impact.x + Math.cos(angle) * impact.length;
+        const endY = impact.y + Math.sin(angle) * impact.length;
+        const cpX = impact.x + Math.cos(angle + impact.curveFactor) * (impact.length / 2);  // Control point for curve
+        const cpY = impact.y + Math.sin(angle + impact.curveFactor) * (impact.length / 2);
+        
         ctx.beginPath();
         ctx.moveTo(impact.x, impact.y);
-        ctx.lineTo(endX, endY);
+        ctx.quadraticCurveTo(cpX, cpY, endX, endY);
         ctx.stroke();
     }
 }
@@ -267,15 +250,15 @@ function animate() {
     requestAnimationFrame(animate);
     drawBackground(); // Redraw background to clear previous frames
     
-    // Draw stars
+    // Draw stars/lights
     stars.forEach((star, index) => {
-        drawStar(star.x, star.y, star.size, star.points, star.alpha);
+        drawStar(star);
         
         if (star.fadeIn) {
-            star.alpha += 0.03;  // Slower fade for subtle twinkle
-            if (star.alpha >= 0.8) star.fadeIn = false;  // Peak at 80% for variability
+            star.alpha += 0.02;  // Slower fade-in for ethereal effect
+            if (star.alpha >= 0.6) star.fadeIn = false;  // Lower peak for subtlety
         } else {
-            star.alpha -= 0.01;
+            star.alpha -= 0.008;  // Slower fade-out
             if (star.alpha <= 0) stars.splice(index, 1);
         }
     });
@@ -284,8 +267,8 @@ function animate() {
     impacts.forEach((impact, index) => {
         drawImpact(impact);
         
-        impact.length += 1.5;  // Grow outwards
-        impact.alpha -= 0.008;  // Fade slowly
+        impact.length += 0.8;  // Slower growth (was 1.5)
+        impact.alpha -= 0.005;  // Slower fade (was 0.008)
         if (impact.length > impact.maxLength || impact.alpha <= 0) impacts.splice(index, 1);
     });
 }
@@ -305,6 +288,7 @@ function createAndPlayTone() {
         var x = Math.random();
         var y = Math.random();
         var freq = 220 + (1 - y) * 440;
+        var dur = 2 + (Math.random() * 1);  // Extract dur for visual sync
         
         var osc1 = audioContext.createOscillator();
         var osc2 = audioContext.createOscillator();
@@ -376,7 +360,6 @@ function createAndPlayTone() {
         master.connect(pan);
         pan.connect(audioContext.destination);
         
-        var dur = 2 + (Math.random() * 1);
         osc1.start(now);
         osc2.start(now);
         osc3.start(now);
@@ -385,26 +368,29 @@ function createAndPlayTone() {
         osc3.stop(now + dur);
         
         // Add visuals synced to tone
-        addVisualEffect(freq, pan.pan.value);
+        addVisualEffect(freq, pan.pan.value, dur);
     } catch (e) {
         console.error('Error playing tone:', e);
     }
 }
 
-function addVisualEffect(freq, panValue) {
-    if (freq > 440) {
-        // High freq: Twinkling stars (3-5 for subtlety)
-        for (let i = 0; i < Math.floor(Math.random() * 3) + 3; i++) {
-            stars.push(createStar());
+function addVisualEffect(freq, panValue, dur) {
+    const delay = (freq > 440) ? 0.1 : 0.3;  // Higher freq: quicker lights; lower: slower impacts
+    setTimeout(() => {
+        if (freq > 440) {
+            // High freq: Ethereal lights (2-4 for subtlety)
+            for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
+                stars.push(createStar());
+            }
+        } else {
+            // Low freq: Abstract impact on moon, scaled to dur
+            let moonX = canvas.width / 2;
+            let moonY = canvas.height / 2;
+            let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50);
+            let impactY = moonY + (Math.random() * 100 - 50);
+            impacts.push(createImpact(impactX, impactY, dur));
         }
-    } else {
-        // Low freq: Abstract impact on moon
-        let moonX = canvas.width / 2;
-        let moonY = canvas.height / 2;
-        let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50);
-        let impactY = moonY + (Math.random() * 100 - 50);
-        impacts.push(createImpact(impactX, impactY));
-    }
+    }, delay * 1000);  // Delay in ms for better audio-visual match
 }
 
 function startAmbientSound() {
