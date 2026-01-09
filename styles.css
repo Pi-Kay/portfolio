@@ -108,11 +108,47 @@ footer {
 }
 
 /* ===== COVER PAGE ===== */
-.cover img {
-    max-width: 100%;
-    height: auto;
+.cover {
+    padding: 30px;  /* Keep original padding for white space around */
+    border: 1px solid #ddd;  /* Keep border for framed look */
+    background: #fff;
     margin-bottom: 20px;
     border-radius: 2px;
+    text-align: center;  /* Center contents horizontally */
+}
+.cover figure {
+    margin: 0 auto;
+    max-width: 80%;  /* Limit width to not full, e.g., 80% of section */
+}
+.cover canvas {
+    display: block;
+    margin: 0 auto;  /* Center the canvas */
+    width: 100%;  /* Full width of figure (80% of section) */
+    height: auto;  /* Maintain aspect ratio */
+    min-height: 200px;
+    background-color: #000;
+    background-image: url('wave-background.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;  /* Subtle rounding */
+}
+.cover figcaption {
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .cover figure {
+        max-width: 100%;  /* Full on mobile for better viewing */
+    }
+    .cover canvas {
+        min-height: 150px;
+    }
 }
 
 /* ===== NAVIGATION (Index) ===== */
