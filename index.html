@@ -135,8 +135,8 @@ var soundEnabled = false;
 var scheduleInterval;
 var canvas;
 var ctx;
-var stars = [];
-var impacts = [];
+var lights = [];  // Renamed from stars for light elements
+var drops = [];   // Renamed from impacts for water drops
 
 function initCanvas() {
     canvas = document.getElementById('bannerCanvas');
@@ -148,21 +148,21 @@ function initCanvas() {
 }
 
 function drawBackground() {
-    // Scientific space background: Nebula-like gradient with microbiology filaments
+    // Calm, natural background: Subtle watery nebula gradient with organic filaments
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#000010');  // Deep space blue-black
-    gradient.addColorStop(0.5, '#0a001a');  // Purple nebula tint
-    gradient.addColorStop(1, '#000010');
+    gradient.addColorStop(0, '#001020');  // Deep blue for water-like depth
+    gradient.addColorStop(0.5, '#002040');  // Soft blue tint
+    gradient.addColorStop(1, '#001020');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Faint microbiology-inspired filaments (abstract web-like structures)
-    ctx.strokeStyle = 'rgba(200, 200, 255, 0.1)';  // Subtle blue glow
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < 20; i++) {
+    // Faint organic filaments (like underwater currents or microbial threads)
+    ctx.strokeStyle = 'rgba(150, 200, 255, 0.05)';  // Very subtle glow
+    ctx.lineWidth = 0.3;
+    for (let i = 0; i < 15; i++) {
         ctx.beginPath();
         ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 3; j++) {
             ctx.quadraticCurveTo(
                 Math.random() * canvas.width,
                 Math.random() * canvas.height,
@@ -173,103 +173,96 @@ function drawBackground() {
         ctx.stroke();
     }
     
-    // Moon as a textured, cratered sphere (more realistic)
-    const moonGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 150);
-    moonGradient.addColorStop(0, '#eee');
-    moonGradient.addColorStop(1, '#aaa');
-    ctx.fillStyle = moonGradient;
+    // Central element: Subtle moon-like orb with watery reflection
+    const orbGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 150);
+    orbGradient.addColorStop(0, 'rgba(200, 220, 255, 0.3)');  // Soft blue light
+    orbGradient.addColorStop(1, 'rgba(100, 150, 200, 0.1)');
+    ctx.fillStyle = orbGradient;
     ctx.beginPath();
     ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
     ctx.fill();
     
-    // Add subtle craters for scientific realism
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    for (let i = 0; i < 10; i++) {
-        const cx = canvas.width / 2 + (Math.random() * 200 - 100);
-        const cy = canvas.height / 2 + (Math.random() * 200 - 100);
-        const cr = Math.random() * 20 + 5;
+    // Subtle watery ripples (static for stillness)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    for (let i = 0; i < 5; i++) {
         ctx.beginPath();
-        ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(canvas.width / 2, canvas.height / 2, 50 + i * 20, 0, Math.PI * 2);
+        ctx.stroke();
     }
 }
 
-function createStar() {
+function createLight() {
     return {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 3 + 2,  // Larger for glow
+        size: Math.random() * 4 + 2,
         alpha: 0,
         fadeIn: true
     };
 }
 
-function drawStar(star) {
-    // Soft light flare (ethereal glow, like distant light sources or microbes)
-    const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
-    gradient.addColorStop(0, `rgba(255, 255, 220, ${star.alpha})`);  // Soft yellowish core
-    gradient.addColorStop(0.3, `rgba(255, 255, 220, ${star.alpha * 0.5})`);  // Diffuse mid
-    gradient.addColorStop(1, 'rgba(255, 255, 220, 0)');  // Fade to transparent
+function drawLight(light) {
+    // Soft, natural light element (diffused glow, like underwater light refraction)
+    const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 4);
+    gradient.addColorStop(0, `rgba(200, 255, 255, ${light.alpha * 0.3})`);  // Soft cyan core
+    gradient.addColorStop(0.4, `rgba(200, 255, 255, ${light.alpha * 0.1})`);  // Gentle diffusion
+    gradient.addColorStop(1, 'rgba(200, 255, 255, 0)');  // Fade out
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);  // Larger diffuse circle
+    ctx.arc(light.x, light.y, light.size * 4, 0, Math.PI * 2);
     ctx.fill();
 }
 
-function createImpact(x, y, dur) {
+function createDrop(x, y, dur) {
     return {
         x: x,
         y: y,
-        arms: 6 + Math.floor(Math.random() * 4),  // 6-10 radiating arms
-        length: 0,
-        maxLength: dur * 20 + 30,  // Scale max size with audio duration
-        alpha: 1,
-        curveFactor: Math.random() * 0.5 + 0.2  // For organic curvature
+        ripples: 3 + Math.floor(Math.random() * 3),  // 3-5 gentle ripples
+        radius: 0,
+        maxRadius: dur * 10 + 20,  // Scale with audio duration
+        alpha: 0.5,  // Start semi-transparent for natural fade-in
+        growthRate: 0.2  // Very slow growth
     };
 }
 
-function drawImpact(impact) {
-    // Abstract fractal burst (slower, with curvature for microbial realism)
-    ctx.strokeStyle = `rgba(255, 150, 50, ${impact.alpha})`;  // Orange-red glow
-    ctx.lineWidth = 1;
-    for (let i = 0; i < impact.arms; i++) {
-        const angle = (Math.PI * 2 / impact.arms) * i + Math.random() * 0.1;  // Slight irregularity
-        const endX = impact.x + Math.cos(angle) * impact.length;
-        const endY = impact.y + Math.sin(angle) * impact.length;
-        const cpX = impact.x + Math.cos(angle + impact.curveFactor) * (impact.length / 2);  // Control point for curve
-        const cpY = impact.y + Math.sin(angle + impact.curveFactor) * (impact.length / 2);
-        
-        ctx.beginPath();
-        ctx.moveTo(impact.x, impact.y);
-        ctx.quadraticCurveTo(cpX, cpY, endX, endY);
-        ctx.stroke();
+function drawDrop(drop) {
+    // Natural water drop ripple (slow, concentric waves like pond drops)
+    ctx.strokeStyle = `rgba(200, 255, 255, ${drop.alpha})`;  // Soft blue-white
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < drop.ripples; i++) {
+        const rippleRadius = drop.radius - i * 5;  // Offset for wave effect
+        if (rippleRadius > 0) {
+            ctx.beginPath();
+            ctx.arc(drop.x, drop.y, rippleRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
     }
 }
 
 function animate() {
     requestAnimationFrame(animate);
-    drawBackground(); // Redraw background to clear previous frames
+    drawBackground(); // Redraw for stillness with subtle elements
     
-    // Draw stars/lights
-    stars.forEach((star, index) => {
-        drawStar(star);
+    // Draw light elements (very slow movement/fade)
+    lights.forEach((light, index) => {
+        drawLight(light);
         
-        if (star.fadeIn) {
-            star.alpha += 0.02;  // Slower fade-in for ethereal effect
-            if (star.alpha >= 0.6) star.fadeIn = false;  // Lower peak for subtlety
+        if (light.fadeIn) {
+            light.alpha += 0.005;  // Extremely slow fade-in
+            if (light.alpha >= 0.4) light.fadeIn = false;  // Low peak for natural light
         } else {
-            star.alpha -= 0.008;  // Slower fade-out
-            if (star.alpha <= 0) stars.splice(index, 1);
+            light.alpha -= 0.003;  // Slow fade-out
+            if (light.alpha <= 0) lights.splice(index, 1);
         }
     });
     
-    // Draw impacts
-    impacts.forEach((impact, index) => {
-        drawImpact(impact);
+    // Draw water drops (slow ripple expansion)
+    drops.forEach((drop, index) => {
+        drawDrop(drop);
         
-        impact.length += 0.8;  // Slower growth (was 1.5)
-        impact.alpha -= 0.005;  // Slower fade (was 0.008)
-        if (impact.length > impact.maxLength || impact.alpha <= 0) impacts.splice(index, 1);
+        drop.radius += drop.growthRate;  // Very slow growth
+        drop.alpha -= 0.002;  // Gentle fade
+        if (drop.radius > drop.maxRadius || drop.alpha <= 0) drops.splice(index, 1);
     });
 }
 
@@ -375,22 +368,22 @@ function createAndPlayTone() {
 }
 
 function addVisualEffect(freq, panValue, dur) {
-    const delay = (freq > 440) ? 0.1 : 0.3;  // Higher freq: quicker lights; lower: slower impacts
+    const delay = (freq > 440) ? 0.5 : 1.0;  // Slower delays for natural concurrence
     setTimeout(() => {
         if (freq > 440) {
-            // High freq: Ethereal lights (2-4 for subtlety)
-            for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
-                stars.push(createStar());
+            // High freq: Gentle light elements (1-3 for stillness)
+            for (let i = 0; i < Math.floor(Math.random() * 3) + 1; i++) {
+                lights.push(createLight());
             }
         } else {
-            // Low freq: Abstract impact on moon, scaled to dur
+            // Low freq: Natural water drop on "moon" surface, synced to dur
             let moonX = canvas.width / 2;
             let moonY = canvas.height / 2;
-            let impactX = moonX + (panValue * 100) + (Math.random() * 100 - 50);
-            let impactY = moonY + (Math.random() * 100 - 50);
-            impacts.push(createImpact(impactX, impactY, dur));
+            let dropX = moonX + (panValue * 50) + (Math.random() * 50 - 25);
+            let dropY = moonY + (Math.random() * 50 - 25);
+            drops.push(createDrop(dropX, dropY, dur));
         }
-    }, delay * 1000);  // Delay in ms for better audio-visual match
+    }, delay * 1000);  // Delay in ms for audio-visual harmony
 }
 
 function startAmbientSound() {
@@ -408,7 +401,7 @@ function startScheduling() {
         if (soundEnabled && audioContext) {
             createAndPlayTone();
         }
-    }, 3000 + Math.random() * 3000);
+    }, 5000 + Math.random() * 5000);  // Slower intervals for calmer pace
 }
 
 function stopAmbientSound() {
@@ -417,8 +410,8 @@ function stopAmbientSound() {
         clearInterval(scheduleInterval);
         scheduleInterval = null;
     }
-    stars = [];
-    impacts = [];
+    lights = [];
+    drops = [];
 }
 
 function toggleSound() {
