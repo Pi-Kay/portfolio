@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case 1: Open Space Data Sonification</title>
     <link rel="stylesheet" href="styles.css">
-
     <style>
         /* Floating sound button (same language as index) */
         .sound-toggle {
@@ -28,7 +27,6 @@
             z-index: 1000;
             font-family: 'Inter', sans-serif;
         }
-
         .sound-toggle:hover,
         .sound-toggle:focus {
             background: #fff;
@@ -38,63 +36,53 @@
             outline: 2px solid rgba(11,61,145,0.2);
             outline-offset: 2px;
         }
-
         .sound-toggle.off {
             color: #888;
         }
-
         .sound-icon {
             width: 18px;
             height: 18px;
         }
     </style>
 </head>
-
 <body>
 <header>
     <h1>Open Space Data Sonification</h1>
     <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
 </header>
-
 <main>
     <section>
-
-        <img src=sketch2.4.png>
-        <br>
+        <figure>
+            <img src="sketch2.4.png" alt="Illustration of open space data sonification process overview" loading="lazy">
+            <figcaption>Overview of the sonification project using NASA's open datasets.</figcaption>
+        </figure>
         <p>01-10 Jan 2026</p>
-        <br>
-
         <h2>Guiding Question</h2>
         <p>How can sonification enhance the perception of and engagement with scientific data?</p>
-
         <h2>Tools</h2>
         <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
-
         <h2>Collaborators, Context</h2>
         <p>
-            Independent project exploring science-art overlap with NASA's open datasets, inspired by <a><href ="https://www.astromattrusso.com">Matt Russo</a>.
+            Independent project exploring science-art overlap with NASA's open datasets, inspired by <a href="https://www.astromattrusso.com" target="_blank" rel="noopener noreferrer">Matt Russo</a>.
         </p>
-
         <h2>Process</h2>
-        <img src="sketch2.1.png" alt="Process Sketch 1" class="sketch">
-        <img src="sketch2.2.png" alt="Process Sketch 2" class="sketch">
-        <img src="sketch2.3.png" alt="Process Sketch 3" class="sketch">
-        <img src="sketch2.4.png" alt="Process Sketch 4" class="sketch">
-        <img src="sketch2.5.png" alt="Process Sketch 5" class="sketch">
-     
+        <img src="sketch2.1.png" alt="Hand-drawn sketch showing initial data selection and cleaning steps in the sonification process" class="sketch" loading="lazy">
+        <img src="sketch2.2.png" alt="Hand-drawn sketch illustrating parameter mapping to musical elements" class="sketch" loading="lazy">
+        <img src="sketch2.3.png" alt="Hand-drawn sketch depicting MIDI generation workflow" class="sketch" loading="lazy">
+        <img src="sketch2.4.png" alt="Hand-drawn sketch of audio testing and iteration" class="sketch" loading="lazy">
+        <img src="sketch2.5.png" alt="Hand-drawn sketch summarizing the complete sonification pipeline" class="sketch" loading="lazy">
+    
         <p>
             Environment setup with Python libraries; data selection and cleaning
             from NASA portal; mapping parameters to musical elements; MIDI generation
-            and audio testing
+            and audio testing.
         </p>
-        <br><br>
-        <p> 
+        <p>
             <strong>
-            Play sound with Sound Button <span>&#9835;</span><br>
+            Use the floating button in the bottom right to toggle ambient space sonification audio on or off. <span>&#9835;</span>
             </strong>
-            Bottom Right
         </p>
-        <br>
+        <p id="audioDescription">Audio description: Ambient tones representing space data sonification, with frequencies mapped to crater positions and panning for spatial effect. Tones play at intervals of 5-10 seconds. For the underlying NASA data, refer to the project resources or download from NASA's open portal.</p>
         <h2>Explanation / Prompt / Learning</h2>
         <ul>
             <li>Hybrid workflow: AI for code structure and debugging</li>
@@ -104,38 +92,36 @@
             <li>Easy to get lost in different Data Parameters</li>
             <li>Learned R is a good option to map scientific data to visuals by asking AI a bunch of questions</li>
         </ul>
-
         <h2>Impacts, Results, Follow up</h2>
-        <p>
          <ul>
               <li>Improved data accessibility, accessible online</li>
               <li>Wider sharing or public presentation</li>
          </ul>
-         </p>
-             
-        <br>
+            
         <p>
-            <a href="case3.html">
+            <a href="case3.html" aria-label="Go to Case 3: The most interesting things happen when something new enters space.">
                 The most interesting things happen when something new enters space.
             </a>
         </p>
     </section>
-
-    <nav class="case-nav">
+    <nav class="case-nav" aria-label="Case navigation">
         <a class="button back" href="index.html">Back</a>
         <a class="button next" href="case2.html">Next</a>
     </nav>
+    <!-- Canvas for visual effects -->
+    <canvas id="bannerCanvas" aria-hidden="true" role="presentation"></canvas>
+    <figcaption>Interactive visualization of moon craters with falling stars representing sonified data impacts. Craters include Bailly (diameter 287km) at latitude -66.5, longitude -69.1, and others. This is a decorative element synced to the audio.</figcaption>
 </main>
-
 <footer>
     <p>&copy; 2026 Petra Kühnle All rights reserved.</p>
+    <p>This site aims for WCAG 2.1 AA compliance. Report accessibility issues to [contact email].</p>
 </footer>
-
 <!-- Audio file -->
 <audio id="OpenSpaceAudio" loop preload="auto">
     <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
+    <source src="OpenSpaceAudio.ogg" type="audio/ogg">
+    Your browser does not support the audio element.
 </audio>
-
 <!-- Floating sound button -->
 <button id="soundToggle"
         class="sound-toggle off"
@@ -153,14 +139,16 @@
     </svg>
     <span id="soundText">Sound Off</span>
 </button>
-
+<noscript>
+    <p>Interactive audio and visuals require JavaScript. Here's a static description: Ambient space sonification tones based on NASA's open datasets, mapped to musical elements for enhanced data perception. Visuals depict a moon-like orb with craters and subtle effects.</p>
+</noscript>
+<div id="audioError" role="alert" style="display:none; color: red;">Sound failed to start. Please check browser permissions or file path.</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     const audio = document.getElementById('OpenSpaceAudio');
     const button = document.getElementById('soundToggle');
     const text = document.getElementById('soundText');
     let isPlaying = false;
-
     button.addEventListener('click', function() {
         if (!isPlaying) {
             audio.play().then(() => {
@@ -170,7 +158,7 @@
                 text.textContent = 'Sound On';
             }).catch(err => {
                 console.error('Audio playback failed:', err);
-                alert('Sound failed to start. Check browser permissions or file path.');
+                document.getElementById('audioError').style.display = 'block';
             });
         } else {
             audio.pause();
@@ -180,13 +168,11 @@
             text.textContent = 'Sound Off';
         }
     });
-
     // Optional: Add touch and keydown listeners as in your original
     button.addEventListener('touchstart', function(e) {
         e.preventDefault();
         // Trigger the click event logic here if needed
     }, { passive: false });
-
     button.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -194,7 +180,7 @@
         }
     });
 });
-    <script>
+    // Rest of the original script for canvas and audio effects...
     var audioContext;
 var soundEnabled = false;
 var scheduleInterval;
@@ -219,7 +205,6 @@ var craters = [
     { name: "W. Bond", diam: 156, lat: 65.4, lon: -4.5 },
     { name: "Drygalski", diam: 149, lat: -79.3, lon: -84.9 }
 ];
-
 function initCanvas() {
     canvas = document.getElementById('bannerCanvas');
     ctx = canvas.getContext('2d');
@@ -228,7 +213,6 @@ function initCanvas() {
     drawBackground();
     animate();
 }
-
 function drawBackground() {
     // Calm, natural background: Subtle watery nebula gradient with organic filaments
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -237,7 +221,7 @@ function drawBackground() {
     gradient.addColorStop(1, '#001020');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-   
+  
     // Faint organic filaments (like underwater currents or microbial threads)
     ctx.strokeStyle = 'rgba(150, 200, 255, 0.05)'; // Very subtle glow
     ctx.lineWidth = 0.3;
@@ -254,7 +238,7 @@ function drawBackground() {
         }
         ctx.stroke();
     }
-   
+  
     // Central element: Subtle moon-like orb with watery reflection
     const moonX = canvas.width / 2;
     const moonY = canvas.height / 2;
@@ -266,7 +250,7 @@ function drawBackground() {
     ctx.beginPath();
     ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
     ctx.fill();
-   
+  
     // Draw moon craters as small dark circles
     const moonDiam = 3474; // Approximate moon diameter in km
     ctx.fillStyle = 'rgba(50, 50, 50, 0.5)'; // Dark gray for craters
@@ -280,7 +264,7 @@ function drawBackground() {
         ctx.arc(cx, cy, cr, 0, Math.PI * 2);
         ctx.fill();
     });
-   
+  
     // Subtle watery ripples (static for stillness)
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
     for (let i = 0; i < 5; i++) {
@@ -289,7 +273,6 @@ function drawBackground() {
         ctx.stroke();
     }
 }
-
 function createLight(x, y) {
     return {
         x: x,
@@ -299,7 +282,6 @@ function createLight(x, y) {
         fadeIn: true
     };
 }
-
 function drawLight(light) {
     // Soft, natural light element (diffused glow, like underwater light refraction)
     const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 4);
@@ -311,7 +293,6 @@ function drawLight(light) {
     ctx.arc(light.x, light.y, light.size * 4, 0, Math.PI * 2);
     ctx.fill();
 }
-
 function createFallingStar(targetX, targetY, dur) {
     return {
         posX: Math.random() * canvas.width,
@@ -323,7 +304,6 @@ function createFallingStar(targetX, targetY, dur) {
         dur: dur // For impact size
     };
 }
-
 function drawFallingStar(star) {
     // Draw glowing star
     const gradient = ctx.createRadialGradient(star.posX, star.posY, 0, star.posX, star.posY, 3);
@@ -334,15 +314,14 @@ function drawFallingStar(star) {
     ctx.arc(star.posX, star.posY, 3, 0, Math.PI * 2);
     ctx.fill();
 }
-
 function animate() {
     requestAnimationFrame(animate);
     drawBackground(); // Redraw for stillness with subtle elements
-   
+  
     // Draw lights (impact effects)
     lights.forEach((light, index) => {
         drawLight(light);
-       
+      
         if (light.fadeIn) {
             light.alpha += 0.005; // Extremely slow fade-in
             if (light.alpha >= 0.4) light.fadeIn = false; // Low peak for natural light
@@ -351,11 +330,11 @@ function animate() {
             if (light.alpha <= 0) lights.splice(index, 1);
         }
     });
-   
+  
     // Draw and update falling stars
     fallingStars.forEach((star, index) => {
         drawFallingStar(star);
-       
+      
         // Move towards target
         const dx = star.targetX - star.posX;
         const dy = star.targetY - star.posY;
@@ -373,17 +352,15 @@ function animate() {
         }
     });
 }
-
 function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
     return audioContext;
 }
-
 function createAndPlayTone() {
     if (!audioContext || !soundEnabled) return;
-   
+  
     try {
         var now = audioContext.currentTime;
         // Choose a random crater
@@ -394,40 +371,40 @@ function createAndPlayTone() {
         var freq = 220 + (1 - y_norm) * 440;
         var dur = 2 + (Math.random() * 1); // Extract dur for visual sync
         var panValue = (x_norm * 2) - 1;
-       
+      
         var osc1 = audioContext.createOscillator();
         var osc2 = audioContext.createOscillator();
         var osc3 = audioContext.createOscillator();
-       
+      
         osc1.type = 'sine';
         osc2.type = 'sine';
         osc3.type = 'sine';
-       
+      
         osc1.frequency.value = freq;
         osc2.frequency.value = freq * 2.01;
         osc3.frequency.value = freq * 3.02;
-       
+      
         var g1 = audioContext.createGain();
         var g2 = audioContext.createGain();
         var g3 = audioContext.createGain();
-       
+      
         g1.gain.setValueAtTime(0, now);
         g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
         g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-       
+      
         g2.gain.setValueAtTime(0, now);
         g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
         g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-       
+      
         g3.gain.setValueAtTime(0, now);
         g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
         g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-       
+      
         var reverb = audioContext.createConvolver();
         var rate = audioContext.sampleRate;
         var length = rate * 2;
         var buffer = audioContext.createBuffer(2, length, rate);
-       
+      
         for (var ch = 0; ch < 2; ch++) {
             var data = buffer.getChannelData(ch);
             for (var i = 0; i < length; i++) {
@@ -435,50 +412,49 @@ function createAndPlayTone() {
             }
         }
         reverb.buffer = buffer;
-       
+      
         var reverbGain = audioContext.createGain();
         reverbGain.gain.value = 0.4;
-       
+      
         var pan = audioContext.createStereoPanner();
         pan.pan.value = panValue;
-       
+      
         var filter = audioContext.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.value = 2000 + (y_norm * 2000);
-       
+      
         var master = audioContext.createGain();
         master.gain.value = 0.15;
-       
+      
         osc1.connect(g1);
         osc2.connect(g2);
         osc3.connect(g3);
-       
+      
         g1.connect(filter);
         g2.connect(filter);
         g3.connect(filter);
-       
+      
         filter.connect(master);
         filter.connect(reverbGain);
         reverbGain.connect(reverb);
         reverb.connect(master);
-       
+      
         master.connect(pan);
         pan.connect(audioContext.destination);
-       
+      
         osc1.start(now);
         osc2.start(now);
         osc3.start(now);
         osc1.stop(now + dur);
         osc2.stop(now + dur);
         osc3.stop(now + dur);
-       
+      
         // Add visuals synced to tone: falling star to crater
         addVisualEffect(crater, freq, panValue, dur);
     } catch (e) {
         console.error('Error playing tone:', e);
     }
 }
-
 function addVisualEffect(crater, freq, panValue, dur) {
     const delay = 0.5 + Math.random() * 0.5; // Random delay for harmony
     const moonX = canvas.width / 2;
@@ -492,25 +468,22 @@ function addVisualEffect(crater, freq, panValue, dur) {
         fallingStars.push(createFallingStar(targetX, targetY, dur));
     }, delay * 1000); // Delay in ms
 }
-
 function startAmbientSound() {
     soundEnabled = true;
     createAndPlayTone();
     startScheduling();
 }
-
 function startScheduling() {
     if (scheduleInterval) {
         clearInterval(scheduleInterval);
     }
-   
+  
     scheduleInterval = setInterval(function() {
         if (soundEnabled && audioContext) {
             createAndPlayTone();
         }
     }, 5000 + Math.random() * 5000); // Slower intervals for calmer pace
 }
-
 function stopAmbientSound() {
     soundEnabled = false;
     if (scheduleInterval) {
@@ -520,12 +493,11 @@ function stopAmbientSound() {
     lights = [];
     fallingStars = [];
 }
-
 function toggleSound() {
     var button = document.getElementById('soundToggle');
     var text = document.getElementById('soundText');
     var waves = document.getElementById('soundWaves');
-   
+  
     if (!soundEnabled) {
         initAudio(); // Create context on gesture
         if (audioContext.state === 'suspended') {
@@ -533,7 +505,7 @@ function toggleSound() {
                 startAmbientSound();
             }).catch((err) => {
                 console.error('AudioContext resume failed:', err);
-                alert('Sound failed to start. Please try again or check browser permissions.');
+                document.getElementById('audioError').style.display = 'block';
             });
         } else {
             startAmbientSound();
@@ -572,7 +544,5 @@ document.getElementById('soundToggle').addEventListener('keydown', function(e) {
 var waves = document.getElementById('soundWaves');
 if (waves) waves.style.opacity = '0.3';
         </script>
-
 </body>
 </html>
-
