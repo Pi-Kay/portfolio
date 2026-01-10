@@ -1,4 +1,3 @@
-<!-- case1.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,6 @@
             margin: 20px 0;
             align-items: flex-start;
         }
-
         .doc-thumbnail {
             flex-shrink: 0;
             width: 200px;
@@ -24,35 +22,29 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .doc-thumbnail:hover {
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
-
         .doc-thumbnail embed {
             width: 100%;
             height: 100%;
             pointer-events: none;
         }
-
         .doc-info {
             flex: 1;
         }
-
         .doc-title {
             font-size: 1.1em;
             font-weight: 500;
             color: #222;
             margin-bottom: 8px;
         }
-
         .doc-meta {
             font-size: 0.9em;
             color: #666;
             margin-bottom: 16px;
         }
-
         .minimal-btn {
             display: inline-block;
             padding: 10px 24px;
@@ -69,7 +61,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .minimal-btn::before {
             content: '';
             position: absolute;
@@ -81,21 +72,17 @@
             transition: left 0.3s ease;
             z-index: -1;
         }
-
         .minimal-btn:hover {
             color: #fff;
             text-decoration: none;
         }
-
         .minimal-btn:hover::before {
             left: 0;
         }
-
         @media (max-width: 768px) {
             .doc-preview {
                 flex-direction: column;
             }
-
             .doc-thumbnail {
                 width: 100%;
                 max-width: 300px;
@@ -106,26 +93,26 @@
 <body>
     <header>
         <h1>Music AI Compliance Guide</h1>
-            <p class="subtitle">How can creators get a grasp of AI compliance and integrate it in their workflow?</p>
-        </header></p>
+        <p class="subtitle">How can creators get a grasp of AI compliance and integrate it in their workflow?</p>
     </header>
     <main>
         <section>
-
-            <img src="sketch1.1.png" alt="Document Cover" class="sketch">
+            <figure>
+                <img src="sketch1.1.png" alt="Cover illustration for the Music AI Compliance Guide document" class="sketch" loading="lazy">
+                <figcaption>Cover of the compliance guide document.</figcaption>
+            </figure>
             <h2>Date</h2>
             <p>Dec 2025 - Ongoing</p>
-            
+           
             <h2>Tools</h2>
-            <p>GitHub, GitPages, Obsidian, AI (Grok, Claude), Apple Pages, Terminal (HTML, CSS, JS), Python, Audacity</p>
-            
+            <p>GitHub, GitPages, Git, Obsidian, AI (Grok, Claude), Apple Pages, Terminal (HTML, CSS, JS), Python, Audacity</p>
+           
             <h2>Collaborators, Context</h2>
             <p>Independent Open-Source project</p>
-
             <h2>Document</h2>
             <div class="doc-preview">
-                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail">
-                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf">
+                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Thumbnail preview of Music AI Compliance Guide PDF, opens full document in new tab">
+                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="Preview of first page of Music AI Compliance Guide PDF">
                 </a>
                 <div class="doc-info">
                     <div class="doc-title">Guidance on Personal Data in Generative Music Systems</div>
@@ -134,14 +121,15 @@
                     <a href="Music AI Compliance.pdf" download class="minimal-btn">DOWNLOAD</a>
                 </div>
             </div>
-            
+            <p>Note: Ensure your PDF reader is enabled for accessibility features. The document follows guidelines for tagged structure, alt text on images, and logical reading order.</p>
+           
             <h2>Process</h2>
             <!-- Placeholders for hand-drawn sketches; upload your images -->
-            <img src="sketch1.1.png" alt="Process Sketch 1" class="sketch">
-            <img src="sketch1.2.png" alt="Process Sketch 2" class="sketch">
-            <img src="sketch1.3.png" alt="Process Sketch 3" class="sketch">
-            <img src="sketch1.4.png" alt="Process Sketch 4" class="sketch">
-            
+            <img src="sketch1.1.png" alt="Hand-drawn sketch of initial idea generation and AI integration steps" class="sketch" loading="lazy">
+            <img src="sketch1.2.png" alt="Hand-drawn sketch illustrating compliance requirements gathering" class="sketch" loading="lazy">
+            <img src="sketch1.3.png" alt="Hand-drawn sketch showing design and accessibility review process" class="sketch" loading="lazy">
+            <img src="sketch1.4.png" alt="Hand-drawn sketch depicting troubleshooting and refinement workflow" class="sketch" loading="lazy">
+           
             <h2>Explanation / Prompt / Learning</h2>
             <p>AI use vs. manual labour and original work</p>
             <ul>
@@ -152,19 +140,20 @@
                 <li>Design manually in Apple Pages to upload image for code prompt by AI</li>
                 <li>Troubleshooting, Adjusting and refining in hybrid</li>
             </ul>
-            
+           
             <h2>Impacts, Results, Follow up</h2>
             <p>Shared publically with regular version control.</p>
-    
-            <p><a href="case2.html">The most interesting things happen when something new enters space.</a></p>
+   
+            <p><a href="case3.html" aria-label="Go to Case 3: The most interesting things happen when something new enters space.">The most interesting things happen when something new enters space.</a></p>
         </section>
-        <nav class="case-nav">
+        <nav class="case-nav" aria-label="Case navigation">
             <a class="button back" href="case1.html">Back</a>
             <a class="button next" href="case3.html">Next</a>
         </nav>
     </main>
     <footer>
         <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
+        <p>This site aims for WCAG 2.1 AA compliance. Report accessibility issues to [contact email].</p>
     </footer>
 </body>
 </html>
