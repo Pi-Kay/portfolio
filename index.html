@@ -231,7 +231,7 @@
         // Minimal match strike sound
         function playMatchSound() {
             try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audio = document.getElementById('OpenSpaceAudio');
                 const duration = 0.08;
                 const sampleRate = audioContext.sampleRate;
                 const buffer = audioContext.createBuffer(1, duration * sampleRate, sampleRate);
