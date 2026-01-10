@@ -3,546 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Case 1: Open Space Data Sonification</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Open Space Data Sonification - Petra Kühnle</title>
     <style>
-        /* Floating sound button (same language as index) */
-        .sound-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            color: #555;
-            padding: 10px 20px;
-            border-radius: 2px;
-            cursor: pointer;
-            font-size: 0.9em;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 80px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 80px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h1 {
+            font-size: 1.8em;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+            margin-bottom: 16px;
+            color: #000;
+        }
+        .subtitle {
+            font-size: 0.95em;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+            line-height: 1.6;
+        }
+        section {
+            margin-bottom: 60px;
+        }
+        h2 {
+            font-size: 0.85em;
             font-weight: 400;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            transition: all 0.2s ease;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        p {
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        li {
+            font-size: 0.9em;
+            color: #444;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+        .canvas-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 40px auto;
+            border: 1px solid #e0e0e0;
+            background: #000;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .canvas-caption {
+            font-size: 0.85em;
+            color: #888;
+            text-align: center;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+        .data-viz {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+        }
+        .sketch {
+            max-width: 180px;
+            height: auto;
+            margin: 10px 20px 10px 0;
+            display: inline-block;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        .sketch:hover {
+            opacity: 1;
+        }
+        #soundToggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            z-index: 1000;
-            font-family: 'Inter', sans-serif;
-        }
-        .sound-toggle:hover,
-        .sound-toggle:focus {
+            gap: 12px;
+            padding: 12px 24px;
             background: #fff;
-            border-color: #bbb;
-            color: #222;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-            outline: 2px solid rgba(11,61,145,0.2);
-            outline-offset: 2px;
-        }
-        .sound-toggle.off {
             color: #888;
+            border: 1px solid #ddd;
+            font-size: 0.85em;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            z-index: 1000;
         }
-        .sound-icon {
-            width: 18px;
-            height: 18px;
+        #soundToggle:hover {
+            border-color: #999;
+            background: #fefefe;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transform: translateY(-1px);
+        }
+        #soundToggle.off {
+            color: #999;
+            border-color: #eee;
+        }
+        .icon {
+            font-size: 1em;
+            opacity: 0.7;
+        }
+        nav {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #000;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 60px 20px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            header {
+                margin-bottom: 60px;
+            }
+            section {
+                margin-bottom: 50px;
+            }
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            #soundToggle {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 0.8em;
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .container {
+            animation: fadeIn 1s ease-out;
         }
     </style>
 </head>
 <body>
-<header>
-    <h1>Open Space Data Sonification</h1>
-    <p>Interface Design, Hybrid AI Design and Sonification Projects</p>
-</header>
-<main>
-    <section>
-        <figure>
-            <img src="sketch2.4.png" alt="Illustration of open space data sonification process overview" loading="lazy">
-            <figcaption>Overview of the sonification project using NASA's open datasets.</figcaption>
-        </figure>
-        <p>01-10 Jan 2026</p>
-        <h2>Guiding Question</h2>
-        <p>How can sonification enhance the perception of and engagement with scientific data?</p>
-        <h2>Tools</h2>
-        <p>Terminal, Python, numpy, pandas, matplotlib, midiutil, AI (Grok, Claude)</p>
-        <h2>Collaborators, Context</h2>
-        <p>
-            Independent project exploring science-art overlap with NASA's open datasets, inspired by <a href="https://www.astromattrusso.com" target="_blank" rel="noopener noreferrer">Matt Russo</a>.
-        </p>
-        <h2>Process</h2>
-        <img src="sketch2.1.png" alt="Hand-drawn sketch showing initial data selection and cleaning steps in the sonification process" class="sketch" loading="lazy">
-        <img src="sketch2.2.png" alt="Hand-drawn sketch illustrating parameter mapping to musical elements" class="sketch" loading="lazy">
-        <img src="sketch2.3.png" alt="Hand-drawn sketch depicting MIDI generation workflow" class="sketch" loading="lazy">
-        <img src="sketch2.4.png" alt="Hand-drawn sketch of audio testing and iteration" class="sketch" loading="lazy">
-        <img src="sketch2.5.png" alt="Hand-drawn sketch summarizing the complete sonification pipeline" class="sketch" loading="lazy">
-    
-        <p>
-            Environment setup with Python libraries; data selection and cleaning
-            from NASA portal; mapping parameters to musical elements; MIDI generation
-            and audio testing.
-        </p>
-        <p>
-            <strong>
-            Use the floating button in the bottom right to toggle ambient space sonification audio on or off. <span>&#9835;</span>
-            </strong>
-        </p>
-        <p id="audioDescription">Audio description: Ambient tones representing space data sonification, with frequencies mapped to crater positions and panning for spatial effect. Tones play at intervals of 5-10 seconds. For the underlying NASA data, refer to the project resources or download from NASA's open portal.</p>
-        <h2>Explanation / Prompt / Learning</h2>
-        <ul>
-            <li>Hybrid workflow: AI for code structure and debugging</li>
-            <li>Based on Matt Russo's intro and with help of Ai, but directly with Terminal + Python - My preference.</li>
-            <li>Prompts in AI generate great imagery, but can ignore other visual associations that humans might have.</li>
-            <li>Balance between scientific accuracy and artistic expression important, depends on goal and audience</li>
-            <li>Easy to get lost in different Data Parameters</li>
-            <li>Learned R is a good option to map scientific data to visuals by asking AI a bunch of questions</li>
-        </ul>
-        <h2>Impacts, Results, Follow up</h2>
-         <ul>
-              <li>Improved data accessibility, accessible online</li>
-              <li>Wider sharing or public presentation</li>
-         </ul>
+    <div class="container">
+        <header>
+            <h1>Open Space Data Sonification</h1>
+            <p class="subtitle">Translating between space, visual and sounds</p>
+        </header>
+
+        <section>
+            <h2>Context</h2>
+            <p>Independent project exploring science-art overlap, inspired by Matt Russo's sonification work and using NASA's open moon crater datasets.</p>
+            <p><strong>Date:</strong> January 2026</p>
+            <p><strong>Tools:</strong> Python (Jupyter Notebook), numpy, pandas, matplotlib, midiutil, Logic Pro, AI (Grok, Claude)</p>
+            <p><strong>Resources:</strong> Matt Russo (sonification methodology), NASA open datasets, open-source moon imagery</p>
+        </section>
+
+        <section>
+            <h2>Guiding Question</h2>
+            <p>How can sonification enhance the perception of open spaces?</p>
+        </section>
+
+        <section>
+            <h2>Data</h2>
+            <p>Working with NASA moon crater dataset containing 20 craters with measured parameters:</p>
+            <ul>
+                <li>Names: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus, and 11 others</li>
+                <li>Spatial data: Latitude, longitude coordinates</li>
+                <li>Physical measurements: Diameter (32-101 km), depth (1.0-4.7 km)</li>
+                <li>Temporal data: Age (108-3800 million years), time since impact event 0</li>
+                <li>Sonification parameters: Pre-calculated pitch frequencies (110-336 Hz), volume (56-100)</li>
+            </ul>
+            <p>The dataset reveals patterns in crater formation over billions of years, with larger, older craters from periods of heavy bombardment.</p>
+        </section>
+
+        <section>
+            <h2>Audio Production</h2>
+            <p><strong>Logic Pro composition</strong> (OpenSpaceAudio.mp3) — More cinematic, atmospheric:</p>
+            <ul>
+                <li>Orchestral Organ: Deep, sustained tones for large ancient craters</li>
+                <li>Astro Funk: Rhythmic elements tracking impact timing</li>
+                <li>Studio Grand: Clear melodic voices for mid-sized formations</li>
+                <li>Time Delay Synth: Atmospheric reverb creating spatial depth</li>
+            </ul>
+            <p>Instruments and sync provided by Logic Pro for rich, layered soundscape. Exported as MP3 for web delivery. <em>Interesting as audio-only experience.</em></p>
+        </section>
+
+        <section>
+            <h2>Visual Production</h2>
+            <p><strong>AI-generated animation</strong> — Calm, contemplative aesthetic:</p>
+            <ul>
+                <li>Moon visualization with falling star impacts</li>
+                <li>Crater formation synchronized to data parameters</li>
+                <li>Open-source moon imagery as reference</li>
+                <li>Refined through iterative AI prompting (Claude, Grok)</li>
+                <li>Data mapping: diameter → crater size, latitude/longitude → position, pitch_hz → audio frequency on impact</li>
+            </ul>
+            <p><em>Interesting as combined image + audio experience with visual emphasis.</em></p>
+        </section>
+
+        <section>
+            <h2>Interactive Visualization</h2>
+            <div class="canvas-container">
+                <canvas id="moonCanvas" width="600" height="600"></canvas>
+            </div>
+            <p class="canvas-caption">Interactive moon visualization with sonified crater impacts. Each falling star represents a crater from the dataset, sized by diameter. Toggle sound to hear pitch-mapped frequencies on impact.</p>
+        </section>
+
+        <section>
+            <h2>Data Analysis</h2>
+            <div class="data-viz">
+                <canvas id="scatterAge" width="600" height="400"></canvas>
+            </div>
+            <p class="canvas-caption">Crater diameter vs age: Larger craters tend to be older, formed during periods of heavy bombardment.</p>
             
-        <p>
-            <a href="case3.html" aria-label="Go to Case 3: The most interesting things happen when something new enters space.">
-                The most interesting things happen when something new enters space.
-            </a>
-        </p>
-    </section>
-    <nav class="case-nav" aria-label="Case navigation">
-        <a class="button back" href="index.html">Back</a>
-        <a class="button next" href="case2.html">Next</a>
-    </nav>
-    <!-- Canvas for visual effects -->
-    <canvas id="bannerCanvas" aria-hidden="true" role="presentation"></canvas>
-    <figcaption>Interactive visualization of moon craters with falling stars representing sonified data impacts. Craters include Bailly (diameter 287km) at latitude -66.5, longitude -69.1, and others. This is a decorative element synced to the audio.</figcaption>
-</main>
-<footer>
-    <p>&copy; 2026 Petra Kühnle All rights reserved.</p>
-    <p>This site aims for WCAG 2.1 AA compliance. Report accessibility issues to [contact email].</p>
-</footer>
-<!-- Audio file -->
-<audio id="OpenSpaceAudio" loop preload="auto">
-    <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
-    <source src="OpenSpaceAudio.ogg" type="audio/ogg">
-    Your browser does not support the audio element.
-</audio>
-<!-- Floating sound button -->
-<button id="soundToggle"
-        class="sound-toggle off"
-        aria-pressed="false"
-        aria-label="Toggle Open Space sound">
-    <svg class="sound-icon"
-         viewBox="0 0 24 24"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="2"
-         aria-hidden="true">
-        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        <path id="soundWaves"
-              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-    </svg>
-    <span id="soundText">Sound Off</span>
-</button>
-<noscript>
-    <p>Interactive audio and visuals require JavaScript. Here's a static description: Ambient space sonification tones based on NASA's open datasets, mapped to musical elements for enhanced data perception. Visuals depict a moon-like orb with craters and subtle effects.</p>
-</noscript>
-<div id="audioError" role="alert" style="display:none; color: red;">Sound failed to start. Please check browser permissions or file path.</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const audio = document.getElementById('OpenSpaceAudio');
-    const button = document.getElementById('soundToggle');
-    const text = document.getElementById('soundText');
-    let isPlaying = false;
-    button.addEventListener('click', function() {
-        if (!isPlaying) {
-            audio.play().then(() => {
-                isPlaying = true;
-                button.classList.remove('off');
-                button.setAttribute('aria-pressed', 'true');
-                text.textContent = 'Sound On';
-            }).catch(err => {
-                console.error('Audio playback failed:', err);
-                document.getElementById('audioError').style.display = 'block';
-            });
-        } else {
-            audio.pause();
-            isPlaying = false;
-            button.classList.add('off');
-            button.setAttribute('aria-pressed', 'false');
-            text.textContent = 'Sound Off';
+            <div class="data-viz">
+                <canvas id="scatterTime" width="600" height="400"></canvas>
+            </div>
+            <p class="canvas-caption">Crater diameter vs time since impact: Distribution shows bombardment patterns over lunar history.</p>
+        </section>
+
+        <section>
+            <h2>Process</h2>
+            <img src="sketch1.1.png" alt="Process sketch 1" class="sketch">
+            <img src="sketch1.2.png" alt="Process sketch 2" class="sketch">
+            <img src="sketch1.3.png" alt="Process sketch 3" class="sketch">
+            <img src="sketch1.4.png" alt="Process sketch 4" class="sketch">
+            <img src="sketch1.5.png" alt="Process sketch 5" class="sketch">
+            <img src="sketch1.6.png" alt="Process sketch 6" class="sketch">
+            <img src="sketch1.7.png" alt="Process sketch 7" class="sketch">
+            <img src="sketch1.8.png" alt="Process sketch 8" class="sketch">
+            <p><strong>Python workflow:</strong> Environment setup with libraries; data cleaning from NASA portal (20 craters); parameter mapping to musical elements; MIDI generation in Jupyter Notebook.</p>
+            <p><strong>Logic Pro workflow:</strong> MIDI import; instrument selection (Orchestral Organ, Astro Funk, Studio Grand, Time Delay Synth); mixing and effects; MP3 export as OpenSpaceAudio.mp3.</p>
+            <p><strong>Visual workflow:</strong> AI refinement of moon animation; data mapping implementation; synchronization of impacts with audio.</p>
+        </section>
+
+        <section>
+            <h2>Approach</h2>
+            <ul>
+                <li>Inspired by Matt Russo's sonification methodology</li>
+                <li>NASA open datasets: 20 moon craters with complete parameter sets</li>
+                <li>Hybrid workflow: Python/Jupyter for data processing, AI (Claude, Grok) for code structure and visual refinement</li>
+                <li>Manual design: Logic Pro instrument selection and mixing</li>
+                <li>Two output modes: Audio-only (cinematic/atmospheric) vs. Audio+Visual (calm/contemplative)</li>
+                <li>Balance between scientific accuracy and artistic expression</li>
+                <li>Direct parameter mapping: pitch_hz → frequency, diameter → size, depth → duration</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Results</h2>
+            <p>Improved data accessibility through acoustic representation. The sonification reveals patterns in crater formation history - older, larger craters produce lower tones, while younger impacts create higher frequencies. Follow-up planned: public installations.</p>
+        </section>
+
+        <nav>
+            <a href="case1.html">← Previous Case</a>
+            <a href="index.html">Portfolio</a>
+        </nav>
+    </div>
+
+    <button id="soundToggle" class="off" aria-pressed="false">
+        <span class="icon">♪</span>
+        <span id="soundText">Sound Off</span>
+    </button>
+
+    <script>
+        // Crater data from CSV (sample)
+        const CRATER_DATA = [
+            {name: "Tycho", latitude: -43.31, longitude: -11.36, diameter_km: 85, depth_km: 4.7, age_ma: 108, pitch_hz: 300, volume: 95, time_since_impact_0: 0},
+            {name: "Copernicus", latitude: 9.62, longitude: -20.08, diameter_km: 93, depth_km: 3.8, age_ma: 800, pitch_hz: 310, volume: 97, time_since_impact_0: 692},
+            {name: "Kepler", latitude: 8.13, longitude: -38.04, diameter_km: 32, depth_km: 2.6, age_ma: 800, pitch_hz: 175, volume: 56, time_since_impact_0: 692},
+            {name: "Aristarchus", latitude: 23.73, longitude: -47.40, diameter_km: 40, depth_km: 3.0, age_ma: 450, pitch_hz: 193, volume: 63, time_since_impact_0: 342},
+            {name: "Plato", latitude: 51.62, longitude: -9.33, diameter_km: 101, depth_km: 1.0, age_ma: 3500, pitch_hz: 336, volume: 100, time_since_impact_0: 3392},
+            {name: "Eratosthenes", latitude: 14.47, longitude: -11.29, diameter_km: 60, depth_km: 3.6, age_ma: 3200, pitch_hz: 154, volume: 77, time_since_impact_0: 3092},
+            {name: "Archimedes", latitude: 29.72, longitude: -4.00, diameter_km: 83, depth_km: 2.1, age_ma: 3600, pitch_hz: 132, volume: 91, time_since_impact_0: 3492},
+            {name: "Aristoteles", latitude: 50.17, longitude: 17.42, diameter_km: 88, depth_km: 3.3, age_ma: 3800, pitch_hz: 215, volume: 94, time_since_impact_0: 3692},
+            {name: "Autolycus", latitude: 30.70, longitude: 1.48, diameter_km: 39, depth_km: 3.4, age_ma: 3200, pitch_hz: 110, volume: 62, time_since_impact_0: 3092}
+        ];
+
+        let canvas, ctx;
+        let soundEnabled = false;
+        let audioContext;
+        let fallingStars = [];
+        let craters = [];
+        let scheduleInterval;
+        let craterIndex = 0;
+
+        function initCanvas() {
+            canvas = document.getElementById('moonCanvas');
+            ctx = canvas.getContext('2d');
+            drawMoon();
+            animate();
+            drawScatterPlots();
         }
-    });
-    // Optional: Add touch and keydown listeners as in your original
-    button.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        // Trigger the click event logic here if needed
-    }, { passive: false });
-    button.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            button.click();
-        }
-    });
-});
-    // Rest of the original script for canvas and audio effects...
-    var audioContext;
-var soundEnabled = false;
-var scheduleInterval;
-var canvas;
-var ctx;
-var lights = []; // Lights for impact effects
-var fallingStars = []; // Falling stars
-var craters = [
-    { name: "Bailly", diam: 287, lat: -66.5, lon: -69.1 },
-    { name: "Clavius", diam: 245, lat: -58.8, lon: -14.1 }, // Corrected longitude to -14.1
-    { name: "Schickard", diam: 206, lat: -44.3, lon: -55.3 },
-    { name: "Schiller", diam: 180, lat: -51.9, lon: -39.0 },
-    { name: "Gauss", diam: 177, lat: 35.7, lon: 79.0 },
-    { name: "Grimaldi", diam: 172, lat: -5.5, lon: -68.3 },
-    { name: "Hausen", diam: 167, lat: -65.0, lon: -88.1 },
-    { name: "Hecataeus", diam: 167, lat: -21.8, lon: 79.4 },
-    { name: "Ptolemaeus", diam: 164, lat: -9.3, lon: -1.9 },
-    { name: "Riemann", diam: 163, lat: 38.9, lon: 86.8 },
-    { name: "Struve", diam: 164, lat: 22.4, lon: -77.1 },
-    { name: "Longomontanus", diam: 157, lat: -49.6, lon: -21.8 },
-    { name: "J. Herschel", diam: 165, lat: 62.0, lon: -42.0 },
-    { name: "W. Bond", diam: 156, lat: 65.4, lon: -4.5 },
-    { name: "Drygalski", diam: 149, lat: -79.3, lon: -84.9 }
-];
-function initCanvas() {
-    canvas = document.getElementById('bannerCanvas');
-    ctx = canvas.getContext('2d');
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    drawBackground();
-    animate();
-}
-function drawBackground() {
-    // Calm, natural background: Subtle watery nebula gradient with organic filaments
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#001020'); // Deep blue for water-like depth
-    gradient.addColorStop(0.5, '#002040'); // Soft blue tint
-    gradient.addColorStop(1, '#001020');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-    // Faint organic filaments (like underwater currents or microbial threads)
-    ctx.strokeStyle = 'rgba(150, 200, 255, 0.05)'; // Very subtle glow
-    ctx.lineWidth = 0.3;
-    for (let i = 0; i < 15; i++) {
-        ctx.beginPath();
-        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-        for (let j = 0; j < 3; j++) {
-            ctx.quadraticCurveTo(
-                Math.random() * canvas.width,
-                Math.random() * canvas.height,
-                Math.random() * canvas.width,
-                Math.random() * canvas.height
+
+        function drawMoon() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) * 0.35;
+
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const gradient = ctx.createRadialGradient(
+                centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.1,
+                centerX, centerY, radius
             );
+            gradient.addColorStop(0, '#e8e8e8');
+            gradient.addColorStop(0.7, '#c0c0c0');
+            gradient.addColorStop(1, '#888');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            craters.forEach(crater => {
+                drawCrater(crater.x, crater.y, crater.size, crater.age);
+            });
         }
-        ctx.stroke();
-    }
-  
-    // Central element: Subtle moon-like orb with watery reflection
-    const moonX = canvas.width / 2;
-    const moonY = canvas.height / 2;
-    const moonR = 150;
-    const orbGradient = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, moonR);
-    orbGradient.addColorStop(0, 'rgba(200, 220, 255, 0.3)'); // Soft blue light
-    orbGradient.addColorStop(1, 'rgba(100, 150, 200, 0.1)');
-    ctx.fillStyle = orbGradient;
-    ctx.beginPath();
-    ctx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
-    ctx.fill();
-  
-    // Draw moon craters as small dark circles
-    const moonDiam = 3474; // Approximate moon diameter in km
-    ctx.fillStyle = 'rgba(50, 50, 50, 0.5)'; // Dark gray for craters
-    craters.forEach(crater => {
-        const latRad = crater.lat * Math.PI / 180;
-        const lonRad = crater.lon * Math.PI / 180;
-        const cx = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
-        const cy = moonY - moonR * Math.sin(latRad);
-        const cr = moonR * (crater.diam / moonDiam);
-        ctx.beginPath();
-        ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-        ctx.fill();
-    });
-  
-    // Subtle watery ripples (static for stillness)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-    for (let i = 0; i < 5; i++) {
-        ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, 50 + i * 20, 0, Math.PI * 2);
-        ctx.stroke();
-    }
-}
-function createLight(x, y) {
-    return {
-        x: x,
-        y: y,
-        size: Math.random() * 4 + 2,
-        alpha: 0,
-        fadeIn: true
-    };
-}
-function drawLight(light) {
-    // Soft, natural light element (diffused glow, like underwater light refraction)
-    const gradient = ctx.createRadialGradient(light.x, light.y, 0, light.x, light.y, light.size * 4);
-    gradient.addColorStop(0, `rgba(200, 255, 255, ${light.alpha * 0.3})`); // Soft cyan core
-    gradient.addColorStop(0.4, `rgba(200, 255, 255, ${light.alpha * 0.1})`); // Gentle diffusion
-    gradient.addColorStop(1, 'rgba(200, 255, 255, 0)'); // Fade out
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(light.x, light.y, light.size * 4, 0, Math.PI * 2);
-    ctx.fill();
-}
-function createFallingStar(targetX, targetY, dur) {
-    return {
-        posX: Math.random() * canvas.width,
-        posY: -50, // Start above the canvas
-        targetX: targetX,
-        targetY: targetY,
-        speed: 1 + Math.random() * 2, // Slow fall
-        alpha: 1,
-        dur: dur // For impact size
-    };
-}
-function drawFallingStar(star) {
-    // Draw glowing star
-    const gradient = ctx.createRadialGradient(star.posX, star.posY, 0, star.posX, star.posY, 3);
-    gradient.addColorStop(0, `rgba(255, 255, 200, ${star.alpha})`);
-    gradient.addColorStop(1, 'rgba(255, 255, 200, 0)');
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(star.posX, star.posY, 3, 0, Math.PI * 2);
-    ctx.fill();
-}
-function animate() {
-    requestAnimationFrame(animate);
-    drawBackground(); // Redraw for stillness with subtle elements
-  
-    // Draw lights (impact effects)
-    lights.forEach((light, index) => {
-        drawLight(light);
-      
-        if (light.fadeIn) {
-            light.alpha += 0.005; // Extremely slow fade-in
-            if (light.alpha >= 0.4) light.fadeIn = false; // Low peak for natural light
-        } else {
-            light.alpha -= 0.003; // Slow fade-out
-            if (light.alpha <= 0) lights.splice(index, 1);
+
+        function drawCrater(x, y, size, age) {
+            const opacity = Math.max(0.1, 1 - (age / 100));
+            
+            ctx.strokeStyle = `rgba(80, 80, 80, ${opacity * 0.6})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = `rgba(50, 50, 50, ${opacity * 0.3})`;
+            ctx.beginPath();
+            ctx.arc(x + size * 0.2, y + size * 0.2, size * 0.8, 0, Math.PI * 2);
+            ctx.fill();
         }
-    });
-  
-    // Draw and update falling stars
-    fallingStars.forEach((star, index) => {
-        drawFallingStar(star);
-      
-        // Move towards target
-        const dx = star.targetX - star.posX;
-        const dy = star.targetY - star.posY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < star.speed) {
-            // Impact: add light effect at target
-            const lightSize = star.dur * 2 + 4; // Scale light size with duration
-            let impactLight = createLight(star.targetX, star.targetY);
-            impactLight.size = lightSize;
-            lights.push(impactLight);
-            fallingStars.splice(index, 1);
-        } else {
-            star.posX += (dx / dist) * star.speed;
-            star.posY += (dy / dist) * star.speed;
+
+        function createFallingStarWithData(craterData) {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) * 0.35;
+            
+            // Convert lat/lon to position on moon
+            const latRad = craterData.latitude * Math.PI / 180;
+            const lonRad = craterData.longitude * Math.PI / 180;
+            
+            const targetX = centerX + radius * Math.cos(latRad) * Math.sin(lonRad);
+            const targetY = centerY - radius * Math.sin(latRad);
+            
+            // Scale crater size based on actual diameter
+            const craterSize = Math.min(30, (craterData.diameter_km / 100) * 25);
+            
+            return {
+                x: Math.random() * canvas.width,
+                y: -50,
+                targetX: targetX,
+                targetY: targetY,
+                speed: 2 + Math.random() * 2,
+                size: 2 + Math.random() * 2,
+                craterSize: craterSize,
+                freq: craterData.pitch_hz,
+                dur: 2 + (craterData.depth_km / 5),
+                volume: craterData.volume / 100,
+                name: craterData.name
+            };
         }
-    });
-}
-function initAudio() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    return audioContext;
-}
-function createAndPlayTone() {
-    if (!audioContext || !soundEnabled) return;
-  
-    try {
-        var now = audioContext.currentTime;
-        // Choose a random crater
-        const crater = craters[Math.floor(Math.random() * craters.length)];
-        // Normalize position for freq and pan
-        const y_norm = (90 - crater.lat) / 180; // 0 at north, 1 at south
-        const x_norm = (crater.lon + 90) / 180; // 0 at west, 1 at east
-        var freq = 220 + (1 - y_norm) * 440;
-        var dur = 2 + (Math.random() * 1); // Extract dur for visual sync
-        var panValue = (x_norm * 2) - 1;
-      
-        var osc1 = audioContext.createOscillator();
-        var osc2 = audioContext.createOscillator();
-        var osc3 = audioContext.createOscillator();
-      
-        osc1.type = 'sine';
-        osc2.type = 'sine';
-        osc3.type = 'sine';
-      
-        osc1.frequency.value = freq;
-        osc2.frequency.value = freq * 2.01;
-        osc3.frequency.value = freq * 3.02;
-      
-        var g1 = audioContext.createGain();
-        var g2 = audioContext.createGain();
-        var g3 = audioContext.createGain();
-      
-        g1.gain.setValueAtTime(0, now);
-        g1.gain.linearRampToValueAtTime(0.04, now + 0.02);
-        g1.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-      
-        g2.gain.setValueAtTime(0, now);
-        g2.gain.linearRampToValueAtTime(0.02, now + 0.02);
-        g2.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-      
-        g3.gain.setValueAtTime(0, now);
-        g3.gain.linearRampToValueAtTime(0.01, now + 0.02);
-        g3.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
-      
-        var reverb = audioContext.createConvolver();
-        var rate = audioContext.sampleRate;
-        var length = rate * 2;
-        var buffer = audioContext.createBuffer(2, length, rate);
-      
-        for (var ch = 0; ch < 2; ch++) {
-            var data = buffer.getChannelData(ch);
-            for (var i = 0; i < length; i++) {
-                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+
+        function drawFallingStar(star) {
+            const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
+            gradient.addColorStop(0, 'rgba(255, 255, 200, 1)');
+            gradient.addColorStop(0.5, 'rgba(255, 200, 150, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 150, 100, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(255, 200, 150, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(star.x - (star.targetX - star.x) * 0.1, star.y - (star.targetY - star.y) * 0.1);
+            ctx.stroke();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            drawMoon();
+
+            fallingStars.forEach((star, index) => {
+                drawFallingStar(star);
+
+                const dx = star.targetX - star.x;
+                const dy = star.targetY - star.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < star.speed) {
+                    craters.push({
+                        x: star.targetX,
+                        y: star.targetY,
+                        size: star.craterSize,
+                        age: 0
+                    });
+                    
+                    playImpactTone(star.freq, star.dur, star.volume);
+                    
+                    ctx.fillStyle = 'rgba(255, 255, 200, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(star.targetX, star.targetY, star.craterSize * 3, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    fallingStars.splice(index, 1);
+                } else {
+                    star.x += (dx / dist) * star.speed;
+                    star.y += (dy / dist) * star.speed;
+                }
+            });
+
+            craters.forEach(crater => crater.age++);
+            if (craters.length > 20) {
+                craters.shift();
             }
         }
-        reverb.buffer = buffer;
-      
-        var reverbGain = audioContext.createGain();
-        reverbGain.gain.value = 0.4;
-      
-        var pan = audioContext.createStereoPanner();
-        pan.pan.value = panValue;
-      
-        var filter = audioContext.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 2000 + (y_norm * 2000);
-      
-        var master = audioContext.createGain();
-        master.gain.value = 0.15;
-      
-        osc1.connect(g1);
-        osc2.connect(g2);
-        osc3.connect(g3);
-      
-        g1.connect(filter);
-        g2.connect(filter);
-        g3.connect(filter);
-      
-        filter.connect(master);
-        filter.connect(reverbGain);
-        reverbGain.connect(reverb);
-        reverb.connect(master);
-      
-        master.connect(pan);
-        pan.connect(audioContext.destination);
-      
-        osc1.start(now);
-        osc2.start(now);
-        osc3.start(now);
-        osc1.stop(now + dur);
-        osc2.stop(now + dur);
-        osc3.stop(now + dur);
-      
-        // Add visuals synced to tone: falling star to crater
-        addVisualEffect(crater, freq, panValue, dur);
-    } catch (e) {
-        console.error('Error playing tone:', e);
-    }
-}
-function addVisualEffect(crater, freq, panValue, dur) {
-    const delay = 0.5 + Math.random() * 0.5; // Random delay for harmony
-    const moonX = canvas.width / 2;
-    const moonY = canvas.height / 2;
-    const moonR = 150;
-    const latRad = crater.lat * Math.PI / 180;
-    const lonRad = crater.lon * Math.PI / 180;
-    const targetX = moonX + moonR * Math.cos(latRad) * Math.sin(lonRad);
-    const targetY = moonY - moonR * Math.sin(latRad);
-    setTimeout(() => {
-        fallingStars.push(createFallingStar(targetX, targetY, dur));
-    }, delay * 1000); // Delay in ms
-}
-function startAmbientSound() {
-    soundEnabled = true;
-    createAndPlayTone();
-    startScheduling();
-}
-function startScheduling() {
-    if (scheduleInterval) {
-        clearInterval(scheduleInterval);
-    }
-  
-    scheduleInterval = setInterval(function() {
-        if (soundEnabled && audioContext) {
-            createAndPlayTone();
+
+        function playImpactTone(freq, dur, volume) {
+            if (!audioContext) return;
+
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.15 * volume, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+
+            osc.start(now);
+            osc.stop(now + dur);
         }
-    }, 5000 + Math.random() * 5000); // Slower intervals for calmer pace
-}
-function stopAmbientSound() {
-    soundEnabled = false;
-    if (scheduleInterval) {
-        clearInterval(scheduleInterval);
-        scheduleInterval = null;
-    }
-    lights = [];
-    fallingStars = [];
-}
-function toggleSound() {
-    var button = document.getElementById('soundToggle');
-    var text = document.getElementById('soundText');
-    var waves = document.getElementById('soundWaves');
-  
-    if (!soundEnabled) {
-        initAudio(); // Create context on gesture
-        if (audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-                startAmbientSound();
-            }).catch((err) => {
-                console.error('AudioContext resume failed:', err);
-                document.getElementById('audioError').style.display = 'block';
+
+        function createFallingStarWithAudio() {
+            if (!soundEnabled) return;
+
+            const craterData = CRATER_DATA[craterIndex % CRATER_DATA.length];
+            craterIndex++;
+            
+            const star = createFallingStarWithData(craterData);
+            fallingStars.push(star);
+        }
+
+        function drawScatterPlots() {
+            drawScatterAge();
+            drawScatterTime();
+        }
+
+        function drawScatterAge() {
+            const canvas = document.getElementById('scatterAge');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Axes
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(60, 20);
+            ctx.lineTo(60, 360);
+            ctx.lineTo(580, 360);
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#000';
+            ctx.font = '14px Arial';
+            ctx.fillText('age [Myrs]', 280, 390);
+            ctx.save();
+            ctx.translate(20, 200);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('diameter [km]', -50, 0);
+            ctx.restore();
+            
+            // Data points
+            ctx.fillStyle = '#1f77b4';
+            CRATER_DATA.forEach(d => {
+                const x = 60 + (d.age_ma / 4000) * 520;
+                const y = 360 - (d.diameter_km / 300) * 340;
+                const size = Math.max(5, d.diameter_km / 10);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
             });
-        } else {
-            startAmbientSound();
         }
-        button.classList.remove('off');
-        button.setAttribute('aria-pressed', 'true');
-        text.textContent = 'Sound On';
-        if (waves) waves.style.opacity = '1';
-    } else {
-        stopAmbientSound();
-        button.classList.add('off');
-        button.setAttribute('aria-pressed', 'false');
-        text.textContent = 'Sound Off';
-        if (waves) waves.style.opacity = '0.3';
-    }
-}
-// Initialize canvas on load
-window.addEventListener('load', initCanvas);
-window.addEventListener('resize', () => {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    drawBackground();
-});
-// Event listeners (unchanged)
-document.getElementById('soundToggle').addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    toggleSound();
-}, { passive: false });
-document.getElementById('soundToggle').addEventListener('click', toggleSound);
-document.getElementById('soundToggle').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleSound();
-    }
-});
-var waves = document.getElementById('soundWaves');
-if (waves) waves.style.opacity = '0.3';
-        </script>
+
+        function drawScatterTime() {
+            const canvas = document.getElementById('scatterTime');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Axes
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(60, 20);
+            ctx.lineTo(60, 360);
+            ctx.lineTo(580, 360);
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#000';
+            ctx.font = '14px Arial';
+            ctx.fillText('time since impact 0 [Myrs]', 220, 390);
+            ctx.save();
+            ctx.translate(20, 200);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('diameter [km]', -50, 0);
+            ctx.restore();
+            
+            // Data points
+            ctx.fillStyle = '#1f77b4';
+            CRATER_DATA.forEach(d => {
+                const x = 60 + (d.time_since_impact_0 / 4000) * 520;
+                const y = 360 - (d.diameter_km / 300) * 340;
+                const size = Math.max(5, d.diameter_km / 10);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function startSonification() {
+            soundEnabled = true;
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            createFallingStarWithAudio();
+            
+            scheduleInterval = setInterval(() => {
+                if (soundEnabled) {
+                    createFallingStarWithAudio();
+                }
+            }, 3000 + Math.random() * 2000);
+        }
+
+        function stopSonification() {
+            soundEnabled = false;
+            if (scheduleInterval) {
+                clearInterval(scheduleInterval);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCanvas();
+
+            const button = document.getElementById('soundToggle');
+            const text = document.getElementById('soundText');
+
+            button.addEventListener('click', function() {
+                if (!soundEnabled) {
+                    startSonification();
+                    button.classList.remove('off');
+                    button.setAttribute('aria-pressed', 'true');
+                    text.textContent = 'Sound On';
+                } else {
+                    stopSonification();
+                    button.classList.add('off');
+                    button.setAttribute('aria-pressed', 'false');
+                    text.textContent = 'Sound Off';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
