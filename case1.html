@@ -99,7 +99,7 @@
         .canvas-caption {
             font-size: 0.85em;
             color: #888;
-            text-align: center;
+            text-align: left;
             margin-top: 12px;
             font-weight: 300;
         }
@@ -248,12 +248,12 @@
 
         
         <section>
-            <h2>Moon Crator Visualization and Sonification</h2>
-            <div class="canvas-container" id="moonCanvasContainer">
-                <canvas id="moonCanvas" width="600" height="600"></canvas>
+            <h2>Moon Crater Visualization and Sonification</h2>
+            <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
+                <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
             </div>
-            <p>Click on the moon to start</p>
-            <p class="canvas-caption">Interactive moon visualization with sonified crater impacts. Each falling star represents a crater from the dataset, sized by diameter. Click to hear pitch-mapped frequencies on impact.</p>
+            <p class="interaction-hint">Click the moon to start the sonification</p>
+            <p class="canvas-caption">Interactive visualization with sonified crater impacts. Each falling star represents a crater from the dataset, sized by diameter. Larger craters produce deeper, longer tones; smaller craters create higher, shorter sounds.</p>
         </section>
         
         <section>
@@ -268,13 +268,14 @@
             <p><strong>Date:</strong> January 2026</p>
             <p><strong>Tools:</strong> Python (Jupyter Notebook), numpy, pandas, matplotlib, midiutil, Logic Pro, AI (Grok, Claude)</p>
             <p><strong>Resources:</strong> Matt Russo (sonification methodology), NASA open datasets, open-source moon imagery</p>
+            <p><strong>Approach:</strong> The visualization balances scientific accuracy (using real NASA crater coordinates, sizes, and measurements) with poetic abstraction (musical interpretation, contemplative aesthetic), linking astronomy to art and music through data sonification.</p>
         </section>
         
         <section>
             <h2>Data</h2>
-            <p>Working with NASA moon crater dataset containing 20 craters with measured parameters:</p>
+            <p>Working with NASA moon crater dataset containing 9 craters with measured parameters (subset selected from larger NASA database):</p>
             <ul>
-                <li>Names: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus, and 11 others</li>
+                <li>Names: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus</li>
                 <li>Spatial data: Latitude, longitude coordinates</li>
                 <li>Physical measurements: Diameter (32-101 km), depth (1.0-4.7 km)</li>
                 <li>Temporal data: Age (108-3800 million years), time since impact event 0</li>
@@ -324,7 +325,16 @@
                 <li>Crater formation synchronized to data parameters</li>
                 <li>Open-source moon imagery as reference</li>
                 <li>Refined through iterative AI prompting (Claude, Grok)</li>
-                <li>Data mapping: diameter → crater size, latitude/longitude → position, pitch_hz → audio frequency on impact</li>
+                <li>Data mapping: diameter → crater size & pitch frequency, latitude/longitude → impact position, diameter → tone duration</li>
+            </ul>
+            <p><strong>AI vs Human mapping decisions:</strong></p>
+            <ul>
+                <li>AI initial approach: Larger craters → higher pitch (treating size as brightness/energy)</li>
+                <li>Human adjustment: Inverted to larger craters → lower/deeper pitch (matching physical intuition: bigger impacts = deeper sounds)</li>
+                <li>AI provided: Basic duration from depth parameter</li>
+                <li>Human refined: Duration based on crater diameter (larger = longer sustain ~4s, smaller = shorter ~2s)</li>
+                <li>AI generated: Sharp sound envelopes with abrupt endings</li>
+                <li>Human refined: Smooth attack/sustain/release curves with extended fade-out for peaceful, contemplative atmosphere</li>
             </ul>
             <p><em>Interesting as combined image + audio experience with visual emphasis.</em></p>
         </section>
@@ -350,21 +360,27 @@
             <img src="sketch1.4.png" alt="Process sketch 4" class="sketch">
             <img src="sketch1.5.png" alt="Process sketch 5" class="sketch">
            
-            <p><strong>Python workflow:</strong> Environment setup with libraries; data cleaning from NASA portal (20 craters); parameter mapping to musical elements; MIDI generation in Jupyter Notebook.</p>
+            <p><strong>Python workflow:</strong> Environment setup with libraries; data cleaning from NASA portal; selection of 9 representative craters; parameter mapping to musical elements; MIDI generation in Jupyter Notebook.</p>
             <p><strong>Logic Pro workflow:</strong> MIDI import; instrument selection (Orchestral Organ, Astro Funk, Studio Grand, Time Delay Synth); mixing and effects; MP3 export as OpenSpaceAudio.mp3.</p>
-            <p><strong>Visual workflow:</strong> AI refinement of moon animation; data mapping implementation; synchronization of impacts with audio.</p>
+            <p><strong>Visual workflow:</strong> AI-generated canvas animation using JavaScript; data mapping implementation; synchronization of impacts with real-time synthesized audio (Web Audio API).</p>
+            <p><strong>AI vs Human contributions:</strong></p>
+            <ul>
+                <li>AI handled well: Code structure, canvas setup, basic animations, mathematical conversions (lat/lon to x/y), data loops</li>
+                <li>Human adjustments needed: Sonification mapping logic (inverting pitch scale so larger = deeper), duration calculations based on crater size, audio envelope smoothness (attack/sustain/release curves), aesthetic choices (timbre, fade timing, visual-audio synchronization)</li>
+                <li>Iterative process: AI provided functional code foundation, human refined perceptual and artistic parameters through multiple iterations to achieve balance between scientific accuracy and poetic expression</li>
+            </ul>
         </section>
 
         <section>
             <h2>Approach</h2>
             <ul>
                 <li>Inspired by Matt Russo's sonification methodology</li>
-                <li>NASA open datasets: 20 moon craters with complete parameter sets</li>
-                <li>Hybrid workflow: Python/Jupyter for data processing, AI (Claude, Grok) for code structure and visual refinement</li>
-                <li>Manual design: Logic Pro instrument selection and mixing</li>
-                <li>Two output modes: Audio-only (cinematic/atmospheric) vs. Audio+Visual (calm/contemplative)</li>
-                <li>Balance between scientific accuracy and artistic expression</li>
-                <li>Direct parameter mapping: pitch_hz → frequency, diameter → size, depth → duration</li>
+                <li>NASA open datasets: 9 moon craters selected for complete parameter sets and geographic distribution</li>
+                <li>Hybrid workflow: Python/Jupyter for data processing and MIDI generation, AI (Claude, Grok) for interactive web visualization code structure and refinement</li>
+                <li>Manual design: Logic Pro instrument selection and mixing for cinematic audio composition</li>
+                <li>Two output modes: Audio-only (cinematic/atmospheric with Logic Pro instruments) vs. Audio+Visual (calm/contemplative with real-time synthesized tones)</li>
+                <li>Balance between scientific accuracy (real NASA data, accurate positioning) and artistic expression (musical interpretation, contemplative pacing, poetic abstraction)</li>
+                <li>Direct parameter mapping: diameter → pitch frequency (inverted for physical intuition) + duration (size-based sustain), latitude/longitude → visual position, volume → loudness</li>
             </ul>
         </section>
 
@@ -411,7 +427,8 @@
         const openSpaceAudioPlayer = document.getElementById('OpenSpaceAudioPlayer');
         const audioVisualContainer = document.getElementById('audioVisualContainer');
         let isAudioPlaying = false;
-        openSpaceAudio.volume = 0.5;
+        openSpaceAudio.volume = 0.35; // Reduced by 15% (was 0.5, now 0.35)
+        openSpaceAudioPlayer.volume = 0.35; // Match the volume
 
         // Sync the two audio elements
         openSpaceAudioPlayer.addEventListener('play', function() {
@@ -744,8 +761,17 @@
             moonCanvasContainer.addEventListener('click', function() {
                 if (!soundEnabled) {
                     startSonification();
+                    moonCanvasContainer.setAttribute('aria-pressed', 'true');
                 } else {
                     stopSonification();
+                    moonCanvasContainer.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            moonCanvasContainer.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    moonCanvasContainer.click();
                 }
             });
 
