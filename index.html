@@ -255,111 +255,79 @@
 
         <section>
             <h2>Context</h2>
-            <p>Independent project exploring science-art overlap, inspired by Matt Russo's sonification work and using NASA's open moon crater datasets.</p>
+            <p>Independent exploration of science-art intersection, inspired by Matt Russo's sonification methodology and NASA's open crater datasets.</p>
             <p><strong>Date:</strong> January 2026</p>
             <p><strong>Tools:</strong> Python (Jupyter Notebook), numpy, pandas, matplotlib, midiutil, Logic Pro, AI (Grok, Claude)</p>
-            <p><strong>Resources:</strong> Matt Russo (sonification methodology), NASA open datasets, open-source moon imagery</p>
-            <p><strong>Creative approach:</strong> Balancing scientific accuracy (real NASA crater coordinates, sizes, measurements) with poetic abstraction (musical interpretation, contemplative aesthetic), linking astronomy to art and music through data sonification.</p>
+            <p><strong>Resources:</strong> Matt Russo methodology, NASA datasets, open-source moon imagery</p>
+            <p><strong>Creative approach:</strong> Balancing scientific accuracy (NASA coordinates, measurements) with poetic interpretation (musical mapping, contemplative pacing).</p>
         </section>
 
         <section>
             <h2>Approach</h2>
             <ul>
-                <li>Inspired by Matt Russo's sonification methodology</li>
-                <li>NASA open datasets: 9 moon craters selected for complete parameter sets and geographic distribution</li>
-                <li>Hybrid workflow: Python/Jupyter for data processing and MIDI generation, AI (Claude, Grok) for interactive web visualization code structure and refinement</li>
-                <li>Manual design: Logic Pro instrument selection and mixing for cinematic audio composition</li>
-                <li>Two output modes: Audio-only (cinematic/atmospheric with Logic Pro instruments) vs. Audio+Visual (calm/contemplative with real-time synthesized tones)</li>
-                <li>Balance between scientific accuracy (real NASA data, accurate positioning) and artistic expression (musical interpretation, contemplative pacing, poetic abstraction)</li>
-                <li>Direct parameter mapping: diameter → pitch frequency (inverted for physical intuition) + duration (size-based sustain), latitude/longitude → visual position, volume → loudness</li>
+                <li>Methodology inspired by Matt Russo's sonification work</li>
+                <li>Hybrid workflow: Python/Jupyter for data processing and MIDI generation; Logic Pro for cinematic composition; AI (Claude, Grok) for web visualization code</li>
+                <li>Two output modes: Audio-only (Logic Pro instruments, cinematic) and Audio+Visual (real-time Web Audio synthesis, contemplative)</li>
+                <li>Parameter mapping: diameter → inverted pitch (larger = deeper tone) + size-based duration</li>
             </ul>
         </section>
         
         <section>
             <h2>Data</h2>
-            <p>Working with NASA moon crater dataset containing 9 craters with measured parameters (subset selected from larger NASA database containing ~9,000 catalogued craters):</p>
+            <p>NASA moon crater dataset: 9 craters selected from ~9,000 catalogued formations.</p>
             <ul>
-                <li>Names: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus</li>
-                <li>Spatial data: Latitude, longitude coordinates</li>
-                <li>Physical measurements: Diameter (32-101 km), depth (1.0-4.7 km)</li>
-                <li>Temporal data: Age (108-3800 million years), time since impact event 0</li>
-                <li>Sonification parameters: Pitch frequencies (110-330 Hz), volume (56-100), duration (1.5-4.0 seconds)</li>
+                <li>Craters: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus</li>
+                <li>Measurements: Diameter (32-101 km), depth (1.0-4.7 km), age (108-3800 million years)</li>
+                <li>Sonification: Pitch (110-330 Hz), duration (1.5-4.0s), volume (56-100)</li>
             </ul>
-            <p>The dataset reveals patterns in crater formation over billions of years, with larger, older craters from periods of heavy bombardment.</p>
-            <p><strong>Note on temporal accuracy:</strong> The animation timing (3-5 seconds between impacts) is artistic compression for viewer experience, not scientifically accurate to the millions of years between actual crater formations. The Logic Pro composition uses layered soundscape to fill temporal gaps, as several craters formed in relatively close geological periods while others are separated by vast time spans.</p>
-            <p><strong>Parameter Mapping:</strong></p>
-            <ul>
-                <li>Diameter → Pitch frequency (larger craters = lower/deeper tones, smaller craters = higher/brighter tones)</li>
-                <li>Diameter → Duration (larger craters = longer sustained tones ~4s, smaller craters = shorter tones ~2s)</li>
-                <li>Latitude/Longitude → Impact position on moon surface</li>
-                <li>Diameter → Visual crater size on canvas</li>
-                <li>Volume → Sound loudness (proportional to crater magnitude)</li>
-                <li>Impact moment → Subtle bright flash + immediate tone trigger (visual-audio synchronization)</li>
-            </ul>
+            <p><strong>Temporal note:</strong> Animation timing (3-5s between impacts) is artistic compression; actual crater formations span millions of years. Logic Pro composition uses layered soundscape to address temporal gaps in geological record.</p>
+            <p><strong>Parameter Mapping:</strong> Diameter → pitch (larger = lower), duration (larger = longer sustain), visual size. Latitude/longitude → impact position. Volume → loudness. Impact moment → visual flash + immediate tone trigger.</p>
         </section>
 
         <section>
             <h2>Process</h2>
            
-            <p><strong>Python workflow:</strong> Environment setup with libraries; data cleaning from NASA portal; selection of 9 representative craters; parameter mapping to musical elements; MIDI generation in Jupyter Notebook.</p>
+            <p><strong>Python workflow:</strong> Data cleaning, parameter mapping, MIDI generation in Jupyter Notebook.</p>
             
             <img src="midi-timing-chart.png" alt="MIDI note sequencing over time" class="midi-chart">
-            <p class="canvas-caption">MIDI note sequencing over time (beats) - visualizing the temporal structure of the composition generated in Python</p>
+            <p class="canvas-caption">MIDI temporal structure generated in Python</p>
             
-            <p><strong>Logic Pro workflow:</strong> MIDI import; instrument selection (Orchestral Organ, Astro Funk, Studio Grand, Time Delay Synth); mixing and effects; MP3 export as OpenSpaceAudio.mp3.</p>
-            <p><strong>Web visualization workflow:</strong> AI-generated canvas animation code using JavaScript; human provided creative direction on aesthetic (calm, contemplative), style references (open-source moon imagery), and data mapping decisions (inverting pitch scale, duration calculations); real-time audio synthesis via Web Audio API.</p>
+            <p><strong>Logic Pro workflow:</strong> MIDI import, instrument selection (Orchestral Organ, Astro Funk, Studio Grand, Time Delay Synth), mixing, MP3 export.</p>
             
-            <p><strong>AI vs Human contributions for web visualization:</strong></p>
+            <p><strong>Web visualization workflow:</strong> JavaScript canvas animation with Web Audio API for real-time synthesis. AI generated code structure; human provided aesthetic direction (open-source moon imagery references), mapping logic (pitch inversion, duration calculations), and audio envelope design (smooth attack/sustain/release).</p>
+            
+            <p><strong>Workflow insights—AI and human collaboration:</strong></p>
             <ul>
-                <li><strong>AI handled:</strong> Code structure, canvas setup, animation loops, mathematical conversions (lat/lon to x/y coordinates), data array implementation</li>
-                <li><strong>Human provided:</strong> Creative direction (contemplative aesthetic, smooth audio envelopes), sonification logic (larger craters = deeper/longer tones), open-source moon imagery references, data consistency verification</li>
-                <li><strong>Data accuracy issue:</strong> Python → MIDI → Logic Pro workflow maintains mathematical consistency (formula applied systematically). AI-generated JavaScript treats each data entry independently without verifying relationships between values. Human caught inconsistencies: Aristarchus (40km) had higher pitch than Kepler (32km), and Archimedes (83km) had higher pitch than Tycho (85km) - both violating "larger = lower pitch" rule. Required recalculation using formula: pitch = 330 - ((diameter - 32) / (101 - 32)) × 220</li>
-                <li><strong>Corrected mapping (diameter → pitch):</strong> Kepler 32km → 330Hz, Autolycus 39km → 310Hz, Aristarchus 40km → 304Hz, Eratosthenes 60km → 238Hz, Archimedes 83km → 154Hz, Tycho 85km → 148Hz, Aristoteles 88km → 142Hz, Copernicus 93km → 135Hz, Plato 101km → 110Hz</li>
-                <li><strong>Iterative refinement:</strong> AI provided functional foundation, human refined perceptual and artistic parameters through multiple iterations to achieve balance between scientific accuracy and poetic expression</li>
+                <li><strong>AI strengths:</strong> Code structure, mathematical conversions (lat/lon to x/y), animation loops, data array implementation</li>
+                <li><strong>Human contributions:</strong> Creative decisions (contemplative aesthetic, smooth envelopes), mapping logic (larger = deeper/longer), quality verification</li>
+                <li><strong>Critical issue detected by human:</strong> When listening to the animation, tone height differences were not aligned with visible size differences. AI had generated pitch values independently for each crater without maintaining inverse relationship to diameter. Examples: Aristarchus (40km) sounded higher than Kepler (32km); Archimedes (83km) sounded higher than Tycho (85km). Required systematic recalculation using formula: pitch = 330 - ((diameter - 32) / (101 - 32)) × 220</li>
+                <li><strong>Corrected mapping:</strong> Kepler 32km→330Hz, Autolycus 39km→310Hz, Aristarchus 40km→304Hz, Eratosthenes 60km→238Hz, Archimedes 83km→154Hz, Tycho 85km→148Hz, Aristoteles 88km→142Hz, Copernicus 93km→135Hz, Plato 101km→110Hz</li>
+                <li><strong>Process learning:</strong> Python→MIDI→Logic Pro maintains mathematical consistency (formula applied once). AI-generated JavaScript data requires human verification of cross-entry relationships. Iterative refinement balanced computational efficiency with perceptual accuracy.</li>
             </ul>
         </section>
 
         <section>
             <h2>Audio Production</h2>
-            <p><strong>Logic Pro composition</strong> (OpenSpaceAudio.mp3) — More cinematic, atmospheric:</p>
-            <ul>
-                <li>Orchestral Organ: Deep, sustained tones for large ancient craters</li>
-                <li>Astro Funk: Rhythmic elements tracking impact timing</li>
-                <li>Studio Grand: Clear melodic voices for mid-sized formations</li>
-                <li>Time Delay Synth: Atmospheric reverb creating spatial depth</li>
-            </ul>
-            <p>Instruments and sync provided by Logic Pro for rich, layered soundscape. Exported as MP3 for web delivery. <em>Interesting as audio-only experience.</em></p>
+            <p><strong>Logic Pro composition</strong> (OpenSpaceAudio.mp3): Orchestral Organ (deep tones for large craters), Astro Funk (rhythmic elements), Studio Grand (melodic voices), Time Delay Synth (spatial depth). Layered soundscape addresses temporal gaps in geological record.</p>
             
             <div style="text-align: center; margin: 30px 0;">
                 <audio id="OpenSpaceAudioPlayer" controls preload="auto" style="width: 100%; max-width: 500px;">
                     <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
-                <p class="canvas-caption" style="margin-top: 10px;">Audio-only experience: Listen to the OpenSpace composition</p>
+                <p class="canvas-caption" style="margin-top: 10px;">Audio-only experience</p>
             </div>
             
             <div class="visual-container-small" id="audioVisualContainer" role="button" tabindex="0" aria-label="Toggle OpenSpace audio with animation" aria-pressed="false">
                 <div class="circle-small"></div>
             </div>
-            <p class="canvas-caption">Audio with minimal animation: Click to play/pause with visual feedback</p>
+            <p class="canvas-caption">Audio with minimal visual feedback</p>
         </section>
 
         <section>
             <h2>Visual Production</h2>
-            <p><strong>AI-generated animation with human creative direction</strong> — Calm, contemplative aesthetic:</p>
-            <ul>
-                <li>Moon visualization with falling star impacts</li>
-                <li>Crater formation synchronized to data parameters</li>
-                <li>Human-provided references: Open-source moon imagery for visual style</li>
-                <li>Refined through iterative AI prompting (Claude, Grok)</li>
-            </ul>
-            <p><strong>Key mapping decisions (Human-defined):</strong></p>
-            <ul>
-                <li>AI initial approach: Larger craters → higher pitch (treating size as brightness/energy)</li>
-                <li>Human adjustment: Inverted to larger craters → lower/deeper pitch (matching physical intuition: bigger impacts = deeper sounds)</li>
-                <li>Human refined: Duration based on crater diameter (larger = longer sustain ~4s, smaller = shorter ~2s)</li>
-                <li>Human refined: Smooth attack/sustain/release curves with extended fade-out for peaceful, contemplative atmosphere</li>
-            </ul>
+            <p>Web animation with falling star impacts, crater formation synchronized to data parameters. Human-defined aesthetic: calm, contemplative. References: open-source moon imagery. Iterative AI prompting (Claude, Grok) for code refinement.</p>
+            <p><strong>Mapping decisions:</strong> Inverted pitch scale (larger = deeper, matching physical intuition). Duration from crater diameter (larger = longer sustain ~4s, smaller ~2s). Smooth audio envelopes for contemplative atmosphere.</p>
         </section>
 
         <section>
@@ -377,7 +345,9 @@
 
         <section>
             <h2>Results</h2>
-            <p>Improved data accessibility through acoustic and visual representation. Animation and sonification could appeal to Art&Science, Education, Accessibility related learning about science, programming/AI, media art and music. Similar scientific data could be visualized and animated in either representative or abstract manner with varying degrees of scientific focus vs. aesthetic / creative focus depending on audience.</p>
+            <p>Enhanced data accessibility through multisensory representation. Sonification provides alternative access for visually impaired audiences; visuals support those with hearing differences.</p>
+            <p><strong>Transferability:</strong> Methodology applicable to other NASA datasets (exoplanet discoveries, seismic activity on Mars) and scientific data from climate research, particle physics, biological systems.</p>
+            <p><strong>Workflow discovery:</strong> Process revealed complementary strengths—AI excels at code structure and mathematical operations; human perception catches relationship inconsistencies and guides aesthetic refinement. Effective collaboration requires iterative verification and clear definition of perceptual goals.</p>
         </section>
 
         <nav>
