@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Petra Kühnle: Data, Systems, Design, Senses.">
-    <title>Petra Kühnle - Portfolio</title>
+    <title>Open Space Data Sonification - Petra Kühnle</title>
     <style>
         * {
             margin: 0;
@@ -15,26 +14,24 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background: #fafafa;
             color: #1a1a1a;
-            line-height: 1.6;
+            line-height: 1.8;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
         .container {
-            max-width: 680px;
-            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
         }
         header {
-            text-align: center;
             margin-bottom: 80px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 1.8em;
             font-weight: 300;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+            margin-bottom: 16px;
             color: #000;
         }
         .subtitle {
@@ -42,37 +39,123 @@
             color: #666;
             font-weight: 300;
             letter-spacing: 0.3px;
+            line-height: 1.6;
         }
-        .subtitle + .subtitle {
-            margin-top: 10px;
+        section {
+            margin-bottom: 60px;
         }
-        .subtitle a {
-         color: #333;
-         text-decoration: none;               /* ← ADDED (no underline) */
-         transition: color 0.2s ease;
+        h2 {
+            font-size: 0.85em;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
+        p {
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 300;
         }
-        .subtitle a:hover,
-        .subtitle a:focus {
-            color: #000;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
         }
-        .subtitle a:focus {
-            outline: 2px solid #000;
-            outline-offset: 2px;
-        }
-        .visual-container {
+        li {
+            font-size: 0.9em;
+            color: #444;
+            margin-bottom: 10px;
+            padding-left: 20px;
             position: relative;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+        .canvas-container {
             width: 100%;
             max-width: 600px;
-            aspect-ratio: 1;
-            margin: 0 auto 60px;
+            margin: 40px auto;
+            border: 1px solid #e0e0e0;
             background: #000;
-            transition: opacity 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
         }
-        .visual-container:hover {
+        .canvas-container:hover {
+            opacity: 0.95;
+            border-color: #999;
+        }
+        .canvas-container:focus {
+            outline: none;
+            border-color: #666;
+        }
+        .canvas-container:focus-visible {
+            outline: 3px solid #333;
+            outline-offset: 3px;
+        }
+        .interaction-hint {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin: 16px 0 8px;
+            font-weight: 400;
+            font-style: italic;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .canvas-caption {
+            font-size: 0.85em;
+            color: #888;
+            text-align: left;
+            margin-top: 12px;
+            font-weight: 300;
+        }
+        .data-viz {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+        }
+        .sketch {
+            max-width: 180px;
+            height: auto;
+            margin: 10px 20px 10px 0;
+            display: inline-block;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        .sketch:hover {
+            opacity: 1;
+        }
+        .visual-container-small {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1;
+            margin: 30px auto;
+            background: #000;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        .visual-container-small:hover {
             opacity: 0.95;
         }
-        .circle {
+        .circle-small {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -83,102 +166,640 @@
             transform: translate(-50%, -50%);
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .visual-container:hover .circle {
+        .visual-container-small:hover .circle-small {
             width: 74%;
             height: 74%;
         }
+        .visual-container-small.active .circle-small {
+            background: #e8e8e8;
+        }
+        .midi-chart {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            display: block;
+        }
         nav {
-            margin-top: 40px;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav li {
-            margin: 15px 0;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         nav a {
+            color: #666;
             text-decoration: none;
-            color: #333;
+            font-size: 0.85em;
             font-weight: 300;
-            font-size: 1em;
-            letter-spacing: 0.3px;
-            transition: color 0.2s ease;
-            display: inline-block;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 2px;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
         }
         nav a:hover {
             color: #000;
-            border-bottom-color: #000;
-        }
-        nav a:focus {
-            color: #000;
-            outline: 2px solid #000;
-            outline-offset: 2px;
         }
         @media (max-width: 768px) {
             body {
-                padding: 40px 20px;
+                padding: 60px 20px;
             }
             h1 {
-                font-size: 2em;
+                font-size: 1.6em;
             }
-            .subtitle {
-                font-size: 0.9em;
+            header {
+                margin-bottom: 60px;
+            }
+            section {
+                margin-bottom: 50px;
+            }
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
             }
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .container {
-            animation: fadeIn 0.8s ease-out;
-        }
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            font-size: 0.85em;
-            color: #666;
-        }
-        /* Skip to main content link for screen readers */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #000;
-            color: #fff;
-            padding: 8px;
-            text-decoration: none;
-            z-index: 100;
-        }
-        .skip-link:focus {
-            top: 0;
+            animation: fadeIn 1s ease-out;
         }
     </style>
 </head>
 <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
     <div class="container">
         <header>
-            <h1>Petra Kühnle</h1>
-            <h2 class="subtitle">Berlin, Global Remote - <a href="bio.html">Bio</a></h2>
-            <p class="subtitle">Data • Systems • Design • Senses</p>
+            <h1>Open Space Data Sonification</h1>
+            <p class="subtitle">Translating between space, visual and sounds</p>
         </header>
-        <div class="visual-container" role="img" aria-label="Animated circle visualization">
-            <div class="circle"></div>
-        </div>
-        <nav aria-label="Portfolio projects" id="main">
+
+        <section>
+            <h2>Moon Crater Visualization and Sonification</h2>
+            <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
+                <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
+            </div>
+            <p class="interaction-hint">Click the moon to start the sonification</p>
+            <p class="canvas-caption">Interactive visualization with sonified crater impacts. Each falling star represents a crater from the dataset, sized by diameter. Larger craters produce deeper, longer tones; smaller craters create higher, shorter sounds.</p>
+        </section>
+        
+        <section>
+            <h2>Guiding Question</h2>
+            <p>How can sonification enhance perception of scientific data and phenomena?</p>
+        </section>
+
+        <section>
+            <h2>Context</h2>
+            <p>Independent project exploring science-art overlap, inspired by Matt Russo's sonification work and using NASA's open moon crater datasets.</p>
+            <p><strong>Date:</strong> January 2026</p>
+            <p><strong>Tools:</strong> Python (Jupyter Notebook), numpy, pandas, matplotlib, midiutil, Logic Pro, AI (Grok, Claude)</p>
+            <p><strong>Resources:</strong> Matt Russo (sonification methodology), NASA open datasets, open-source moon imagery</p>
+            <p><strong>Creative approach:</strong> Balancing scientific accuracy (real NASA crater coordinates, sizes, measurements) with poetic abstraction (musical interpretation, contemplative aesthetic), linking astronomy to art and music through data sonification.</p>
+        </section>
+
+        <section>
+            <h2>Approach</h2>
             <ul>
-                <li><a href="case1.html">Open Space Data Sonification</a></li>
-                <li><a href="case2.html">Music AI Compliance Doc</a></li>
-                <li><a href="case3.html">Soundwork SNOW</a></li>
+                <li>Inspired by Matt Russo's sonification methodology</li>
+                <li>NASA open datasets: 9 moon craters selected for complete parameter sets and geographic distribution</li>
+                <li>Hybrid workflow: Python/Jupyter for data processing and MIDI generation, AI (Claude, Grok) for interactive web visualization code structure and refinement</li>
+                <li>Manual design: Logic Pro instrument selection and mixing for cinematic audio composition</li>
+                <li>Two output modes: Audio-only (cinematic/atmospheric with Logic Pro instruments) vs. Audio+Visual (calm/contemplative with real-time synthesized tones)</li>
+                <li>Balance between scientific accuracy (real NASA data, accurate positioning) and artistic expression (musical interpretation, contemplative pacing, poetic abstraction)</li>
+                <li>Direct parameter mapping: diameter → pitch frequency (inverted for physical intuition) + duration (size-based sustain), latitude/longitude → visual position, volume → loudness</li>
             </ul>
+        </section>
+        
+        <section>
+            <h2>Data</h2>
+            <p>Working with NASA moon crater dataset containing 9 craters with measured parameters (subset selected from larger NASA database containing ~9,000 catalogued craters):</p>
+            <ul>
+                <li>Names: Tycho, Copernicus, Kepler, Aristarchus, Plato, Eratosthenes, Archimedes, Aristoteles, Autolycus</li>
+                <li>Spatial data: Latitude, longitude coordinates</li>
+                <li>Physical measurements: Diameter (32-101 km), depth (1.0-4.7 km)</li>
+                <li>Temporal data: Age (108-3800 million years), time since impact event 0</li>
+                <li>Sonification parameters: Pitch frequencies (110-330 Hz), volume (56-100), duration (1.5-4.0 seconds)</li>
+            </ul>
+            <p>The dataset reveals patterns in crater formation over billions of years, with larger, older craters from periods of heavy bombardment.</p>
+            <p><strong>Note on temporal accuracy:</strong> The animation timing (3-5 seconds between impacts) is artistic compression for viewer experience, not scientifically accurate to the millions of years between actual crater formations. The Logic Pro composition uses layered soundscape to fill temporal gaps, as several craters formed in relatively close geological periods while others are separated by vast time spans.</p>
+            <p><strong>Parameter Mapping:</strong></p>
+            <ul>
+                <li>Diameter → Pitch frequency (larger craters = lower/deeper tones, smaller craters = higher/brighter tones)</li>
+                <li>Diameter → Duration (larger craters = longer sustained tones ~4s, smaller craters = shorter tones ~2s)</li>
+                <li>Latitude/Longitude → Impact position on moon surface</li>
+                <li>Diameter → Visual crater size on canvas</li>
+                <li>Volume → Sound loudness (proportional to crater magnitude)</li>
+                <li>Impact moment → Subtle bright flash + immediate tone trigger (visual-audio synchronization)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Process</h2>
+           
+            <p><strong>Python workflow:</strong> Environment setup with libraries; data cleaning from NASA portal; selection of 9 representative craters; parameter mapping to musical elements; MIDI generation in Jupyter Notebook.</p>
+            
+            <img src="midi-timing-chart.png" alt="MIDI note sequencing over time" class="midi-chart">
+            <p class="canvas-caption">MIDI note sequencing over time (beats) - visualizing the temporal structure of the composition generated in Python</p>
+            
+            <p><strong>Logic Pro workflow:</strong> MIDI import; instrument selection (Orchestral Organ, Astro Funk, Studio Grand, Time Delay Synth); mixing and effects; MP3 export as OpenSpaceAudio.mp3.</p>
+            <p><strong>Web visualization workflow:</strong> AI-generated canvas animation code using JavaScript; human provided creative direction on aesthetic (calm, contemplative), style references (open-source moon imagery), and data mapping decisions (inverting pitch scale, duration calculations); real-time audio synthesis via Web Audio API.</p>
+            
+            <p><strong>AI vs Human contributions for web visualization:</strong></p>
+            <ul>
+                <li><strong>AI handled:</strong> Code structure, canvas setup, animation loops, mathematical conversions (lat/lon to x/y coordinates), data array implementation</li>
+                <li><strong>Human provided:</strong> Creative direction (contemplative aesthetic, smooth audio envelopes), sonification logic (larger craters = deeper/longer tones), open-source moon imagery references, data consistency verification</li>
+                <li><strong>Data accuracy issue:</strong> Python → MIDI → Logic Pro workflow maintains mathematical consistency (formula applied systematically). AI-generated JavaScript treats each data entry independently without verifying relationships between values. Human caught inconsistencies: Aristarchus (40km) had higher pitch than Kepler (32km), and Archimedes (83km) had higher pitch than Tycho (85km) - both violating "larger = lower pitch" rule. Required recalculation using formula: pitch = 330 - ((diameter - 32) / (101 - 32)) × 220</li>
+                <li><strong>Corrected mapping (diameter → pitch):</strong> Kepler 32km → 330Hz, Autolycus 39km → 310Hz, Aristarchus 40km → 304Hz, Eratosthenes 60km → 238Hz, Archimedes 83km → 154Hz, Tycho 85km → 148Hz, Aristoteles 88km → 142Hz, Copernicus 93km → 135Hz, Plato 101km → 110Hz</li>
+                <li><strong>Iterative refinement:</strong> AI provided functional foundation, human refined perceptual and artistic parameters through multiple iterations to achieve balance between scientific accuracy and poetic expression</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Audio Production</h2>
+            <p><strong>Logic Pro composition</strong> (OpenSpaceAudio.mp3) — More cinematic, atmospheric:</p>
+            <ul>
+                <li>Orchestral Organ: Deep, sustained tones for large ancient craters</li>
+                <li>Astro Funk: Rhythmic elements tracking impact timing</li>
+                <li>Studio Grand: Clear melodic voices for mid-sized formations</li>
+                <li>Time Delay Synth: Atmospheric reverb creating spatial depth</li>
+            </ul>
+            <p>Instruments and sync provided by Logic Pro for rich, layered soundscape. Exported as MP3 for web delivery. <em>Interesting as audio-only experience.</em></p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <audio id="OpenSpaceAudioPlayer" controls preload="auto" style="width: 100%; max-width: 500px;">
+                    <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p class="canvas-caption" style="margin-top: 10px;">Audio-only experience: Listen to the OpenSpace composition</p>
+            </div>
+            
+            <div class="visual-container-small" id="audioVisualContainer" role="button" tabindex="0" aria-label="Toggle OpenSpace audio with animation" aria-pressed="false">
+                <div class="circle-small"></div>
+            </div>
+            <p class="canvas-caption">Audio with minimal animation: Click to play/pause with visual feedback</p>
+        </section>
+
+        <section>
+            <h2>Visual Production</h2>
+            <p><strong>AI-generated animation with human creative direction</strong> — Calm, contemplative aesthetic:</p>
+            <ul>
+                <li>Moon visualization with falling star impacts</li>
+                <li>Crater formation synchronized to data parameters</li>
+                <li>Human-provided references: Open-source moon imagery for visual style</li>
+                <li>Refined through iterative AI prompting (Claude, Grok)</li>
+            </ul>
+            <p><strong>Key mapping decisions (Human-defined):</strong></p>
+            <ul>
+                <li>AI initial approach: Larger craters → higher pitch (treating size as brightness/energy)</li>
+                <li>Human adjustment: Inverted to larger craters → lower/deeper pitch (matching physical intuition: bigger impacts = deeper sounds)</li>
+                <li>Human refined: Duration based on crater diameter (larger = longer sustain ~4s, smaller = shorter ~2s)</li>
+                <li>Human refined: Smooth attack/sustain/release curves with extended fade-out for peaceful, contemplative atmosphere</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Data Analysis</h2>
+            <div class="data-viz">
+                <canvas id="scatterAge" width="600" height="400"></canvas>
+            </div>
+            <p class="canvas-caption">Crater diameter vs age: Larger craters tend to be older, formed during periods of heavy bombardment.</p>
+            
+            <div class="data-viz">
+                <canvas id="scatterTime" width="600" height="400"></canvas>
+            </div>
+            <p class="canvas-caption">Crater diameter vs time since impact: Distribution shows bombardment patterns over lunar history.</p>
+        </section>
+
+        <section>
+            <h2>Results</h2>
+            <p>Improved data accessibility through acoustic and visual representation. Animation and sonification could appeal to Art&Science, Education, Accessibility related learning about science, programming/AI, media art and music. Similar scientific data could be visualized and animated in either representative or abstract manner with varying degrees of scientific focus vs. aesthetic / creative focus depending on audience.</p>
+        </section>
+
+        <nav>
+            <a href="index.html">Back</a>
+            <a href="case2.html">Next Case</a>
         </nav>
-        <footer>
-            <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
-        </footer>
     </div>
+
+    <audio id="OpenSpaceAudio" loop preload="auto">
+        <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Crater data from CSV (sample)
+        const CRATER_DATA = [
+            {name: "Tycho", latitude: -43.31, longitude: -11.36, diameter_km: 85, depth_km: 4.7, age_ma: 108, pitch_hz: 148, volume: 95, time_since_impact_0: 0},
+            {name: "Copernicus", latitude: 9.62, longitude: -20.08, diameter_km: 93, depth_km: 3.8, age_ma: 800, pitch_hz: 135, volume: 97, time_since_impact_0: 692},
+            {name: "Kepler", latitude: 8.13, longitude: -38.04, diameter_km: 32, depth_km: 2.6, age_ma: 800, pitch_hz: 330, volume: 56, time_since_impact_0: 692},
+            {name: "Aristarchus", latitude: 23.73, longitude: -47.40, diameter_km: 40, depth_km: 3.0, age_ma: 450, pitch_hz: 304, volume: 63, time_since_impact_0: 342},
+            {name: "Plato", latitude: 51.62, longitude: -9.33, diameter_km: 101, depth_km: 1.0, age_ma: 3500, pitch_hz: 110, volume: 100, time_since_impact_0: 3392},
+            {name: "Eratosthenes", latitude: 14.47, longitude: -11.29, diameter_km: 60, depth_km: 3.6, age_ma: 3200, pitch_hz: 238, volume: 77, time_since_impact_0: 3092},
+            {name: "Archimedes", latitude: 29.72, longitude: -4.00, diameter_km: 83, depth_km: 2.1, age_ma: 3600, pitch_hz: 154, volume: 91, time_since_impact_0: 3492},
+            {name: "Aristoteles", latitude: 50.17, longitude: 17.42, diameter_km: 88, depth_km: 3.3, age_ma: 3800, pitch_hz: 142, volume: 94, time_since_impact_0: 3692},
+            {name: "Autolycus", latitude: 30.70, longitude: 1.48, diameter_km: 39, depth_km: 3.4, age_ma: 3200, pitch_hz: 310, volume: 62, time_since_impact_0: 3092}
+        ];
+
+        let canvas, ctx;
+        let soundEnabled = false;
+        let audioContext;
+        let fallingStars = [];
+        let craters = [];
+        let scheduleInterval;
+        let craterIndex = 0;
+
+        // OpenSpace Audio variables
+        const openSpaceAudio = document.getElementById('OpenSpaceAudio');
+        const openSpaceAudioPlayer = document.getElementById('OpenSpaceAudioPlayer');
+        const audioVisualContainer = document.getElementById('audioVisualContainer');
+        let isAudioPlaying = false;
+        openSpaceAudio.volume = 0.35;
+        openSpaceAudioPlayer.volume = 0.35;
+
+        // Sync the two audio elements
+        openSpaceAudioPlayer.addEventListener('play', function() {
+            if (!isAudioPlaying) {
+                openSpaceAudio.currentTime = openSpaceAudioPlayer.currentTime;
+                openSpaceAudio.play();
+                isAudioPlaying = true;
+                audioVisualContainer.classList.add('active');
+                audioVisualContainer.setAttribute('aria-pressed', 'true');
+            }
+        });
+
+        openSpaceAudioPlayer.addEventListener('pause', function() {
+            openSpaceAudio.pause();
+            isAudioPlaying = false;
+            audioVisualContainer.classList.remove('active');
+            audioVisualContainer.setAttribute('aria-pressed', 'false');
+        });
+
+        function initCanvas() {
+            canvas = document.getElementById('moonCanvas');
+            ctx = canvas.getContext('2d');
+            drawMoon();
+            animate();
+            drawScatterPlots();
+        }
+
+        function drawMoon() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) * 0.35;
+
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const gradient = ctx.createRadialGradient(
+                centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.1,
+                centerX, centerY, radius
+            );
+            gradient.addColorStop(0, '#e8e8e8');
+            gradient.addColorStop(0.7, '#c0c0c0');
+            gradient.addColorStop(1, '#888');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            craters.forEach(crater => {
+                drawCrater(crater.x, crater.y, crater.size, crater.age);
+            });
+        }
+
+        function drawCrater(x, y, size, age) {
+            const opacity = Math.max(0.1, 1 - (age / 100));
+            
+            ctx.strokeStyle = `rgba(80, 80, 80, ${opacity * 0.6})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = `rgba(50, 50, 50, ${opacity * 0.3})`;
+            ctx.beginPath();
+            ctx.arc(x + size * 0.2, y + size * 0.2, size * 0.8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function createFallingStarWithData(craterData) {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) * 0.35;
+            
+            const latRad = craterData.latitude * Math.PI / 180;
+            const lonRad = craterData.longitude * Math.PI / 180;
+            
+            const targetX = centerX + radius * Math.cos(latRad) * Math.sin(lonRad);
+            const targetY = centerY - radius * Math.sin(latRad);
+            
+            const craterSize = Math.min(30, (craterData.diameter_km / 100) * 25);
+            
+            const speed = 2 + Math.random() * 2;
+            
+            // Duration based on crater size: larger craters = longer duration
+            const sizeDuration = 1.5 + (craterData.diameter_km / 100) * 2.5; // 1.5-4s range
+            
+            return {
+                x: Math.random() * canvas.width,
+                y: -50,
+                targetX: targetX,
+                targetY: targetY,
+                speed: speed,
+                size: 2 + Math.random() * 2,
+                craterSize: craterSize,
+                freq: craterData.pitch_hz,
+                dur: sizeDuration,
+                volume: craterData.volume / 100,
+                name: craterData.name
+            };
+        }
+
+        function drawFallingStar(star) {
+            const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
+            gradient.addColorStop(0, 'rgba(255, 255, 200, 1)');
+            gradient.addColorStop(0.5, 'rgba(255, 200, 150, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 150, 100, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(255, 200, 150, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(star.x - (star.targetX - star.x) * 0.1, star.y - (star.targetY - star.y) * 0.1);
+            ctx.stroke();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            drawMoon();
+
+            fallingStars.forEach((star, index) => {
+                drawFallingStar(star);
+
+                const dx = star.targetX - star.x;
+                const dy = star.targetY - star.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < star.speed) {
+                    craters.push({
+                        x: star.targetX,
+                        y: star.targetY,
+                        size: star.craterSize,
+                        age: 0
+                    });
+                    
+                    // Play main impact tone
+                    playImpactTone(star.freq, star.dur, star.volume, star.speed);
+                    
+                    // Play subtle bright flash tone at moment of impact
+                    playImpactFlash();
+                    
+                    // Visual flash
+                    ctx.fillStyle = 'rgba(255, 255, 200, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(star.targetX, star.targetY, star.craterSize * 3, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    fallingStars.splice(index, 1);
+                } else {
+                    star.x += (dx / dist) * star.speed;
+                    star.y += (dy / dist) * star.speed;
+                }
+            });
+
+            craters.forEach(crater => crater.age++);
+            if (craters.length > 20) {
+                craters.shift();
+            }
+        }
+
+        function playImpactTone(freq, dur, volume, speed) {
+            if (!audioContext) return;
+
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            // Subtle timbre variation - mostly sine with slight triangle blend
+            if (speed > 3.2) {
+                osc.type = 'sine';
+            } else {
+                osc.type = 'sine'; // Keep mostly sine for consistency
+            }
+            
+            osc.frequency.value = freq;
+            
+            // Very smooth, gradual envelope
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.12 * volume, now + 0.05); // Gentler attack
+            gain.gain.linearRampToValueAtTime(0.10 * volume, now + dur * 0.6); // Longer sustain
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2); // Extended smooth fade
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+
+            osc.start(now);
+            osc.stop(now + dur + 0.3);
+        }
+
+        function playImpactFlash() {
+            if (!audioContext) return;
+
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.value = 1200; // High, bright tone
+            
+            // Very short, sharp attack for impact moment
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.08, now + 0.005);
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + 0.08);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+
+            osc.start(now);
+            osc.stop(now + 0.1);
+        }
+
+        function createFallingStarWithAudio() {
+            if (!soundEnabled) return;
+
+            const craterData = CRATER_DATA[craterIndex % CRATER_DATA.length];
+            craterIndex++;
+            
+            const star = createFallingStarWithData(craterData);
+            fallingStars.push(star);
+        }
+
+        function drawScatterPlots() {
+            drawScatterAge();
+            drawScatterTime();
+        }
+
+        function drawScatterAge() {
+            const canvas = document.getElementById('scatterAge');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(60, 20);
+            ctx.lineTo(60, 360);
+            ctx.lineTo(580, 360);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#000';
+            ctx.font = '14px Arial';
+            ctx.fillText('age [Myrs]', 280, 390);
+            ctx.save();
+            ctx.translate(20, 200);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('diameter [km]', -50, 0);
+            ctx.restore();
+            
+            ctx.fillStyle = '#1f77b4';
+            CRATER_DATA.forEach(d => {
+                const x = 60 + (d.age_ma / 4000) * 520;
+                const y = 360 - (d.diameter_km / 300) * 340;
+                const size = Math.max(5, d.diameter_km / 10);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawScatterTime() {
+            const canvas = document.getElementById('scatterTime');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(60, 20);
+            ctx.lineTo(60, 360);
+            ctx.lineTo(580, 360);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#000';
+            ctx.font = '14px Arial';
+            ctx.fillText('time since impact 0 [Myrs]', 220, 390);
+            ctx.save();
+            ctx.translate(20, 200);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('diameter [km]', -50, 0);
+            ctx.restore();
+            
+            ctx.fillStyle = '#1f77b4';
+            CRATER_DATA.forEach(d => {
+                const x = 60 + (d.time_since_impact_0 / 4000) * 520;
+                const y = 360 - (d.diameter_km / 300) * 340;
+                const size = Math.max(5, d.diameter_km / 10);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function startSonification() {
+            soundEnabled = true;
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            createFallingStarWithAudio();
+            
+            scheduleInterval = setInterval(() => {
+                if (soundEnabled) {
+                    createFallingStarWithAudio();
+                }
+            }, 3000 + Math.random() * 2000);
+        }
+
+        function stopSonification() {
+            soundEnabled = false;
+            if (scheduleInterval) {
+                clearInterval(scheduleInterval);
+            }
+        }
+
+        function toggleOpenSpaceAudio() {
+            if (!isAudioPlaying) {
+                const playPromise = openSpaceAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isAudioPlaying = true;
+                        audioVisualContainer.classList.add('active');
+                        audioVisualContainer.setAttribute('aria-pressed', 'true');
+                        openSpaceAudioPlayer.currentTime = openSpaceAudio.currentTime;
+                        openSpaceAudioPlayer.play();
+                    }).catch(err => {
+                        console.error('Audio playback failed:', err);
+                    });
+                }
+            } else {
+                openSpaceAudio.pause();
+                openSpaceAudioPlayer.pause();
+                isAudioPlaying = false;
+                audioVisualContainer.classList.remove('active');
+                audioVisualContainer.setAttribute('aria-pressed', 'false');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCanvas();
+
+            const moonCanvasContainer = document.getElementById('moonCanvasContainer');
+            
+            moonCanvasContainer.addEventListener('click', function() {
+                if (!soundEnabled) {
+                    startSonification();
+                    moonCanvasContainer.setAttribute('aria-pressed', 'true');
+                } else {
+                    stopSonification();
+                    moonCanvasContainer.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            moonCanvasContainer.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    moonCanvasContainer.click();
+                }
+            });
+
+            audioVisualContainer.addEventListener('click', toggleOpenSpaceAudio);
+            audioVisualContainer.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleOpenSpaceAudio();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
