@@ -1,312 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio - Petra Kühnle</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #fafafa;
-            color: #1a1a1a;
-            line-height: 1.8;
-            min-height: 100vh;
-            padding: 80px 20px;
-        }
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-        }
-        header {
-            margin-bottom: 100px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        h1 {
-            font-size: 2em;
-            font-weight: 300;
-            letter-spacing: -0.3px;
-            margin-bottom: 12px;
-            color: #000;
-        }
-        .location {
-            font-size: 0.9em;
-            color: #888;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            margin-bottom: 24px;
-        }
-        .tagline {
-            font-size: 0.95em;
-            color: #333;
-            font-weight: 400;
-            letter-spacing: 0.3px;
-            line-height: 1.6;
-        }
-        section {
-            margin-bottom: 80px;
-        }
-        h2 {
-            font-size: 0.85em;
-            font-weight: 400;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 24px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        p {
-            font-size: 0.95em;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-        .focus {
-            font-style: italic;
-            color: #555;
-            margin: 30px 0;
-        }
-        .detail-group {
-            margin-bottom: 50px;
-        }
-        .detail-group h3 {
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #999;
-            margin-bottom: 16px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            font-size: 0.9em;
-            color: #444;
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-        li:before {
-            content: "—";
-            position: absolute;
-            left: 0;
-            color: #ccc;
-        }
-        .experience-item {
-            margin-bottom: 28px;
-            padding-left: 0;
-        }
-        .experience-item:before {
-            content: none;
-        }
-        .experience-title {
-            font-size: 0.9em;
-            font-weight: 400;
-            color: #222;
-            margin-bottom: 4px;
-        }
-        .experience-date {
-            font-size: 0.8em;
-            color: #999;
-            font-weight: 300;
-            margin-bottom: 8px;
-        }
-        .experience-desc {
-            font-size: 0.85em;
-            color: #555;
-            line-height: 1.6;
-        }
-        .contact {
-            font-size: 0.9em;
-            color: #333;
-            margin-top: 30px;
-        }
-        .contact a {
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #ddd;
-            transition: border-color 0.2s;
-        }
-        .contact a:hover {
-            border-bottom-color: #000;
-        }
-        nav {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-        }
-        nav a {
-            color: #666;
-            text-decoration: none;
-            font-size: 0.85em;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            transition: color 0.2s;
-        }
-        nav a:hover {
-            color: #000;
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 60px 20px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-            header {
-                margin-bottom: 60px;
-            }
-            section {
-                margin-bottom: 60px;
-            }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .container {
-            animation: fadeIn 1s ease-out;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bio - Petra Kühnle</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 80px 20px;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header {
+      margin-bottom: 80px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    h1 {
+      font-size: 1.875em;
+      font-weight: 300;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .location {
+      font-size: 0.9375em;
+      color: #888;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+
+    .tagline {
+      font-size: 0.9375em;
+      color: #333;
+      font-weight: 300;
+      letter-spacing: 0.2px;
+      line-height: 1.7;
+    }
+
+    section {
+      margin-bottom: 70px;
+    }
+
+    h2 {
+      font-size: 0.875em;
+      font-weight: 400;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 20px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    p {
+      font-size: 0.9375em;
+      color: #333;
+      margin-bottom: 18px;
+      font-weight: 300;
+    }
+
+    .focus {
+      font-style: italic;
+      color: #555;
+      margin: 24px 0;
+      font-size: 0.9375em;
+    }
+
+    .detail-group {
+      margin-bottom: 40px;
+    }
+
+    .detail-group h3 {
+      font-size: 0.8125em;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 14px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      font-size: 0.9375em;
+      color: #444;
+      margin-bottom: 9px;
+      padding-left: 18px;
+      position: relative;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    li:before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #ccc;
+    }
+
+    .experience-item {
+      margin-bottom: 24px;
+      padding-left: 0;
+    }
+
+    .experience-item:before {
+      content: none;
+    }
+
+    .experience-title {
+      font-size: 0.9375em;
+      font-weight: 400;
+      color: #222;
+      margin-bottom: 3px;
+    }
+
+    .experience-date {
+      font-size: 0.8125em;
+      color: #999;
+      font-weight: 300;
+      margin-bottom: 7px;
+    }
+
+    .experience-desc {
+      font-size: 0.9375em;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .experience-desc p {
+      font-size: 0.9375em;
+      color: #555;
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
+
+    .experience-desc ul {
+      margin-left: 18px;
+    }
+
+    .experience-desc ul li {
+      font-size: 0.9375em;
+      padding-left: 10px;
+    }
+
+    .experience-desc ul li:before {
+      left: -10px;
+    }
+
+    .contact {
+      font-size: 0.9375em;
+      color: #333;
+      margin-top: 24px;
+    }
+
+    .contact a {
+      color: #666;
+      text-decoration: none;
+      border-bottom: 1px solid #ddd;
+      transition: border-color 0.2s;
+    }
+
+    .contact a:hover {
+      border-bottom-color: #000;
+    }
+
+    .experience-desc a {
+      color: #666;
+      text-decoration: none;
+      border-bottom: 1px solid #ddd;
+      transition: border-color 0.2s;
+    }
+
+    .experience-desc a:hover {
+      border-bottom-color: #000;
+    }
+
+    nav {
+      margin-top: 70px;
+      padding-top: 32px;
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+    }
+
+    nav a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.875em;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 50px 20px;
+        font-size: 15px;
+      }
+
+      h1 {
+        font-size: 1.75em;
+      }
+
+      header {
+        margin-bottom: 50px;
+      }
+
+      section {
+        margin-bottom: 50px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Petra Kühnle</h1>
-            <p class="location">Berlin, Global Remote</p>
-            <p class="tagline">Data • Systems • Design • Senses | Perceptual Data Architect optimizing human perception of R&D data and workflows with extensions to art-science and audio experiences.</p>
-        </header>
-  <section>
-            <h2>Contact</h2>
-            <p class="contact">
-                <a href="mailto:petra.kuehnle@proton.me">petra.kuehnle@proton.me</a><br>
-                <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> • 
-                <a href="https://github.com/Pi-Kay" target="_blank">GitHub</a> • 
-                <a href="https://medium.com/@petrakuehnle" target="_blank">Medium</a>
-            </p>
-        </section>
-        <section>
-            <h2>Overview</h2>
-            <p>I draw from independent practice focused on perceptual data architecture—centered on how humans perceive and interact with complex systems and sensory information—complemented by select full-time roles in design for systems engineering, accessibility, and creative media.
-            </p>
-            <p class="focus">Focus: Tech R&D • B2B engineering • Art & Science • Audio</p>
-            <p>Open to collaborations enhancing high-fidelity visuals: scientific graphs and charts for journals, advanced data visualizations, sonification, interactive interface design, and future and innovation focused concept prototyping—including bespoke digital platforms for musicians and art-science initiatives.</p>
-        </section>
+  <div class="container">
+    <header>
+      <h1>Petra Kühnle</h1>
+      <p class="location">Berlin, Global Remote</p>
+      <p class="tagline">Data • Systems • Design • Senses<br>Perceptual Data Architect — sonification, visualization, interface design.</p>
+    </header>
 
-        <section>
-            <h2>Selected Experience</h2>
-            
-            <div class="experience-item">
-                <div class="experience-title">Technical Information Architect</div>
-                <div class="experience-date">December 2025 - Present</div>
-                <div class="experience-desc">Open-source documentation on Music AI Compliance, built with Obsidian + Git + Markdown (doc-as-code). Refined AI-generated drafts into structured, version-controlled compliance guides covering EU AI Act 2026, GDPR data provenance, and artist rights protection.</div>
-            </div>
+    <section>
+      <h2>Contact</h2>
+      <p class="contact">
+        <a href="mailto:petra.kuehnle@proton.me">petra.kuehnle@proton.me</a><br>
+        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> •
+        <a href="https://github.com/Pi-Kay" target="_blank">GitHub</a> •
+        <a href="https://medium.com/@petrakuehnle" target="_blank">Medium</a>
+      </p>
+    </section>
 
-            <div class="experience-item">
-                <div class="experience-title">Perceptual Interface Designer | Multimodal Data Systems</div>
-                <div class="experience-date">April 2011 - Present</div>
-                <div class="experience-desc">Designing perceptual interfaces between digital data systems and socio-technical contexts, including multimodal frameworks optimizing complex data perception. Python/AI sonification and data visualization translating datasets into acoustic insight. Exhibition design and autism awareness photography frameworks, applying perceptual principles to art-science intersections.</div>
-            </div>
+    <section>
+      <h2>Overview</h2>
+      <p>Independent practice designing perceptual interfaces between humans and complex data systems. Select roles in systems engineering design, accessibility, and creative media.</p>
+      
+      <p>Open to collaboration on scientific visualization, sonification for research, interface prototyping, sound design, and digital tools for researchers, R&D engineers and creatives (art, music, code).</p>
+    </section>
 
-            <div class="experience-item">
-                <div class="experience-title">UX Architect for Systems Engineering, Valispace</div>
-                <div class="experience-date">March 2021 - April 2023</div>
-                <div class="experience-desc">Secured a €100k+ development contract by digitizing fragmented systems engineering workflows into an interactive Figma prototype. Founded cross-functional UX Guild bridging design, software engineering, and Systems Engineering. Successfully advocated for additional design headcount.</div>
-            </div>
+    <section>
+      <h2>Sonification & Visualization</h2>
 
-            <div class="experience-item">
-                <div class="experience-title">Inclusive Systems Designer</div>
-                <div class="experience-date">September 2022 - August 2025</div>
-                <div class="experience-desc">Developed inclusive photography framework for neurodivergent communities. Researched habit-forming environments for Gen Z users through 5 in-depth remote interviews. Led design of app winning "Most Innovative Idea" at HACK&CON 2022 national health insurance conference.</div>
-            </div>
+      <div class="experience-item">
+        <div class="experience-title">Open Space Data Sonification</div>
+        <div class="experience-date">2025 - Present | Berlin, Germany</div>
+        <div class="experience-desc">
+          <p>Building on audio-visual work from Art Foundation, working with AI to use Python and R directly, combined with audio software, pencil sketches, and prompts to create with data.</p>
+        </div>
+      </div>
+    </section>
 
-            <div class="experience-item">
-                <div class="experience-title">Pro Apps Specialist Product Support, Apple</div>
-                <div class="experience-date">June 2019 - August 2020</div>
-                <div class="experience-desc">Promoted to Specialist Product Support in Creative Media team. Documented solutions for Logic Pro, Final Cut Pro, GarageBand, and iMovie within global support ecosystem. Apple Care Excellence Award 2018, yearly average CSAT 92%.</div>
-            </div>
-        </section>
+    <section>
+      <h2>Hybrid & Inclusive Design</h2>
 
-        <section>
-            <h2>Capabilities</h2>
-            
-            <div class="detail-group">
-                <h3>Core Skills</h3>
-                <ul>
-                    <li>Information Architecture & Systems Design</li>
-                    <li>Data Visualization & Sonification</li>
-                    <li>Interface Design for Technical R&D</li>
-                    <li>Human-Centered Research & Analysis</li>
-                    <li>Conceptual Art & Multimedia Integration</li>
-                </ul>
-            </div>
+      <div class="experience-item">
+        <div class="experience-title">Photography Framework</div>
+        <div class="experience-date">2024 - 2025 | Berlin, Germany</div>
+        <div class="experience-desc">
+          <p>Framework examining tactile and visual perception for neurodivergent communities (Wetek gGmbH & Alice Salomon Hochschule, 2024); implemented at Autismus Leben Berlin (2025).</p>
+        </div>
+      </div>
 
-            <div class="detail-group">
-                <h3>Languages</h3>
-                <ul>
-                    <li>German (Native)</li>
-                    <li>English (Full Professional)</li>
-                    <li>Dutch (Full Professional)</li>
-                </ul>
-            </div>
-        </section>
+      <div class="experience-item">
+        <div class="experience-title">UX Research</div>
+        <div class="experience-date">2023 | Remote</div>
+        <div class="experience-desc">
+          <p>Research on habit formation through remote interviews and thematic analysis. Findings informed transition from extrinsic tracking to intrinsic motivation architecture (Haatch, 2023).</p>
+        </div>
+      </div>
 
-        <section>
-            <h2>Tech & Design Recognition</h2>
-            <ul>
-                <li>Best Innovative App Concept, HACK&CON National Health Insurances Conference Germany, 2022</li>
-                <li>Apple Care Excellence Award, 2018</li>
-                <br>
-            <h2>Art Recognition</h2>
-                <li>'Leaps of Logic Times Three', Wallhouse #2, Groningen, 2015 — Site-specific installation (collaborative)</li>
-                <li>Contribution in "41 Letters from the Young Artist" (Pels & Kemper, 2015) — Published collection supported by Mondriaan Fund</li>
-                <li>Nominee, George Verberg Stipendium (€10,000 Art Grant), 2014</li>
-                <li>Publication in Mr Motley and Lost Painters (Dutch art magazines), 2014</li>
-                <li>Selected for European Exchange Academy (EEA), Beelitz, 2012 — Selective global intensive, Rietveld Academy, grant-funded</li>
-                <li>Selected for Leerling/Meester program, Kunstpodium T, Tilburg, 2012–2013 — Selective mentorship with artist Karin van Pinxteren</li>
-            </ul>
-        </section>
+      <div class="experience-item">
+        <div class="experience-title">HACK&CON</div>
+        <div class="experience-date">2022 | Germany</div>
+        <div class="experience-desc">
+          <p>App concept addressing patient system needs (AOK use case).</p>
+        </div>
+      </div>
+    </section>
 
-        <section>
-            <h2>Education</h2>
-            <ul>
-                <li>Bachelor of Fine Arts, Media Art & Spatial AV Design, Hanze, 2014</li>
-                <li>Bachelor of Arts, Art Therapy, Human-Centered Research & Intervention Design, Hogeschool van Arnhem en Nijmegen, 2008</li>
-                <li>Digital Media Design & Development Certificate (Level 8 - Bachelor level) CIT (MTU), 2019</li>
-                <li>Cultural Education Certificate (Culture Scene Berlin), Alice Salomon Hochschule Berlin & Wetek gGmbH, 2024</li>
-            </ul>
-        </section>
- 
-        <section>
-            <h2>Contact</h2>
-            <p class="contact">
-                <a href="mailto:petra.kuehnle@proton.me">petra.kuehnle@proton.me</a><br>
-                <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> • 
-                <a href="https://github.com/Pi-Kay" target="_blank">GitHub</a> • 
-                <a href="https://medium.com/@petrakuehnle" target="_blank">Medium</a>
-            </p>
-        </section>
+    <section>
+      <h2>Technical Integration</h2>
 
-        <nav>
-            <a href="index.html">← Back to Portfolio</a>
-        </nav>
-    </div>
+      <div class="experience-item">
+        <div class="experience-title">Technical Information Architect</div>
+        <div class="experience-date">December 2025 - Present | Berlin, Germany</div>
+        <div class="experience-desc">
+          <p>Documentation architecture for Music AI Compliance using Obsidian, Git, and Markdown. Structured reference covering EU AI Act 2026, GDPR data provenance, and artist rights. (<a href="https://pi-kay.github.io/music-ai">pi-kay.github.io/music-ai</a>)</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="experience-title">UX Architect for Systems Engineering | Valispace</div>
+        <div class="experience-date">March 2021 - April 2023 | Bremen, Germany</div>
+        <div class="experience-desc">
+          <p>Interactive prototypes unifying aerospace engineering workflows, securing €100k+ contract. Founded cross-functional UX Guild bridging design, software engineering, and domain expertise. Drafted design principles; advocated for team expansion.</p>
+        </div>
+      </div>
+
+      <div class="experience-item">
+        <div class="experience-title">Creative Pro Apps & Media Advisor | Apple</div>
+        <div class="experience-date">August 2016 - August 2020 | Cork, Ireland</div>
+        <div class="experience-desc">
+          <p>Creative Media team specialist resolving hardware-software conflicts in professional workflows (Logic Pro, Final Cut Pro). Promoted to Specialist Product Support (2019), then Media Supervisor (2018). Apple Care Excellence Award 2018; yearly average CSAT 92%, monthly 100%.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Art Foundation</h2>
+
+      <div class="experience-item">
+        <div class="experience-title">Multimedia Art Practice</div>
+        <div class="experience-date">2012 - 2016 | Groningen, Netherlands</div>
+        <div class="experience-desc">
+          <p>Site-specific installations and exhibition design examining sensory perception, signal processing, and contextual meaning—foundational work for current data sonification and visualization practice.</p>
+          
+          <p>2015 — 'Leaps of Logic Times Three', Wallhouse #2, Groningen; site-specific installation about poetic and tactile perception of water, presented alongside Dinnis van Dijken and Marthe van de Grift.</p>
+          
+          <p>2014 — 'Mirage', Minerva Graduation Show, Groningen; installation examining sensory perception, signal/noise, contextual expectations. George Verberg Prize nominee (€10k grant); featured in Mr Motley and Lost Painters.</p>
+          
+          <p>2012-2013 — 'Silent Piece', Leerling/Meester program, Kunstpodium T, Tilburg; video work exploring signal and context.</p>
+          
+          <p>2012 — European Exchange Academy (EEA), Beelitz; video work on language-sound associations.</p>
+          
+          <p>2012 — 'Subtitles' group exhibition, Hogtij The Hague; tactile-visual perception work and exhibition design.</p>
+          
+          <p>2012 — 'Uncertain' exhibition, Groningen; organized and curated with international artists, presented conceptual work about social and physical spaces called 'Public Space'.</p>
+          
+          <p>2012 — Site-specific audio installation with Jiska Huizing, Havenkwartier Assen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Capabilities</h2>
+      
+      <div class="detail-group">
+        <h3>Technical</h3>
+        <ul>
+          <li>Information Architecture & Systems Design</li>
+          <li>Data Visualization & Sonification (Python, R + AI)</li>
+          <li>Interface Design for Research & Development</li>
+          <li>Human-Centered Research & Analysis</li>
+        </ul>
+      </div>
+
+      <div class="detail-group">
+        <h3>Creative</h3>
+        <ul>
+          <li>Sound Design & Audio Engineering</li>
+          <li>Conceptual Art & Multimedia</li>
+          <li>Art-Science Integration</li>
+        </ul>
+      </div>
+
+      <div class="detail-group">
+        <h3>Languages</h3>
+        <ul>
+          <li>German (Native)</li>
+          <li>English (Professional)</li>
+          <li>Dutch (Professional)</li>
+        </ul>
+      </div>
+
+      <div class="detail-group">
+        <h3>Certifications</h3>
+        <ul>
+          <li>Digital Media Design & Development (Level 8), CIT (MTU), 2019</li>
+          <li>Cultural Education (Culture Scene Berlin), ASH Berlin & Wetek gGmbH, 2024</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Recognition</h2>
+      
+      <div class="detail-group">
+        <h3>Technical & Design</h3>
+        <ul>
+          <li>Most Innovative Concept, HACK&CON National Health Conference, 2022</li>
+          <li>Apple Care Excellence Award, 2018</li>
+        </ul>
+      </div>
+
+      <div class="detail-group">
+        <h3>Art & Writing</h3>
+        <ul>
+          <li>Contribution in "41 Letters from the Young Artist" (Pels & Kemper, 2015) — Mondriaan Fund</li>
+          <li>Nominee, George Verberg Stipendium (€10k Art Grant), 2014</li>
+          <li>Publication in Mr Motley and Lost Painters, 2014</li>
+          <li>Selected for European Exchange Academy (EEA), Beelitz, 2012</li>
+          <li>Selected for Leerling/Meester program, Kunstpodium T, Tilburg, 2012-2013</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <ul>
+        <li>BFA, Media Art & Spatial AV Design, Hanze, 2014</li>
+        <li>BA, Art Therapy, Human-Centered Research & Intervention Design, HAN, 2008</li>
+        <li>Digital Media Design & Development Certificate (Level 8), CIT (MTU), 2019</li>
+        <li>Cultural Education Certificate, ASH Berlin & Wetek gGmbH, 2024</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p class="contact">
+        <a href="mailto:petra.kuehnle@proton.me">petra.kuehnle@proton.me</a><br>
+        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> •
+        <a href="https://github.com/Pi-Kay" target="_blank">GitHub</a> •
+        <a href="https://medium.com/@petrakuehnle" target="_blank">Medium</a>
+      </p>
+    </section>
+
+    <nav>
+      <a href="index.html">← Portfolio</a>
+    </nav>
+  </div>
 </body>
 </html>
