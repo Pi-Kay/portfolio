@@ -367,38 +367,11 @@
         let scheduleInterval;
         let craterIndex = 0;
 
-        // OpenSpace Audio variables
-        const openSpaceAudio = document.getElementById('OpenSpaceAudio');
-        const openSpaceAudioPlayer = document.getElementById('OpenSpaceAudioPlayer');
-        const audioVisualContainer = document.getElementById('audioVisualContainer');
-        let isAudioPlaying = false;
-        openSpaceAudio.volume = 0.35;
-        openSpaceAudioPlayer.volume = 0.35;
-
-        // Sync the two audio elements
-        openSpaceAudioPlayer.addEventListener('play', function() {
-            if (!isAudioPlaying) {
-                openSpaceAudio.currentTime = openSpaceAudioPlayer.currentTime;
-                openSpaceAudio.play();
-                isAudioPlaying = true;
-                audioVisualContainer.classList.add('active');
-                audioVisualContainer.setAttribute('aria-pressed', 'true');
-            }
-        });
-
-        openSpaceAudioPlayer.addEventListener('pause', function() {
-            openSpaceAudio.pause();
-            isAudioPlaying = false;
-            audioVisualContainer.classList.remove('active');
-            audioVisualContainer.setAttribute('aria-pressed', 'false');
-        });
-
         function initCanvas() {
             canvas = document.getElementById('moonCanvas');
             ctx = canvas.getContext('2d');
             drawMoon();
             animate();
-            drawScatterPlots();
         }
 
         function drawMoon() {
@@ -454,11 +427,8 @@
             const targetY = centerY - radius * Math.sin(latRad);
             
             const craterSize = Math.min(30, (craterData.diameter_km / 100) * 25);
-            
             const speed = 2 + Math.random() * 2;
-            
-            // Duration based on crater size: larger craters = longer duration
-            const sizeDuration = 1.5 + (craterData.diameter_km / 100) * 2.5; // 1.5-4s range
+            const sizeDuration = 1.5 + (craterData.diameter_km / 100) * 2.5;
             
             return {
                 x: Math.random() * canvas.width,
@@ -513,13 +483,9 @@
                         age: 0
                     });
                     
-                    // Play main impact tone
                     playImpactTone(star.freq, star.dur, star.volume, star.speed);
-                    
-                    // Play subtle bright flash tone at moment of impact
                     playImpactFlash();
                     
-                    // Visual flash
                     ctx.fillStyle = 'rgba(255, 255, 200, 0.3)';
                     ctx.beginPath();
                     ctx.arc(star.targetX, star.targetY, star.craterSize * 3, 0, Math.PI * 2);
@@ -545,20 +511,13 @@
             const osc = audioContext.createOscillator();
             const gain = audioContext.createGain();
 
-            // Subtle timbre variation - mostly sine with slight triangle blend
-            if (speed > 3.2) {
-                osc.type = 'sine';
-            } else {
-                osc.type = 'sine'; // Keep mostly sine for consistency
-            }
-            
+            osc.type = 'sine';
             osc.frequency.value = freq;
             
-            // Very smooth, gradual envelope
             gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.12 * volume, now + 0.05); // Gentler attack
-            gain.gain.linearRampToValueAtTime(0.10 * volume, now + dur * 0.6); // Longer sustain
-            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2); // Extended smooth fade
+            gain.gain.linearRampToValueAtTime(0.12 * volume, now + 0.05);
+            gain.gain.linearRampToValueAtTime(0.10 * volume, now + dur * 0.6);
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2);
 
             osc.connect(gain);
             gain.connect(audioContext.destination);
@@ -575,9 +534,8 @@
             const gain = audioContext.createGain();
 
             osc.type = 'sine';
-            osc.frequency.value = 1200; // High, bright tone
+            osc.frequency.value = 1200;
             
-            // Very short, sharp attack for impact moment
             gain.gain.setValueAtTime(0, now);
             gain.gain.linearRampToValueAtTime(0.08, now + 0.005);
             gain.gain.exponentialRampToValueAtTime(0.00001, now + 0.08);
@@ -597,83 +555,6 @@
             
             const star = createFallingStarWithData(craterData);
             fallingStars.push(star);
-        }
-
-        function drawScatterPlots() {
-            drawScatterAge();
-            drawScatterTime();
-        }
-
-        function drawScatterAge() {
-            const canvas = document.getElementById('scatterAge');
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(60, 20);
-            ctx.lineTo(60, 360);
-            ctx.lineTo(580, 360);
-            ctx.stroke();
-            
-            ctx.fillStyle = '#000';
-            ctx.font = '14px Arial';
-            ctx.fillText('age [Myrs]', 280, 390);
-            ctx.save();
-            ctx.translate(20, 200);
-            ctx.rotate(-Math.PI/2);
-            ctx.fillText('diameter [km]', -50, 0);
-            ctx.restore();
-            
-            ctx.fillStyle = '#1f77b4';
-            CRATER_DATA.forEach(d => {
-                const x = 60 + (d.age_ma / 4000) * 520;
-                const y = 360 - (d.diameter_km / 300) * 340;
-                const size = Math.max(5, d.diameter_km / 10);
-                
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
-
-        function drawScatterTime() {
-            const canvas = document.getElementById('scatterTime');
-            const ctx = canvas.getContext('2d');
-            
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(60, 20);
-            ctx.lineTo(60, 360);
-            ctx.lineTo(580, 360);
-            ctx.stroke();
-            
-            ctx.fillStyle = '#000';
-            ctx.font = '14px Arial';
-            ctx.fillText('time since impact 0 [Myrs]', 220, 390);
-            ctx.save();
-            ctx.translate(20, 200);
-            ctx.rotate(-Math.PI/2);
-            ctx.fillText('diameter [km]', -50, 0);
-            ctx.restore();
-            
-            ctx.fillStyle = '#1f77b4';
-            CRATER_DATA.forEach(d => {
-                const x = 60 + (d.time_since_impact_0 / 4000) * 520;
-                const y = 360 - (d.diameter_km / 300) * 340;
-                const size = Math.max(5, d.diameter_km / 10);
-                
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fill();
-            });
         }
 
         function startSonification() {
@@ -702,29 +583,6 @@
             }
         }
 
-        function toggleOpenSpaceAudio() {
-            if (!isAudioPlaying) {
-                const playPromise = openSpaceAudio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        isAudioPlaying = true;
-                        audioVisualContainer.classList.add('active');
-                        audioVisualContainer.setAttribute('aria-pressed', 'true');
-                        openSpaceAudioPlayer.currentTime = openSpaceAudio.currentTime;
-                        openSpaceAudioPlayer.play();
-                    }).catch(err => {
-                        console.error('Audio playback failed:', err);
-                    });
-                }
-            } else {
-                openSpaceAudio.pause();
-                openSpaceAudioPlayer.pause();
-                isAudioPlaying = false;
-                audioVisualContainer.classList.remove('active');
-                audioVisualContainer.setAttribute('aria-pressed', 'false');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             initCanvas();
 
@@ -744,14 +602,6 @@
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     moonCanvasContainer.click();
-                }
-            });
-
-            audioVisualContainer.addEventListener('click', toggleOpenSpaceAudio);
-            audioVisualContainer.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleOpenSpaceAudio();
                 }
             });
         });
