@@ -484,7 +484,6 @@
                     });
                     
                     playImpactTone(star.freq, star.dur, star.volume, star.speed);
-                    playImpactFlash();
                     
                     ctx.fillStyle = 'rgba(255, 255, 200, 0.3)';
                     ctx.beginPath();
@@ -510,17 +509,32 @@
             const now = audioContext.currentTime;
             const osc = audioContext.createOscillator();
             const gain = audioContext.createGain();
+            const delay = audioContext.createDelay();
+            const feedback = audioContext.createGain();
+            const delayGain = audioContext.createGain();
 
             osc.type = 'sine';
             osc.frequency.value = freq;
             
+            // Echo/delay settings
+            delay.delayTime.value = 0.3;
+            feedback.gain.value = 0.4;
+            delayGain.gain.value = 0.5;
+            
+            // Very smooth, gradual envelope - same as original
             gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.12 * volume, now + 0.05);
-            gain.gain.linearRampToValueAtTime(0.10 * volume, now + dur * 0.6);
-            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2);
+            gain.gain.linearRampToValueAtTime(0.12 * volume, now + 0.05); // Gentler attack
+            gain.gain.linearRampToValueAtTime(0.10 * volume, now + dur * 0.6); // Longer sustain
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2); // Extended smooth fade
 
+            // Connect for echo effect
             osc.connect(gain);
             gain.connect(audioContext.destination);
+            gain.connect(delay);
+            delay.connect(feedback);
+            feedback.connect(delay);
+            delay.connect(delayGain);
+            delayGain.connect(audioContext.destination);
 
             osc.start(now);
             osc.stop(now + dur + 0.3);
@@ -534,8 +548,9 @@
             const gain = audioContext.createGain();
 
             osc.type = 'sine';
-            osc.frequency.value = 1200;
+            osc.frequency.value = 1200; // High, bright tone
             
+            // Very short, sharp attack for impact moment
             gain.gain.setValueAtTime(0, now);
             gain.gain.linearRampToValueAtTime(0.08, now + 0.005);
             gain.gain.exponentialRampToValueAtTime(0.00001, now + 0.08);
