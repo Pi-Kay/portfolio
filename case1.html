@@ -280,7 +280,6 @@
                 <li>Measurements: Diameter (32-101 km), depth (1.0-4.7 km), age (108-3800 million years)</li>
                 <li>Sonification: Pitch (110-330 Hz), duration (1.5-4.0s), volume (56-100)</li>
             </ul>
-            <p><strong>Selection rationale:</strong> Initial exploration included 20 craters, reduced to 9 for the final animation. This reduction served multiple purposes: maintaining contemplative pacing (9 craters create a 27-45 second loop at 3-5s intervals, vs. 1.5-2 minutes for 20), ensuring perceptual clarity (9 distinct pitch levels are easier to distinguish than 20 crowded frequencies), and maximizing parameter diversity within the selection (wide range of diameters 32-101 km, ages 108-3800 Ma, and geographical distribution across the lunar surface).</p>
             <p><strong>Temporal note:</strong> Animation timing (3-5s between impacts) is artistic compression; actual crater formations span millions of years. Logic Pro composition uses layered soundscape to address temporal gaps in geological record.</p>
             <p><strong>Parameter Mapping:</strong> Diameter → pitch (larger = lower), duration (larger = longer sustain), visual size. Latitude/longitude → impact position. Volume → loudness. Impact moment → visual flash + immediate tone trigger.</p>
         </section>
@@ -330,6 +329,15 @@
         </section>
 
         <section>
+            <h2>Extended Dataset Animation</h2>
+            <p>Complete 20-crater dataset visualization with parameters mapped directly from original data. Initial exploration included 20 craters (shown below), later curated to 9 for the main animation. This reduction maintained contemplative pacing (9 craters create a 27-45 second loop vs. 1.5-2 minutes for 20), ensured perceptual clarity (9 distinct pitch levels are easier to distinguish than 20 crowded frequencies), and maximized parameter diversity (wide range of diameters 32-177 km, ages 108-3920 Ma, geographical distribution).</p>
+            <div class="canvas-container" id="extendedCanvasContainer" role="button" tabindex="0" aria-label="Interactive extended crater visualization - click to start" aria-pressed="false" style="max-width: 400px; height: 400px;">
+                <canvas id="extendedCanvas" width="400" height="400" aria-hidden="true"></canvas>
+            </div>
+            <p class="interaction-hint">Click to start/stop the extended 20-crater sequence</p>
+        </section>
+
+        <section>
             <h2>Results</h2>
             <p>Enhanced data accessibility through multisensory representation. Sonification provides alternative access for visually impaired audiences; visuals support those with hearing differences.</p>
             <p><strong>Transferability:</strong> Methodology applicable to other NASA datasets (exoplanet discoveries, seismic activity on Mars) and scientific data from climate research, particle physics, biological systems.</p>
@@ -367,6 +375,13 @@
         let craters = [];
         let scheduleInterval;
         let craterIndex = 0;
+
+        // Extended animation variables
+        let extendedCanvas, extendedCtx;
+        let extendedSoundEnabled = false;
+        let extendedCraterIndex = 0;
+        let extendedScheduleInterval;
+        let circles = [];
 
         function initCanvas() {
             canvas = document.getElementById('moonCanvas');
@@ -448,16 +463,16 @@
 
         function drawFallingStar(star) {
             const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3);
-            gradient.addColorStop(0, 'rgba(255, 255, 200, 1)');
-            gradient.addColorStop(0.5, 'rgba(255, 200, 150, 0.5)');
-            gradient.addColorStop(1, 'rgba(255, 150, 100, 0)');
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
             
             ctx.fillStyle = gradient;
             ctx.beginPath();
             ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.strokeStyle = 'rgba(255, 200, 150, 0.3)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(star.x, star.y);
@@ -585,7 +600,7 @@
 
             createFallingStarWithAudio();
             
-            scheduleInterval = setInterval(() => {
+            scheduleInterval = setInterval(function() {
                 if (soundEnabled) {
                     createFallingStarWithAudio();
                 }
@@ -596,11 +611,129 @@
             soundEnabled = false;
             if (scheduleInterval) {
                 clearInterval(scheduleInterval);
+                scheduleInterval = null;
             }
+        }
+
+        // Extended animation functions
+        function initExtendedCanvas() {
+            extendedCanvas = document.getElementById('extendedCanvas');
+            extendedCtx = extendedCanvas.getContext('2d');
+            drawExtendedBackground();
+            animateExtended();
+        }
+
+        function drawExtendedBackground() {
+            extendedCtx.fillStyle = '#000';
+            extendedCtx.fillRect(0, 0, extendedCanvas.width, extendedCanvas.height);
+        }
+
+        function animateExtended() {
+            if (!extendedCanvas) return;
+            requestAnimationFrame(animateExtended);
+            drawExtendedBackground();
+            
+            circles.forEach((circle, index) => {
+                extendedCtx.fillStyle = `rgba(200, 200, 200, ${circle.opacity})`;
+                extendedCtx.beginPath();
+                extendedCtx.arc(circle.x, circle.y, circle.size, 0, Math.PI * 2);
+                extendedCtx.fill();
+                
+                circle.opacity -= 0.008;
+                if (circle.opacity <= 0) {
+                    circles.splice(index, 1);
+                }
+            });
+        }
+
+        function createExtendedImpact() {
+            if (!extendedSoundEnabled) return;
+
+            const craterData = EXTENDED_CRATER_DATA[extendedCraterIndex % EXTENDED_CRATER_DATA.length];
+            extendedCraterIndex++;
+            
+            const x = Math.random() * extendedCanvas.width;
+            const y = Math.random() * extendedCanvas.height;
+            const size = (craterData.diameter_km / 177) * 40;
+            
+            circles.push({
+                x: x,
+                y: y,
+                size: size,
+                opacity: 1.0
+            });
+            
+            playExtendedImpactTone(craterData.pitch_hz, craterData.diameter_km, craterData.volume);
+        }
+
+        function playExtendedImpactTone(freq, diameter, volume) {
+            if (!audioContext) return;
+
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            const delay = audioContext.createDelay();
+            const feedback = audioContext.createGain();
+            const delayGain = audioContext.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            
+            delay.delayTime.value = 0.3;
+            feedback.gain.value = 0.4;
+            delayGain.gain.value = 0.5;
+            
+            const dur = 1.5 + (diameter / 177) * 2.5;
+            const vol = volume / 100;
+            
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.12 * vol, now + 0.05);
+            gain.gain.linearRampToValueAtTime(0.10 * vol, now + dur * 0.6);
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            gain.connect(delay);
+            delay.connect(feedback);
+            feedback.connect(delay);
+            delay.connect(delayGain);
+            delayGain.connect(audioContext.destination);
+
+            osc.start(now);
+            osc.stop(now + dur + 0.3);
+        }
+
+        function startExtendedSonification() {
+            extendedSoundEnabled = true;
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            createExtendedImpact();
+            
+            extendedScheduleInterval = setInterval(function() {
+                if (extendedSoundEnabled) {
+                    createExtendedImpact();
+                }
+            }, 2000 + Math.random() * 1500);
+        }
+
+        function stopExtendedSonification() {
+            extendedSoundEnabled = false;
+            if (extendedScheduleInterval) {
+                clearInterval(extendedScheduleInterval);
+                extendedScheduleInterval = null;
+            }
+            circles = [];
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             initCanvas();
+            initExtendedCanvas();
 
             const moonCanvasContainer = document.getElementById('moonCanvasContainer');
             
@@ -618,6 +751,25 @@
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     moonCanvasContainer.click();
+                }
+            });
+
+            const extendedCanvasContainer = document.getElementById('extendedCanvasContainer');
+            
+            extendedCanvasContainer.addEventListener('click', function() {
+                if (!extendedSoundEnabled) {
+                    startExtendedSonification();
+                    extendedCanvasContainer.setAttribute('aria-pressed', 'true');
+                } else {
+                    stopExtendedSonification();
+                    extendedCanvasContainer.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            extendedCanvasContainer.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    extendedCanvasContainer.click();
                 }
             });
         });
