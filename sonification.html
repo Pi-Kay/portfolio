@@ -41,6 +41,11 @@
             letter-spacing: 0.3px;
             line-height: 1.6;
         }
+        .meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 12px;
+        }
         section {
             margin-bottom: 50px;
         }
@@ -127,11 +132,6 @@
             max-width: 600px;
             margin: 20px auto;
             display: block;
-        }
-        .meta {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 8px;
         }
         .highlight-box {
             background: #f5f5f5;
@@ -229,11 +229,11 @@
 </head>
 <body>
     <div class="container">
-    <header>
-    <h1>Open Space Data Sonification</h1>
-    <p class="subtitle">Translating NASA crater data into sound and motion</p>
-    <p class="subtitle">January 2026 · NASA Moon Crater Database</p>
-    </header>
+        <header>
+            <h1>Open Space Data Sonification</h1>
+            <p class="subtitle">Translating NASA crater data into sound and motion</p>
+            <p class="meta">January 2026 · NASA Moon Crater Database</p>
+        </header>
 
         <!-- 1. HOOK: Lead with the visualization -->
         <section>
@@ -247,7 +247,7 @@
         <section>
             <h2>Research Question</h2>
             <p>How can sonification enhance perception of scientific data and reveal patterns not immediately visible in traditional representations?</p>
-
+        </section>
 
         <!-- 3. METHODOLOGY -->
         <section>
@@ -315,8 +315,8 @@
         <!-- 8. APPENDIX: Extended exploration -->
         <div class="appendix">
             <section>
-                <h2>Appendix: Extended Dataset Exploration</h2>
-                <p>Initial exploration with 20 craters before curation to 9. This version demonstrates the full parameter range (diameter 32-225 km, ages 108-4000 Ma).</p>
+                <h2>Appendix: Extended Dataset</h2>
+                <p>Initial exploration with 20 craters across the full parameter range (diameter 32-225 km, age 108-4000 Ma).</p>
                 
                 <div class="btn-group">
                     <button id="btnName">Name</button>
@@ -327,9 +327,7 @@
                 <div class="canvas-container" id="extendedCanvasContainer" role="button" tabindex="0" aria-label="Interactive extended crater visualization" aria-pressed="false" style="max-width: 400px;">
                     <canvas id="extendedCanvas" width="400" height="400" aria-hidden="true"></canvas>
                 </div>
-                <p class="interaction-hint">Click to start/stop · Use buttons to display data</p>
-                
-                <p class="canvas-caption">Curated to 9 craters for main animation to maintain contemplative pacing and perceptual clarity (9 distinct pitch levels vs 20 crowded frequencies).</p>
+                <p class="interaction-hint">Click to start/stop · Buttons toggle data labels</p>
             </section>
         </div>
 
@@ -574,17 +572,15 @@
             const delayGain = audioContext.createGain();
             
             osc.type = 'sine';
-            osc.frequency.value = 220; // Lower, softer tone
+            osc.frequency.value = 220;
             
-            // Wide echo settings
             delay.delayTime.value = 0.4;
             feedback.gain.value = 0.5;
             delayGain.gain.value = 0.3;
             
-            // Very quiet and subtle envelope
             gain.gain.setValueAtTime(0, now);
-            gain.gain.linearRampToValueAtTime(0.03, now + 0.1); // Very quiet
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5); // Long fade
+            gain.gain.linearRampToValueAtTime(0.03, now + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
             
             osc.connect(gain);
             gain.connect(audioContext.destination);
@@ -638,7 +634,6 @@
                 clearTimeout(scheduleInterval);
                 scheduleInterval = null;
             }
-            // Immediately clear all visual elements
             fallingStars = [];
             craters = [];
         }
