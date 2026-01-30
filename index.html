@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Petra Kühnle: Data • Perception • Sound">
     <title>Petra Kühnle - Portfolio</title>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background: #fafafa;
@@ -22,14 +24,18 @@
             align-items: center;
             padding: 60px 20px;
         }
+
         .container {
             max-width: 680px;
             width: 100%;
+            animation: fadeIn 0.8s ease-out;
         }
+
         header {
             text-align: center;
             margin-bottom: 80px;
         }
+
         h1 {
             font-size: 2.5em;
             font-weight: 300;
@@ -37,29 +43,34 @@
             margin-bottom: 20px;
             color: #000;
         }
+
         .subtitle {
             font-size: 0.95em;
             color: #666;
             font-weight: 300;
             letter-spacing: 0.3px;
         }
+
         .subtitle + .subtitle {
             margin-top: 10px;
         }
+
         .subtitle a {
-         color: #333;
-         text-decoration: none;               /* ← ADDED (no underline) */
-         transition: color 0.2s ease;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
-        }
+
         .subtitle a:hover,
         .subtitle a:focus {
             color: #000;
         }
+
         .subtitle a:focus {
             outline: 2px solid #000;
             outline-offset: 2px;
         }
+
         .visual-container {
             position: relative;
             width: 100%;
@@ -69,9 +80,11 @@
             background: #000;
             transition: opacity 0.3s ease;
         }
+
         .visual-container:hover {
             opacity: 0.95;
         }
+
         .circle {
             position: absolute;
             top: 50%;
@@ -83,24 +96,27 @@
             transform: translate(-50%, -50%);
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .visual-container:hover .circle {
             width: 74%;
             height: 74%;
         }
+
         nav {
             margin-top: 40px;
-
-        nav { text-align: center; }
-            
+            text-align: center;
         }
+
         nav ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         nav li {
             margin: 15px 0;
         }
+
         nav a {
             text-decoration: none;
             color: #333;
@@ -112,40 +128,25 @@
             border-bottom: 1px solid transparent;
             padding-bottom: 2px;
         }
+
         nav a:hover {
             color: #000;
             border-bottom-color: #000;
         }
+
         nav a:focus {
             color: #000;
             outline: 2px solid #000;
             outline-offset: 2px;
         }
-        @media (max-width: 768px) {
-            body {
-                padding: 40px 20px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-            .subtitle {
-                font-size: 0.9em;
-            }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .container {
-            animation: fadeIn 0.8s ease-out;
-        }
+
         footer {
             text-align: center;
             margin-top: 60px;
             font-size: 0.85em;
             color: #666;
         }
-        /* Skip to main content link for screen readers */
+
         .skip-link {
             position: absolute;
             top: -40px;
@@ -156,30 +157,54 @@
             text-decoration: none;
             z-index: 100;
         }
+
         .skip-link:focus {
             top: 0;
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
+
 <body>
     <a href="#main" class="skip-link">Skip to main content</a>
+
     <div class="container">
         <header>
             <h1>Petra Kühnle</h1>
-            <h2 class="subtitle">Berlin | Remote - <a href="bio.html">Bio</a></h2>
+            <h2 class="subtitle">Berlin | Remote – <a href="bio.html">Bio</a></h2>
             <p class="subtitle">Data • Perception • Sound</p>
-          
         </header>
+
         <div class="visual-container" role="img" aria-label="Animated circle visualization">
             <div class="circle"></div>
         </div>
+
         <nav aria-label="Portfolio projects" id="main">
             <ul>
                 <li><a href="sonification.html">Open Space Data Sonification</a></li>
                 <li><a href="guide.html">Music AI Compliance Guide</a></li>
-                <li><a href="navigator.html">Music Ai Compliance Navigator</a></li>
+                <li><a href="navigator.html">Music AI Compliance Navigator</a></li>
             </ul>
         </nav>
+
         <footer>
             <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
         </footer>
