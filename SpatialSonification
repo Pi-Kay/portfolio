@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Sonification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 80px 20px;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h1 {
+            font-size: 1.6em;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+            color: #000;
+        }
+        .subtitle {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 300;
+        }
+        .meta {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 10px;
+        }
+        section {
+            margin-bottom: 48px;
+        }
+        h2 {
+            font-size: 0.75em;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+        .canvas-container {
+            width: 100%;
+            max-width: 560px;
+            margin: 24px auto;
+            border: 1px solid #e0e0e0;
+            background: #0a0a0a;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+        .canvas-container:hover {
+            border-color: #888;
+        }
+        .canvas-container:focus-visible {
+            outline: 2px solid #333;
+            outline-offset: 2px;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .hint {
+            font-size: 0.75em;
+            color: #999;
+            text-align: center;
+            margin: 8px 0 24px;
+            font-style: italic;
+        }
+        .explainer {
+            background: #f7f7f7;
+            padding: 16px;
+            margin: 20px 0;
+            font-size: 0.85em;
+        }
+        .explainer p {
+            margin-bottom: 8px;
+        }
+        .explainer p:last-child {
+            margin-bottom: 0;
+        }
+        .mapping {
+            font-size: 0.85em;
+            color: #444;
+            font-weight: 300;
+            margin: 16px 0;
+            padding: 16px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .mapping-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+        }
+        .mapping-row span:first-child {
+            color: #666;
+        }
+        .mapping-row span:last-child {
+            color: #333;
+            text-align: right;
+        }
+        .note {
+            background: #f7f7f7;
+            border-left: 2px solid #ccc;
+            padding: 12px 16px;
+            margin: 20px 0;
+            font-size: 0.85em;
+        }
+        .tools {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 8px;
+        }
+        .draft-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .draft-list li {
+            font-size: 0.85em;
+            color: #444;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-weight: 300;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .draft-list li:last-child {
+            border-bottom: none;
+        }
+        .draft-list li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+        .task-list {
+            margin: 12px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .task-list li {
+            font-size: 0.85em;
+            color: #333;
+            margin-bottom: 8px;
+            padding-left: 24px;
+            position: relative;
+            font-weight: 300;
+        }
+        .task-list li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+        .decision-list {
+            margin: 12px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .decision-list li {
+            font-size: 0.85em;
+            color: #333;
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+            font-weight: 300;
+        }
+        .decision-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #333;
+            font-weight: 400;
+        }
+        .decision-list li span {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 2px;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8em;
+            color: #444;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ddd;
+            flex-shrink: 0;
+        }
+        .status-dot.done {
+            background: #333;
+        }
+        .status-dot.current {
+            background: #999;
+        }
+        nav {
+            margin-top: 60px;
+            padding-top: 32px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+        }
+        nav a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #000;
+        }
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .btn-row button {
+            padding: 4px 12px;
+            background: #1a1a1a;
+            color: #ccc;
+            border: 1px solid #333;
+            font-size: 0.7em;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-row button:hover {
+            background: #333;
+        }
+        .btn-row button.active {
+            background: #444;
+            color: #fff;
+            border-color: #666;
+        }
+        @media (max-width: 600px) {
+            body { padding: 48px 16px; }
+            h1 { font-size: 1.4em; }
+            .status-grid { grid-template-columns: 1fr; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container { animation: fadeIn 0.8s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Spatial Sonification</h1>
+            <p class="subtitle">Positioning nearby stars in 3D audio space</p>
+            <p class="meta">February 2026 · NASA Exoplanet Archive · Web Audio HRTF</p>
+        </header>
+
+        <section>
+            <div class="canvas-container" id="field" tabindex="0" aria-label="Spatial audio field">
+                <canvas id="canvas" width="560" height="560"></canvas>
+            </div>
+            <p class="hint">Click to listen · Arrow keys rotate view · Headphones recommended</p>
+            
+            <div class="btn-row">
+                <button id="btn5" class="active">5 pc</button>
+                <button id="btn10">10 pc</button>
+                <button id="btn20">20 pc</button>
+            </div>
+            
+            <div class="explainer">
+                <p><strong>What you hear:</strong> Each star emits a tone. Pitch reflects stellar mass (larger stars = lower). Position in your headphones matches location in sky — left/right from right ascension, up/down from declination. Distance controls volume.</p>
+                <p><strong>Parsec (pc):</strong> Distance unit. 1 pc ≈ 3.26 light-years. Buttons filter range — 5 pc shows ~25 stars, our immediate neighbors.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Perception</h2>
+            <p>Spatial hearing evolved for survival — locating sources without seeing them. HRTF (Head-Related Transfer Function) exploits this: timing and level differences between ears create perceived direction. The brain reconstructs 3D space from 2D signals.</p>
+            <p>Neuroaesthetics research shows cross-modal mappings work best when aligned with existing cognitive associations. Lower pitch feels "larger" — not arbitrary, grounded in physical acoustics and embodied experience (Spence, 2011). Smooth amplitude envelopes reduce cognitive load; abrupt onsets trigger alertness responses inappropriate for contemplative exploration (Juslin, 2013).</p>
+            <p class="tools">Spence (2011) crossmodal correspondences · Begault (1994) 3D sound · Zeki (1999) neuroaesthetics · Juslin (2013) emotional responses to music</p>
+        </section>
+
+        <section>
+            <h2>Mapping</h2>
+            <div class="mapping">
+                <div class="mapping-row"><span>Right ascension</span><span>Horizontal position (left–right)</span></div>
+                <div class="mapping-row"><span>Declination</span><span>Vertical position (up–down)</span></div>
+                <div class="mapping-row"><span>Distance</span><span>Volume (closer = louder)</span></div>
+                <div class="mapping-row"><span>Stellar mass</span><span>Pitch (larger = lower)</span></div>
+                <div class="mapping-row"><span>Temperature</span><span>Waveform + color</span></div>
+                <div class="mapping-row"><span>Planet count</span><span>Orbiting dots (visual)</span></div>
+            </div>
+            <p class="tools">Web Audio API · PannerNode HRTF · 25 stars from NASA Exoplanet Archive</p>
+        </section>
+
+        <section>
+            <h2>Draft</h2>
+            <p>AI-generated code in this prototype:</p>
+            <ul class="draft-list">
+                <li>Coordinate math (RA/Dec → 3D position)</li>
+                <li>HRTF panner configuration</li>
+                <li>Data parsing</li>
+                <li>Canvas rendering</li>
+                <li>Audio scheduling with envelope shaping</li>
+            </ul>
+            <div class="note">
+                AI writes functional spatial audio code but cannot verify perceptual accuracy. Output requires human ears and iterative refinement.
+            </div>
+        </section>
+
+        <section>
+            <h2>Decisions Made</h2>
+            <p>Design choices during this process:</p>
+            <ul class="decision-list">
+                <li>Inverse mass → pitch
+                    <span>Larger stars sound lower. Aligns with crossmodal size-pitch research.</span>
+                </li>
+                <li>Smooth envelopes (0.8s in, 1.2s out)
+                    <span>Eliminates clicks. Stars emerge rather than switch on — reduces startle, supports sustained attention.</span>
+                </li>
+                <li>Maximum 6 simultaneous voices
+                    <span>Spatial distinction collapses beyond this. Perceptual limit, not technical.</span>
+                </li>
+                <li>Cool stars = triangle, hot stars = sine
+                    <span>Triangle has harmonics — feels rougher. Tentative; needs expert feedback.</span>
+                </li>
+                <li>15° rotation steps
+                    <span>Noticeable spatial shift without disorientation.</span>
+                </li>
+                <li>Rolloff factor 1.5
+                    <span>Between physical realism (2.0) and audibility. Far stars still present.</span>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Human Input</h2>
+            <p>Open questions — require listening:</p>
+            <ul class="task-list">
+                <li>Is pitch range (110–440 Hz) appropriate?</li>
+                <li>Should planet count become audible?</li>
+                <li>Does visual-audio sync feel unified?</li>
+                <li>What happens at 50+ stars?</li>
+                <li>How would an astronomer respond differently than a musician?</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Task List</h2>
+            <p>To evaluate and extend:</p>
+            <ul class="task-list">
+                <li>HRTF fundamentals — interaural differences</li>
+                <li>Distance models — rolloff tradeoffs</li>
+                <li>Crossmodal perception — Spence, Parise</li>
+                <li>Sonification precedents — Russo, Quinton</li>
+                <li>Web Audio API — modify with confidence</li>
+                <li>RealityKit spatial audio — visionOS path</li>
+            </ul>
+            <p class="tools">Start: MDN Web Audio → Begault "3D Sound" → Apple Spatial Audio docs</p>
+        </section>
+
+        <section>
+            <h2>Progress</h2>
+            <div class="status-grid">
+                <div class="status-item"><span class="status-dot done"></span>Data selection</div>
+                <div class="status-item"><span class="status-dot done"></span>Coordinate → audio</div>
+                <div class="status-item"><span class="status-dot done"></span>HRTF prototype</div>
+                <div class="status-item"><span class="status-dot done"></span>Visual layer</div>
+                <div class="status-item"><span class="status-dot done"></span>Envelope smoothing</div>
+                <div class="status-item"><span class="status-dot current"></span>Perceptual tuning</div>
+                <div class="status-item"><span class="status-dot"></span>Extended dataset</div>
+                <div class="status-item"><span class="status-dot"></span>visionOS port</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Context</h2>
+            <p>Design exploration at the intersection of astronomical data, spatial audio, and perception research. Not a scientific instrument — a prototype testing whether 3D sound makes stellar structure more intuitive. Seeking feedback from astronomers, audio engineers, neuroscientists, spatial computing practitioners.</p>
+        </section>
+
+        <nav>
+            <a href="sonification.html">← Moon Craters</a>
+            <a href="index.html">Index</a>
+        </nav>
+    </div>
+
+    <script>
+        const STARS = [
+            {name:"Proxima Centauri",ra:217.43,dec:-62.68,d:1.30,temp:3042,mass:0.12,planets:2},
+            {name:"α Cen A",ra:219.90,dec:-60.83,d:1.34,temp:5790,mass:1.10,planets:0},
+            {name:"α Cen B",ra:219.90,dec:-60.83,d:1.34,temp:5260,mass:0.91,planets:0},
+            {name:"Barnard's Star",ra:269.45,dec:4.69,d:1.83,temp:3134,mass:0.14,planets:1},
+            {name:"Wolf 359",ra:164.12,dec:7.01,d:2.39,temp:2800,mass:0.09,planets:0},
+            {name:"Lalande 21185",ra:165.83,dec:35.97,d:2.55,temp:3828,mass:0.39,planets:2},
+            {name:"Sirius A",ra:101.29,dec:-16.72,d:2.64,temp:9940,mass:2.06,planets:0},
+            {name:"Luyten 726-8 A",ra:24.76,dec:-17.95,d:2.68,temp:2670,mass:0.10,planets:0},
+            {name:"Ross 154",ra:283.77,dec:-23.84,d:2.97,temp:2700,mass:0.17,planets:0},
+            {name:"Ross 248",ra:355.48,dec:44.18,d:3.16,temp:2799,mass:0.12,planets:0},
+            {name:"ε Eridani",ra:53.23,dec:-9.46,d:3.22,temp:5084,mass:0.82,planets:2},
+            {name:"Lacaille 9352",ra:346.47,dec:-35.85,d:3.29,temp:3626,mass:0.49,planets:0},
+            {name:"Ross 128",ra:176.94,dec:0.80,d:3.37,temp:3192,mass:0.17,planets:1},
+            {name:"Luyten's Star",ra:109.87,dec:5.23,d:3.80,temp:3382,mass:0.26,planets:2},
+            {name:"τ Ceti",ra:26.02,dec:-15.94,d:3.65,temp:5344,mass:0.78,planets:4},
+            {name:"Kapteyn's Star",ra:77.89,dec:-45.02,d:3.93,temp:3550,mass:0.28,planets:2},
+            {name:"Lacaille 8760",ra:319.31,dec:-38.87,d:3.98,temp:3340,mass:0.60,planets:0},
+            {name:"Kruger 60 A",ra:339.68,dec:57.69,d:4.01,temp:2890,mass:0.27,planets:0},
+            {name:"Ross 614 A",ra:101.54,dec:-2.77,d:4.09,temp:3100,mass:0.22,planets:0},
+            {name:"Wolf 1061",ra:248.40,dec:-12.67,d:4.31,temp:3342,mass:0.29,planets:3},
+            {name:"van Maanen's",ra:6.90,dec:5.38,d:4.31,temp:6130,mass:0.68,planets:0},
+            {name:"Gliese 1",ra:1.63,dec:-37.36,d:4.35,temp:3567,mass:0.45,planets:0},
+            {name:"Wolf 424 A",ra:190.55,dec:9.01,d:4.37,temp:2800,mass:0.14,planets:0},
+            {name:"TZ Arietis",ra:32.99,dec:13.05,d:4.50,temp:3200,mass:0.15,planets:0},
+            {name:"Gliese 687",ra:262.98,dec:68.34,d:4.55,temp:3413,mass:0.40,planets:1}
+        ];
+
+        let canvas, ctx, audioCtx;
+        let active = false;
+        let rotation = 0, elevation = 0;
+        let maxDist = 5;
+        let activeNodes = [];
+
+        function tempColor(t) {
+            if (t > 7500) return [155,176,255];
+            if (t > 6000) return [255,255,255];
+            if (t > 5200) return [255,244,214];
+            if (t > 3700) return [255,210,161];
+            return [255,160,122];
+        }
+
+        function massPitch(m) {
+            return 440 - Math.min(1, Math.max(0, (m - 0.08) / 2)) * 330;
+        }
+
+        function toScreen(ra, dec, d) {
+            const raR = (ra - rotation) * Math.PI / 180;
+            const decR = (dec + elevation) * Math.PI / 180;
+            const norm = Math.min(d, maxDist) / maxDist;
+            const r = canvas.width * 0.38 * (1 - norm * 0.6);
+            return {
+                x: canvas.width/2 + r * Math.cos(decR) * Math.sin(raR),
+                y: canvas.height/2 - r * Math.sin(decR)
+            };
+        }
+
+        function toAudio(ra, dec) {
+            const raR = (ra - rotation) * Math.PI / 180;
+            const decR = (dec + elevation) * Math.PI / 180;
+            return {
+                x: Math.sin(raR) * Math.cos(decR) * 10,
+                y: Math.sin(decR) * 10,
+                z: -Math.cos(raR) * Math.cos(decR) * 10
+            };
+        }
+
+        function draw() {
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.lineWidth = 1;
+            [0.38, 0.28, 0.18].forEach(r => {
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, canvas.height/2, canvas.width * r, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+
+            STARS.filter(s => s.d <= maxDist).forEach(star => {
+                const p = toScreen(star.ra, star.dec, star.d);
+                const c = tempColor(star.temp);
+                const size = Math.max(1.5, (1 / star.d) * 6);
+                const op = Math.max(0.4, 1 - star.d / maxDist * 0.6);
+
+                const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 2.5);
+                g.addColorStop(0, `rgba(${c[0]},${c[1]},${c[2]},${op})`);
+                g.addColorStop(1, `rgba(${c[0]},${c[1]},${c[2]},0)`);
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size * 2.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${op})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (star.planets > 0) {
+                    const t = Date.now() / 1000;
+                    for (let i = 0; i < star.planets; i++) {
+                        const angle = (t * 0.5 + i * Math.PI * 2 / star.planets) % (Math.PI * 2);
+                        const orb = size + 3 + i * 2;
+                        ctx.fillStyle = `rgba(200,200,255,${op * 0.5})`;
+                        ctx.beginPath();
+                        ctx.arc(p.x + Math.cos(angle) * orb, p.y + Math.sin(angle) * orb, 1, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            });
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.beginPath();
+            ctx.arc(canvas.width/2, canvas.height/2, 3, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.font = '10px Helvetica Neue, Arial, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(`RA ${rotation}°  Dec ${elevation}°`, 12, canvas.height - 12);
+
+            requestAnimationFrame(draw);
+        }
+
+        function fadeOutAll(callback) {
+            const now = audioCtx.currentTime;
+            activeNodes.forEach(node => {
+                try {
+                    node.gain.gain.cancelScheduledValues(now);
+                    node.gain.gain.setValueAtTime(node.gain.gain.value, now);
+                    node.gain.gain.linearRampToValueAtTime(0, now + 0.4);
+                    node.osc.stop(now + 0.5);
+                } catch(e) {}
+            });
+            activeNodes = [];
+            if (callback) setTimeout(callback, 450);
+        }
+
+        function playField() {
+            if (!active) return;
+
+            const stars = STARS.filter(s => s.d <= maxDist).slice(0, 6);
+            const now = audioCtx.currentTime;
+
+            stars.forEach((star, i) => {
+                const delay = i * 0.6;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const pan = audioCtx.createPanner();
+
+                pan.panningModel = 'HRTF';
+                pan.distanceModel = 'inverse';
+                pan.refDistance = 1;
+                pan.maxDistance = 100;
+                pan.rolloffFactor = 1.5;
+
+                const pos = toAudio(star.ra, star.dec);
+                pan.positionX.setValueAtTime(pos.x, now);
+                pan.positionY.setValueAtTime(pos.y, now);
+                pan.positionZ.setValueAtTime(pos.z, now);
+
+                osc.frequency.value = massPitch(star.mass);
+                osc.type = star.temp < 4000 ? 'triangle' : 'sine';
+
+                const vol = Math.max(0.012, 0.05 / star.d);
+                
+                // Smooth envelope: 0.8s fade in, sustain, 1.2s fade out
+                gain.gain.setValueAtTime(0, now + delay);
+                gain.gain.linearRampToValueAtTime(vol, now + delay + 0.8);
+                gain.gain.setValueAtTime(vol, now + delay + 3.0);
+                gain.gain.linearRampToValueAtTime(0, now + delay + 4.2);
+
+                osc.connect(gain);
+                gain.connect(pan);
+                pan.connect(audioCtx.destination);
+
+                osc.start(now + delay);
+                osc.stop(now + delay + 4.5);
+                
+                activeNodes.push({osc, gain});
+            });
+
+            setTimeout(() => { if (active) playField(); }, 5000);
+        }
+
+        function toggle() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            if (active) {
+                active = false;
+                fadeOutAll();
+            } else {
+                active = true;
+                playField();
+            }
+        }
+
+        function rotateView() {
+            if (!active) return;
+            fadeOutAll(() => {
+                if (active) playField();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            draw();
+
+            document.getElementById('field').addEventListener('click', toggle);
+            document.getElementById('field').addEventListener('keydown', e => {
+                if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+                if (e.key === 'ArrowLeft') { rotation = (rotation - 15 + 360) % 360; rotateView(); }
+                if (e.key === 'ArrowRight') { rotation = (rotation + 15) % 360; rotateView(); }
+                if (e.key === 'ArrowUp') { elevation = Math.min(60, elevation + 10); rotateView(); }
+                if (e.key === 'ArrowDown') { elevation = Math.max(-60, elevation - 10); rotateView(); }
+            });
+
+            const btns = [
+                {id: 'btn5', val: 5},
+                {id: 'btn10', val: 10},
+                {id: 'btn20', val: 20}
+            ];
+            btns.forEach(b => {
+                document.getElementById(b.id).addEventListener('click', () => {
+                    maxDist = b.val;
+                    btns.forEach(x => document.getElementById(x.id).classList.remove('active'));
+                    document.getElementById(b.id).classList.add('active');
+                    if (active) {
+                        fadeOutAll(() => { if (active) playField(); });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
