@@ -3,177 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valispace: Systems Engineering Workflows - Petra Kühnle</title>
+    <title>Valispace → Altium 365 - Petra Kühnle</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; color: #1a1a1a; line-height: 1.8; min-height: 100vh; padding: 80px 20px; }
-        .container { max-width: 720px; margin: 0 auto; }
-        header { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #e0e0e0; }
-        h1 { font-size: 1.8em; font-weight: 300; letter-spacing: -0.3px; margin-bottom: 16px; color: #000; display: flex; align-items: center; gap: 12px; }
-        .header-icon { font-size: 1.2em; color: #0d1b2a; }
-        .subtitle { font-size: 0.95em; color: #666; font-weight: 300; line-height: 1.6; }
-        .status-badge { display: inline-block; padding: 4px 12px; background: #d4edda; color: #155724; font-size: 0.75em; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; border: 1px solid #28a745; }
-        section { margin-bottom: 50px; }
-        h2 { font-size: 0.85em; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
-        p { font-size: 0.95em; color: #333; margin-bottom: 16px; font-weight: 300; }
-        ul { list-style: none; padding: 0; margin-bottom: 16px; }
-        li { font-size: 0.9em; color: #444; margin-bottom: 8px; padding-left: 20px; position: relative; font-weight: 300; line-height: 1.6; }
-        li:before { content: "—"; position: absolute; left: 0; color: #ccc; }
-
-        .demo-cta { 
-            border: 1px solid #333; 
-            padding: 20px; 
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background: #fafafa; 
+            color: #1a1a1a; 
+            line-height: 1.9; 
+            min-height: 100vh; 
+            padding: 100px 24px; 
+        }
+        .container { max-width: 640px; margin: 0 auto; }
+        
+        header { margin-bottom: 56px; }
+        .meta { 
+            font-size: 0.8em; 
+            color: #888; 
+            letter-spacing: 0.5px; 
+            margin-bottom: 12px; 
+        }
+        h1 { 
+            font-size: 1.5em; 
+            font-weight: 400; 
+            letter-spacing: -0.3px; 
+            color: #111; 
+            margin-bottom: 8px;
+        }
+        .subtitle { 
+            font-size: 0.95em; 
+            color: #555; 
+            font-weight: 300; 
+        }
+        
+        section { margin-bottom: 48px; }
+        
+        h2 { 
+            font-size: 0.75em; 
+            font-weight: 400; 
+            letter-spacing: 1.2px; 
+            text-transform: uppercase; 
+            color: #999; 
+            margin-bottom: 12px; 
+        }
+        
+        p { 
+            font-size: 0.92em; 
+            color: #333; 
+            font-weight: 300; 
+            margin-bottom: 12px;
+        }
+        p:last-child { margin-bottom: 0; }
+        
+        .features { 
+            display: flex; 
+            gap: 24px; 
             margin: 20px 0; 
+            flex-wrap: wrap;
+        }
+        .feature { 
+            flex: 1; 
+            min-width: 160px;
+        }
+        .feature-name { 
+            font-size: 0.95em; 
+            font-weight: 400; 
+            color: #111; 
+            margin-bottom: 4px;
+        }
+        .feature-desc { 
+            font-size: 0.82em; 
+            color: #666; 
+            font-weight: 300; 
+            line-height: 1.6;
+        }
+        
+        .link { 
+            display: inline-block;
+            font-size: 0.85em; 
+            color: #333; 
+            text-decoration: none;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1px;
+            transition: border-color 0.2s;
+        }
+        .link:hover { border-color: #333; }
+        
+        .note { 
+            font-size: 0.82em; 
+            color: #888; 
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        .reflection {
+            border-left: 2px solid #ddd;
+            padding-left: 20px;
+            margin: 24px 0;
+        }
+        .reflection p {
+            font-size: 0.9em;
+            color: #444;
+        }
+        
+        .outcomes {
+            margin: 16px 0;
+        }
+        .outcome {
+            font-size: 0.9em;
+            color: #333;
+            font-weight: 300;
+            margin-bottom: 6px;
+        }
+        
+        nav { 
+            margin-top: 64px; 
+            padding-top: 32px; 
+            border-top: 1px solid #e8e8e8; 
             display: flex; 
             justify-content: space-between; 
-            align-items: center; 
-            background: #fafafa;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
-        .demo-cta p { margin: 0; font-size: 0.9em; color: #444; }
-        .demo-button { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; font-size: 0.8em; font-weight: 400; letter-spacing: 0.5px; transition: background 0.2s; }
-        .demo-button:hover { background: #555; }
+        nav a { 
+            color: #888; 
+            text-decoration: none; 
+            font-size: 0.85em; 
+            font-weight: 300; 
+            transition: color 0.2s; 
+        }
+        nav a:hover { color: #333; }
         
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
-        .feature-card { background: #fff; border: 1px solid #e0e0e0; padding: 20px; transition: all 0.2s ease; }
-        .feature-card:hover { border-color: #333; }
-        .feature-title { font-size: 1em; font-weight: 400; color: #222; margin-bottom: 8px; }
-        .feature-desc { font-size: 0.85em; color: #666; font-weight: 300; line-height: 1.5; }
-        
-        .tech-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-        .tech-tag { background: #f0f0f0; padding: 4px 10px; font-size: 0.8em; color: #444; }
-        
-        .highlight-box { background: #f5f5f5; border-left: 3px solid #333; padding: 16px 20px; margin: 20px 0; font-size: 0.9em; }
-        .highlight-box p { margin-bottom: 8px; }
-        .highlight-box p:last-child { margin-bottom: 0; }
-        
-        .impact-list li:before { content: "✓"; color: #28a745; }
-        
-        .doc-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-        .doc-link { display: inline-block; padding: 8px 16px; background: #333; color: #fff; text-decoration: none; font-size: 0.8em; font-weight: 400; letter-spacing: 0.5px; transition: background 0.2s; }
-        .doc-link:hover { background: #555; }
-        .doc-link-outline { background: transparent; color: #333; border: 1px solid #333; }
-        .doc-link-outline:hover { background: #333; color: #fff; }
-        
-        nav { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; }
-        nav a { color: #666; text-decoration: none; font-size: 0.85em; font-weight: 300; transition: color 0.2s; }
-        nav a:hover { color: #000; }
-        
-        .note { font-size: 0.85em; color: #888; font-style: italic; }
-        
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             body { padding: 60px 20px; }
-            h1 { font-size: 1.5em; }
-            .feature-grid { grid-template-columns: 1fr; }
-            .demo-cta { flex-direction: column; gap: 12px; text-align: center; }
-            nav { flex-direction: column; gap: 20px; text-align: center; }
+            h1 { font-size: 1.3em; }
+            .features { flex-direction: column; gap: 16px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <span class="status-badge">Shipped</span>
-            <h1>Aerospace & Systems Engineering: Workflow Design</h1>
-            <p class="subtitle">Translating fragmented aerospace workflows into usable specifications for systems engineers</p>
-            <p class="subtitle">March 2021 – April 2023 · Valispace → Altium 365</p>
+            <p class="meta">March 2021 – April 2023 · Valispace → Altium 365</p>
+            <h1>Aerospace Workflow Design</h1>
+            <p class="subtitle">Translating fragmented workflows into specifications for systems engineers</p>
         </header>
 
         <section>
-            <div class="demo-cta">
-                <p>Features I designed are live in Altium 365 Requirements Portal</p>
-                <a href="https://help.altium.com/altium365/en/mergedProjects/RequirementsPortal/RequirementsPortal_Home.htm" target="_blank" class="demo-button">View Documentation →</a>
-            </div>
-        </section>
-
-        <section>
-            <h2>Context</h2>
-            <p>Valispace builds software for aerospace and systems engineers — managing requirements, specifications, and traceability across complex hardware-software projects. 100K+ prototypes on the platform.</p>
-            <p>I joined as solo UX designer. The challenge: fragmented workflows, unclear requirements, engineers who couldn't articulate what they needed because the problems were embedded in how they worked.</p>
-        </section>
-
-        <section>
             <h2>Role</h2>
-            <p><strong>UX Architect for Systems Engineering</strong></p>
-            <p>Embedded research and design — remote and on-site. Working directly with aerospace engineers, product managers, and software developers in Bremen (Germany) and Lisbon (Portugal).</p>
+            <p>Sole designer. Embedded with engineers in Bremen and Lisbon. Surfaced unspoken constraints — regulatory logic, verification dependencies, traceability gaps.</p>
         </section>
 
         <section>
-            <h2>Approach</h2>
-            <p>I started from how engineers actually work, not from interface patterns or feature requests.</p>
-            <ul>
-                <li><strong>Embedded collaboration</strong> — sat with engineers, observed workflows, asked "show me how you do this"</li>
-                <li><strong>Think-aloud testing</strong> — prototypes tested in real work context, not lab settings</li>
-                <li><strong>Interviews</strong> — surfaced unspoken constraints: regulatory requirements, verification logic, traceability dependencies</li>
-                <li><strong>Iterative prototyping</strong> — Figma prototypes evolved through continuous feedback</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Key Features Shipped</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-title">Master-Follower</div>
-                    <div class="feature-desc">Linking related requirements across system hierarchies</div>
+            <h2>Shipped</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-name">Master-Follower</div>
+                    <div class="feature-desc">Linking requirements across system hierarchies</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-title">Verification Matrix</div>
-                    <div class="feature-desc">Traceability between requirements and verification methods</div>
+                <div class="feature">
+                    <div class="feature-name">Verification Matrix</div>
+                    <div class="feature-desc">Traceability between requirements and verification</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-title">Review Center</div>
-                    <div class="feature-desc">Collaborative review workflows for engineering teams</div>
+                <div class="feature">
+                    <div class="feature-name">Review Center</div>
+                    <div class="feature-desc">Collaborative review workflows</div>
                 </div>
             </div>
-            <p class="note">These features shipped in Valispace and remain in Altium 365 after the 2023 acquisition.</p>
+            <p class="note">Shipped at Valispace. Integrated into Altium 365 post-acquisition.</p>
+            <p style="margin-top: 16px;"><a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" class="link">View Master-Follower Documentation →</a></p>
         </section>
 
         <section>
-            <h2>Methods & Tools</h2>
-            <div class="tech-list">
-                <span class="tech-tag">Figma</span>
-                <span class="tech-tag">Think-aloud testing</span>
-                <span class="tech-tag">Contextual inquiry</span>
-                <span class="tech-tag">Stakeholder interviews</span>
-                <span class="tech-tag">Pencil sketches</span>
+            <h2>Outcomes Valispace</h2>
+            <div class="outcomes">
+                <p class="outcome">Prototypes converted to major development contract.</p>
+                <p class="outcome">Features retained post-acquisition.</p>
+                 <p class="outcome">Other: Founded UX Guild. Team expanded.</p>
             </div>
         </section>
 
         <section>
-            <h2>Impact</h2>
-            <ul class="impact-list">
-                <li>Secured €100K+ development contract through interactive prototypes</li>
-                <li>Founded cross-functional UX Guild — bridging design, engineering, and domain expertise</li>
-                <li>Drafted design principles adopted by the team</li>
-                <li>Advocated for and achieved design team expansion</li>
-                <li>Core features survived acquisition — still in production today</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>What I Learned</h2>
-            <div class="highlight-box">
-                <p>Complex B2B systems require embedded research — you can't design for engineers from a distance.</p>
-                <p>The real requirements are unspoken, buried in workflow friction and regulatory constraints. Prototypes are conversations, not deliverables.</p>
+            <h2>Reflection</h2>
+            <div class="reflection">
+                <p>Complex B2B requires embedded research. Real requirements are unspoken — buried in workflow friction. Prototypes are conversations.</p>
             </div>
         </section>
 
         <section>
-            <h2>Constraints</h2>
-            <p class="note">Detailed screens and internal documentation under NDA. This case study describes process and outcomes; visual artifacts limited to publicly available product documentation.</p>
-        </section>
-
-        <section>
-            <h2>Links</h2>
-            <div class="doc-links">
-                <a href="https://help.altium.com/altium365/en/mergedProjects/RequirementsPortal/RequirementsPortal_Home.htm" target="_blank" class="doc-link">Altium 365 Documentation</a>
-                <a href="https://www.altium.com/altium-365" target="_blank" class="doc-link doc-link-outline">Altium 365</a>
-            </div>
+            <p class="note">Internal artifacts under agreement. Case study describes process and outcomes only.</p>
         </section>
 
         <nav>
             <a href="index.html">← Portfolio</a>
-            <a href="navigator.html">AI & Music Rights: Navigator →</a>
+            <a href="navigator.html">Music AI Compliance →</a>
         </nav>
     </div>
 </body>
