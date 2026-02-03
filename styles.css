@@ -151,33 +151,15 @@ footer {
     }
 }
 
-/* ===== NAVIGATION (Index) ===== */
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav li {
-    margin: 15px 0;
-}
-
-nav a {
-    text-decoration: none;
-    color: #0b3d91;
-    font-weight: 500;
-    font-size: 1.05em;
-}
-
-nav a:hover {
-    text-decoration: underline;
-    color: #105bd8;
-}
-
-/* ===== INDEX NAV LEFT ALIGN ===== */
-nav ul {
-    list-style: none;
-    padding: 0;
+nav {
+    margin-top: 40px;
     text-align: left;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 nav li {
