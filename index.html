@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Petra Kühnle: Data • Perception • Sound">
     <title>Petra Kühnle - Portfolio</title>
-
     <style>
         * {
             margin: 0;
@@ -19,70 +18,109 @@
             color: #1a1a1a;
             line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 60px 20px;
         }
 
         .container {
             max-width: 680px;
-            width: 100%;
+            margin: 0 auto;
             animation: fadeIn 0.8s ease-out;
         }
 
         header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         h1 {
-            font-size: 2.5em;
+            font-size: 1.8em;
             font-weight: 300;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+            margin-bottom: 16px;
             color: #000;
         }
 
-        .subtitle {
+        .meta {
             font-size: 0.95em;
             color: #666;
             font-weight: 300;
-            letter-spacing: 0.3px;
+            margin-bottom: 10px;
         }
 
-        .subtitle + .subtitle {
-            margin-top: 10px;
-        }
-
-        .subtitle a {
+        .meta a {
             color: #333;
             text-decoration: none;
             transition: color 0.2s ease;
         }
 
-        .subtitle a:hover,
-        .subtitle a:focus {
+        .meta a:hover {
             color: #000;
         }
 
-        .subtitle a:focus {
-            outline: 2px solid #000;
-            outline-offset: 2px;
+        /* Two-column: projects left, visual right */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+            max-width: 720px;
+            margin: 0 auto;
         }
 
+        /* Projects */
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 18px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        nav a:hover .project-name {
+            border-bottom-color: #000;
+        }
+
+        .project-name {
+            font-size: 0.9em;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+            border-bottom: 1px solid transparent;
+            display: inline;
+            transition: border-color 0.2s;
+        }
+
+        .project-context {
+            font-size: 0.8em;
+            color: #888;
+            font-weight: 300;
+            margin-top: 1px;
+        }
+
+        .project-status {
+            font-style: italic;
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
+        /* Visual */
         .visual-container {
             position: relative;
-            width: 100%;
-            max-width: 600px;
-            aspect-ratio: 1;
-            margin: 0 auto 60px;
+            width: 340px;
+            height: 340px;
             background: #000;
-            transition: opacity 0.3s ease;
-        }
-
-        .visual-container:hover {
-            opacity: 0.95;
+            flex-shrink: 0;
         }
 
         .circle {
@@ -100,44 +138,6 @@
         .visual-container:hover .circle {
             width: 74%;
             height: 74%;
-        }
-
-        nav {
-    margin-top: 40px;
-    text-align: left;
-}
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav li {
-            margin: 15px 0;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 300;
-            font-size: 1em;
-            letter-spacing: 0.3px;
-            transition: color 0.2s ease;
-            display: inline-block;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 2px;
-        }
-
-        nav a:hover {
-            color: #000;
-            border-bottom-color: #000;
-        }
-
-        nav a:focus {
-            color: #000;
-            outline: 2px solid #000;
-            outline-offset: 2px;
         }
 
         footer {
@@ -171,8 +171,17 @@
                 font-size: 2em;
             }
 
-            .subtitle {
-                font-size: 0.9em;
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .visual-container {
+                width: 100%;
+                max-width: 280px;
+                height: auto;
+                aspect-ratio: 1;
+                margin: 0 auto;
             }
         }
 
@@ -189,28 +198,53 @@
     <div class="container">
         <header>
             <h1>Petra Kühnle</h1>
-            <h2 class="subtitle">Berlin | Remote – <a href="bio.html">Bio</a></h2>
-            <p class="subtitle">Perceptual UX | Complex Systems Design | Interface • Data • Sound</p>
+            <p class="meta">Berlin · Remote — <a href="bio.html">Bio</a></p>
+            <p class="meta">Perceptual UX · Complex Systems | Interface · Data · Sound</p>
         </header>
 
+        <div class="main-content">
+            <nav aria-label="Portfolio projects" id="main">
+                <ul>
+                    <li>
+                        <a href="SpatialSonification.html">
+                            <span class="project-name">Star Sonification</span>
+                            <div class="project-context">NASA · Spatial Audio · 2026</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="navigator.html">
+                            <span class="project-name">Compliance Navigator</span>
+                            <div class="project-context">AI & Music Rights · 2026</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="guide.html">
+                            <span class="project-name">Compliance Documentation</span>
+                            <div class="project-context">AI & Accessibility · 2025</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sonification.html">
+                            <span class="project-name">Crater Sonification</span>
+                            <div class="project-context">NASA · Data Perception · 2026</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="valispace.html">
+                            <span class="project-name">Requirements Traceability</span>
+                            <div class="project-context">Valispace → Altium 365 · 2021–23</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-<nav aria-label="Portfolio projects" id="main">
-    <ul>
-        <li>→ <a href="navigator.html">AI & Music Rights: Compliance Navigator</a></li>
-        <li>→ <a href="guide.html">AI & Accessibility: Compliance Documentation</a></li>
-        <li>→ <a href="sonification.html">NASA & Data Perception: Crater Sonification</a></li>
-        <li>→ <a href="SpatialSonification.html">NASA & Spatial Audio: Star Sonification</a></li>
-        <li>→ <a href="valispace.html">Requirements Traceability Design
-Valispace → Altium 365</a></li> 
-    </ul>
-</nav>
-
-        <div class="visual-container" role="img" aria-label="Animated circle visualization">
-            <div class="circle"></div>
+            <div class="visual-container" role="img" aria-label="Animated circle visualization">
+                <div class="circle"></div>
+            </div>
         </div>
-        
+
         <footer>
-            <p>&copy; 2026 Petra Kühnle. All rights reserved.</p>
+            <p>© 2026 Petra Kühnle</p>
         </footer>
     </div>
 </body>
