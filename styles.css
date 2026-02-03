@@ -173,6 +173,24 @@ nav a:hover {
     color: #105bd8;
 }
 
+/* ===== INDEX NAV LEFT ALIGN ===== */
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+nav li {
+    margin: 15px 0;
+}
+
+nav li em {
+    font-size: 0.85em;
+    color: #888;
+    margin-left: 6px;
+    font-weight: 400;
+}
+
 /* ===== CASE NAVIGATION (Back/Next) ===== */
 .case-nav {
     display: flex;
