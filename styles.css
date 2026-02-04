@@ -141,39 +141,33 @@ footer {
     background: transparent;
     border: none;
 }
-
 @media (max-width: 768px) {
-    .cover figure {
-        max-width: 100%;  /* Full on mobile for better viewing */
+    body {
+        padding: 40px 20px;
     }
-    .cover canvas {
-        min-height: 150px;
+
+    h1 {
+        font-size: 2em;
     }
-}
 
-nav {
-    margin-top: 40px;
-    text-align: left;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    /* Image first on mobile */
+    .visual-container {
+        order: -1;
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0 auto;
+    }
 
-nav li {
-    margin: 15px 0;
-}
-
-nav li em {
-    font-size: 0.85em;
-    color: #888;
-    margin-left: 6px;
-    font-weight: 400;
+    nav {
+        order: 1;
+    }
 }
 
 /* ===== CASE NAVIGATION (Back/Next) ===== */
