@@ -32,8 +32,8 @@
             gap: 12px;
         }
         .header-icon {
-            font-size: 1.2em;
-            color: #0d1b2a;
+            display: flex;
+            align-items: center;
         }
         .subtitle { 
             font-size: 0.95em; 
@@ -212,7 +212,18 @@
 <body>
     <div class="container">
         <header>
-            <h1><span class="header-icon">⬡</span> Aerospace: Traceability Design</h1>
+            <h1>
+                <span class="header-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#0d1b2a" stroke-width="1.5">
+                        <circle cx="6" cy="14" r="3"/>
+                        <circle cx="22" cy="6" r="3"/>
+                        <circle cx="22" cy="22" r="3"/>
+                        <line x1="9" y1="14" x2="19" y2="7"/>
+                        <line x1="9" y1="14" x2="19" y2="21"/>
+                    </svg>
+                </span>
+                Aerospace: Traceability Design
+            </h1>
             <p class="subtitle">Translating fragmented workflows into specifications for systems engineers</p>
             <p class="meta">March 2021 – April 2023 · Valispace → Altium 365</p>
         </header>
