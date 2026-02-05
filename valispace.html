@@ -114,6 +114,24 @@
             font-weight: 300; 
             line-height: 1.6;
         }
+        .feature-link {
+            display: inline-block;
+            font-size: 0.8em;
+            color: #555;
+            text-decoration: none;
+            margin-top: 8px;
+            transition: color 0.2s;
+        }
+        .feature-link:hover {
+            color: #000;
+        }
+        .feature-status {
+            display: block;
+            font-size: 0.75em;
+            color: #888;
+            font-style: italic;
+            margin-top: 4px;
+        }
         
         .link { 
             display: inline-block;
@@ -131,6 +149,18 @@
             color: #888; 
             font-weight: 300;
             font-style: italic;
+        }
+        
+        .video-container {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .video-container video {
+            width: 100%;
+            display: block;
         }
         
         .highlight-box {
@@ -198,18 +228,35 @@
                 <div class="feature">
                     <div class="feature-name">Master-Follower</div>
                     <div class="feature-desc">Linking requirements across system hierarchies</div>
+                    <a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" class="feature-link">View docs →</a>
                 </div>
                 <div class="feature">
-                    <div class="feature-name">Verification Matrix</div>
+                    <div class="feature-name">Verification & Validation Matrix</div>
                     <div class="feature-desc">Traceability between requirements and verification</div>
+                    <a href="https://www.altium.com/documentation/altium-365/requirements-portal/verification-validation-module" target="_blank" class="feature-link">View docs →</a>
+                    <span class="feature-status">Now in Requirements Portal</span>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Review Center</div>
                     <div class="feature-desc">Collaborative review workflows</div>
+                    <a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/review-center" target="_blank" class="feature-link">View docs →</a>
                 </div>
             </div>
             <p class="note">Shipped at Valispace (aerospace). Integrated into Altium 365 (electronics) post-acquisition.</p>
-            <p style="margin-top: 16px;"><a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" class="link">View Master-Follower Documentation →</a></p>
+        </section>
+
+        <section>
+            <h2>Master-Follower in Production</h2>
+            <div class="video-container">
+                <video 
+                    src="master-follower.mp4" 
+                    autoplay 
+                    loop 
+                    muted 
+                    playsinline>
+                </video>
+            </div>
+            <p class="note">Creating a Master-Follower copy — from <a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" style="color: #888;">Altium 365 public documentation</a>.</p>
         </section>
 
         <section>
@@ -229,7 +276,7 @@
         </section>
 
         <section>
-            <p class="note">Case study describes process and outcomes only.</p>
+            <p class="note">Case study describes role, process, and outcomes. Video from Altium public documentation; internal design artifacts not shown.</p>
         </section>
 
         <nav>
