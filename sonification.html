@@ -33,6 +33,13 @@
             letter-spacing: -0.3px;
             margin-bottom: 16px;
             color: #000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-icon {
+            font-size: 1.2em;
+            color: #0d1b2a;
         }
         .subtitle {
             font-size: 0.95em;
@@ -230,7 +237,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Crater Sonification</h1>
+            <h1><span class="header-icon">◐</span> Crater Sonification</h1>
             <p class="subtitle">Translating NASA crater data into sound and motion</p>
             <p class="meta">January 2026 · NASA Moon Crater Database</p>
         </header>
@@ -333,7 +340,7 @@
 
         <nav>
             <a href="index.html">← Portfolio</a>
-            <a href="guide.html">Compliance Navigator →</a>
+            <a href="navigator.html">Compliance Navigator →</a>
         </nav>
     </div>
 
