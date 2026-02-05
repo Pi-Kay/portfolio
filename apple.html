@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Audio & Video Workflows</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background: #fafafa; 
+            color: #1a1a1a; 
+            line-height: 1.8; 
+            min-height: 100vh; 
+            padding: 80px 20px; 
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+        
+        header { 
+            margin-bottom: 60px; 
+            padding-bottom: 40px; 
+            border-bottom: 1px solid #e0e0e0; 
+        }
+        h1 { 
+            font-size: 1.8em; 
+            font-weight: 300; 
+            letter-spacing: -0.3px; 
+            margin-bottom: 16px; 
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-icon {
+            font-size: 1.2em;
+            color: #0d1b2a;
+        }
+        .subtitle { 
+            font-size: 0.95em; 
+            color: #666; 
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        .meta { 
+            font-size: 0.85em; 
+            color: #888; 
+            margin-top: 12px;
+        }
+        
+        section { margin-bottom: 50px; }
+        
+        h2 { 
+            font-size: 0.85em; 
+            font-weight: 400; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            color: #666; 
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        p { 
+            font-size: 0.95em; 
+            color: #333; 
+            font-weight: 300; 
+            margin-bottom: 16px;
+        }
+        p:last-child { margin-bottom: 0; }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 16px;
+        }
+        li {
+            font-size: 0.9em;
+            color: #444;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+        
+        .products { 
+            display: flex; 
+            gap: 24px; 
+            margin: 20px 0; 
+            flex-wrap: wrap;
+        }
+        .product { 
+            flex: 1; 
+            min-width: 200px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+        }
+        .product-name { 
+            font-size: 1em; 
+            font-weight: 400; 
+            color: #111; 
+            margin-bottom: 8px;
+        }
+        .product-desc { 
+            font-size: 0.85em; 
+            color: #666; 
+            font-weight: 300; 
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .product-link {
+            display: inline-block;
+            font-size: 0.8em;
+            color: #555;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .product-link:hover {
+            color: #000;
+        }
+        
+        .highlight-box {
+            background: #f5f5f5;
+            border-left: 3px solid #333;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        .highlight-box p {
+            margin-bottom: 8px;
+            color: #444;
+        }
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .skill-item {
+            font-size: 0.9em;
+            color: #444;
+            font-weight: 300;
+            padding: 12px 16px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .note { 
+            font-size: 0.85em; 
+            color: #888; 
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        .role-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .role-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+        .role-title {
+            font-size: 0.95em;
+            font-weight: 400;
+            color: #111;
+        }
+        .role-date {
+            font-size: 0.8em;
+            color: #888;
+        }
+        .role-item p {
+            font-size: 0.9em;
+            margin-bottom: 0;
+        }
+        
+        nav { 
+            margin-top: 60px; 
+            padding-top: 40px; 
+            border-top: 1px solid #e0e0e0; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+        nav a { 
+            color: #666; 
+            text-decoration: none; 
+            font-size: 0.85em; 
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: color 0.2s; 
+        }
+        nav a:hover { color: #000; }
+        
+        @media (max-width: 768px) {
+            body { padding: 60px 20px; }
+            h1 { font-size: 1.6em; }
+            .products { flex-direction: column; gap: 16px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            nav { flex-direction: column; gap: 20px; text-align: center; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container { animation: fadeIn 1s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="header-icon">○</span> Pro Audio & Video</h1>
+            <p class="subtitle">Deep product knowledge through professional user support</p>
+            <p class="meta">2016 – 2020 · Apple</p>
+        </header>
+
+        <section>
+            <h2>Progression</h2>
+            
+            <div class="role-item">
+                <div class="role-header">
+                    <span class="role-title">Specialist Program Support, Creative Media</span>
+                    <span class="role-date">2019 – 2020</span>
+                </div>
+                <p>First non-Tech Support Advisor promoted to SPS (T4) in the EU Creative Media team. Resolved complex hardware-software conflicts for professional Logic Pro and Final Cut Pro users.</p>
+            </div>
+            
+            <div class="role-item">
+                <div class="role-header">
+                    <span class="role-title">Media Supervisor</span>
+                    <span class="role-date">2018 – 2019</span>
+                </div>
+                <p>Senior tier. Mentored junior advisors and resolved advanced cases across iTunes Store, App Store, Apple Music, and Apple TV.</p>
+            </div>
+            
+            <div class="role-item">
+                <div class="role-header">
+                    <span class="role-title">Media Advisor</span>
+                    <span class="role-date">2016 – 2018</span>
+                </div>
+                <p>Apple Care Excellence Award 2018 — results, teamwork, innovation. Yearly average CSAT 92%, monthly up to 100%.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Creative Media Focus</h2>
+            <p>Professional user support for Logic Pro and Final Cut Pro. This role built on my Fine Art background in AV installations — bridging creative practice with technical problem-solving.</p>
+        </section>
+
+        <section>
+            <h2>Products</h2>
+            <div class="products">
+                <div class="product">
+                    <div class="product-name">Logic Pro</div>
+                    <div class="product-desc">Professional music production, MIDI, mixing, spatial audio</div>
+                    <a href="https://support.apple.com/en-gb/guide/logicpro/welcome/mac" target="_blank" class="product-link">User Guide →</a>
+                </div>
+                <div class="product">
+                    <div class="product-name">Final Cut Pro</div>
+                    <div class="product-desc">Non-linear editing, color grading, motion graphics, delivery</div>
+                    <a href="https://support.apple.com/en-gb/guide/final-cut-pro/welcome/mac" target="_blank" class="product-link">User Guide →</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>What I Learned</h2>
+            <p>Working individual cases — technical issues, how-to questions, user feedback — offered a perspective distinct from both end-users and designers. Each case revealed how people actually navigate interfaces: their assumptions, workarounds, and points of friction.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Design relevance</strong></p>
+                <p>Hundreds of edge cases build intuition for user flows, error states, and the gap between intended and actual use. This informs how I approach interaction design — grounded in real behaviour, not assumptions.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Domain Knowledge</h2>
+            <div class="skills-grid">
+                <div class="skill-item">Audio signal flow & routing</div>
+                <div class="skill-item">MIDI & virtual instruments</div>
+                <div class="skill-item">Mixing workflows</div>
+                <div class="skill-item">Spatial audio & Dolby Atmos</div>
+                <div class="skill-item">Timeline editing & multicam</div>
+                <div class="skill-item">Color correction & grading</div>
+                <div class="skill-item">Codecs & delivery formats</div>
+                <div class="skill-item">Hardware integration</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Context</h2>
+            <p>Integrated in a global team. Case-based work means deep exposure to interface logic, diverse use cases, and the patterns that emerge when professional tools meet real-world conditions.</p>
+            <p class="note">This page describes role and learnings; internal processes and materials are not disclosed.</p>
+        </section>
+
+        <nav>
+            <a href="valispace.html">← Aerospace: Traceability Design</a>
+            <a href="bio.html">Bio →</a>
+        </nav>
+    </div>
+</body>
+</html>
