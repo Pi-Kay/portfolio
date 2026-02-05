@@ -12,7 +12,7 @@
         h1 { font-size: 1.8em; font-weight: 300; letter-spacing: -0.3px; margin-bottom: 16px; color: #000; display: flex; align-items: center; gap: 12px; }
         .header-icon { font-size: 1.2em; color: #0d1b2a; }
         .subtitle { font-size: 0.95em; color: #666; font-weight: 300; line-height: 1.6; }
-        .status-badge { display: inline-block; padding: 4px 12px; background: #d4edda; color: #155724; font-size: 0.75em; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; border: 1px solid #28a745; }
+        .meta { font-size: 0.85em; color: #888; margin-top: 12px; }
         section { margin-bottom: 50px; }
         h2 { font-size: 0.85em; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
         p { font-size: 0.95em; color: #333; margin-bottom: 16px; font-weight: 300; }
@@ -21,15 +21,15 @@
         li:before { content: "—"; position: absolute; left: 0; color: #ccc; }
 
         .demo-cta { 
-    border: 1px solid #333; 
-    padding: 20px; 
-    margin: 20px 0; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    background: #fafafa;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-}
+            border: 1px solid #333; 
+            padding: 20px; 
+            margin: 20px 0; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #fafafa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
         .demo-cta p { margin: 0; font-size: 0.9em; color: #444; }
         .demo-button { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; font-size: 0.8em; font-weight: 400; letter-spacing: 0.5px; transition: background 0.2s; }
         .demo-button:hover { background: #555; }
@@ -70,6 +70,17 @@
         .doc-link-outline { background: transparent; color: #333; border: 1px solid #333; }
         .doc-link-outline:hover { background: #333; color: #fff; }
         
+        .video-container {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+        
         nav { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; }
         nav a { color: #666; text-decoration: none; font-size: 0.85em; font-weight: 300; transition: color 0.2s; }
         nav a:hover { color: #000; }
@@ -83,18 +94,22 @@
             .demo-cta { flex-direction: column; gap: 12px; text-align: center; }
             nav { flex-direction: column; gap: 20px; text-align: center; }
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container { animation: fadeIn 1s ease-out; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <span class="status-badge">Live</span>
             <h1><span class="header-icon">⬡</span> Music AI Compliance Navigator</h1>
-            <p class="subtitle">Interactive tool helping artists, labels, and music tech companies navigate Ai + Music regulations</p>
-       
-    <p class="subtitle">January 2026 · EU AI Act, GDPR, and artist rights obligations</p>
+            <p class="subtitle">Interactive tool helping artists, labels, and music tech companies navigate AI + Music regulations</p>
+            <p class="meta">January 2026 · EU AI Act, GDPR, and artist rights obligations</p>
+        </header>
 
-    </header>
         <section>
             <div class="demo-cta">
                 <p>Step-by-step guidance for AI compliance in music</p>
@@ -102,18 +117,18 @@
             </div>
         </section>
         
-
         <section>
-    <h2>Interface Navigator</h2>
-    <video 
-        src="navigator_screenrecording.mov" 
-        autoplay 
-        loop 
-        muted 
-        playsinline
-        style="width: 100%; border: 1px solid #e0e0e0; border-radius: 4px;">
-    </video>
-</section>
+            <h2>Interface</h2>
+            <div class="video-container">
+                <video 
+                    src="navigator_screenrecording.mov" 
+                    autoplay 
+                    loop 
+                    muted 
+                    playsinline>
+                </video>
+            </div>
+        </section>
         
         <section>
             <h2>Problem</h2>
@@ -135,7 +150,6 @@
             </ul>
         </section>
     
-
         <section>
             <h2>Tech & Design</h2>
             <div class="tech-list">
@@ -190,8 +204,8 @@
         </section>
 
         <nav>
-           <a href="sonification.html">← Crator Sonification</a>
-           <a href="guide.html">Compliance Documentation →</a>
+            <a href="sonification.html">← Crater Sonification</a>
+            <a href="guide.html">Compliance Documentation →</a>
         </nav>  
     </div>
 </body>
