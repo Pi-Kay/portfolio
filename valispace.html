@@ -10,50 +10,84 @@
             font-family: 'Helvetica Neue', Arial, sans-serif; 
             background: #fafafa; 
             color: #1a1a1a; 
-            line-height: 1.9; 
+            line-height: 1.8; 
             min-height: 100vh; 
-            padding: 100px 24px; 
+            padding: 80px 20px; 
         }
-        .container { max-width: 640px; margin: 0 auto; }
+        .container { max-width: 720px; margin: 0 auto; }
         
-        header { margin-bottom: 56px; }
-        .meta { 
-            font-size: 0.8em; 
-            color: #888; 
-            letter-spacing: 0.5px; 
-            margin-bottom: 12px; 
+        header { 
+            margin-bottom: 60px; 
+            padding-bottom: 40px; 
+            border-bottom: 1px solid #e0e0e0; 
         }
         h1 { 
-            font-size: 1.5em; 
-            font-weight: 400; 
+            font-size: 1.8em; 
+            font-weight: 300; 
             letter-spacing: -0.3px; 
-            color: #111; 
-            margin-bottom: 8px;
+            margin-bottom: 16px; 
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-icon {
+            font-size: 1.2em;
+            color: #0d1b2a;
         }
         .subtitle { 
             font-size: 0.95em; 
-            color: #555; 
-            font-weight: 300; 
+            color: #666; 
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        .meta { 
+            font-size: 0.85em; 
+            color: #888; 
+            margin-top: 12px;
         }
         
-        section { margin-bottom: 48px; }
+        section { margin-bottom: 50px; }
         
         h2 { 
-            font-size: 0.75em; 
+            font-size: 0.85em; 
             font-weight: 400; 
-            letter-spacing: 1.2px; 
+            letter-spacing: 1.5px; 
             text-transform: uppercase; 
-            color: #999; 
-            margin-bottom: 12px; 
+            color: #666; 
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         p { 
-            font-size: 0.92em; 
+            font-size: 0.95em; 
             color: #333; 
             font-weight: 300; 
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         p:last-child { margin-bottom: 0; }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 16px;
+        }
+        li {
+            font-size: 0.9em;
+            color: #444;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
         
         .features { 
             display: flex; 
@@ -64,6 +98,9 @@
         .feature { 
             flex: 1; 
             min-width: 160px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
         }
         .feature-name { 
             font-size: 0.95em; 
@@ -72,7 +109,7 @@
             margin-bottom: 4px;
         }
         .feature-desc { 
-            font-size: 0.82em; 
+            font-size: 0.85em; 
             color: #666; 
             font-weight: 300; 
             line-height: 1.6;
@@ -90,61 +127,64 @@
         .link:hover { border-color: #333; }
         
         .note { 
-            font-size: 0.82em; 
+            font-size: 0.85em; 
             color: #888; 
             font-weight: 300;
             font-style: italic;
         }
         
-        .reflection {
-            border-left: 2px solid #ddd;
-            padding-left: 20px;
-            margin: 24px 0;
-        }
-        .reflection p {
+        .highlight-box {
+            background: #f5f5f5;
+            border-left: 3px solid #333;
+            padding: 16px 20px;
+            margin: 20px 0;
             font-size: 0.9em;
+        }
+        .highlight-box p {
+            margin-bottom: 8px;
             color: #444;
         }
-        
-        .outcomes {
-            margin: 16px 0;
-        }
-        .outcome {
-            font-size: 0.9em;
-            color: #333;
-            font-weight: 300;
-            margin-bottom: 6px;
+        .highlight-box p:last-child {
+            margin-bottom: 0;
         }
         
         nav { 
-            margin-top: 64px; 
-            padding-top: 32px; 
-            border-top: 1px solid #e8e8e8; 
+            margin-top: 60px; 
+            padding-top: 40px; 
+            border-top: 1px solid #e0e0e0; 
             display: flex; 
             justify-content: space-between; 
         }
         nav a { 
-            color: #888; 
+            color: #666; 
             text-decoration: none; 
             font-size: 0.85em; 
-            font-weight: 300; 
+            font-weight: 300;
+            letter-spacing: 0.5px;
             transition: color 0.2s; 
         }
-        nav a:hover { color: #333; }
+        nav a:hover { color: #000; }
         
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             body { padding: 60px 20px; }
-            h1 { font-size: 1.3em; }
+            h1 { font-size: 1.6em; }
             .features { flex-direction: column; gap: 16px; }
+            nav { flex-direction: column; gap: 20px; text-align: center; }
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .container { animation: fadeIn 1s ease-out; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <p class="meta">March 2021 – April 2023 · Valispace → Altium 365</p>
-            <h1>Aerospace: Traceability Design</h1>
+            <h1><span class="header-icon">⬡</span> Aerospace: Traceability Design</h1>
             <p class="subtitle">Translating fragmented workflows into specifications for systems engineers</p>
+            <p class="meta">March 2021 – April 2023 · Valispace → Altium 365</p>
         </header>
 
         <section>
@@ -173,17 +213,17 @@
         </section>
 
         <section>
-            <h2>Outcomes Valispace</h2>
-            <div class="outcomes">
-                <p class="outcome">Prototypes converted to major development contract.</p>
-                <p class="outcome">Features retained post-acquisition.</p>
-                 <p class="outcome">Other: Founded UX Guild. Team expanded.</p>
-            </div>
+            <h2>Outcomes</h2>
+            <ul>
+                <li>Prototypes converted to major development contract</li>
+                <li>Features retained post-acquisition</li>
+                <li>Founded UX Guild; team expanded</li>
+            </ul>
         </section>
 
         <section>
             <h2>Reflection</h2>
-            <div class="reflection">
+            <div class="highlight-box">
                 <p>Complex B2B requires embedded research. Real requirements are unspoken — buried in workflow friction. Prototypes are conversations.</p>
             </div>
         </section>
