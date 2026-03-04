@@ -140,6 +140,420 @@
     </div>
 
     <div class="canvas-wrap" id="wrap" role="button" tabindex="0" aria-label="Click to start lunar crater sonification" aria-pressed="false">
+        <canvas id="moon" width="900" height="900"></canvas>
+        <div class="crater-name" id="craterName"></div>
+    </div>
+
+    <p class="hint" id="hint">Click to begin</p>
+
+    <div class="bottom-row">
+        <p class="credit">Petra Kühnle · 2026</p>
+        <button class="rec-control" id="recBtn" title="Record video">
+            <span class="rec-dot"></span>rec
+        </button>
+    </div>
+
+<script>
+const CRATERS = [
+    {name:"Tycho",       lat:-43.31, lon:-11.36, diameter:85,  depth:4.7, age:108,  pitch:148, vol:95},
+    {name:"Copernicus",  lat:9.62,   lon:-20.08, diameter:93,  depth:3.8, age:800,  pitch:135, vol:97},
+    {name:"Kepler",      lat:8.13,   lon:-38.04, diameter:32,  depth:2.6, age:800,  pitch:330, vol:56},
+    {name:"Aristarchus", lat:23.73,  lon:-47.40, diameter:40,  depth:3.0, age:450,  pitch:304, vol:63},
+    {name:"Plato",       lat:51.62,  lon:-9.33,  diameter:101, depth:1.0, age:3500, pitch:110, vol:100},
+    {name:"Eratosthenes",lat:14.47,  lon:-11.29, diameter:60,  depth:3.6, age:3200, pitch:238, vol:77},
+    {name:"Archimedes",  lat:29.72,  lon:-4.00,  diameter:83,  depth:2.1, age:3600, pitch:154, vol:91},
+    {name:"Aristoteles", lat:50.17,  lon:17.42,  diameter:88,  depth:3.3, age:3800, pitch:142, vol:94},
+    {name:"Autolycus",   lat:30.70,  lon:1.48,   diameter:39,  depth:3.4, age:3200, pitch:310, vol:62}
+];
+
+const canvas = document.getElementById('moon');
+const ctx    = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const CX = W / 2, CY = H / 2;
+const R  = Math.min(W, H) * 0.25;
+
+let audioCtx, audioDest;
+let running = false;
+let stars = [], craterMarks = [];
+let idx = 0, timer = null;
+
+const nameEl = document.getElementById('craterName');
+const hintEl = document.getElementById('hint');
+const wrap   = document.getElementById('wrap');
+const recBtn = document.getElementById('recBtn');
+
+let recording = false, mediaRecorder = null, recChunks = [];
+
+function drawMoon() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    const gradient = ctx.createRadialGradient(
+        CX - R * 0.3, CY - R * 0.3, R * 0.1,
+        CX, CY, R
+    );
+    gradient.addColorStop(0, '#e8e8e8');
+    gradient.addColorStop(0.7, '#c0c0c0');
+    gradient.addColorStop(1, '#888');
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawCraterMark(c) {
+    const opacity = Math.max(0.1, 1 - (c.age / 100));
+    ctx.strokeStyle = `rgba(80, 80, 80, ${opacity * 0.6})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = `rgba(50, 50, 50, ${opacity * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(c.x + c.r * 0.2, c.y + c.r * 0.2, c.r * 0.8, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawStar(s) {
+    const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 4);
+    glow.addColorStop(0, 'rgba(255,255,245,1)');
+    glow.addColorStop(0.3, 'rgba(255,255,220,0.6)');
+    glow.addColorStop(1, 'rgba(255,255,200,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size * 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    const dx = s.tx - s.x, dy = s.ty - s.y;
+    const len = Math.hypot(dx, dy);
+    if (len > 0) {
+        const trail = ctx.createLinearGradient(
+            s.x, s.y,
+            s.x - (dx / len) * 30, s.y - (dy / len) * 30
+        );
+        trail.addColorStop(0, 'rgba(255,255,255,0.2)');
+        trail.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = trail;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - (dx / len) * 30, s.y - (dy / len) * 30);
+        ctx.stroke();
+    }
+}
+
+function flashImpact(x, y, r) {
+    let opacity = 0.5;
+    const fade = () => {
+        if (opacity <= 0) return;
+        ctx.fillStyle = `rgba(255,255,210,${opacity})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r * 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        opacity -= 0.05;
+        requestAnimationFrame(fade);
+    };
+    fade();
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    drawMoon();
+    craterMarks.forEach(c => { drawCraterMark(c); c.age++; });
+    if (craterMarks.length > 20) craterMarks.shift();
+
+    stars.forEach((s, i) => {
+        drawStar(s);
+        const dx = s.tx - s.x, dy = s.ty - s.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < s.speed + 2) {
+            flashImpact(s.tx, s.ty, s.r);
+            craterMarks.push({ x: s.tx, y: s.ty, r: s.r, age: 0 });
+            playTone(s.pitch, s.dur, s.vol);
+            showName(s.name);
+            stars.splice(i, 1);
+        } else {
+            s.x += (dx / dist) * s.speed;
+            s.y += (dy / dist) * s.speed;
+        }
+    });
+}
+
+function initAudio() {
+    audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
+    audioDest = audioCtx.createMediaStreamDestination();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function wire(node) {
+    node.connect(audioCtx.destination);
+    node.connect(audioDest);
+}
+
+function playStartupTone() {
+    const now      = audioCtx.currentTime;
+    const osc      = audioCtx.createOscillator();
+    const gain     = audioCtx.createGain();
+    const delay    = audioCtx.createDelay();
+    const feedback = audioCtx.createGain();
+    const dGain    = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.value   = 220;
+    delay.delayTime.value  = 0.4;
+    feedback.gain.value    = 0.5;
+    dGain.gain.value       = 0.3;
+
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.03, now + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+
+    osc.connect(gain);
+    wire(gain);
+    gain.connect(delay);
+    delay.connect(feedback); feedback.connect(delay);
+    delay.connect(dGain); wire(dGain);
+
+    osc.start(now); osc.stop(now + 2);
+}
+
+function playTone(freq, dur, vol) {
+    if (!audioCtx) return;
+    const now  = audioCtx.currentTime;
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const delay = audioCtx.createDelay();
+    const fb    = audioCtx.createGain();
+    const dGain = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.value   = freq;
+    delay.delayTime.value  = 0.3;
+    fb.gain.value          = 0.4;
+    dGain.gain.value       = 0.5;
+
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.12 * vol, now + 0.05);
+    gain.gain.linearRampToValueAtTime(0.10 * vol, now + dur * 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2);
+
+    osc.connect(gain);
+    wire(gain);
+    gain.connect(delay);
+    delay.connect(fb); fb.connect(delay);
+    delay.connect(dGain); wire(dGain);
+
+    osc.start(now); osc.stop(now + dur + 0.3);
+}
+
+function latLonToXY(lat, lon) {
+    const latR = lat * Math.PI / 180;
+    const lonR = lon * Math.PI / 180;
+    return {
+        x: CX + R * Math.cos(latR) * Math.sin(lonR),
+        y: CY - R * Math.sin(latR)
+    };
+}
+
+function launchCrater() {
+    if (!running) return;
+    const c = CRATERS[idx % CRATERS.length]; idx++;
+    const {x, y} = latLonToXY(c.lat, c.lon);
+    const r   = Math.min(30, (c.diameter / 100) * 25);
+    const dur = 1.5 + (c.diameter / 100) * 2.5;
+    stars.push({
+        x: Math.random() * W, y: -40,
+        tx: x, ty: y,
+        r, speed: 2.5 + Math.random() * 1.5,
+        size: 2.5,
+        pitch: c.pitch, dur, vol: c.vol / 100,
+        name: c.name
+    });
+    timer = setTimeout(launchCrater, 3500 + Math.random() * 2000);
+}
+
+let nameTimer = null;
+function showName(name) {
+    nameEl.textContent = name;
+    nameEl.classList.add('visible');
+    if (nameTimer) clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => nameEl.classList.remove('visible'), 2500);
+}
+
+function start() {
+    if (running) { stop(); return; }
+    running = true;
+    wrap.setAttribute('aria-pressed', 'true');
+    hintEl.classList.add('hidden');
+    if (!audioCtx) initAudio();
+    playStartupTone();
+    setTimeout(launchCrater, 1200);
+}
+
+function stop() {
+    running = false;
+    wrap.setAttribute('aria-pressed', 'false');
+    hintEl.classList.remove('hidden');
+    if (timer) { clearTimeout(timer); timer = null; }
+    stars = [];
+}
+
+function startRecording() {
+    if (!audioCtx) initAudio();
+    const combined = new MediaStream([
+        ...canvas.captureStream(30).getVideoTracks(),
+        ...audioDest.stream.getAudioTracks()
+    ]);
+    const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+        ? 'video/webm;codecs=vp9,opus' : 'video/webm';
+    recChunks     = [];
+    mediaRecorder = new MediaRecorder(combined, { mimeType: mime, videoBitsPerSecond: 5000000 });
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+        const blob = new Blob(recChunks, { type: 'video/webm' });
+        const a    = Object.assign(document.createElement('a'), {
+            href: URL.createObjectURL(blob),
+            download: 'crater_sonification_petra_kuehnle.webm'
+        });
+        a.click();
+    };
+    mediaRecorder.start(100);
+    recording = true;
+    recBtn.classList.add('active');
+    setTimeout(() => { if (recording) stopRecording(); }, 180000);
+}
+
+function stopRecording() {
+    if (!recording) return;
+    recording = false;
+    recBtn.classList.remove('active');
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+}
+
+wrap.addEventListener('click', start);
+wrap.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start(); }
+});
+
+recBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (!recording) {
+        startRecording();
+        if (!running) start();
+    } else {
+        stopRecording();
+    }
+});
+
+animate();
+</script>
+</body>
+</html>            font-size: 0.55em;
+            color: #7a8490;
+            letter-spacing: 0.3em;
+            text-transform: lowercase;
+        }
+
+        .canvas-wrap {
+            cursor: pointer;
+            outline: none;
+            position: relative;
+        }
+
+        .canvas-wrap:focus-visible {
+            outline: 1px solid #444;
+            outline-offset: 8px;
+        }
+
+        canvas { display: block; }
+
+        .hint {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.65em;
+            color: #767676;
+            letter-spacing: 0.18em;
+            text-transform: lowercase;
+            transition: opacity 1s ease;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .hint.hidden { opacity: 0; }
+
+        .crater-name {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65em;
+            color: #444;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .crater-name.visible { opacity: 1; }
+
+        .bottom-row {
+            margin-top: 52px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            animation: fadeIn 4s ease-out;
+        }
+
+        .credit {
+            font-size: 0.6em;
+            color: #555;
+            letter-spacing: 0.15em;
+            text-transform: lowercase;
+        }
+
+        .rec-control {
+            font-size: 0.58em;
+            color: #767676;
+            letter-spacing: 0.15em;
+            text-transform: lowercase;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 4px 0;
+            transition: color 0.4s;
+            user-select: none;
+        }
+
+        .rec-control:hover { color: #aaa; }
+        .rec-control.active { color: #ccc; }
+
+        .rec-dot {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #767676;
+            margin-right: 6px;
+            vertical-align: middle;
+            transition: background 0.4s;
+        }
+
+        .rec-control.active .rec-dot { background: #c44; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title-block">
+        <h1>Crater Sonification</h1>
+        <p class="sub">NASA Lunar Data · Sound · Motion</p>
+    </div>
+
+    <div class="canvas-wrap" id="wrap" role="button" tabindex="0" aria-label="Click to start lunar crater sonification" aria-pressed="false">
         <canvas id="moon" width="600" height="600"></canvas>
         <div class="crater-name" id="craterName"></div>
     </div>
