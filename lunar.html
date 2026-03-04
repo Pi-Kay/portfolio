@@ -21,7 +21,7 @@
 
         .title-block {
             text-align: center;
-            padding: 20px 0 16px;
+            padding: 24px 0 8px;
             flex-shrink: 0;
             animation: fadeIn 3s ease-out;
         }
@@ -44,8 +44,8 @@
 
         .canvas-wrap {
             /* Fill available space, stay square, never overflow */
-            width:  min(90vw, calc(100vh - 120px));
-            height: min(90vw, calc(100vh - 120px));
+            width:  min(92vw, calc(100vh - 100px));
+            height: min(92vw, calc(100vh - 100px));
             flex-shrink: 0;
             cursor: pointer;
             outline: none;
@@ -65,7 +65,7 @@
 
         .hint {
             text-align: center;
-            padding: 12px 0 0;
+            padding: 6px 0 0;
             flex-shrink: 0;
             font-size: 0.65em;
             color: #767676;
@@ -94,7 +94,7 @@
         .crater-name.visible { opacity: 1; }
 
         .bottom-row {
-            padding: 12px 0 20px;
+            padding: 6px 0 12px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -147,8 +147,8 @@
 <body>
 
     <div class="title-block">
-        <h1>Crater Sonification</h1>
-        <p class="sub">NASA Lunar Data · Sound · Motion</p>
+        <h1>Lunar</h1>
+        
     </div>
 
     <div class="canvas-wrap" id="wrap" role="button" tabindex="0" aria-label="Click to start lunar crater sonification" aria-pressed="false">
@@ -182,7 +182,7 @@ const canvas = document.getElementById('moon');
 const ctx    = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
 const CX = W / 2, CY = H / 2;
-const R  = Math.min(W, H) * 0.25;
+const R  = Math.min(W, H) * 0.38;
 
 let audioCtx, audioDest;
 let running = false;
