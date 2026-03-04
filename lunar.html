@@ -14,7 +14,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding-top: 80px;
+            padding: 80px 20px 40px;
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
@@ -41,6 +41,8 @@
         }
 
         .canvas-wrap {
+            width: min(900px, 90vw);
+            aspect-ratio: 1;
             cursor: pointer;
             outline: none;
             position: relative;
@@ -51,7 +53,12 @@
             outline-offset: 8px;
         }
 
-        canvas { display: block; }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 900px;
+        }
 
         .hint {
             text-align: center;
