@@ -57,9 +57,9 @@
             text-align: center;
             margin-top: 24px;
             font-size: 0.65em;
-            color: #2a2a2a;
+            color: #767676;
             letter-spacing: 0.18em;
-            text-transform: uppercase;
+            text-transform: lowercase;
             transition: opacity 1s ease;
             animation: fadeIn 3s ease-out;
         }
@@ -92,16 +92,16 @@
 
         .credit {
             font-size: 0.6em;
-            color: #1e1e1e;
+            color: #555;
             letter-spacing: 0.15em;
-            text-transform: uppercase;
+            text-transform: lowercase;
         }
 
         .rec-control {
             font-size: 0.58em;
-            color: #1a1a1a;
+            color: #767676;
             letter-spacing: 0.15em;
-            text-transform: uppercase;
+            text-transform: lowercase;
             cursor: pointer;
             border: none;
             background: none;
@@ -110,21 +110,21 @@
             user-select: none;
         }
 
-        .rec-control:hover { color: #444; }
-        .rec-control.active { color: #333; }
+        .rec-control:hover { color: #aaa; }
+        .rec-control.active { color: #ccc; }
 
         .rec-dot {
             display: inline-block;
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: #1a1a1a;
+            background: #767676;
             margin-right: 6px;
             vertical-align: middle;
             transition: background 0.4s;
         }
 
-        .rec-control.active .rec-dot { background: #555; }
+        .rec-control.active .rec-dot { background: #c44; }
 
         @keyframes fadeIn {
             from { opacity: 0; }
