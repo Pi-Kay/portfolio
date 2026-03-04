@@ -13,14 +13,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 80px 20px 40px;
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Helvetica Neue', Arial, sans-serif;
+            gap: 0;
         }
 
         .title-block {
             text-align: center;
-            margin-bottom: 48px;
+            padding: 20px 0 16px;
+            flex-shrink: 0;
             animation: fadeIn 3s ease-out;
         }
 
@@ -30,7 +32,7 @@
             letter-spacing: 0.45em;
             text-transform: lowercase;
             color: #9aa0a6;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .sub {
@@ -41,8 +43,10 @@
         }
 
         .canvas-wrap {
-            width: min(900px, 90vw);
-            aspect-ratio: 1;
+            /* Fill available space, stay square, never overflow */
+            width:  min(90vw, calc(100vh - 120px));
+            height: min(90vw, calc(100vh - 120px));
+            flex-shrink: 0;
             cursor: pointer;
             outline: none;
             position: relative;
@@ -56,13 +60,13 @@
         canvas {
             display: block;
             width: 100%;
-            height: auto;
-            max-width: 900px;
+            height: 100%;
         }
 
         .hint {
             text-align: center;
-            margin-top: 24px;
+            padding: 12px 0 0;
+            flex-shrink: 0;
             font-size: 0.65em;
             color: #767676;
             letter-spacing: 0.18em;
@@ -75,13 +79,13 @@
 
         .crater-name {
             position: absolute;
-            bottom: -28px;
+            bottom: -24px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.65em;
-            color: #444;
+            color: #555;
             letter-spacing: 0.18em;
-            text-transform: uppercase;
+            text-transform: lowercase;
             white-space: nowrap;
             transition: opacity 0.5s ease;
             opacity: 0;
@@ -90,10 +94,11 @@
         .crater-name.visible { opacity: 1; }
 
         .bottom-row {
-            margin-top: 52px;
+            padding: 12px 0 20px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 28px;
             animation: fadeIn 4s ease-out;
         }
 
@@ -151,7 +156,7 @@
         <div class="crater-name" id="craterName"></div>
     </div>
 
-    <p class="hint" id="hint">Click to begin</p>
+    <p class="hint" id="hint">click to begin</p>
 
     <div class="bottom-row">
         <p class="credit">Petra Kühnle · 2026</p>
@@ -194,7 +199,6 @@ let recording = false, mediaRecorder = null, recChunks = [];
 function drawMoon() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, W, H);
-
     const gradient = ctx.createRadialGradient(
         CX - R * 0.3, CY - R * 0.3, R * 0.1,
         CX, CY, R
@@ -230,7 +234,6 @@ function drawStar(s) {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.size * 4, 0, Math.PI * 2);
     ctx.fill();
-
     const dx = s.tx - s.x, dy = s.ty - s.y;
     const len = Math.hypot(dx, dy);
     if (len > 0) {
@@ -268,7 +271,6 @@ function animate() {
     drawMoon();
     craterMarks.forEach(c => { drawCraterMark(c); c.age++; });
     if (craterMarks.length > 20) craterMarks.shift();
-
     stars.forEach((s, i) => {
         drawStar(s);
         const dx = s.tx - s.x, dy = s.ty - s.y;
@@ -304,23 +306,18 @@ function playStartupTone() {
     const delay    = audioCtx.createDelay();
     const feedback = audioCtx.createGain();
     const dGain    = audioCtx.createGain();
-
     osc.type = 'sine';
     osc.frequency.value   = 220;
     delay.delayTime.value  = 0.4;
     feedback.gain.value    = 0.5;
     dGain.gain.value       = 0.3;
-
     gain.gain.setValueAtTime(0, now);
     gain.gain.linearRampToValueAtTime(0.03, now + 0.1);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
-
-    osc.connect(gain);
-    wire(gain);
+    osc.connect(gain); wire(gain);
     gain.connect(delay);
     delay.connect(feedback); feedback.connect(delay);
     delay.connect(dGain); wire(dGain);
-
     osc.start(now); osc.stop(now + 2);
 }
 
@@ -332,24 +329,19 @@ function playTone(freq, dur, vol) {
     const delay = audioCtx.createDelay();
     const fb    = audioCtx.createGain();
     const dGain = audioCtx.createGain();
-
     osc.type = 'sine';
     osc.frequency.value   = freq;
     delay.delayTime.value  = 0.3;
     fb.gain.value          = 0.4;
     dGain.gain.value       = 0.5;
-
     gain.gain.setValueAtTime(0, now);
     gain.gain.linearRampToValueAtTime(0.12 * vol, now + 0.05);
     gain.gain.linearRampToValueAtTime(0.10 * vol, now + dur * 0.6);
     gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.2);
-
-    osc.connect(gain);
-    wire(gain);
+    osc.connect(gain); wire(gain);
     gain.connect(delay);
     delay.connect(fb); fb.connect(delay);
     delay.connect(dGain); wire(dGain);
-
     osc.start(now); osc.stop(now + dur + 0.3);
 }
 
