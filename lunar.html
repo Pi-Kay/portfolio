@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crater Sonification — Record Video</title>
+    <title>Crater Sonification — Petra Kühnle</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,12 +15,12 @@
             justify-content: center;
             min-height: 100vh;
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            gap: 0;
         }
 
         .title-block {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 32px;
+            animation: fadeIn 2s ease-out;
         }
 
         h1 {
@@ -28,101 +28,77 @@
             font-weight: 300;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #888;
+            color: #999;
             margin-bottom: 8px;
         }
 
         .sub {
-            font-size: 0.72em;
-            color: #333;
+            font-size: 0.75em;
+            color: #444;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
         .canvas-wrap {
-            position: relative;
             cursor: pointer;
             outline: none;
+            position: relative;
         }
 
-        canvas { display: block; }
+        .canvas-wrap:focus-visible {
+            outline: 1px solid #444;
+            outline-offset: 8px;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .hint {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.72em;
+            color: #333;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: opacity 1s ease;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .hint.hidden {
+            opacity: 0;
+        }
 
         .crater-name {
             position: absolute;
-            bottom: -26px;
+            bottom: -28px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.68em;
+            font-size: 0.7em;
             color: #444;
             letter-spacing: 2px;
             text-transform: uppercase;
             white-space: nowrap;
-            transition: opacity 0.5s;
+            transition: opacity 0.5s ease;
             opacity: 0;
         }
-        .crater-name.visible { opacity: 1; }
 
-        .controls {
-            margin-top: 44px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .rec-btn {
-            background: none;
-            border: 1px solid #333;
-            color: #666;
-            font-size: 0.72em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 10px 28px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .rec-btn:hover { border-color: #666; color: #999; }
-        .rec-btn.recording { border-color: #8b0000; color: #cc0000; animation: pulse 1.5s infinite; }
-        .rec-btn.done { border-color: #2a5c2a; color: #4a9a4a; }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .status {
-            font-size: 0.65em;
-            color: #333;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            text-align: center;
-            min-height: 16px;
-        }
-
-        .timer {
-            font-size: 0.65em;
-            color: #2a2a2a;
-            letter-spacing: 2px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .note {
-            margin-top: 20px;
-            font-size: 0.6em;
-            color: #222;
-            letter-spacing: 1px;
-            text-align: center;
-            max-width: 400px;
-            line-height: 1.8;
+        .crater-name.visible {
+            opacity: 1;
         }
 
         .credit {
-            margin-top: 32px;
-            font-size: 0.6em;
-            color: #1a1a1a;
+            margin-top: 48px;
+            font-size: 0.65em;
+            color: #222;
             letter-spacing: 1.5px;
             text-transform: uppercase;
+            animation: fadeIn 4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -133,126 +109,116 @@
         <p class="sub">NASA Lunar Data · Sound · Motion</p>
     </div>
 
-    <div class="canvas-wrap" id="wrap">
-        <canvas id="moon" width="520" height="520"></canvas>
+    <div class="canvas-wrap" id="wrap" role="button" tabindex="0" aria-label="Click to start lunar crater sonification" aria-pressed="false">
+        <canvas id="moon" width="600" height="600"></canvas>
         <div class="crater-name" id="craterName"></div>
     </div>
 
-    <div class="controls">
-        <button class="rec-btn" id="recBtn">● Start Recording</button>
-        <div class="status" id="status">Click to record a ~90 second video with audio</div>
-        <div class="timer" id="timerEl"></div>
-    </div>
+    <p class="hint" id="hint">Click to begin</p>
 
-    <p class="note">
-        Records canvas + audio as WebM · Opens in Chrome, Firefox, VLC<br>
-        For MP4: open in QuickTime or HandBrake to convert
-    </p>
-
-    <p class="credit">Petra Kühnle · 2026</p>
+    <p class="credit">Petra Kühnle · 2026 · petrakuehnle.com</p>
 
 <script>
 const CRATERS = [
-    {name:"Tycho",       lat:-43.31, lon:-11.36, diameter:85,  depth:4.7, age:108,  pitch:148, vol:95},
-    {name:"Copernicus",  lat:9.62,   lon:-20.08, diameter:93,  depth:3.8, age:800,  pitch:135, vol:97},
-    {name:"Kepler",      lat:8.13,   lon:-38.04, diameter:32,  depth:2.6, age:800,  pitch:330, vol:56},
-    {name:"Aristarchus", lat:23.73,  lon:-47.40, diameter:40,  depth:3.0, age:450,  pitch:304, vol:63},
-    {name:"Plato",       lat:51.62,  lon:-9.33,  diameter:101, depth:1.0, age:3500, pitch:110, vol:100},
-    {name:"Eratosthenes",lat:14.47,  lon:-11.29, diameter:60,  depth:3.6, age:3200, pitch:238, vol:77},
-    {name:"Archimedes",  lat:29.72,  lon:-4.00,  diameter:83,  depth:2.1, age:3600, pitch:154, vol:91},
-    {name:"Aristoteles", lat:50.17,  lon:17.42,  diameter:88,  depth:3.3, age:3800, pitch:142, vol:94},
-    {name:"Autolycus",   lat:30.70,  lon:1.48,   diameter:39,  depth:3.4, age:3200, pitch:310, vol:62}
+    {name:"Tycho",      lat:-43.31, lon:-11.36, diameter:85,  depth:4.7, age:108,  pitch:148, vol:95},
+    {name:"Copernicus", lat:9.62,   lon:-20.08, diameter:93,  depth:3.8, age:800,  pitch:135, vol:97},
+    {name:"Kepler",     lat:8.13,   lon:-38.04, diameter:32,  depth:2.6, age:800,  pitch:330, vol:56},
+    {name:"Aristarchus",lat:23.73,  lon:-47.40, diameter:40,  depth:3.0, age:450,  pitch:304, vol:63},
+    {name:"Plato",      lat:51.62,  lon:-9.33,  diameter:101, depth:1.0, age:3500, pitch:110, vol:100},
+    {name:"Eratosthenes",lat:14.47, lon:-11.29, diameter:60,  depth:3.6, age:3200, pitch:238, vol:77},
+    {name:"Archimedes", lat:29.72,  lon:-4.00,  diameter:83,  depth:2.1, age:3600, pitch:154, vol:91},
+    {name:"Aristoteles",lat:50.17,  lon:17.42,  diameter:88,  depth:3.3, age:3800, pitch:142, vol:94},
+    {name:"Autolycus",  lat:30.70,  lon:1.48,   diameter:39,  depth:3.4, age:3200, pitch:310, vol:62}
 ];
 
 const canvas = document.getElementById('moon');
 const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
-const CX = W/2, CY = H/2, R = W * 0.36;
+const CX = W / 2, CY = H / 2;
+const R = Math.min(W, H) * 0.35;
 
-let audioCtx, running = false, stars = [], craterMarks = [], idx = 0, launchTimer = null;
+let audioCtx, running = false;
+let stars = [], craterMarks = [];
+let idx = 0, timer = null;
 const nameEl = document.getElementById('craterName');
-const recBtn = document.getElementById('recBtn');
-const statusEl = document.getElementById('status');
-const timerEl = document.getElementById('timerEl');
+const hintEl = document.getElementById('hint');
+const wrap = document.getElementById('wrap');
 
-// Recording state
-let mediaRecorder = null, chunks = [], recording = false;
-let recStart = null, recInterval = null;
-const REC_DURATION = 90000; // 90 seconds
-
+// Draw static moon
 function drawMoon() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    for (let i = 0; i < 120; i++) {
-        const x = (Math.sin(i * 137.5) * 0.5 + 0.5) * W;
-        const y = (Math.cos(i * 97.3) * 0.5 + 0.5) * H;
-        if (Math.hypot(x - CX, y - CY) > R + 20) {
-            ctx.beginPath();
-            ctx.arc(x, y, 0.6 + (i % 3) * 0.3, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
+    const gradient = ctx.createRadialGradient(
+        CX - R * 0.3, CY - R * 0.3, R * 0.1,
+        CX, CY, R
+    );
+    gradient.addColorStop(0, '#e8e8e8');
+    gradient.addColorStop(0.7, '#c0c0c0');
+    gradient.addColorStop(1, '#888');
 
-    const g = ctx.createRadialGradient(CX - R*0.25, CY - R*0.25, R*0.05, CX, CY, R);
-    g.addColorStop(0, '#e6e6e6');
-    g.addColorStop(0.5, '#c8c8c8');
-    g.addColorStop(0.85, '#a0a0a0');
-    g.addColorStop(1, '#787878');
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.fill();
-
-    for (let i = 0; i < 18; i++) {
-        const angle = (i/18) * Math.PI * 2;
-        const dist = R * (0.2 + (i % 5) * 0.12);
-        const tx = CX + Math.cos(angle) * dist, ty = CY + Math.sin(angle) * dist;
-        const sz = 4 + (i % 4) * 3;
-        const tg = ctx.createRadialGradient(tx, ty, 0, tx, ty, sz);
-        tg.addColorStop(0, 'rgba(80,80,80,0.06)');
-        tg.addColorStop(1, 'rgba(80,80,80,0)');
-        ctx.fillStyle = tg;
-        ctx.beginPath(); ctx.arc(tx, ty, sz, 0, Math.PI*2); ctx.fill();
-    }
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI * 2);
+    ctx.fill();
 }
 
+// Crater mark — matches original exactly
 function drawCraterMark(c) {
-    const age01 = Math.min(c.age/60, 1);
-    const op = Math.max(0.08, 0.55 - age01 * 0.47);
-    ctx.strokeStyle = `rgba(60,60,60,${op})`;
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.stroke();
-    const ig = ctx.createRadialGradient(c.x+c.r*0.15, c.y+c.r*0.15, 0, c.x, c.y, c.r);
-    ig.addColorStop(0, `rgba(40,40,40,${op*0.5})`);
-    ig.addColorStop(1, 'rgba(40,40,40,0)');
-    ctx.fillStyle = ig;
-    ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fill();
+    const opacity = Math.max(0.1, 1 - (c.age / 100));
+
+    ctx.strokeStyle = `rgba(80, 80, 80, ${opacity * 0.6})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = `rgba(50, 50, 50, ${opacity * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(c.x + c.r * 0.2, c.y + c.r * 0.2, c.r * 0.8, 0, Math.PI * 2);
+    ctx.fill();
 }
 
+// Falling star
 function drawStar(s) {
-    const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size*4);
+    const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 4);
     glow.addColorStop(0, 'rgba(255,255,245,1)');
     glow.addColorStop(0.3, 'rgba(255,255,220,0.6)');
     glow.addColorStop(1, 'rgba(255,255,200,0)');
     ctx.fillStyle = glow;
-    ctx.beginPath(); ctx.arc(s.x, s.y, s.size*4, 0, Math.PI*2); ctx.fill();
-    const dx = s.tx - s.x, dy = s.ty - s.y, len = Math.hypot(dx, dy);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size * 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Trail
+    const dx = s.tx - s.x, dy = s.ty - s.y;
+    const len = Math.hypot(dx, dy);
     if (len > 0) {
-        const trail = ctx.createLinearGradient(s.x, s.y, s.x-(dx/len)*30, s.y-(dy/len)*30);
+        const trail = ctx.createLinearGradient(
+            s.x, s.y,
+            s.x - (dx/len)*30, s.y - (dy/len)*30
+        );
         trail.addColorStop(0, 'rgba(255,255,255,0.2)');
         trail.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.strokeStyle = trail; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x-(dx/len)*30, s.y-(dy/len)*30); ctx.stroke();
+        ctx.strokeStyle = trail;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - (dx/len)*30, s.y - (dy/len)*30);
+        ctx.stroke();
     }
 }
 
+// Impact flash
 function flashImpact(x, y, r) {
-    let op = 0.5;
+    let opacity = 0.5;
     const fade = () => {
-        if (op <= 0) return;
-        ctx.fillStyle = `rgba(255,255,210,${op})`;
-        ctx.beginPath(); ctx.arc(x, y, r*3.5, 0, Math.PI*2); ctx.fill();
-        op -= 0.05;
+        if (opacity <= 0) return;
+        ctx.fillStyle = `rgba(255,255,210,${opacity})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r * 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        opacity -= 0.05;
         requestAnimationFrame(fade);
     };
     fade();
@@ -262,253 +228,132 @@ function animate() {
     requestAnimationFrame(animate);
     drawMoon();
     craterMarks.forEach(c => { drawCraterMark(c); c.age++; });
-    if (craterMarks.length > 12) craterMarks.shift();
+    if (craterMarks.length > 20) craterMarks.shift();
+
     stars.forEach((s, i) => {
         drawStar(s);
-        const dx = s.tx - s.x, dy = s.ty - s.y, dist = Math.hypot(dx, dy);
+        const dx = s.tx - s.x, dy = s.ty - s.y;
+        const dist = Math.hypot(dx, dy);
         if (dist < s.speed + 2) {
             flashImpact(s.tx, s.ty, s.r);
-            craterMarks.push({x: s.tx, y: s.ty, r: s.r, age: 0});
+            craterMarks.push({ x: s.tx, y: s.ty, r: s.r, age: 0 });
             playTone(s.pitch, s.dur, s.vol);
             showName(s.name);
             stars.splice(i, 1);
         } else {
-            s.x += (dx/dist) * s.speed;
-            s.y += (dy/dist) * s.speed;
+            s.x += (dx / dist) * s.speed;
+            s.y += (dy / dist) * s.speed;
         }
     });
 }
 
 function latLonToXY(lat, lon) {
-    const lr = lat * Math.PI/180, lo = lon * Math.PI/180;
-    return { x: CX + R * Math.cos(lr) * Math.sin(lo), y: CY - R * Math.sin(lr) };
+    const latR = lat * Math.PI / 180;
+    const lonR = lon * Math.PI / 180;
+    return {
+        x: CX + R * Math.cos(latR) * Math.sin(lonR),
+        y: CY - R * Math.sin(latR)
+    };
 }
 
 function launchCrater() {
     if (!running) return;
-    const c = CRATERS[idx % CRATERS.length]; idx++;
+    const c = CRATERS[idx % CRATERS.length];
+    idx++;
     const {x, y} = latLonToXY(c.lat, c.lon);
-    const r = Math.max(6, Math.min(28, (c.diameter/100)*24));
-    const dur = 1.5 + (c.diameter/100)*2.5;
-    stars.push({ x: Math.random()*W, y: -40, tx: x, ty: y, r, speed: 2.5+Math.random()*1.5, size: 2.5, pitch: c.pitch, dur, vol: c.vol/100, name: c.name });
-    launchTimer = setTimeout(launchCrater, 3500 + Math.random()*2000);
+    const r = Math.min(30, (c.diameter / 100) * 25);
+    const dur = 1.5 + (c.diameter / 100) * 2.5;
+    stars.push({
+        x: Math.random() * W,
+        y: -40,
+        tx: x, ty: y,
+        r, speed: 2.5 + Math.random() * 1.5,
+        size: 2.5,
+        pitch: c.pitch,
+        dur,
+        vol: c.vol / 100,
+        name: c.name
+    });
+    timer = setTimeout(launchCrater, 3500 + Math.random() * 2000);
 }
 
 function playTone(freq, dur, vol) {
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-    const delay = audioCtx.createDelay(), fb = audioCtx.createGain(), dg = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.value = freq;
-    delay.delayTime.value = 0.35; fb.gain.value = 0.38; dg.gain.value = 0.45;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const delay = audioCtx.createDelay();
+    const fb = audioCtx.createGain();
+    const dGain = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    delay.delayTime.value = 0.35;
+    fb.gain.value = 0.38;
+    dGain.gain.value = 0.45;
+
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.13*vol, now+0.06);
-    gain.gain.linearRampToValueAtTime(0.10*vol, now+dur*0.6);
-    gain.gain.exponentialRampToValueAtTime(0.00001, now+dur+0.3);
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    gain.connect(delay); delay.connect(fb); fb.connect(delay);
-    delay.connect(dg); dg.connect(audioCtx.destination);
-    osc.start(now); osc.stop(now+dur+0.5);
+    gain.gain.linearRampToValueAtTime(0.13 * vol, now + 0.06);
+    gain.gain.linearRampToValueAtTime(0.10 * vol, now + dur * 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.00001, now + dur + 0.3);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    gain.connect(delay);
+    delay.connect(fb); fb.connect(delay);
+    delay.connect(dGain); dGain.connect(audioCtx.destination);
+    osc.start(now); osc.stop(now + dur + 0.5);
 }
 
 function playIntro() {
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
     [220, 165, 110].forEach((f, i) => {
-        const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.value = f;
-        g.gain.setValueAtTime(0, now+i*0.3);
-        g.gain.linearRampToValueAtTime(0.025, now+i*0.3+0.1);
-        g.gain.exponentialRampToValueAtTime(0.00001, now+i*0.3+1.8);
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = f;
+        g.gain.setValueAtTime(0, now + i * 0.3);
+        g.gain.linearRampToValueAtTime(0.025, now + i * 0.3 + 0.1);
+        g.gain.exponentialRampToValueAtTime(0.00001, now + i * 0.3 + 1.8);
         osc.connect(g); g.connect(audioCtx.destination);
-        osc.start(now+i*0.3); osc.stop(now+i*0.3+2);
+        osc.start(now + i * 0.3); osc.stop(now + i * 0.3 + 2);
     });
 }
 
 let nameTimer = null;
 function showName(name) {
-    nameEl.textContent = name; nameEl.classList.add('visible');
+    nameEl.textContent = name;
+    nameEl.classList.add('visible');
     if (nameTimer) clearTimeout(nameTimer);
     nameTimer = setTimeout(() => nameEl.classList.remove('visible'), 2500);
 }
 
-function startSonification() {
+function start() {
+    if (running) { stop(); return; }
     running = true;
+    wrap.setAttribute('aria-pressed', 'true');
+    hintEl.classList.add('hidden');
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     playIntro();
     setTimeout(launchCrater, 1200);
 }
 
-function stopSonification() {
+function stop() {
     running = false;
-    if (launchTimer) { clearTimeout(launchTimer); launchTimer = null; }
+    wrap.setAttribute('aria-pressed', 'false');
+    hintEl.classList.remove('hidden');
+    if (timer) { clearTimeout(timer); timer = null; }
     stars = [];
 }
 
-async function startRecording() {
-    recording = true;
-    recBtn.classList.add('recording');
-    recBtn.textContent = '■ Stop Recording';
-    statusEl.textContent = 'Recording...';
-    chunks = [];
-
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') await audioCtx.resume();
-
-    // Capture canvas stream
-    const canvasStream = canvas.captureStream(30);
-
-    // Capture audio via destination node
-    const dest = audioCtx.createMediaStreamDestination();
-
-    // Patch all audio output through dest as well
-    const origConnect = GainNode.prototype.connect;
-    // Instead, create a master gain connected to both destination and dest
-    const masterGain = audioCtx.createGain();
-    masterGain.gain.value = 1;
-    masterGain.connect(audioCtx.destination);
-    masterGain.connect(dest);
-
-    // Override playTone and playIntro to use masterGain
-    window._masterGain = masterGain;
-
-    const audioStream = dest.stream;
-    const combined = new MediaStream([
-        ...canvasStream.getVideoTracks(),
-        ...audioStream.getAudioTracks()
-    ]);
-
-    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
-        ? 'video/webm;codecs=vp9,opus'
-        : 'video/webm';
-
-    mediaRecorder = new MediaRecorder(combined, { mimeType, videoBitsPerSecond: 4000000 });
-    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-    mediaRecorder.onstop = saveVideo;
-    mediaRecorder.start(100);
-
-    recStart = Date.now();
-    recInterval = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - recStart) / 1000);
-        const remaining = Math.max(0, 90 - elapsed);
-        timerEl.textContent = `${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')} remaining`;
-        if (remaining <= 0) stopRecording();
-    }, 1000);
-
-    // Play intro tones through masterGain
-    playIntroWithDest(dest);
-    setTimeout(() => launchCraterWithDest(dest), 1200);
-
-    // Auto-stop after 90s
-    setTimeout(stopRecording, REC_DURATION);
-}
-
-function playIntroWithDest(dest) {
-    const now = audioCtx.currentTime;
-    [220, 165, 110].forEach((f, i) => {
-        const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.value = f;
-        g.gain.setValueAtTime(0, now+i*0.3);
-        g.gain.linearRampToValueAtTime(0.025, now+i*0.3+0.1);
-        g.gain.exponentialRampToValueAtTime(0.00001, now+i*0.3+1.8);
-        osc.connect(g);
-        g.connect(audioCtx.destination);
-        g.connect(dest);
-        osc.start(now+i*0.3); osc.stop(now+i*0.3+2);
-    });
-}
-
-function playToneWithDest(freq, dur, vol, dest) {
-    const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-    const delay = audioCtx.createDelay(), fb = audioCtx.createGain(), dg = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.value = freq;
-    delay.delayTime.value = 0.35; fb.gain.value = 0.38; dg.gain.value = 0.45;
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.13*vol, now+0.06);
-    gain.gain.linearRampToValueAtTime(0.10*vol, now+dur*0.6);
-    gain.gain.exponentialRampToValueAtTime(0.00001, now+dur+0.3);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination); gain.connect(dest);
-    gain.connect(delay); delay.connect(fb); fb.connect(delay);
-    delay.connect(dg); dg.connect(audioCtx.destination); dg.connect(dest);
-    osc.start(now); osc.stop(now+dur+0.5);
-}
-
-let recDest = null;
-function launchCraterWithDest(dest) {
-    recDest = dest;
-    if (!recording) return;
-    const c = CRATERS[idx % CRATERS.length]; idx++;
-    const {x, y} = latLonToXY(c.lat, c.lon);
-    const r = Math.max(6, Math.min(28, (c.diameter/100)*24));
-    const dur = 1.5 + (c.diameter/100)*2.5;
-    stars.push({
-        x: Math.random()*W, y: -40, tx: x, ty: y, r,
-        speed: 2.5+Math.random()*1.5, size: 2.5,
-        pitch: c.pitch, dur, vol: c.vol/100, name: c.name,
-        dest: dest
-    });
-    launchTimer = setTimeout(() => launchCraterWithDest(dest), 3500+Math.random()*2000);
-}
-
-// Override animate to use dest when recording
-const _origPlayTone = playTone;
-function animate2() {
-    requestAnimationFrame(animate2);
-    drawMoon();
-    craterMarks.forEach(c => { drawCraterMark(c); c.age++; });
-    if (craterMarks.length > 12) craterMarks.shift();
-    stars.forEach((s, i) => {
-        drawStar(s);
-        const dx = s.tx-s.x, dy = s.ty-s.y, dist = Math.hypot(dx, dy);
-        if (dist < s.speed+2) {
-            flashImpact(s.tx, s.ty, s.r);
-            craterMarks.push({x: s.tx, y: s.ty, r: s.r, age: 0});
-            if (s.dest) { playToneWithDest(s.pitch, s.dur, s.vol, s.dest); }
-            else { playTone(s.pitch, s.dur, s.vol); }
-            showName(s.name);
-            stars.splice(i, 1);
-        } else {
-            s.x += (dx/dist)*s.speed;
-            s.y += (dy/dist)*s.speed;
-        }
-    });
-}
-
-function stopRecording() {
-    if (!recording) return;
-    recording = false;
-    if (launchTimer) { clearTimeout(launchTimer); launchTimer = null; }
-    stars = [];
-    clearInterval(recInterval);
-    timerEl.textContent = '';
-    statusEl.textContent = 'Processing video...';
-    recBtn.classList.remove('recording');
-    recBtn.classList.add('done');
-    recBtn.textContent = '✓ Saving...';
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-}
-
-function saveVideo() {
-    const blob = new Blob(chunks, {type: 'video/webm'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'crater_sonification_petra_kuehnle.webm';
-    a.click();
-    URL.revokeObjectURL(url);
-    statusEl.textContent = 'Video saved · Convert to MP4 with QuickTime or HandBrake';
-    recBtn.textContent = '● Record Again';
-    recBtn.classList.remove('done');
-    chunks = []; idx = 0; craterMarks = [];
-}
-
-recBtn.addEventListener('click', () => {
-    if (!recording) { startRecording(); }
-    else { stopRecording(); }
+wrap.addEventListener('click', start);
+wrap.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start(); }
 });
 
-animate2();
+animate();
 </script>
 </body>
 </html>
