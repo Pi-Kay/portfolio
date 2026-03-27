@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Forge — Research Overview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #4a4a6a;
+    --ink-faint: #9090aa;
+    --bg: #f7f7f2;
+    --bg-card: #ffffff;
+    --accent: #2d6be4;
+    --accent-light: #e8f0fd;
+    --amber: #e8860a;
+    --amber-light: #fef3e2;
+    --green: #1a8a5a;
+    --green-light: #e4f5ed;
+    --purple: #6b3fa0;
+    --purple-light: #f0eaf8;
+    --rule: #e5e5e0;
+    --tag-bg: #f0f0ea;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: white;
+    padding: 56px 64px 48px;
+  }
+  .header-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b7fc4;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    max-width: 620px;
+  }
+  .header h1 span { color: #7ba7f5; }
+  .header p {
+    color: #a0a8cc;
+    font-size: 16px;
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .header-meta-item .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7fc4;
+  }
+  .header-meta-item .value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #cdd6f0;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 28px;
+    margin-top: 60px;
+  }
+  .section-header:first-child { margin-top: 0; }
+  .section-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    min-width: 28px;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .section-header .section-sub {
+    font-size: 14px;
+    color: var(--ink-faint);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  /* ── RULE ── */
+  .rule { height: 1px; background: var(--rule); margin: 0 0 28px; }
+
+  /* ── PROBLEM BANNER ── */
+  .problem-banner {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .problem-banner h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #7ba7f5;
+    margin-bottom: 10px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+  }
+  .problem-banner p {
+    color: #c8d0e8;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .problem-banner .divider {
+    width: 1px;
+    background: #2a2a4a;
+    display: none;
+  }
+
+  /* ── THREE PILLARS ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .pillar {
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px 22px;
+    background: var(--bg-card);
+  }
+  .pillar-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 17px;
+  }
+  .pillar h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .pillar .question {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .pillar p {
+    font-size: 13.5px;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* ── DESIGN SPACE ── */
+  .design-space-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .design-space-item {
+    background: var(--bg-card);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .ds-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .design-space-item h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .design-space-item p {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .design-space-note {
+    background: var(--accent-light);
+    border: 1.5px solid #b8d0f8;
+    border-radius: 10px;
+    padding: 18px 22px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+  .design-space-note p {
+    font-size: 14px;
+    color: #1a3a8a;
+    line-height: 1.6;
+  }
+  .design-space-note strong { font-weight: 600; }
+
+  /* ── PRINCIPLES ── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .principle-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .principle-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .principle-card.blue::before { background: var(--accent); }
+  .principle-card.amber::before { background: var(--amber); }
+  .principle-card.purple::before { background: var(--purple); }
+
+  .principle-author {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .principle-card.blue .principle-author { color: var(--accent); }
+  .principle-card.amber .principle-author { color: var(--amber); }
+  .principle-card.purple .principle-author { color: var(--purple); }
+
+  .principle-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .principle-point {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 9px;
+    align-items: flex-start;
+  }
+  .principle-point .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .blue .dot { background: var(--accent); }
+  .amber .dot { background: var(--amber); }
+  .purple .dot { background: var(--purple); }
+  .principle-point p {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .principle-point strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ── TENSIONS ── */
+  .tensions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tension-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 16px 20px;
+    align-items: center;
+  }
+  .tension-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tension-side {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.45;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tension-side::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tension-side.a::before { background: var(--accent); }
+  .tension-side.b::before { background: var(--amber); }
+  .tensions-header {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 16px;
+    padding: 0 20px 8px;
+  }
+  .tensions-header span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+
+  /* ── PROCESS TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--green));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -33px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  .timeline-dot.done { background: var(--green); }
+  .timeline-dot.active { background: var(--accent); box-shadow: 0 0 0 3px #b8d0f8; }
+  .timeline-dot.next { background: var(--bg); border-color: var(--rule); border-width: 2px; }
+  .timeline-phase {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .timeline-items-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .chip.done { background: var(--green-light); color: var(--green); }
+  .chip.active { background: var(--accent-light); color: var(--accent); }
+  .chip.pending { background: var(--tag-bg); color: var(--ink-light); }
+  .chip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .chip.done::before { background: var(--green); }
+  .chip.active::before { background: var(--accent); }
+  .chip.pending::before { background: var(--ink-faint); }
+
+  /* ── KEY INSIGHT CALLOUT ── */
+  .key-insight {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    position: relative;
+  }
+  .key-insight .ki-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #7ba7f5;
+    margin-bottom: 10px;
+  }
+  .key-insight p {
+    color: #c8d0e8;
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 680px;
+  }
+  .key-insight strong { color: white; }
+
+  /* ── DELIVERABLES ── */
+  .deliverables-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .deliverable-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .deliverable-card .d-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .deliverable-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .deliverable-card p {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .deliverable-card .status-chip {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .status-chip.complete { background: var(--green-light); color: var(--green); }
+  .status-chip.in-progress { background: var(--amber-light); color: var(--amber); }
+
+  /* ── NEXT STEPS ── */
+  .next-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    counter-reset: steps;
+  }
+  .next-step {
+    background: var(--bg-card);
+    border: 1.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px 22px;
+    counter-increment: steps;
+    position: relative;
+  }
+  .step-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-light);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: #c8d8fa;
+  }
+  .next-step h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .next-step p {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.55;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1040px;
+    margin: 0 auto;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+  .footer span { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.05em; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
+    .main { padding: 40px 24px 60px; }
+    .header { padding: 40px 24px 36px; }
+    .header h1 { font-size: 28px; }
+    .pillars, .principles-grid, .deliverables-grid, .next-steps { grid-template-columns: 1fr; }
+    .problem-banner, .design-space-grid { grid-template-columns: 1fr; }
+    .tension-row { grid-template-columns: 1fr; gap: 8px; }
+    .tensions-header { display: none; }
+    .design-space-note { grid-column: 1; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">System Forge · Visual Design Language</div>
+  <h1>Designing a visual language for<br><span>complex systems engineering</span></h1>
+  <p>Research and design work toward making SysML — a powerful but inaccessible professional language — legible, learnable, and useful without requiring weeks of training.</p>
+  <div class="header-meta">
+    <div class="header-meta-item"><span class="label">Phase</span><span class="value">1 of 3 · Foundations</span></div>
+    <div class="header-meta-item"><span class="label">Focus</span><span class="value">SysML · Visual Design</span></div>
+    <div class="header-meta-item"><span class="label">Approach</span><span class="value">Research → Principles → Visual Language</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── 01 THE PROBLEM ── -->
+  <div class="section-header" style="margin-top:0">
+    <span class="section-number">01</span>
+    <h2>The problem <span class="section-sub">— Why this work exists</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="problem-banner">
+    <div>
+      <h3>What SysML is</h3>
+      <p>SysML is a professional language for describing complex engineered systems — used in aerospace, automotive, defence, and infrastructure. It gives teams a shared visual vocabulary to design systems before they're built.</p>
+    </div>
+    <div>
+      <h3>Why it's hard</h3>
+      <p>The language was designed for language implementers, not practicing engineers. It has no learning path, no layout guidance, no progressive disclosure — and existing tools close the gap with training manuals rather than good design. The result: powerful but slow to learn and painful to use.</p>
+    </div>
+  </div>
+
+  <!-- ── 02 THE LANGUAGE ── -->
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2>How SysML works <span class="section-sub">— Three questions, nine diagram types</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-icon" style="background:#e8f0fd;">🧱</div>
+      <h3>Structure</h3>
+      <p class="question">"What is it made of?"</p>
+      <p>Parts, components, ports, connections, and hierarchies. How a system is assembled and how its pieces relate to each other.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon" style="background:#fef3e2;">⚡</div>
+      <h3>Behaviour</h3>
+      <p class="question">"What does it do?"</p>
+      <p>Actions, sequences, modes, transitions, and use cases. What the system does over time and in response to events.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon" style="background:#e4f5ed;">📋</div>
+      <h3>Requirements</h3>
+      <p class="question">"What must it satisfy?"</p>
+      <p>Formal requirements linked directly to the design elements that must satisfy them — traceability across the whole model.</p>
+    </div>
+  </div>
+
+  <div class="key-insight" style="margin-top:24px;">
+    <div class="ki-label">Key insight from research</div>
+    <p>SysML v2 introduced one underlying pattern that unifies everything: every element is either a <strong>Definition</strong> (what a thing is) or a <strong>Usage</strong> (that thing in a specific context). This is the semantic backbone v1 never had — and it changes how the visual language can be structured.</p>
+  </div>
+
+  <!-- ── 03 THE DESIGN SPACE ── -->
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2>The design space <span class="section-sub">— What SysML deliberately leaves open</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="design-space-grid">
+    <div class="design-space-item">
+      <div class="ds-dot"></div>
+      <div>
+        <h4>No methodology</h4>
+        <p>No guidance on where to start modeling, what order to work in, or how to decompose a complex system for the first time.</p>
+      </div>
+    </div>
+    <div class="design-space-item">
+      <div class="ds-dot"></div>
+      <div>
+        <h4>No layout rules</h4>
+        <p>Visual arrangement is entirely up to the tool and the user. There are no defaults for where to put things or how to make diagrams readable.</p>
+      </div>
+    </div>
+    <div class="design-space-item">
+      <div class="ds-dot"></div>
+      <div>
+        <h4>No progressive disclosure</h4>
+        <p>No guidance on what to show to whom at what level of detail. A new user and a senior engineer see exactly the same interface.</p>
+      </div>
+    </div>
+    <div class="design-space-item">
+      <div class="ds-dot"></div>
+      <div>
+        <h4>No learning path</h4>
+        <p>The specification is written for people implementing the language, not for engineers trying to use it. There is no onboarding, no sequence of introduction.</p>
+      </div>
+    </div>
+    <div class="design-space-note">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:2px"><circle cx="10" cy="10" r="9" stroke="#2d6be4" stroke-width="1.5"/><path d="M10 9v5M10 7h.01" stroke="#2d6be4" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <p><strong>This is where System Forge's visual language works.</strong> The spec defines the semantics — what things mean. The design fills in everything the spec leaves blank: how the tool teaches, how it guides, how it adapts to who's using it, and how it makes the right action obvious without a manual.</p>
+    </div>
+  </div>
+
+  <!-- ── 04 PRINCIPLES ── -->
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2>Design principles <span class="section-sub">— What research contributed</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="principles-grid">
+    <div class="principle-card blue">
+      <div class="principle-author">Norman · Design of Everyday Things</div>
+      <h3>Make the tool teach itself</h3>
+      <div class="principle-point"><div class="dot"></div><p><strong>Visual affordances</strong> — the way things look should reveal what can be done with them, without a manual.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Prevent errors early</strong> — surface incompatibilities at the moment of action, not after export.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Clear feedback</strong> — every consequential action needs an immediate, visible response.</p></div>
+    </div>
+    <div class="principle-card amber">
+      <div class="principle-author">Tufte · Information Design</div>
+      <h3>Reduce noise, reveal signal</h3>
+      <div class="principle-point"><div class="dot"></div><p><strong>Data-ink ratio</strong> — most SysML diagrams are heavily over-inked. Remove everything that doesn't carry meaning.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Small multiples</strong> — show system views consistently across perspectives so comparison is easy.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Layered detail</strong> — show the right level of complexity for the task at hand, not all of it at once.</p></div>
+    </div>
+    <div class="principle-card purple">
+      <div class="principle-author">B2B Expert-Tool UX</div>
+      <h3>Serve the professional context</h3>
+      <div class="principle-point"><div class="dot"></div><p><strong>Efficiency first</strong> — in long engineering sessions, every extra step is a professional cost.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Errors have consequences</strong> — a mislabeled requirement or wrong connection can propagate through a project.</p></div>
+      <div class="principle-point"><div class="dot"></div><p><strong>Multiple user types</strong> — a new engineer and a senior systems engineer may view the same model. The language must serve both.</p></div>
+    </div>
+  </div>
+
+  <!-- ── 05 TENSIONS ── -->
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2>Key tensions <span class="section-sub">— The ongoing design problem, not solved by research</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="tensions-header">
+    <span>Tension</span>
+    <span>One side</span>
+    <span>Other side</span>
+  </div>
+  <div class="tensions-list">
+    <div class="tension-row">
+      <div class="tension-name">Familiarity vs. improvement</div>
+      <div class="tension-side a">Engineers expect SysML's existing notation</div>
+      <div class="tension-side b">SysML notation is often cluttered and hard to read</div>
+    </div>
+    <div class="tension-row">
+      <div class="tension-name">Precision vs. accessibility</div>
+      <div class="tension-side a">Exact notation meaning must be preserved</div>
+      <div class="tension-side b">Standard notation is opaque to anyone new</div>
+    </div>
+    <div class="tension-row">
+      <div class="tension-name">Completeness vs. disclosure</div>
+      <div class="tension-side a">Engineers need access to full capability</div>
+      <div class="tension-side b">New users are overwhelmed by full capability</div>
+    </div>
+    <div class="tension-row">
+      <div class="tension-name">Learnability vs. usability</div>
+      <div class="tension-side a">Intuitive on first contact, forgiving</div>
+      <div class="tension-side b">Fast and powerful once fluent</div>
+    </div>
+  </div>
+
+  <!-- ── 06 WHAT'S BEEN MADE ── -->
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <h2>What's been produced <span class="section-sub">— Phase 1 deliverables</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="deliverables-grid">
+    <div class="deliverable-card">
+      <div class="d-type">Research document</div>
+      <h4>SysML Foundations</h4>
+      <p>Full analysis of SysML's structure, design space, constraints, and relevant theory — with direct application to System Forge's design goals.</p>
+      <span class="status-chip complete">Complete</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="d-type">Reference artifact</div>
+      <h4>Symbol Frequency Guide</h4>
+      <p>All 26 SysML 2 symbols drawn at scale, ordered by how often they appear in real models — making the most important things most visible.</p>
+      <span class="status-chip complete">Complete</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="d-type">Analysis framework</div>
+      <h4>Learnability × Error Prevention</h4>
+      <p>Structured analysis of SysML 2 diagram types across three axes: learnability, best practices, and error prevention.</p>
+      <span class="status-chip complete">Complete</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="d-type">Design explorations</div>
+      <h4>Interface Concepts</h4>
+      <p>Paper sketches exploring canvas structure, symbol-as-icon principle, show/hide controls, and the novice-to-expert toggle concept.</p>
+      <span class="status-chip in-progress">In progress</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="d-type">User journey</div>
+      <h4>Three-Stage User Map</h4>
+      <p>Draft progression from onboarding/novice through building user to advanced project management — the structure for Phase 2.</p>
+      <span class="status-chip in-progress">In progress</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="d-type">Onboarding analysis</div>
+      <h4>Friction Point Audit</h4>
+      <p>Initial observations from walking System Forge as a novice: four friction categories identified — speed, size, colour, and unique value communication.</p>
+      <span class="status-chip in-progress">In progress</span>
+    </div>
+  </div>
+
+  <!-- ── 07 NEXT STEPS ── -->
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <h2>What comes next <span class="section-sub">— Moving from research to design</span></h2>
+  </div>
+  <div class="rule"></div>
+
+  <div class="next-steps">
+    <div class="next-step">
+      <div class="step-number">01</div>
+      <h4>Capture the paper work</h4>
+      <p>The analysis framework and interface sketches from the working session need to move into digital form — before the thinking behind each decision drifts.</p>
+    </div>
+    <div class="next-step">
+      <div class="step-number">02</div>
+      <h4>First Figma wireframes</h4>
+      <p>The canvas sketch with Structure / Behaviour / Parametric tabs, show/hide controls, and the same-symbol-as-icon principle becomes the first low-fidelity wireframe.</p>
+    </div>
+    <div class="next-step">
+      <div class="step-number">03</div>
+      <h4>Phase 2 — User progression</h4>
+      <p>Design how the tool adapts to where the user is: onboarding (first encounter), building (regular use), and advanced (expert efficiency). Each stage has different needs.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>System Forge · Visual Design Language · Phase 1</span>
+  <span>March 2026</span>
+</div>
+
+</body>
+</html>
