@@ -3,311 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TennaSonic — Petra Kühnle</title>
-    <meta name="description" content="Brand identity system for deep-tech hardware startup. Antenna-in-Package platform for 5G/6G and satellite communications.">
-    <link rel="stylesheet" href="style.css">
+    <title>TennaSonic: Logo System Design</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Page-specific styles only */
-        .logo-showcase { 
-            background: #000; 
-            padding: 40px; 
-            margin: 20px 0; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            gap: 32px;
-        }
-        .logo-showcase.light { 
-            background: #fff; 
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+
+        /* Document preview */
+        .doc-preview {
+            display: flex;
+            gap: 24px;
+            margin: 20px 0;
+            padding: 24px;
+            background: #fff;
             border: 1px solid #e5e5e5;
+            align-items: flex-start;
         }
-        .logo-wordmark { 
-            font-family: 'DIN Alternate', 'DIN', 'Arial Black', sans-serif; 
-            font-size: 2em; 
-            font-weight: 700; 
-            letter-spacing: 1px;
-            color: #8A9BAD;
+
+        .doc-thumbnail {
+            flex-shrink: 0;
+            width: 160px;
+            height: 210px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .logo-wordmark span { color: #4A4E57; }
-        .logo-tagline { 
-            font-family: 'IBM Plex Mono', 'Courier New', monospace; 
-            font-size: 0.75em; 
-            color: #6E7480; 
-            letter-spacing: 1px;
+
+        .doc-thumbnail:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
         }
-        .logo-mark {
-            display: grid;
-            grid-template-columns: repeat(4, 12px);
-            grid-template-rows: repeat(2, 12px);
-            gap: 3px;
+
+        .doc-thumbnail embed {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
-        .logo-mark div {
-            background: linear-gradient(180deg, #4A4E57 0%, #8A9BAD 100%);
-            border-radius: 1px;
+
+        .doc-info {
+            flex: 1;
         }
-        .palette-grid { 
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 8px; 
-            margin: 20px 0; 
+
+        .doc-info-title {
+            font-size: 1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
         }
-        .palette-swatch { 
-            aspect-ratio: 1; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: flex-end; 
-            padding: 6px; 
-            font-size: 0.65em; 
+
+        .doc-info-meta {
+            font-size: 0.85em;
+            color: #6b6b6b;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            background: #1a1a1a;
+            border: 1px solid #1a1a1a;
             color: #fff;
-            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
         }
-        .palette-swatch.light-text { color: #1a1a1a; }
-        .deliverables-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 16px; 
-            margin: 24px 0; 
+
+        .btn:hover {
+            background: #3d3d3d;
+            border-color: #3d3d3d;
+            color: #fff;
         }
-        .deliverable-card { 
-            background: #fff; 
-            border: 1px solid #e5e5e5; 
-            padding: 20px; 
+
+        .btn-outline {
+            background: transparent;
+            color: #1a1a1a;
         }
-        .deliverable-title { 
-            font-size: 0.95em; 
-            font-weight: 500; 
-            color: #1a1a1a; 
-            margin-bottom: 8px; 
+
+        .btn-outline:hover {
+            background: #1a1a1a;
+            color: #fff;
         }
-        .deliverable-desc { 
-            font-size: 0.85em; 
-            color: #6b6b6b; 
-            font-weight: 400; 
-            line-height: 1.5; 
+
+        /* Audio section */
+        .audio-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e5e5;
         }
-        .sector-ref { 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-            padding: 16px 0; 
-            border-bottom: 1px solid #e5e5e5; 
+
+        .audio-label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 8px;
         }
-        .sector-ref:last-child { border-bottom: none; }
-        .sector-name { 
-            font-size: 0.9em; 
-            font-weight: 500; 
-            color: #1a1a1a; 
-            min-width: 140px; 
+
+        .audio-desc {
+            font-size: 0.85em;
+            color: #6b6b6b;
+            margin-bottom: 12px;
         }
-        .sector-lesson { 
-            font-size: 0.85em; 
-            color: #6b6b6b; 
-            font-weight: 400; 
-        }
-        .highlight-box { 
-            background: #f9f9f9; 
-            border-left: 3px solid #1a1a1a; 
-            padding: 16px 20px; 
-            margin: 20px 0; 
-        }
-        .highlight-box p { margin-bottom: 8px; }
-        .highlight-box p:last-child { margin-bottom: 0; }
-        .role-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin: 20px 0; 
-            font-size: 0.85em; 
-        }
-        .role-table th, 
-        .role-table td { 
-            padding: 10px 12px; 
-            text-align: left; 
-            border-bottom: 1px solid #e5e5e5; 
-        }
-        .role-table th { 
-            font-weight: 500; 
-            color: #6b6b6b; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            font-size: 0.8em; 
-        }
-        .role-table td { 
-            color: #3d3d3d; 
-            font-weight: 400; 
-        }
-        .role-indicator { 
-            display: inline-block; 
-            width: 10px; 
-            height: 10px; 
-            border-radius: 50%; 
-            margin-right: 6px; 
-        }
-        .role-primary { background: #1a1a1a; }
-        .role-shared { background: linear-gradient(135deg, #1a1a1a 50%, #c0c0c0 50%); }
-        .role-supporting { background: #c0c0c0; }
-        .note { 
-            font-size: 0.85em; 
-            color: #8a8a8a; 
-            font-style: italic; 
-        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .deliverables-grid { grid-template-columns: 1fr; }
-            .palette-grid { grid-template-columns: repeat(3, 1fr); }
-            .sector-ref { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .sector-name { min-width: auto; }
+            .doc-preview {
+                flex-direction: column;
+            }
+
+            .doc-thumbnail {
+                width: 100%;
+                max-width: 200px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="project">
+    <a href="#main" class="skip-link">Skip to content</a>
+
     <header>
-        <h1>TennaSonic</h1>
-        <p>Brand identity for a deep-tech hardware startup developing thermally-resilient antenna platforms for 5G/6G and satellite communications</p>
+        <h1>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1a1a1a" stroke-width="1.5" style="margin-right: 12px;">
+                <rect x="4" y="4" width="8" height="5" rx="1"/>
+                <rect x="4" y="11" width="8" height="5" rx="1"/>
+                <rect x="4" y="18" width="8" height="5" rx="1"/>
+                <rect x="14" y="4" width="8" height="5" rx="1"/>
+                <rect x="14" y="11" width="8" height="5" rx="1"/>
+                <rect x="14" y="18" width="8" height="5" rx="1"/>
+            </svg>
+            TennaSonic: Logo System Design
+        </h1>
+        <p>Identity system for an Antenna-in-Package hardware startup preparing for Series A</p>
+        <p class="meta">April 2026 · Freelance</p>
     </header>
 
-    <main>
+    <main id="main">
+
         <section>
-            <h2>Logo System</h2>
-            <div class="logo-showcase">
-                <div class="logo-mark">
-                    <div></div><div></div><div></div><div></div>
-                    <div></div><div></div><div></div><div></div>
-                </div>
-                <div style="text-align: center;">
-                    <div class="logo-wordmark"><span>Tenna</span>Sonic</div>
-                    <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
-                </div>
-            </div>
-            <p class="note">The AiP Stack mark represents the multi-layer package structure central to Antenna-in-Package technology — LTCC ceramic, HDI organic, or eWLB mold compound layers.</p>
+            <h2 class="section-title">Role</h2>
+            <p>Sole designer. Developed brand identity from founder brief through logo system, typography selection, and colour palette. Delivered comprehensive design documentation for investor-readiness.</p>
         </section>
 
         <section>
-            <h2>Context</h2>
-            <p>TennaSonic is developing a thermally-resilient Antenna-in-Package (AiP) platform for reliable 5G/6G, satellite, and radar performance. The core challenge: antenna systems degrade above 43–45°C — critical in mmWave and sub-THz bands.</p>
-            <p>Target applications include smartphones, base stations, automotive, satellite terminals, and IoT devices. Currently at TRL 3 (Experimental Proof of Concept) with national financing.</p>
+            <h2 class="section-title">Context</h2>
+            <p>TennaSonic is developing thermally-resilient Antenna-in-Package (AiP) technology for 5G/6G, satellite, and radar applications. The founder — a physics doctoral researcher — needed a credible visual identity ahead of a significant funding round. B2B positioning targeting smartphones, base stations, automotive, and IoT.</p>
         </section>
 
         <section>
-            <h2>Deliverables</h2>
-            <div class="deliverables-grid">
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Logo System</div>
-                    <div class="deliverable-desc">Banner, horizontal lockup, wordmark-only, and single-colour variants with size specifications</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Typography</div>
-                    <div class="deliverable-desc">DIN 1451 / DIN Pro primary + IBM Plex Mono for technical specs. Weight and size scale defined</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Colour Palettes</div>
-                    <div class="deliverable-desc">Metal/Material (dark mode) and Black/White (engineering register) with accent hierarchy</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Sector Research</div>
-                    <div class="deliverable-desc">Visual audit of ultrasonic tech, hardware deep tech, and R&D institutes (DE, NL, JP, US)</div>
-                </div>
-            </div>
+            <h2 class="section-title">Shipped</h2>
+            <ul>
+                <li>AiP Stack mark — representing multi-layer package structure</li>
+                <li>Three application formats: Banner, Logo lockup, Name-only</li>
+                <li>Single-colour variant for print</li>
+                <li>Typography system based on DIN 1451 (German engineering heritage)</li>
+                <li>Two colour palettes: Metal/Material and Black-on-White</li>
+            </ul>
         </section>
 
         <section>
-            <h2>Colour · Metal & Material</h2>
-            <div class="palette-grid">
-                <div class="palette-swatch" style="background: #1A1A1A;">Anechoic</div>
-                <div class="palette-swatch" style="background: #3C3C3C;">Tungsten</div>
-                <div class="palette-swatch" style="background: #4A4E57;">Steel</div>
-                <div class="palette-swatch" style="background: #8A9BAD;">Brushed Al</div>
-                <div class="palette-swatch light-text" style="background: #C2C8D2;">Polished Al</div>
-                <div class="palette-swatch light-text" style="background: #F0EDE6;">Lab Paper</div>
-            </div>
-            <div class="palette-grid">
-                <div class="palette-swatch" style="background: #B87333;">Cu Trace</div>
-                <div class="palette-swatch light-text" style="background: #D4C9A8;">Solder</div>
-                <div class="palette-swatch" style="background: #00C8FF;">Plasma Cyan</div>
-                <div class="palette-swatch" style="background: #0077B6;">RF Blue</div>
-                <div class="palette-swatch" style="background: #FF5F1F;">Thermal</div>
-                <div class="palette-swatch" style="background: #7B3F00;">Oxidised Cu</div>
-            </div>
-            <p class="note">Drawn from antenna-in-package fabrication: machined aluminium, tungsten via-fills, copper RF traces, solder alloy, anechoic chambers.</p>
-        </section>
-
-        <section>
-            <h2>Typography Rationale</h2>
+            <h2 class="section-title">Approach</h2>
+            <p>Started with founder-generated digital concepts as input. Analysed sector conventions across semiconductor, telecom, and deep-tech competitors. Identified risks in initial directions (WiFi-arc associations, generic tower iconography) and developed alternative mark directions grounded in the actual technology.</p>
+            
             <div class="highlight-box">
-                <p><strong>DIN 1451 / DIN Pro</strong></p>
-                <p>DIN (Deutsches Institut für Normung) is the German national standard for measurement instruments, engineering drawings, road signage, and electrical labelling. Every major German engineering company uses a DIN-adjacent face: Deutsche Bahn, Bundeswehr, DIN-certified lab equipment.</p>
-                <p>For a startup building hardware for telecommunications infrastructure, using DIN is a quiet declaration of engineering seriousness.</p>
+                <p><strong>Key decision:</strong> The AiP Stack mark directly references antenna-in-package layer structure — LTCC ceramic, HDI organic, or eWLB mold compound. This makes the mark technically meaningful rather than generic telecom signalling.</p>
             </div>
         </section>
 
         <section>
-            <h2>Sector Reference</h2>
-            <div class="sector-ref">
-                <span class="sector-name">TU Delft ECTM</span>
-                <span class="sector-lesson">A precision letterform can carry identity alone — the mark need not depict a wave</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">Fraunhofer IMS</span>
-                <span class="sector-lesson">Abstract frequency bars read as "measurement" without illustrating a wave</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">RIKEN CEMS</span>
-                <span class="sector-lesson">Crosshair device conveys precision tuning — relevant for thermal resilience messaging</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">MIT Lincoln Lab</span>
-                <span class="sector-lesson">Contained rule-system wordmark reads as high-precision research</span>
+            <h2 class="section-title">Typography</h2>
+            <p>DIN 1451 / DIN Pro selected for its German engineering heritage and industrial precision. The typeface originated from German road signage standards — appropriate for a Kaiserslautern-based deep-tech venture. Arial Narrow specified as fallback for cross-platform consistency.</p>
+            
+            <div class="tech-list">
+                <span class="tech-tag">DIN 1451</span>
+                <span class="tech-tag">DIN Pro</span>
+                <span class="tech-tag">Arial Narrow</span>
+                <span class="tech-tag">Courier New</span>
             </div>
         </section>
 
         <section>
-            <h2>Process</h2>
-            <table class="role-table">
-                <thead>
-                    <tr><th>Task</th><th>Human</th><th>AI</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Design direction & concept</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                    <tr>
-                        <td>Typography & colour decisions</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                    <tr>
-                        <td>Industry research synthesis</td>
-                        <td><span class="role-indicator role-shared"></span>Shared</td>
-                        <td><span class="role-indicator role-shared"></span>Shared</td>
-                    </tr>
-                    <tr>
-                        <td>Documentation layout</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                    </tr>
-                    <tr>
-                        <td>SVG mark rendering</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2 class="section-title">Colour System</h2>
+            <ul>
+                <li>Palette A (Metal/Material) — Absolute Black, Gunmetal, Slate, Steel, Aluminium, Silver</li>
+                <li>Palette B (Black on White) — High contrast for documents and professional contexts</li>
+                <li>Hierarchy: Black anchors the name, metallic greys carry secondary elements</li>
+            </ul>
         </section>
 
         <section>
-            <h2>Status</h2>
-            <p>Draft documentation delivered. Production assets pending formal contract. All design work shown — typography, colour systems, logo directions, sector analysis — remains designer IP until transfer.</p>
-            <p class="note">Preview only · Not for investor or press distribution</p>
+            <h2 class="section-title">Documentation</h2>
+            <div class="doc-preview">
+                <a href="TennaSonic_BrandStyleGuide.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of TennaSonic Brand Style Guide PDF">
+                    <embed src="TennaSonic_BrandStyleGuide.pdf#page=1" type="application/pdf" title="First page preview">
+                </a>
+                <div class="doc-info">
+                    <div class="doc-info-title">TennaSonic Brand Style Guide</div>
+                    <div class="doc-info-meta">Logo system, typography, colour palettes, usage guidelines</div>
+                    <a href="TennaSonic_BrandStyleGuide.pdf" target="_blank" class="btn">View PDF</a>
+                    <a href="TennaSonic_BrandStyleGuide.pdf" download class="btn btn-outline">Download</a>
+                    
+                    <div class="audio-section">
+                        <div class="audio-label">Audio Version</div>
+                        <div class="audio-desc">Style guide as audio — for accessible review or listening on the go.</div>
+                        <a href="TennaSonic_BrandStyleGuide.mp3" download class="btn btn-outline">Download Audio ↓</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <div class="case-nav">
-            <a href="musicai.html" class="button back">← Compliance Guide</a>
-            <a href="valispace.html" class="button next">Aerospace Traceability →</a>
-        </div>
+        <section>
+            <h2 class="section-title">Outcomes</h2>
+            <ul>
+                <li>Complete logo system delivered for funding round preparation</li>
+                <li>Design documentation structured for investor and partner distribution</li>
+                <li>Mark direction differentiated from sector conventions</li>
+            </ul>
+        </section>
+
+        <section>
+            <p class="note">Case study describes role, process, and outcomes. Full design documentation delivered under freelance contract; select assets shown with permission.</p>
+        </section>
+
     </main>
 
-    <footer>
-        <p>© 2025 Petra Kühnle</p>
-    </footer>
+    <nav>
+        <a href="valispace.html">← Aerospace Traceability</a>
+        <a href="index.html">All Projects →</a>
+    </nav>
 </body>
 </html>
