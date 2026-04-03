@@ -3,291 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Petra Kühnle">
-    <title>Petra Kühnle - Portfolio</title>
+    <title>TennaSonic: Logo System Design</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
+        /* ===== BASE TYPOGRAPHY FALLBACK ===== */
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #fafafa;
-            color: #1a1a1a;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 60px 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .anchor {
-            font-size: 1.2em;
-            color: #ccc;
-            margin-bottom: 24px;
-            font-weight: 300;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f9f9f9;
+            color: #3d3d3d;
+            line-height: 1.8;
         }
 
         h1 {
             font-size: 1.8em;
             font-weight: 300;
             letter-spacing: -0.3px;
-            margin-bottom: 16px;
-            color: #000;
+            color: #1a1a1a;
+        }
+
+        p {
+            font-size: 0.95em;
+            color: #3d3d3d;
+            font-weight: 400;
         }
 
         .meta {
-            font-size: 0.95em;
-            color: #666;
-            font-weight: 300;
-            margin-bottom: 10px;
+            font-size: 0.85em;
+            color: #8a8a8a;
         }
 
-        .meta a {
-            color: #333;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .meta a:hover {
-            color: #000;
-        }
-
-        .meta strong {
-            color: #555;
-            font-weight: 400;
-        }
-
-        /* Two-column: projects left, visual right — centered on page */
-        .main-content {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 80px;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-
-        /* Projects */
-        nav ul {
-            list-style: none;
-        }
-
-        nav li {
-            margin-bottom: 18px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #1a1a1a;
-            display: block;
-            transition: color 0.2s ease;
-        }
-
-        nav a:hover {
-            color: #000;
-        }
-
-        nav a:hover .project-name {
-            border-bottom-color: #000;
-        }
-
-        .project-name {
-            font-size: 0.9em;
-            font-weight: 400;
-            letter-spacing: -0.2px;
-            border-bottom: 1px solid transparent;
-            display: inline;
-            transition: border-color 0.2s;
-        }
-
-        .project-context {
-            font-size: 0.8em;
-            color: #888;
-            font-weight: 300;
-            margin-top: 1px;
-        }
-
-        .project-year {
-    font-size: 0.85em !important;
-    opacity: 0.75;
-    display: block;
-    margin-top: 4px;
-        }
-
-        .project-status {
+        .note {
+            font-size: 0.85em;
+            color: #8a8a8a;
             font-style: italic;
-            color: #aaa;
-            font-size: 0.85em;
         }
 
-        /* Visual */
-        .visual-link {
-            display: block;
-            text-decoration: none;
+        .section-title {
+            font-size: 0.8em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
         }
 
-        .visual-container {
-            position: relative;
-            width: 340px;
-            height: 340px;
-            background: #000;
+        .highlight-box {
+            background: #f5f5f5;
+            border-left: 3px solid #1a1a1a;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        .highlight-box p {
+            margin-bottom: 8px;
+            color: #3d3d3d;
+        }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        strong {
+            color: #2d2d2d;
+            font-weight: 600;
+        }
+
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+
+        /* Header alignment */
+        header h1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header h1 svg {
             flex-shrink: 0;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
         }
 
-        .visual-link:hover .visual-container {
-            opacity: 0.9;
+        /* Logo specimens */
+        .logo-specimens {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0;
         }
 
-        .circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 72%;
-            height: 72%;
-            background: #d4d4d4;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        .logo-specimen {
+            border: 1px solid #e5e5e5;
+            padding: 32px;
+            background: #fff;
         }
 
-        .visual-link:hover .circle {
-            width: 74%;
-            height: 74%;
+        .logo-specimen-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 16px;
         }
 
-        footer {
+        .logo-specimen-content {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-banner {
+            font-size: 2.5em;
+        }
+
+        .logo-lockup {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-lockup .logo-specimen-content {
+            font-size: 1.8em;
+        }
+
+        .logo-name {
+            font-size: 1.4em;
+        }
+
+        .tenna { color: #000000; }
+        .sonic { color: #4A4E57; }
+
+        .logo-tagline {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7em;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* AiP Stack mark */
+        .aip-mark {
+            display: grid;
+            grid-template-columns: repeat(2, 14px);
+            gap: 4px;
+        }
+
+        .aip-mark span {
+            display: block;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .aip-mark .layer-1 { background: #4A4E57; }
+        .aip-mark .layer-2 { background: #5C6370; }
+        .aip-mark .layer-3 { background: #6E7480; }
+        .aip-mark .layer-4 { background: #8A9BAD; }
+
+        /* Typography specimens */
+        .type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .type-specimen {
+            border: 1px solid #e5e5e5;
+            padding: 24px;
+            background: #fff;
+        }
+
+        .type-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 12px;
+        }
+
+        .type-sample-din {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .type-sample-mono {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #3d3d3d;
+            letter-spacing: 0.5px;
+        }
+
+        .type-note {
+            font-size: 0.8em;
+            color: #6b6b6b;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        /* Colour palettes */
+        .palette-section {
+            margin: 24px 0;
+        }
+
+        .palette-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 12px;
+        }
+
+        .colour-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .swatch {
             text-align: center;
-            margin-top: 60px;
+        }
+
+        .swatch-colour {
+            aspect-ratio: 1;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 6px;
+        }
+
+        .swatch-name {
+            font-size: 0.65em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #3d3d3d;
+        }
+
+        .swatch-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            color: #8a8a8a;
+        }
+
+        /* Document preview */
+        .doc-preview {
+            display: flex;
+            gap: 24px;
+            margin: 20px 0;
+            padding: 24px;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            align-items: flex-start;
+        }
+
+        .doc-thumbnail {
+            flex-shrink: 0;
+            width: 160px;
+            height: 210px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .doc-thumbnail:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .doc-thumbnail embed {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .doc-info {
+            flex: 1;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .doc-info .btn {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .doc-info-title {
+            font-size: 1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .doc-info-meta {
             font-size: 0.85em;
-            color: #666;
+            color: #6b6b6b;
+            margin-bottom: 16px;
+            line-height: 1.5;
         }
 
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #000;
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            background: #1a1a1a;
+            border: 1px solid #1a1a1a;
             color: #fff;
-            padding: 8px;
             text-decoration: none;
-            z-index: 100;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            opacity: 1;
+            visibility: visible;
         }
 
-        .skip-link:focus {
-            top: 0;
+        .btn:hover {
+            background: #3d3d3d;
+            border-color: #3d3d3d;
+            color: #fff;
         }
 
+        .btn-outline {
+            background: transparent;
+            color: #1a1a1a;
+        }
+
+        .btn-outline:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 40px 20px;
+            .doc-preview {
+                flex-direction: column;
             }
 
-            h1 {
-                font-size: 2em;
-            }
-
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            /* Image first on mobile */
-            .visual-link {
-                order: -1;
-            }
-
-            .visual-container {
+            .doc-thumbnail {
                 width: 100%;
-                max-width: 280px;
-                height: auto;
-                aspect-ratio: 1;
-                margin: 0 auto;
+                max-width: 200px;
             }
 
-            nav {
-                order: 1;
+            .type-grid {
+                grid-template-columns: 1fr;
             }
-        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            .colour-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .logo-banner {
+                font-size: 1.8em;
+            }
+
+            .logo-lockup .logo-specimen-content {
+                font-size: 1.4em;
+            }
         }
     </style>
 </head>
+<body class="project">
+    <a href="#main" class="skip-link">Skip to content</a>
 
-<body>
-    <a href="#main" class="skip-link">Skip to main content</a>
+    <header>
+        <h1>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1a1a1a" stroke-width="1.5">
+                <rect x="4" y="4" width="8" height="5" rx="1"/>
+                <rect x="4" y="11" width="8" height="5" rx="1"/>
+                <rect x="4" y="18" width="8" height="5" rx="1"/>
+                <rect x="14" y="4" width="8" height="5" rx="1"/>
+                <rect x="14" y="11" width="8" height="5" rx="1"/>
+                <rect x="14" y="18" width="8" height="5" rx="1"/>
+            </svg>
+            TennaSonic: Logo System Design
+        </h1>
+        <p>Identity system for an Antenna-in-Package hardware startup preparing for Series A</p>
+        <p class="meta">April 2026 · Freelance</p>
+    </header>
 
-    <div class="container">
-        <header>
-            <h1>Petra Kühnle</h1>
-          <p class="meta">Berlin · Remote — <a href="bio.html">Bio</a></p>
-      
-        </header>
+    <main id="main">
 
-      <div class="main-content">
-            <nav aria-label="Portfolio projects" id="main">
-                <ul><ul>
-    <li>
-        <a href="sonification.html">
-            <span class="project-name">NASA | Open Source Data</span>
-            <div class="project-context">Multimodal interface · 2026</div>
-        </a>
-    </li>
-    <li>
-        <a href="navigator.html">
-            <span class="project-name">Navigator | Mozilla Fellowship NOM</span>
-            <div class="project-context">Sound AI Regulations App & Guide · 2026</div>
-        </a>
-    </li>
-    <li>
-        <a href="tennasonic.html">
-            <span class="project-name">TennaSonic</span>
-            <div class="project-context">Deep-Tech Brand Identity · AiP / 5G · 2026</div>
-        </a>
-    </li>
-    <li>
-        <a href="valispace.html">
-            <span class="project-name">Valispace → Altium 365</span>
-            <div class="project-context">MBSE Traceability · Aerospace · 2021–23</div>
-        </a>
-    </li>
-    <li>
-        <a href="apple.html">
-            <span class="project-name">Apple</span>
-            <div class="project-context">Technical Writing · Pro Audio & Video · 2016–20</div>
-        </a>
-    </li>
-</ul>
-            </nav>
-            
+        <section>
+            <h2 class="section-title">Role</h2>
+            <p>Sole designer. Developed brand identity from founder brief through logo system, typography selection, and colour palette. Delivered comprehensive design documentation for investor-readiness.</p>
+        </section>
 
-            <a href="sonification.html" class="visual-link" aria-label="View Crater Sonification project">
-                
-                <div class="visual-container">
-                    <div class="circle"></div>
+        <section>
+            <h2 class="section-title">Context</h2>
+            <p>TennaSonic is developing thermally-resilient Antenna-in-Package (AiP) technology for 5G/6G, satellite, and radar applications. The founder — a physics doctoral researcher — needed a credible visual identity ahead of a significant funding round. B2B positioning targeting smartphones, base stations, automotive, and IoT.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Logo System</h2>
+            <div class="logo-specimens">
+                <div class="logo-specimen">
+                    <div class="logo-specimen-label">Banner — Large Format</div>
+                    <div class="logo-specimen-content logo-banner">
+                        <span class="tenna">TENNA</span><span class="sonic">SONIC</span>
+                    </div>
+                    <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
                 </div>
-            </a>
-        </div>
+                <div class="logo-specimen logo-lockup">
+                    <div class="aip-mark">
+                        <span class="layer-1"></span><span class="layer-1"></span>
+                        <span class="layer-2"></span><span class="layer-2"></span>
+                        <span class="layer-3"></span><span class="layer-3"></span>
+                        <span class="layer-4"></span><span class="layer-4"></span>
+                    </div>
+                    <div>
+                        <div class="logo-specimen-label" style="margin-bottom: 8px;">Logo — Horizontal Lockup</div>
+                        <div class="logo-specimen-content">
+                            <span class="tenna">Tenna</span><span class="sonic">Sonic</span>
+                        </div>
+                        <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
+                    </div>
+                </div>
+                <div class="logo-specimen">
+                    <div class="logo-specimen-label">Name — Wordmark Only</div>
+                    <div class="logo-specimen-content logo-name">
+                        <span class="tenna">TENNA</span><span class="sonic">SONIC</span>
+                    </div>
+                </div>
+            </div>
+            <p class="note">The AiP Stack mark represents multi-layer package structure — each row a distinct substrate layer (antenna, redistribution, interconnect, die).</p>
+        </section>
 
-        <footer>
-            <p>© 2026 Petra Kühnle</p>
-        </footer>
-    </div>
+        <section>
+            <h2 class="section-title">Approach</h2>
+            <p>Started with founder-generated digital concepts as input. Analysed sector conventions across semiconductor, telecom, and deep-tech competitors. Identified risks in initial directions (WiFi-arc associations, generic tower iconography) and developed alternative mark directions grounded in the actual technology.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Key decision:</strong> The AiP Stack mark directly references antenna-in-package layer structure — LTCC ceramic, HDI organic, or eWLB mold compound. This makes the mark technically meaningful rather than generic telecom signalling.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Typography</h2>
+            <div class="type-grid">
+                <div class="type-specimen">
+                    <div class="type-label">Primary — Wordmark</div>
+                    <div class="type-sample-din">TennaSonic</div>
+                    <div class="type-sample-mono" style="margin-top: 4px;">Precision mmWave · 5G/6G</div>
+                    <div class="type-note"><strong>DIN 1451 / DIN Pro</strong> — German national standard for measurement instruments, engineering drawings, and road signage. Signals engineering seriousness.</div>
+                </div>
+                <div class="type-specimen">
+                    <div class="type-label">Secondary — Technical & Data</div>
+                    <div class="type-sample-mono">AiP · mmWave · 5G/6G · TRL 3<br>−40 °C → +85 °C · Sub-THz</div>
+                    <div class="type-note"><strong>IBM Plex Mono</strong> — Monospaced reinforces measurement-lab register. For temperature ranges, frequency bands, spec callouts.</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Weight rules:</strong> Wordmark Bold/700 · Tagline Light/300 · Body Regular/400</p>
+                <p><strong>Never use italic</strong> — precision hardware brands imply permanence, not motion.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Colour System</h2>
+            
+            <div class="palette-section">
+                <div class="palette-label">Palette A — Metal & Material</div>
+                <div class="colour-grid">
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #1A1A1A;"></div>
+                        <div class="swatch-name">Anechoic</div>
+                        <div class="swatch-hex">#1A1A1A</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #3C3C3C;"></div>
+                        <div class="swatch-name">Tungsten</div>
+                        <div class="swatch-hex">#3C3C3C</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #8A9BAD;"></div>
+                        <div class="swatch-name">Brushed AL</div>
+                        <div class="swatch-hex">#8A9BAD</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #B87333;"></div>
+                        <div class="swatch-name">Cu Trace</div>
+                        <div class="swatch-hex">#B87333</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #00C8FF;"></div>
+                        <div class="swatch-name">Plasma Cyan</div>
+                        <div class="swatch-hex">#00C8FF</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #0077B6;"></div>
+                        <div class="swatch-name">RF Blue</div>
+                        <div class="swatch-hex">#0077B6</div>
+                    </div>
+                </div>
+                <p class="note" style="margin-top: 12px;">Drawn from antenna-in-package fabrication: machined aluminium, tungsten via-fills, copper RF traces, anechoic chambers.</p>
+            </div>
+
+            <div class="palette-section">
+                <div class="palette-label">Palette B — Black on White</div>
+                <div class="colour-grid">
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #000000;"></div>
+                        <div class="swatch-name">Absolute Black</div>
+                        <div class="swatch-hex">#000000</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #111111;"></div>
+                        <div class="swatch-name">Carbon</div>
+                        <div class="swatch-hex">#111111</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #4A4E57;"></div>
+                        <div class="swatch-name">Steel</div>
+                        <div class="swatch-hex">#4A4E57</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #FFFFFF; border: 1px solid #e5e5e5;"></div>
+                        <div class="swatch-name">Pure White</div>
+                        <div class="swatch-hex">#FFFFFF</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #F7F5F2;"></div>
+                        <div class="swatch-name">Technical White</div>
+                        <div class="swatch-hex">#F7F5F2</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #0077B6;"></div>
+                        <div class="swatch-name">RF Blue</div>
+                        <div class="swatch-hex">#0077B6</div>
+                    </div>
+                </div>
+                <p class="note" style="margin-top: 12px;">The engineering register that commands technical credibility. If a logo doesn't work in black on white, it doesn't work.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Documentation</h2>
+            <div class="doc-preview">
+                <a href="TennaSonic_BrandStyleGuide.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of TennaSonic Brand Style Guide PDF">
+                    <embed src="TennaSonic_BrandStyleGuide.pdf#page=1" type="application/pdf" title="First page preview">
+                </a>
+                <div class="doc-info">
+                    <div class="doc-info-title">TennaSonic Brand Style Guide</div>
+                    <div class="doc-info-meta">Logo system, typography, colour palettes, usage guidelines</div>
+                    <a href="TennaSonic_BrandStyleGuide.pdf" target="_blank" class="btn">View PDF</a>
+                    <a href="TennaSonic_BrandStyleGuide.pdf" download class="btn btn-outline">Download</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Outcomes</h2>
+            <ul>
+                <li>Complete logo system delivered for funding round preparation</li>
+                <li>Design documentation structured for investor and partner distribution</li>
+                <li>Mark direction differentiated from sector conventions</li>
+            </ul>
+        </section>
+
+        <section>
+            <p class="note">Case study describes role, process, and design decisions. All work shown is the property of the designer.</p>
+        </section>
+
+    </main>
+
+    <nav>
+        <a href="valispace.html">← Aerospace Traceability</a>
+        <a href="index.html">All Projects →</a>
+    </nav>
 </body>
 </html>
