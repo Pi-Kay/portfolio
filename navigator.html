@@ -114,18 +114,81 @@
         .doc-preview {
             display: flex;
             gap: 24px;
-            align-items: flex-start;
             margin: 20px 0;
-        }
-
-        .doc-preview img {
-            width: 160px;
+            padding: 24px;
+            background: #fff;
             border: 1px solid #e5e5e5;
-            flex-shrink: 0;
+            align-items: flex-start;
         }
 
-        .doc-preview-text {
+        .doc-thumbnail {
+            flex-shrink: 0;
+            width: 160px;
+            height: 210px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .doc-thumbnail:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .doc-thumbnail embed {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .doc-info {
             flex: 1;
+        }
+
+        .doc-info-title {
+            font-size: 1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .doc-info-meta {
+            font-size: 0.85em;
+            color: #6b6b6b;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            background: #1a1a1a;
+            border: 1px solid #1a1a1a;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #3d3d3d;
+            border-color: #3d3d3d;
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1a1a1a;
+        }
+
+        .btn-outline:hover {
+            background: #1a1a1a;
+            color: #fff;
         }
 
         /* Highlight box */
@@ -160,72 +223,6 @@
             color: #3d3d3d;
         }
 
-        /* Role table */
-        .role-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.85em;
-        }
-
-        .role-table th,
-        .role-table td {
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .role-table th {
-            font-weight: 500;
-            color: #6b6b6b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.8em;
-        }
-
-        .role-table td {
-            color: #3d3d3d;
-            font-weight: 400;
-        }
-
-        .role-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-
-        .role-primary { background: #1a1a1a; }
-        .role-shared { background: linear-gradient(135deg, #1a1a1a 50%, #c0c0c0 50%); }
-        .role-supporting { background: #c0c0c0; }
-
-        /* Checklist */
-        .checklist {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .checklist li {
-            padding-left: 24px;
-            position: relative;
-            margin-bottom: 8px;
-            color: #3d3d3d;
-        }
-
-        .checklist li:before {
-            content: "☐";
-            position: absolute;
-            left: 0;
-            color: #8a8a8a;
-        }
-
-        .checklist li.done:before {
-            content: "☑";
-            color: #2d8a4e;
-        }
-
         /* Links section */
         .doc-links {
             display: flex;
@@ -244,7 +241,7 @@
                 flex-direction: column;
             }
 
-            .doc-preview img {
+            .doc-thumbnail {
                 width: 100%;
                 max-width: 200px;
             }
@@ -258,9 +255,22 @@
     </header>
 
     <main class="project-container">
+
+        <!-- Research framing -->
         <section>
-            <p>AI compliance in music is fragmented across legal documents, technical specs, and evolving regulations. Current resources are either too legal (inaccessible) or too simplified (incomplete). This project addresses both: an interactive tool for quick, personalised guidance and comprehensive documentation for those who want to understand sources and process.</p>
-            
+            <h2 class="section-title">Research Question</h2>
+            <p>How can independent creators navigate AI compliance requirements and integrate them into their creative workflow?</p>
+        </section>
+
+        <!-- Context -->
+        <section>
+            <h2 class="section-title">Context</h2>
+            <p>As generative AI tools become embedded in music production, creators face an increasingly complex landscape of data privacy, copyright, and compliance requirements. Current resources are either too legal (inaccessible) or too simplified (incomplete).</p>
+            <p>This project addresses both: an interactive tool for quick, personalised guidance and comprehensive documentation for those who want to understand sources and process.</p>
+        </section>
+
+        <!-- Two deliverables -->
+        <section>
             <div class="deliverables-intro">
                 <div class="deliverable-card">
                     <div class="deliverable-label">Interactive</div>
@@ -272,7 +282,7 @@
                     <div class="deliverable-label">Documentation</div>
                     <div class="deliverable-title">Compliance Guide</div>
                     <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and artist rights. Full methodology and sources documented.</div>
-                    <a href="https://github.com/Pi-Kay/music-ai-compliance-guide" target="_blank" class="deliverable-link outline">View Guide →</a>
+                    <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
                 </div>
             </div>
 
@@ -282,6 +292,7 @@
             </div>
         </section>
 
+        <!-- Navigator interface -->
         <section>
             <h2 class="section-title">Navigator Interface</h2>
             <div class="video-container">
@@ -296,6 +307,7 @@
             <p>The app works bidirectionally: artists can check if their work was used without consent, and companies can verify their AI pipeline is ethical.</p>
         </section>
 
+        <!-- Use cases -->
         <section>
             <h2 class="section-title">Use Cases</h2>
             <ul>
@@ -306,96 +318,64 @@
             </ul>
         </section>
 
+        <!-- Documentation preview -->
         <section>
             <h2 class="section-title">Documentation</h2>
             <div class="doc-preview">
-                <img src="guide-cover.png" alt="Compliance Guide cover page">
-                <div class="doc-preview-text">
-                    <p>The guide translates legal and technical requirements into actionable guidance for independent musicians and producers. Published as open-source with version control.</p>
-                    <p><strong>Covers:</strong> GDPR, EU AI Act, European Accessibility Act, ICO guidance, ENISA recommendations, WCAG 2.2</p>
-                    <p><em>Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</em></p>
+                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of Music AI Compliance Guide PDF">
+                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="First page preview">
+                </a>
+                <div class="doc-info">
+                    <div class="doc-info-title">Guidance on Personal Data in Generative Music Systems</div>
+                    <div class="doc-info-meta">GDPR, EU AI Act, European Accessibility Act, ICO, ENISA, WCAG 2.2</div>
+                    <a href="Music AI Compliance.pdf" target="_blank" class="btn">View PDF</a>
+                    <a href="Music AI Compliance.pdf" download class="btn btn-outline">Download</a>
                 </div>
             </div>
+            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</p>
         </section>
 
+        <!-- Process -->
         <section>
-            <h2 class="section-title">Tech & Design</h2>
+            <h2 class="section-title">Process</h2>
+            <div class="highlight-box">
+                <p><strong>AI-Human Collaboration</strong></p>
+                <p>AI: Initial idea generation, requirement gathering, accuracy cross-checking across multiple models</p>
+                <p>Human: Design direction, accessibility review, Apple Pages layout, iterative refinement</p>
+            </div>
+            <ul>
+                <li>Gathered AI compliance requirements from multiple sources</li>
+                <li>Cross-verified accuracy using several AI models (Claude, Grok)</li>
+                <li>Reviewed against WCAG accessibility guidelines</li>
+                <li>Designed layout manually in Apple Pages</li>
+                <li>Wrote documentation in Markdown, managed in Obsidian</li>
+                <li>Built Navigator interface in React with full keyboard navigation</li>
+            </ul>
+        </section>
+
+        <!-- Tools -->
+        <section>
+            <h2 class="section-title">Tools</h2>
             <div class="tech-list">
                 <span class="tech-tag">React 18</span>
                 <span class="tech-tag">Vanilla CSS</span>
                 <span class="tech-tag">GitHub Pages</span>
                 <span class="tech-tag">JSON</span>
-                <span class="tech-tag">Markdown</span>
                 <span class="tech-tag">Apple Pages</span>
+                <span class="tech-tag">Obsidian</span>
+                <span class="tech-tag">Claude</span>
+                <span class="tech-tag">Grok</span>
             </div>
-            <p style="margin-top: 16px;"><strong>Design principles:</strong> Grid structure, restrained palette, negative space. Full keyboard navigation, 48px+ touch targets for accessibility.</p>
         </section>
 
+        <!-- Results -->
         <section>
-            <h2 class="section-title">Process</h2>
-            <div class="highlight-box">
-                <p><strong>AI-Human Collaboration</strong></p>
-                <p>Human decisions drive strategy, scope, and ethics. AI assists with research synthesis, code drafting, and structure. Information cross-verified across multiple AI models (Claude, Grok) before publication.</p>
-            </div>
-            <table class="role-table">
-                <thead>
-                    <tr><th>Task</th><th>Human</th><th>AI</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Concept & framing</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                    <tr>
-                        <td>Use case definitions</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                    <tr>
-                        <td>Decision tree logic</td>
-                        <td><span class="role-indicator role-shared"></span>Shared</td>
-                        <td><span class="role-indicator role-shared"></span>Shared</td>
-                    </tr>
-                    <tr>
-                        <td>Interface design</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                    <tr>
-                        <td>Code implementation</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                    </tr>
-                    <tr>
-                        <td>Accessibility review</td>
-                        <td><span class="role-indicator role-primary"></span>Primary</td>
-                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2 class="section-title">Status</h2>
-            <ul class="checklist">
-                <li class="done">Use case definitions (Markdown + JSON)</li>
-                <li class="done">Decision tree logic</li>
-                <li class="done">Navigator interface (React)</li>
-                <li class="done">UX improvements (keyboard nav, progress, breadcrumbs)</li>
-                <li class="done">Compliance Guide v1.0</li>
-                <li class="done">Deployment</li>
-                <li>User feedback integration</li>
-                <li>Ongoing updates as regulations evolve</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2 class="section-title">Links</h2>
+            <h2 class="section-title">Results & Next Steps</h2>
+            <p>Published as open-source resource with regular version control. Ongoing updates as AI regulations evolve.</p>
             <div class="doc-links">
                 <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Navigator App</a>
                 <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="deliverable-link outline">GitHub (App)</a>
-                <a href="https://github.com/Pi-Kay/music-ai-compliance-guide" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
+                <a href="https://github.com/Pi-Kay/Music-AI-Vault" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
             </div>
         </section>
 
