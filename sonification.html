@@ -8,25 +8,6 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* ===== PAGE-SPECIFIC STYLES ===== */
-        
-        /* Container override for narrower content */
-        .project-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Section headers */
-        .section-title {
-            font-size: 0.8em;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #6b6b6b;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e5e5e5;
-        }
 
         /* Canvas container */
         .canvas-container {
@@ -87,23 +68,6 @@
             text-align: left;
             margin-top: 12px;
             font-weight: 400;
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border-left: 3px solid #1a1a1a;
-            padding: 16px 20px;
-            margin: 20px 0;
-            font-size: 0.9em;
-        }
-
-        .highlight-box p {
-            margin-bottom: 8px;
-        }
-
-        .highlight-box p:last-child {
-            margin-bottom: 0;
         }
 
         /* Images */
@@ -176,9 +140,10 @@
     <header>
         <h1>Data Sonification</h1>
         <p>Multimodal interface translating lunar crater data into spatial audio</p>
+        <p class="meta">NASA Moon Crater Database · January 2026</p>
     </header>
 
-    <main class="project-container">
+    <main>
         <section>
             <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
                 <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
@@ -270,10 +235,10 @@
             </section>
         </div>
 
-        <div class="case-nav">
-            <a href="index.html" class="button back">← Portfolio</a>
-            <a href="navigator.html" class="button next">Navigator App→</a>
-        </div>
+        <nav>
+            <a href="index.html">← Portfolio</a>
+            <a href="musicai.html">Music AI Compliance →</a>
+        </nav>
     </main>
 
     <footer>
