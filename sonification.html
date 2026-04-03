@@ -3,146 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crater Sonification</title>
+    <meta name="description" content="Spatial audio interface translating lunar crater data into sound. Multimodal interaction design for accessibility.">
+    <title>Data Sonification — Petra Kühnle</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #fafafa;
-            color: #1a1a1a;
-            line-height: 1.8;
-            min-height: 100vh;
-            padding: 80px 20px;
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+        
+        /* Container override for narrower content */
+        .project-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .container { max-width: 720px; margin: 0 auto; }
-        header {
-            margin-bottom: 60px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        h1 {
-            font-size: 1.8em;
-            font-weight: 300;
-            letter-spacing: -0.3px;
-            margin-bottom: 16px;
-            color: #000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .header-icon { font-size: 1.2em; color: #0d1b2a; }
-        .subtitle { font-size: 0.95em; color: #666; font-weight: 300; letter-spacing: 0.3px; line-height: 1.6; }
-        .meta { font-size: 0.85em; color: #888; margin-top: 12px; }
-        section { margin-bottom: 50px; }
-        h2 {
-            font-size: 0.85em;
-            font-weight: 400;
+
+        /* Section headers */
+        .section-title {
+            font-size: 0.8em;
+            font-weight: 500;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: #666;
+            color: #6b6b6b;
             margin-bottom: 16px;
             padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #e5e5e5;
         }
-        p { font-size: 0.95em; color: #333; margin-bottom: 16px; font-weight: 300; }
-        ul { list-style: none; padding: 0; margin-bottom: 16px; }
-        li {
-            font-size: 0.9em;
-            color: #444;
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-        li:before { content: "—"; position: absolute; left: 0; color: #ccc; }
+
+        /* Canvas container */
         .canvas-container {
             width: 100%;
             max-width: 600px;
             margin: 30px auto;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e5e5e5;
             background: #000;
             cursor: pointer;
             transition: all 0.3s ease;
             outline: none;
         }
-        .canvas-container:hover { opacity: 0.95; border-color: #999; }
-        .canvas-container:focus-visible { outline: 3px solid #333; outline-offset: 3px; }
+
+        .canvas-container:hover {
+            opacity: 0.95;
+            border-color: #8a8a8a;
+        }
+
+        .canvas-container:focus-visible {
+            outline: 3px solid #1a1a1a;
+            outline-offset: 3px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
         .interaction-hint {
             font-size: 0.85em;
-            color: #666;
+            color: #6b6b6b;
             text-align: center;
             margin: 12px 0 4px;
             font-weight: 400;
             font-style: italic;
         }
+
         .fullscreen-link {
             display: block;
             text-align: center;
             margin-bottom: 12px;
             font-size: 0.75em;
-            color: #999;
+            color: #8a8a8a;
             text-decoration: none;
             letter-spacing: 0.15em;
-            font-weight: 300;
+            font-weight: 400;
             transition: color 0.2s;
         }
-        .fullscreen-link:hover { color: #333; }
-        canvas { display: block; width: 100%; height: auto; }
-        .canvas-caption { font-size: 0.85em; color: #888; text-align: left; margin-top: 12px; font-weight: 300; }
-        .midi-chart { width: 100%; max-width: 600px; margin: 20px auto; display: block; }
+
+        .fullscreen-link:hover {
+            color: #1a1a1a;
+        }
+
+        .canvas-caption {
+            font-size: 0.85em;
+            color: #8a8a8a;
+            text-align: left;
+            margin-top: 12px;
+            font-weight: 400;
+        }
+
+        /* Highlight box */
         .highlight-box {
-            background: #f5f5f5;
-            border-left: 3px solid #333;
+            background: #f9f9f9;
+            border-left: 3px solid #1a1a1a;
             padding: 16px 20px;
             margin: 20px 0;
             font-size: 0.9em;
         }
-        .highlight-box p { margin-bottom: 8px; }
-        .highlight-box p:last-child { margin-bottom: 0; }
-        audio { width: 100%; max-width: 600px; margin: 16px auto; display: block; }
-        nav {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .highlight-box p {
+            margin-bottom: 8px;
         }
-        nav a { color: #666; text-decoration: none; font-size: 0.85em; font-weight: 300; letter-spacing: 0.5px; transition: color 0.2s; }
-        nav a:hover { color: #000; }
-        .appendix { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; }
-        .appendix h2 { color: #999; }
-        .btn-group { text-align: center; margin: 16px 0; }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Images */
+        .midi-chart {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        /* Audio player */
+        audio {
+            width: 100%;
+            max-width: 600px;
+            margin: 16px auto;
+            display: block;
+        }
+
+        /* Button group */
+        .btn-group {
+            text-align: center;
+            margin: 16px 0;
+        }
+
         .btn-group button {
             padding: 6px 14px;
             margin: 0 4px;
             cursor: pointer;
-            background: #333;
+            background: #1a1a1a;
             color: #fff;
-            border: 1px solid #666;
+            border: 1px solid #3d3d3d;
             font-size: 0.8em;
+            font-family: inherit;
             transition: all 0.2s;
         }
-        .btn-group button:hover { background: #555; }
-        @media (max-width: 768px) {
-            body { padding: 60px 20px; }
-            h1 { font-size: 1.6em; }
-            header { margin-bottom: 50px; }
-            nav { flex-direction: column; gap: 20px; text-align: center; }
+
+        .btn-group button:hover {
+            background: #3d3d3d;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .container { animation: fadeIn 1s ease-out; }
+
+        /* Appendix */
+        .appendix {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .appendix .section-title {
+            color: #8a8a8a;
+        }
+
+        /* Code inline */
+        code {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.85em;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .canvas-container {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1><span class="header-icon">◐</span> Data Sonification</h1>
-            <p class="subtitle">Multimodal interface</p>
-            <p class="meta">NASA Moon Crater Database · January 2026</p>
-        </header>
+<body class="project">
+    <header>
+        <h1>Data Sonification</h1>
+        <p>Multimodal interface translating lunar crater data into spatial audio</p>
+    </header>
 
+    <main class="project-container">
         <section>
             <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
                 <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
@@ -152,12 +188,12 @@
         </section>
 
         <section>
-            <h2>Research Question</h2>
+            <h2 class="section-title">Research Question</h2>
             <p>How can sonification enhance perception of scientific data and reveal patterns not immediately visible in traditional representations?</p>
         </section>
 
         <section>
-            <h2>Methodology</h2>
+            <h2 class="section-title">Methodology</h2>
             <p>Approach inspired by Matt Russo's sonification work, combining scientific accuracy with perceptual clarity.</p>
             <div class="highlight-box">
                 <p><strong>Parameter Mapping</strong></p>
@@ -169,9 +205,9 @@
         </section>
 
         <section>
-            <h2>Process</h2>
+            <h2 class="section-title">Process</h2>
             <p><strong>Workflow:</strong> Python/Jupyter (data processing, MIDI generation) → Logic Pro (cinematic composition) → JavaScript/Web Audio</p>
-            <p style="margin: 16px 0;"><a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" style="color: #333; text-decoration: underline;">View Python notebook, data, and MIDI on GitHub →</a></p>
+            <p style="margin: 16px 0;"><a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" style="text-decoration: underline;">View Python notebook, data, and MIDI on GitHub →</a></p>
             <img src="sketch1.10.png" alt="MIDI temporal structure" class="midi-chart">
             <p class="canvas-caption">MIDI temporal structure generated in Python</p>
             <div class="highlight-box">
@@ -182,7 +218,7 @@
         </section>
 
         <section>
-            <h2>Audio Output</h2>
+            <h2 class="section-title">Audio Output</h2>
             <p>Logic Pro composition using Orchestral Organ, Studio Grand, and Time Delay Synth. Layered soundscape addresses temporal compression (animation: 3-5s between impacts; geological reality: millions of years).</p>
             <audio controls>
                 <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
@@ -191,7 +227,7 @@
         </section>
 
         <section>
-            <h2>Data Analysis</h2>
+            <h2 class="section-title">Data Analysis</h2>
             <img src="sketch1.2.png" alt="Crater diameter vs age" class="midi-chart">
             <p class="canvas-caption">Crater diameter vs age: larger craters tend to be older, formed during heavy bombardment periods</p>
             <img src="sketch1.3.png" alt="Crater diameter vs time since impact" class="midi-chart">
@@ -199,17 +235,17 @@
         </section>
 
         <section>
-            <h2>Applications</h2>
+            <h2 class="section-title">Applications</h2>
             <p>Methodology transferable to other NASA datasets (exoplanet discoveries, Mars seismic activity) and scientific domains including climate research, particle physics, and biological systems. Sonification provides alternative access for visually impaired audiences; synchronized visuals support those with hearing differences.</p>
         </section>
 
         <section>
-            <h2>Tools</h2>
+            <h2 class="section-title">Tools</h2>
             <p>Python (numpy, pandas, matplotlib, midiutil), Logic Pro, JavaScript/Web Audio API, Claude, Grok</p>
         </section>
 
         <section>
-            <h2>Reflection</h2>
+            <h2 class="section-title">Reflection</h2>
             <p>Yes. The clearest finding came from an error. An early AI-generated version had the pitch mapping reversed — Aristarchus (40 km) sounded higher than Copernicus (93 km). The inconsistency wasn't visible in the code. It was audible the moment the animation ran. Visual size and pitch contradicted each other, and the brain flagged it immediately. Fixing it required recalculation, then verification across two additional AI tools. The process confirmed something specific: AI generates functional code reliably. It does not listen to the result.</p>
             <p>The mapping that works — larger craters sounding lower and longer — aligns with how the brain already connects size and pitch, grounded in physical acoustics and crossmodal perception research (Spence, 2011). When the mapping runs with that rather than against it, the data becomes easier to hold.</p>
             <p>One limit the project couldn't resolve: geological time. Compressing millions of years into seconds produces a coherent animation but no felt sense of duration. That's a separate research question.</p>
@@ -220,7 +256,7 @@
 
         <div class="appendix">
             <section>
-                <h2>Appendix: Extended Dataset</h2>
+                <h2 class="section-title">Appendix: Extended Dataset</h2>
                 <p>Initial exploration with 20 craters across the full parameter range (diameter 32-225 km, age 108-4000 Ma).</p>
                 <div class="btn-group">
                     <button id="btnName">Name</button>
@@ -234,11 +270,15 @@
             </section>
         </div>
 
-        <nav>
-            <a href="index.html">← Portfolio</a>
-            <a href="navigator.html">Compliance Navigator →</a>
-        </nav>
-    </div>
+        <div class="case-nav">
+            <a href="index.html" class="button back">← Portfolio</a>
+            <a href="navigator.html" class="button next">Navigator →</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Petra Kühnle</p>
+    </footer>
 
     <script>
         const CRATER_DATA = [
@@ -412,7 +452,7 @@
                 extendedCtx.beginPath(); extendedCtx.arc(c.x,c.y,c.size*0.4,0,Math.PI*2); extendedCtx.fill();
                 if (displayMode!=='none' && c.opacity>0.3) {
                     extendedCtx.fillStyle=`rgba(255,255,255,${c.opacity})`;
-                    extendedCtx.font='11px Helvetica Neue, Arial, sans-serif';
+                    extendedCtx.font='11px Inter, Helvetica Neue, Arial, sans-serif';
                     extendedCtx.textAlign='center';
                     const label = displayMode==='name'?c.name : displayMode==='diameter'?c.diameter+' km' : c.age+' Ma';
                     extendedCtx.fillText(label, c.x, c.y-c.size*0.4-5);
@@ -471,9 +511,9 @@
             const btnAge = document.getElementById('btnAge');
 
             function updateBtns() {
-                [btnName,btnDiameter,btnAge].forEach(b => { b.style.background='#333'; b.style.borderColor='#666'; });
+                [btnName,btnDiameter,btnAge].forEach(b => { b.style.background='#1a1a1a'; b.style.borderColor='#3d3d3d'; });
                 const active = displayMode==='name'?btnName : displayMode==='diameter'?btnDiameter : displayMode==='age'?btnAge : null;
-                if (active) { active.style.background='#666'; active.style.borderColor='#999'; }
+                if (active) { active.style.background='#3d3d3d'; active.style.borderColor='#6b6b6b'; }
             }
 
             btnName.addEventListener('click', e => { e.stopPropagation(); displayMode = displayMode==='name'?'none':'name'; updateBtns(); });
