@@ -133,6 +133,27 @@
             .canvas-container {
                 max-width: 100%;
             }
+
+        /* BUTTON TEXT VISIBILITY FIX – text always at least partially visible */
+.deliverable-link,
+.btn,
+.btn-outline {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.deliverable-link *,
+.btn *,
+.btn-outline * {
+    opacity: 0.9;                    /* partially visible by default */
+    transition: opacity 0.2s ease;
+}
+
+.deliverable-link:hover *,
+.btn:hover *,
+.btn-outline:hover * {
+    opacity: 1;
+}a
         }
     </style>
 </head>
