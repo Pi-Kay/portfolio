@@ -497,4 +497,12 @@ img {
         gap: 20px;
         text-align: center;
     }
+    .deliverable-link,
+.btn,
+.deliverable-link:hover,
+.btn:hover,
+.btn-outline:hover,
+.deliverable-link.outline:hover {
+    color: #f0f0f0;
+}
 }
