@@ -4,9 +4,185 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TennaSonic: Logo System Design</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         /* ===== PAGE-SPECIFIC STYLES ===== */
+
+        /* Header alignment */
+        header h1 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header h1 svg {
+            flex-shrink: 0;
+        }
+
+        /* Logo specimens */
+        .logo-specimens {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .logo-specimen {
+            border: 1px solid #e5e5e5;
+            padding: 32px;
+            background: #fff;
+        }
+
+        .logo-specimen-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 16px;
+        }
+
+        .logo-specimen-content {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-banner {
+            font-size: 2.5em;
+        }
+
+        .logo-lockup {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-lockup .logo-specimen-content {
+            font-size: 1.8em;
+        }
+
+        .logo-name {
+            font-size: 1.4em;
+        }
+
+        .tenna { color: #000000; }
+        .sonic { color: #4A4E57; }
+
+        .logo-tagline {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7em;
+            letter-spacing: 1px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* AiP Stack mark */
+        .aip-mark {
+            display: grid;
+            grid-template-columns: repeat(2, 14px);
+            gap: 4px;
+        }
+
+        .aip-mark span {
+            display: block;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .aip-mark .layer-1 { background: #4A4E57; }
+        .aip-mark .layer-2 { background: #5C6370; }
+        .aip-mark .layer-3 { background: #6E7480; }
+        .aip-mark .layer-4 { background: #8A9BAD; }
+
+        /* Typography specimens */
+        .type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .type-specimen {
+            border: 1px solid #e5e5e5;
+            padding: 24px;
+            background: #fff;
+        }
+
+        .type-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 12px;
+        }
+
+        .type-sample-din {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .type-sample-mono {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #3d3d3d;
+            letter-spacing: 0.5px;
+        }
+
+        .type-note {
+            font-size: 0.8em;
+            color: #6b6b6b;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        /* Colour palettes */
+        .palette-section {
+            margin: 24px 0;
+        }
+
+        .palette-label {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 12px;
+        }
+
+        .colour-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+
+        .swatch {
+            text-align: center;
+        }
+
+        .swatch-colour {
+            aspect-ratio: 1;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 6px;
+        }
+
+        .swatch-name {
+            font-size: 0.65em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #3d3d3d;
+        }
+
+        .swatch-hex {
+            font-family: 'Courier New', monospace;
+            font-size: 0.6em;
+            color: #8a8a8a;
+        }
 
         /* Document preview */
         .doc-preview {
@@ -90,28 +266,6 @@
             color: #fff;
         }
 
-        /* Audio section */
-        .audio-section {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .audio-label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 8px;
-        }
-
-        .audio-desc {
-            font-size: 0.85em;
-            color: #6b6b6b;
-            margin-bottom: 12px;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .doc-preview {
@@ -122,6 +276,22 @@
                 width: 100%;
                 max-width: 200px;
             }
+
+            .type-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .colour-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .logo-banner {
+                font-size: 1.8em;
+            }
+
+            .logo-lockup .logo-specimen-content {
+                font-size: 1.4em;
+            }
         }
     </style>
 </head>
@@ -130,7 +300,7 @@
 
     <header>
         <h1>
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1a1a1a" stroke-width="1.5" style="margin-right: 12px;">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#1a1a1a" stroke-width="1.5">
                 <rect x="4" y="4" width="8" height="5" rx="1"/>
                 <rect x="4" y="11" width="8" height="5" rx="1"/>
                 <rect x="4" y="18" width="8" height="5" rx="1"/>
@@ -157,14 +327,38 @@
         </section>
 
         <section>
-            <h2 class="section-title">Shipped</h2>
-            <ul>
-                <li>AiP Stack mark — representing multi-layer package structure</li>
-                <li>Three application formats: Banner, Logo lockup, Name-only</li>
-                <li>Single-colour variant for print</li>
-                <li>Typography system based on DIN 1451 (German engineering heritage)</li>
-                <li>Two colour palettes: Metal/Material and Black-on-White</li>
-            </ul>
+            <h2 class="section-title">Logo System</h2>
+            <div class="logo-specimens">
+                <div class="logo-specimen">
+                    <div class="logo-specimen-label">Banner — Large Format</div>
+                    <div class="logo-specimen-content logo-banner">
+                        <span class="tenna">TENNA</span><span class="sonic">SONIC</span>
+                    </div>
+                    <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
+                </div>
+                <div class="logo-specimen logo-lockup">
+                    <div class="aip-mark">
+                        <span class="layer-1"></span><span class="layer-1"></span>
+                        <span class="layer-2"></span><span class="layer-2"></span>
+                        <span class="layer-3"></span><span class="layer-3"></span>
+                        <span class="layer-4"></span><span class="layer-4"></span>
+                    </div>
+                    <div>
+                        <div class="logo-specimen-label" style="margin-bottom: 8px;">Logo — Horizontal Lockup</div>
+                        <div class="logo-specimen-content">
+                            <span class="tenna">Tenna</span><span class="sonic">Sonic</span>
+                        </div>
+                        <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
+                    </div>
+                </div>
+                <div class="logo-specimen">
+                    <div class="logo-specimen-label">Name — Wordmark Only</div>
+                    <div class="logo-specimen-content logo-name">
+                        <span class="tenna">TENNA</span><span class="sonic">SONIC</span>
+                    </div>
+                </div>
+            </div>
+            <p class="note">The AiP Stack mark represents multi-layer package structure — each row a distinct substrate layer (antenna, redistribution, interconnect, die).</p>
         </section>
 
         <section>
@@ -178,23 +372,101 @@
 
         <section>
             <h2 class="section-title">Typography</h2>
-            <p>DIN 1451 / DIN Pro selected for its German engineering heritage and industrial precision. The typeface originated from German road signage standards — appropriate for a Kaiserslautern-based deep-tech venture. Arial Narrow specified as fallback for cross-platform consistency.</p>
-            
-            <div class="tech-list">
-                <span class="tech-tag">DIN 1451</span>
-                <span class="tech-tag">DIN Pro</span>
-                <span class="tech-tag">Arial Narrow</span>
-                <span class="tech-tag">Courier New</span>
+            <div class="type-grid">
+                <div class="type-specimen">
+                    <div class="type-label">Primary — Wordmark</div>
+                    <div class="type-sample-din">TennaSonic</div>
+                    <div class="type-sample-mono" style="margin-top: 4px;">Precision mmWave · 5G/6G</div>
+                    <div class="type-note"><strong>DIN 1451 / DIN Pro</strong> — German national standard for measurement instruments, engineering drawings, and road signage. Signals engineering seriousness.</div>
+                </div>
+                <div class="type-specimen">
+                    <div class="type-label">Secondary — Technical & Data</div>
+                    <div class="type-sample-mono">AiP · mmWave · 5G/6G · TRL 3<br>−40 °C → +85 °C · Sub-THz</div>
+                    <div class="type-note"><strong>IBM Plex Mono</strong> — Monospaced reinforces measurement-lab register. For temperature ranges, frequency bands, spec callouts.</div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Weight rules:</strong> Wordmark Bold/700 · Tagline Light/300 · Body Regular/400</p>
+                <p><strong>Never use italic</strong> — precision hardware brands imply permanence, not motion.</p>
             </div>
         </section>
 
         <section>
             <h2 class="section-title">Colour System</h2>
-            <ul>
-                <li>Palette A (Metal/Material) — Absolute Black, Gunmetal, Slate, Steel, Aluminium, Silver</li>
-                <li>Palette B (Black on White) — High contrast for documents and professional contexts</li>
-                <li>Hierarchy: Black anchors the name, metallic greys carry secondary elements</li>
-            </ul>
+            
+            <div class="palette-section">
+                <div class="palette-label">Palette A — Metal & Material</div>
+                <div class="colour-grid">
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #1A1A1A;"></div>
+                        <div class="swatch-name">Anechoic</div>
+                        <div class="swatch-hex">#1A1A1A</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #3C3C3C;"></div>
+                        <div class="swatch-name">Tungsten</div>
+                        <div class="swatch-hex">#3C3C3C</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #8A9BAD;"></div>
+                        <div class="swatch-name">Brushed AL</div>
+                        <div class="swatch-hex">#8A9BAD</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #B87333;"></div>
+                        <div class="swatch-name">Cu Trace</div>
+                        <div class="swatch-hex">#B87333</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #00C8FF;"></div>
+                        <div class="swatch-name">Plasma Cyan</div>
+                        <div class="swatch-hex">#00C8FF</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #0077B6;"></div>
+                        <div class="swatch-name">RF Blue</div>
+                        <div class="swatch-hex">#0077B6</div>
+                    </div>
+                </div>
+                <p class="note" style="margin-top: 12px;">Drawn from antenna-in-package fabrication: machined aluminium, tungsten via-fills, copper RF traces, anechoic chambers.</p>
+            </div>
+
+            <div class="palette-section">
+                <div class="palette-label">Palette B — Black on White</div>
+                <div class="colour-grid">
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #000000;"></div>
+                        <div class="swatch-name">Absolute Black</div>
+                        <div class="swatch-hex">#000000</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #111111;"></div>
+                        <div class="swatch-name">Carbon</div>
+                        <div class="swatch-hex">#111111</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #4A4E57;"></div>
+                        <div class="swatch-name">Steel</div>
+                        <div class="swatch-hex">#4A4E57</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #FFFFFF; border: 1px solid #e5e5e5;"></div>
+                        <div class="swatch-name">Pure White</div>
+                        <div class="swatch-hex">#FFFFFF</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #F7F5F2;"></div>
+                        <div class="swatch-name">Technical White</div>
+                        <div class="swatch-hex">#F7F5F2</div>
+                    </div>
+                    <div class="swatch">
+                        <div class="swatch-colour" style="background: #0077B6;"></div>
+                        <div class="swatch-name">RF Blue</div>
+                        <div class="swatch-hex">#0077B6</div>
+                    </div>
+                </div>
+                <p class="note" style="margin-top: 12px;">The engineering register that commands technical credibility. If a logo doesn't work in black on white, it doesn't work.</p>
+            </div>
         </section>
 
         <section>
@@ -208,12 +480,6 @@
                     <div class="doc-info-meta">Logo system, typography, colour palettes, usage guidelines</div>
                     <a href="TennaSonic_BrandStyleGuide.pdf" target="_blank" class="btn">View PDF</a>
                     <a href="TennaSonic_BrandStyleGuide.pdf" download class="btn btn-outline">Download</a>
-                    
-                    <div class="audio-section">
-                        <div class="audio-label">Audio Version</div>
-                        <div class="audio-desc">Style guide as audio — for accessible review or listening on the go.</div>
-                        <a href="TennaSonic_BrandStyleGuide.mp3" download class="btn btn-outline">Download Audio ↓</a>
-                    </div>
                 </div>
             </div>
         </section>
