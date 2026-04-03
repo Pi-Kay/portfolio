@@ -3,241 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TennaSonic</title>
+    <title>Compliance Documentation</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; color: #1a1a1a; line-height: 1.8; min-height: 100vh; padding: 80px 20px; }
-        .container { max-width: 720px; margin: 0 auto; }
-        header { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #e0e0e0; }
-        h1 { font-size: 1.8em; font-weight: 300; letter-spacing: -0.3px; margin-bottom: 16px; color: #000; display: flex; align-items: center; gap: 12px; }
-        .header-icon { font-size: 1.2em; color: #0d1b2a; }
-        .subtitle { font-size: 0.95em; color: #666; font-weight: 300; line-height: 1.6; }
-        .meta { font-size: 0.85em; color: #888; margin-top: 12px; }
-        section { margin-bottom: 50px; }
-        h2 { font-size: 0.85em; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
-        p { font-size: 0.95em; color: #333; margin-bottom: 16px; font-weight: 300; }
-        ul { list-style: none; padding: 0; margin-bottom: 16px; }
-        li { font-size: 0.9em; color: #444; margin-bottom: 8px; padding-left: 20px; position: relative; font-weight: 300; line-height: 1.6; }
-        li:before { content: "—"; position: absolute; left: 0; color: #ccc; }
-
-        .logo-showcase { 
-            background: #000; 
-            padding: 40px; 
-            margin: 20px 0; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            gap: 32px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .logo-showcase.light { 
-            background: #fff; 
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 80px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h1 {
+            font-size: 1.8em;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+            margin-bottom: 16px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-icon {
+            font-size: 1.2em;
+            color: #0d1b2a;
+        }
+        .subtitle {
+            font-size: 0.95em;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+            line-height: 1.6;
+        }
+        .meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 12px;
+        }
+        section {
+            margin-bottom: 50px;
+        }
+        h2 {
+            font-size: 0.85em;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        p {
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 300;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 16px;
+        }
+        li {
+            font-size: 0.9em;
+            color: #444;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #ccc;
+        }
+        .highlight-box {
+            background: #f5f5f5;
+            border-left: 3px solid #333;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        .highlight-box p {
+            margin-bottom: 8px;
+        }
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Document Preview */
+        .doc-preview {
+            display: flex;
+            gap: 24px;
+            margin: 30px 0;
+            align-items: flex-start;
+            padding: 24px;
+            background: #fff;
             border: 1px solid #e0e0e0;
         }
-        .logo-wordmark { 
-            font-family: 'DIN Alternate', 'DIN', 'Arial Black', sans-serif; 
-            font-size: 2em; 
-            font-weight: 700; 
-            letter-spacing: 1px;
-            color: #8A9BAD;
+        .doc-thumbnail {
+            flex-shrink: 0;
+            width: 160px;
+            height: 210px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .logo-wordmark span { color: #4A4E57; }
-        .logo-tagline { 
-            font-family: 'IBM Plex Mono', 'Courier New', monospace; 
-            font-size: 0.75em; 
-            color: #6E7480; 
-            letter-spacing: 1px;
+        .doc-thumbnail:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
-        .logo-mark {
+        .doc-thumbnail embed {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .doc-info {
+            flex: 1;
+        }
+        .doc-title {
+            font-size: 1em;
+            font-weight: 400;
+            color: #222;
+            margin-bottom: 8px;
+        }
+        .doc-meta {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            background: #333;
+            border: 1px solid #333;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background: #555;
+            border-color: #555;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #333;
+        }
+        .btn-outline:hover {
+            background: #333;
+            color: #fff;
+        }
+        
+        /* Process sketches */
+        .sketch-grid {
             display: grid;
-            grid-template-columns: repeat(4, 12px);
-            grid-template-rows: repeat(2, 12px);
-            gap: 3px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
         }
-        .logo-mark div {
-            background: linear-gradient(180deg, #4A4E57 0%, #8A9BAD 100%);
-            border-radius: 1px;
+        .sketch-grid img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e0e0e0;
+            transition: opacity 0.2s;
+        }
+        .sketch-grid img:hover {
+            opacity: 0.9;
         }
         
-        .palette-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 20px 0; }
-        .palette-swatch { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 6px; font-size: 0.65em; color: #fff; }
-        .palette-swatch.light-text { color: #333; }
+        /* Cover image */
+        .cover-image {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 30px;
+            display: block;
+            border: 1px solid #e0e0e0;
+        }
         
-        .tech-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-        .tech-tag { background: #f0f0f0; padding: 4px 10px; font-size: 0.8em; color: #444; }
+        nav {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #000;
+        }
         
-        .design-item { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.9em; }
-        .design-label { font-weight: 400; color: #555; min-width: 100px; }
-        .design-value { color: #666; font-weight: 300; }
-        
-        .highlight-box { background: #f5f5f5; border-left: 3px solid #333; padding: 16px 20px; margin: 20px 0; font-size: 0.9em; }
-        .highlight-box p { margin-bottom: 8px; }
-        .highlight-box p:last-child { margin-bottom: 0; }
-        
-        .role-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.85em; }
-        .role-table th, .role-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .role-table th { font-weight: 400; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8em; }
-        .role-table td { color: #444; font-weight: 300; }
-        .role-indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
-        .role-primary { background: #333; }
-        .role-shared { background: linear-gradient(135deg, #333 50%, #ccc 50%); }
-        .role-supporting { background: #ccc; }
-        
-        .deliverables-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
-        .deliverable-card { background: #fff; border: 1px solid #e0e0e0; padding: 20px; }
-        .deliverable-title { font-size: 0.95em; font-weight: 400; color: #222; margin-bottom: 8px; }
-        .deliverable-desc { font-size: 0.85em; color: #666; font-weight: 300; line-height: 1.5; }
-        
-        .sector-ref { display: flex; gap: 20px; align-items: center; padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
-        .sector-ref:last-child { border-bottom: none; }
-        .sector-name { font-size: 0.9em; font-weight: 400; color: #333; min-width: 140px; }
-        .sector-lesson { font-size: 0.85em; color: #666; font-weight: 300; }
-        
-        nav { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; }
-        nav a { color: #666; text-decoration: none; font-size: 0.85em; font-weight: 300; transition: color 0.2s; }
-        nav a:hover { color: #000; }
-        
-        .note { font-size: 0.85em; color: #888; font-style: italic; }
+        .note {
+            font-size: 0.85em;
+            color: #888;
+            font-style: italic;
+            margin-top: 12px;
+        }
         
         @media (max-width: 768px) {
-            body { padding: 60px 20px; }
-            h1 { font-size: 1.5em; }
-            .deliverables-grid { grid-template-columns: 1fr; }
-            .palette-grid { grid-template-columns: repeat(4, 1fr); }
-            nav { flex-direction: column; gap: 20px; text-align: center; }
+            body {
+                padding: 60px 20px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            header {
+                margin-bottom: 50px;
+            }
+            .doc-preview {
+                flex-direction: column;
+            }
+            .doc-thumbnail {
+                width: 100%;
+                max-width: 200px;
+            }
+            .sketch-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
         }
-        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .container { animation: fadeIn 1s ease-out; }
+        .container {
+            animation: fadeIn 1s ease-out;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><span class="header-icon">◧</span> TennaSonic</h1>
-            <p class="subtitle">Brand identity system for a deep-tech hardware startup developing thermally-resilient antenna platforms for 5G/6G and satellite communications</p>
-            <p class="meta">2025 · AiP / mmWave · B2B Hardware · Pre-Seed</p>
+            <h1><span class="header-icon">▤</span> Compliance Guide Music AI</h1>
+            <p class="subtitle">Guidance on personal data in generative music systems</p>
+            <p class="meta">December 2025 · GDPR, EU AI Act, European Accessibility Act, ICO, ENISA, WCAG 2.2</p>
         </header>
 
+        <!-- 1. HOOK: Document preview -->
         <section>
-            <h2>Logo System</h2>
-            <div class="logo-showcase">
-                <div class="logo-mark">
-                    <div></div><div></div><div></div><div></div>
-                    <div></div><div></div><div></div><div></div>
-                </div>
-                <div style="text-align: center;">
-                    <div class="logo-wordmark"><span>Tenna</span>Sonic</div>
-                    <div class="logo-tagline">Precision mmWave · 5G/6G · AiP</div>
+            <div class="doc-preview">
+                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of Music AI Compliance Guide PDF">
+                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="First page preview">
+                </a>
+                <div class="doc-info">
+                    <div class="doc-title">Guidance on Personal Data in Generative Music Systems</div>
+                    <a href="Music AI Compliance.pdf" target="_blank" class="btn">View PDF</a>
+                    <a href="Music AI Compliance.pdf" download class="btn btn-outline">Download</a>
                 </div>
             </div>
-            <p class="note">The AiP Stack mark represents the multi-layer package structure central to Antenna-in-Package technology — LTCC ceramic, HDI organic, or eWLB mold compound layers.</p>
+            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</p>
         </section>
 
+        <!-- 2. RESEARCH FRAMING -->
+        <section>
+            <h2>Research Question</h2>
+            <p>How can independent creators navigate AI compliance requirements and integrate them into their creative workflow?</p>
+        </section>
+
+        <!-- 3. CONTEXT -->
         <section>
             <h2>Context</h2>
-            <p>TennaSonic is developing a thermally-resilient Antenna-in-Package (AiP) platform for reliable 5G/6G, satellite, and radar performance. The core challenge: antenna systems degrade above 43–45°C — critical in mmWave and sub-THz bands.</p>
-            <p>Target applications include smartphones, base stations, automotive, satellite terminals, and IoT devices. Currently at TRL 3 (Experimental Proof of Concept) with national financing.</p>
+            <p>As generative AI tools become embedded in music production, creators face an increasingly complex landscape of data privacy, copyright, and compliance requirements. This guide translates legal and technical requirements into actionable guidance for independent musicians and producers.</p>
         </section>
 
-        <section>
-            <h2>Deliverables</h2>
-            <div class="deliverables-grid">
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Logo System</div>
-                    <div class="deliverable-desc">Banner, horizontal lockup, wordmark-only, and single-colour variants with size specifications</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Typography</div>
-                    <div class="deliverable-desc">DIN 1451 / DIN Pro primary + IBM Plex Mono for technical specs. Weight and size scale defined</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Colour Palettes</div>
-                    <div class="deliverable-desc">Metal/Material (dark mode) and Black/White (engineering register) with accent hierarchy</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-title">Sector Research</div>
-                    <div class="deliverable-desc">Visual audit of ultrasonic tech, hardware deep tech, and R&D institutes (DE, NL, JP, US)</div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Colour · Metal & Material</h2>
-            <div class="palette-grid">
-                <div class="palette-swatch" style="background: #1A1A1A;">Anechoic</div>
-                <div class="palette-swatch" style="background: #3C3C3C;">Tungsten</div>
-                <div class="palette-swatch" style="background: #4A4E57;">Steel</div>
-                <div class="palette-swatch" style="background: #8A9BAD;">Brushed Al</div>
-                <div class="palette-swatch" style="background: #C2C8D2;" class="light-text">Polished Al</div>
-                <div class="palette-swatch" style="background: #F0EDE6; color: #333;">Lab Paper</div>
-            </div>
-            <div class="palette-grid">
-                <div class="palette-swatch" style="background: #B87333;">Cu Trace</div>
-                <div class="palette-swatch" style="background: #D4C9A8; color: #333;">Solder</div>
-                <div class="palette-swatch" style="background: #00C8FF;">Plasma Cyan</div>
-                <div class="palette-swatch" style="background: #0077B6;">RF Blue</div>
-                <div class="palette-swatch" style="background: #FF5F1F;">Thermal</div>
-                <div class="palette-swatch" style="background: #7B3F00;">Oxidised Cu</div>
-            </div>
-            <p class="note">Drawn from antenna-in-package fabrication: machined aluminium, tungsten via-fills, copper RF traces, solder alloy, anechoic chambers.</p>
-        </section>
-
-        <section>
-            <h2>Typography Rationale</h2>
-            <div class="highlight-box">
-                <p><strong>DIN 1451 / DIN Pro</strong></p>
-                <p>DIN (Deutsches Institut für Normung) is the German national standard for measurement instruments, engineering drawings, road signage, and electrical labelling. Every major German engineering company uses a DIN-adjacent face: Deutsche Bahn, Bundeswehr, DIN-certified lab equipment.</p>
-                <p>For a startup building hardware for telecommunications infrastructure, using DIN is a quiet declaration of engineering seriousness.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>Sector Reference</h2>
-            <div class="sector-ref">
-                <span class="sector-name">TU Delft ECTM</span>
-                <span class="sector-lesson">A precision letterform can carry identity alone — the mark need not depict a wave</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">Fraunhofer IMS</span>
-                <span class="sector-lesson">Abstract frequency bars read as "measurement" without illustrating a wave</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">RIKEN CEMS</span>
-                <span class="sector-lesson">Crosshair device conveys precision tuning — relevant for thermal resilience messaging</span>
-            </div>
-            <div class="sector-ref">
-                <span class="sector-name">MIT Lincoln Lab</span>
-                <span class="sector-lesson">Contained rule-system wordmark reads as high-precision research</span>
-            </div>
-        </section>
-
+        <!-- 4. PROCESS -->
         <section>
             <h2>Process</h2>
-            <table class="role-table">
-                <thead><tr><th>Task</th><th>Human</th><th>AI</th></tr></thead>
-                <tbody>
-                    <tr><td>Design direction & concept</td><td><span class="role-indicator role-primary"></span>Primary</td><td><span class="role-indicator role-supporting"></span>Supporting</td></tr>
-                    <tr><td>Typography & colour decisions</td><td><span class="role-indicator role-primary"></span>Primary</td><td><span class="role-indicator role-supporting"></span>Supporting</td></tr>
-                    <tr><td>Industry research synthesis</td><td><span class="role-indicator role-shared"></span>Shared</td><td><span class="role-indicator role-shared"></span>Shared</td></tr>
-                    <tr><td>Documentation layout</td><td><span class="role-indicator role-supporting"></span>Supporting</td><td><span class="role-indicator role-primary"></span>Primary</td></tr>
-                    <tr><td>SVG mark rendering</td><td><span class="role-indicator role-supporting"></span>Supporting</td><td><span class="role-indicator role-primary"></span>Primary</td></tr>
-                </tbody>
-            </table>
+            
+            <div class="highlight-box">
+                <p><strong>AI-Human Collaboration</strong></p>
+                <p>AI: Initial idea generation, requirement gathering, accuracy cross-checking across multiple models</p>
+                <p>Human: Design direction, accessibility review, Apple Pages layout, iterative refinement</p>
+            </div>
+            
+            <ul>
+                <li>Gathered AI compliance requirements from multiple sources</li>
+                <li>Cross-verified accuracy using several AI models (Claude, Grok)</li>
+                <li>Reviewed against WCAG accessibility guidelines</li>
+                <li>Designed layout manually in Apple Pages</li>
+                <li>Wrote documentation in Markdown, managed in Obsidian</li>
+                <li>Iterative troubleshooting and hybrid refinement</li>
+            </ul>
         </section>
 
+        <!-- 5. TOOLS -->
         <section>
-            <h2>Status</h2>
-            <p>Draft documentation delivered. Production assets pending formal contract. All design work shown — typography, colour systems, logo directions, sector analysis — remains designer IP until transfer.</p>
-            <p class="note">Preview only · Not for investor or press distribution</p>
+            <h2>Tools</h2>
+            <p>GitHub, Git Pages, Obsidian, Apple Pages, Claude, Grok, Python, Audacity, Terminal (HTML/CSS/JS)</p>
+        </section>
+
+        <!-- 6. RESULTS -->
+        <section>
+            <h2>Results & Next Steps</h2>
+            <p>Published as open-source resource with regular version control. Ongoing updates as AI regulations evolve.</p>
+            <p><a href="https://github.com/Pi-Kay/Music-AI-Vault" target="_blank" style="color: #333;">View project on GitHub →</a></p>
         </section>
 
         <nav>
-            <a href="musicai.html">← Compliance Guide</a>
-            <a href="valispace.html">Aerospace Traceability →</a>
-        </nav>
+            <a href="navigator.html">← Compliance Navigator</a>
+            <a href="valispace.html">Aerospace: Traceability Design →</a>
+        </nav>   
     </div>
 </body>
 </html>
