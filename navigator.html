@@ -3,122 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compliance Navigator</title>
+    <meta name="description" content="AI compliance tools for music creators. Interactive navigator app and open-source documentation covering EU AI Act, GDPR, and artist rights.">
+    <title>Music AI Compliance — Petra Kühnle</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; color: #1a1a1a; line-height: 1.8; min-height: 100vh; padding: 80px 20px; }
-        .container { max-width: 720px; margin: 0 auto; }
-        header { margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid #e0e0e0; }
-        h1 { font-size: 1.8em; font-weight: 300; letter-spacing: -0.3px; margin-bottom: 16px; color: #000; display: flex; align-items: center; gap: 12px; }
-        .header-icon { font-size: 1.2em; color: #0d1b2a; }
-        .subtitle { font-size: 0.95em; color: #666; font-weight: 300; line-height: 1.6; }
-        .meta { font-size: 0.85em; color: #888; margin-top: 12px; }
-        section { margin-bottom: 50px; }
-        h2 { font-size: 0.85em; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
-        p { font-size: 0.95em; color: #333; margin-bottom: 16px; font-weight: 300; }
-        ul { list-style: none; padding: 0; margin-bottom: 16px; }
-        li { font-size: 0.9em; color: #444; margin-bottom: 8px; padding-left: 20px; position: relative; font-weight: 300; line-height: 1.6; }
-        li:before { content: "—"; position: absolute; left: 0; color: #ccc; }
-
-        .demo-cta { 
-            border: 1px solid #333; 
-            padding: 20px; 
-            margin: 20px 0; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: #fafafa;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+        
+        .project-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .demo-cta p { margin: 0; font-size: 0.9em; color: #444; }
-        .demo-button { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; font-size: 0.8em; font-weight: 400; letter-spacing: 0.5px; transition: background 0.2s; }
-        .demo-button:hover { background: #555; }
-        
-        .use-case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
-        .use-case-card { background: #fff; border: 1px solid #e0e0e0; padding: 20px; transition: all 0.2s ease; }
-        .use-case-card:hover { border-color: #333; }
-        .use-case-icon { font-size: 1.2em; margin-bottom: 8px; color: #0d1b2a; }
-        .use-case-title { font-size: 1em; font-weight: 400; color: #222; margin-bottom: 8px; }
-        .use-case-desc { font-size: 0.85em; color: #666; font-weight: 300; line-height: 1.5; }
-        
-        .tech-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-        .tech-tag { background: #f0f0f0; padding: 4px 10px; font-size: 0.8em; color: #444; }
-        
-        .design-item { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.9em; }
-        .design-label { font-weight: 400; color: #555; min-width: 80px; }
-        .design-value { color: #666; font-weight: 300; }
-        
-        .highlight-box { background: #f5f5f5; border-left: 3px solid #333; padding: 16px 20px; margin: 20px 0; font-size: 0.9em; }
-        .highlight-box p { margin-bottom: 8px; }
-        .highlight-box p:last-child { margin-bottom: 0; }
-        
-        .role-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.85em; }
-        .role-table th, .role-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .role-table th { font-weight: 400; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8em; }
-        .role-table td { color: #444; font-weight: 300; }
-        .role-indicator { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
-        .role-primary { background: #333; }
-        .role-shared { background: linear-gradient(135deg, #333 50%, #ccc 50%); }
-        .role-supporting { background: #ccc; }
-        
-        .checklist li:before { content: "☐"; color: #999; }
-        .checklist li.done:before { content: "☑"; color: #28a745; }
-        
-        .doc-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
-        .doc-link { display: inline-block; padding: 8px 16px; background: #333; color: #fff; text-decoration: none; font-size: 0.8em; font-weight: 400; letter-spacing: 0.5px; transition: background 0.2s; }
-        .doc-link:hover { background: #555; }
-        .doc-link-outline { background: transparent; color: #333; border: 1px solid #333; }
-        .doc-link-outline:hover { background: #333; color: #fff; }
-        
+
+        .section-title {
+            font-size: 0.8em;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        /* Two deliverables side by side */
+        .deliverables-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px 0 40px;
+        }
+
+        .deliverable-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+
+        .deliverable-card:hover {
+            border-color: #1a1a1a;
+        }
+
+        .deliverable-label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 8px;
+        }
+
+        .deliverable-title {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.85em;
+            color: #6b6b6b;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .deliverable-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+
+        .deliverable-link:hover {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        .deliverable-link.outline {
+            background: transparent;
+            color: #1a1a1a;
+            border: 1px solid #1a1a1a;
+        }
+
+        .deliverable-link.outline:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Video container */
         .video-container {
             width: 100%;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
+            border: 1px solid #e5e5e5;
+            border-radius: 2px;
             overflow: hidden;
+            margin: 20px 0;
         }
+
         .video-container video {
             width: 100%;
             display: block;
         }
-        
-        nav { margin-top: 60px; padding-top: 40px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; }
-        nav a { color: #666; text-decoration: none; font-size: 0.85em; font-weight: 300; transition: color 0.2s; }
-        nav a:hover { color: #000; }
-        
-        .note { font-size: 0.85em; color: #888; font-style: italic; }
-        
+
+        /* Document preview */
+        .doc-preview {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+
+        .doc-preview img {
+            width: 160px;
+            border: 1px solid #e5e5e5;
+            flex-shrink: 0;
+        }
+
+        .doc-preview-text {
+            flex: 1;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: #f9f9f9;
+            border-left: 3px solid #1a1a1a;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+
+        .highlight-box p {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Tech tags */
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .tech-tag {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            font-size: 0.8em;
+            color: #3d3d3d;
+        }
+
+        /* Role table */
+        .role-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.85em;
+        }
+
+        .role-table th,
+        .role-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .role-table th {
+            font-weight: 500;
+            color: #6b6b6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8em;
+        }
+
+        .role-table td {
+            color: #3d3d3d;
+            font-weight: 400;
+        }
+
+        .role-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .role-primary { background: #1a1a1a; }
+        .role-shared { background: linear-gradient(135deg, #1a1a1a 50%, #c0c0c0 50%); }
+        .role-supporting { background: #c0c0c0; }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .checklist li {
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 8px;
+            color: #3d3d3d;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #8a8a8a;
+        }
+
+        .checklist li.done:before {
+            content: "☑";
+            color: #2d8a4e;
+        }
+
+        /* Links section */
+        .doc-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body { padding: 60px 20px; }
-            h1 { font-size: 1.5em; }
-            .use-case-grid { grid-template-columns: 1fr; }
-            .demo-cta { flex-direction: column; gap: 12px; text-align: center; }
-            nav { flex-direction: column; gap: 20px; text-align: center; }
+            .deliverables-intro {
+                grid-template-columns: 1fr;
+            }
+
+            .doc-preview {
+                flex-direction: column;
+            }
+
+            .doc-preview img {
+                width: 100%;
+                max-width: 200px;
+            }
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .container { animation: fadeIn 1s ease-out; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1><span class="header-icon">⬡</span> Music AI Compliance Navigator</h1>
-            <p class="subtitle">Interactive tool helping artists, labels, and music tech companies navigate AI + Music regulations</p>
-            <p class="meta">January 2026 · EU AI Act, GDPR, and artist rights obligations</p>
-        </header>
+<body class="project">
+    <header>
+        <h1>Music AI Compliance</h1>
+        <p>Tools helping artists, labels, and music tech companies navigate AI regulations</p>
+    </header>
 
+    <main class="project-container">
         <section>
-            <div class="demo-cta">
-                <p>Step-by-step guidance for AI compliance in music</p>
-                <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="demo-button">Launch Navigator →</a>
+            <p>AI compliance in music is fragmented across legal documents, technical specs, and evolving regulations. Current resources are either too legal (inaccessible) or too simplified (incomplete). This project addresses both: an interactive tool for quick, personalised guidance and comprehensive documentation for those who want to understand sources and process.</p>
+            
+            <div class="deliverables-intro">
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Interactive</div>
+                    <div class="deliverable-title">Navigator App</div>
+                    <div class="deliverable-desc">Decision-tree tool for step-by-step compliance guidance. Input a use case, get requirements, risks, and action steps.</div>
+                    <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch App →</a>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Documentation</div>
+                    <div class="deliverable-title">Compliance Guide</div>
+                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and artist rights. Full methodology and sources documented.</div>
+                    <a href="https://github.com/Pi-Kay/music-ai-compliance-guide" target="_blank" class="deliverable-link outline">View Guide →</a>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Why both formats?</strong></p>
+                <p>The Navigator serves users who need quick answers for specific situations. The Guide builds trust through transparency — showing sources, methodology, and the reasoning behind each recommendation. Both are accessible; together they serve different modes of learning and decision-making.</p>
             </div>
         </section>
-        
+
         <section>
-            <h2>Interface</h2>
+            <h2 class="section-title">Navigator Interface</h2>
             <div class="video-container">
                 <video 
                     src="navigator_screenrecording.mov" 
@@ -128,20 +293,11 @@
                     playsinline>
                 </video>
             </div>
-        </section>
-        
-        <section>
-            <h2>Problem</h2>
-            <p>AI compliance in music is fragmented across legal documents, technical specs, and evolving regulations. Current resources are either too legal (inaccessible) or too simplified (incomplete).</p>
+            <p>The app works bidirectionally: artists can check if their work was used without consent, and companies can verify their AI pipeline is ethical.</p>
         </section>
 
         <section>
-            <h2>Solution</h2>
-            <p>A decision-tree tool that works bidirectionally: artists can check if their work was used without consent, and companies can verify their AI pipeline is ethical. Input a use case, get requirements, risks, and action steps.</p>
-        </section>
-
-        <section>
-            <h2>Use Cases</h2>
+            <h2 class="section-title">Use Cases</h2>
             <ul>
                 <li><strong>Consent & Attribution</strong> — Was this work used with permission?</li>
                 <li><strong>Training Data Provenance</strong> — Where did training data come from?</li>
@@ -149,63 +305,108 @@
                 <li><strong>Transparency & Disclosure</strong> — When must I disclose AI use?</li>
             </ul>
         </section>
-    
+
         <section>
-            <h2>Tech & Design</h2>
+            <h2 class="section-title">Documentation</h2>
+            <div class="doc-preview">
+                <img src="guide-cover.png" alt="Compliance Guide cover page">
+                <div class="doc-preview-text">
+                    <p>The guide translates legal and technical requirements into actionable guidance for independent musicians and producers. Published as open-source with version control.</p>
+                    <p><strong>Covers:</strong> GDPR, EU AI Act, European Accessibility Act, ICO guidance, ENISA recommendations, WCAG 2.2</p>
+                    <p><em>Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Tech & Design</h2>
             <div class="tech-list">
                 <span class="tech-tag">React 18</span>
                 <span class="tech-tag">Vanilla CSS</span>
                 <span class="tech-tag">GitHub Pages</span>
                 <span class="tech-tag">JSON</span>
+                <span class="tech-tag">Markdown</span>
+                <span class="tech-tag">Apple Pages</span>
             </div>
-            <div style="margin-top: 20px;">
-<div class="design-item"><span class="design-label">Aesthetic</span><span class="design-value">Grid structure, restrained palette, negative space</span></div>                <div class="design-item"><span class="design-label">Colors</span><span class="design-value">Near-black + warm grey + amber accent</span></div>
-                <div class="design-item"><span class="design-label">Accessibility</span><span class="design-value">Full keyboard nav, 48px+ touch targets</span></div>
-            </div>
+            <p style="margin-top: 16px;"><strong>Design principles:</strong> Grid structure, restrained palette, negative space. Full keyboard navigation, 48px+ touch targets for accessibility.</p>
         </section>
 
         <section>
-            <h2>Process</h2>
+            <h2 class="section-title">Process</h2>
             <div class="highlight-box">
                 <p><strong>AI-Human Collaboration</strong></p>
-                <p>Human decisions drive strategy, scope, and ethics. AI assists with research synthesis, code drafting, and structure.</p>
+                <p>Human decisions drive strategy, scope, and ethics. AI assists with research synthesis, code drafting, and structure. Information cross-verified across multiple AI models (Claude, Grok) before publication.</p>
             </div>
             <table class="role-table">
-                <thead><tr><th>Task</th><th>Human</th><th>AI</th></tr></thead>
+                <thead>
+                    <tr><th>Task</th><th>Human</th><th>AI</th></tr>
+                </thead>
                 <tbody>
-                    <tr><td>Concept & framing</td><td><span class="role-indicator role-primary"></span>Primary</td><td><span class="role-indicator role-supporting"></span>Supporting</td></tr>
-                    <tr><td>Use case definitions</td><td><span class="role-indicator role-primary"></span>Primary</td><td><span class="role-indicator role-supporting"></span>Supporting</td></tr>
-                    <tr><td>Decision tree logic</td><td><span class="role-indicator role-shared"></span>Shared</td><td><span class="role-indicator role-shared"></span>Shared</td></tr>
-                    <tr><td>Interface design</td><td><span class="role-indicator role-primary"></span>Primary</td><td><span class="role-indicator role-supporting"></span>Supporting</td></tr>
-                    <tr><td>Code implementation</td><td><span class="role-indicator role-supporting"></span>Supporting</td><td><span class="role-indicator role-primary"></span>Primary</td></tr>
+                    <tr>
+                        <td>Concept & framing</td>
+                        <td><span class="role-indicator role-primary"></span>Primary</td>
+                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
+                    </tr>
+                    <tr>
+                        <td>Use case definitions</td>
+                        <td><span class="role-indicator role-primary"></span>Primary</td>
+                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
+                    </tr>
+                    <tr>
+                        <td>Decision tree logic</td>
+                        <td><span class="role-indicator role-shared"></span>Shared</td>
+                        <td><span class="role-indicator role-shared"></span>Shared</td>
+                    </tr>
+                    <tr>
+                        <td>Interface design</td>
+                        <td><span class="role-indicator role-primary"></span>Primary</td>
+                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
+                    </tr>
+                    <tr>
+                        <td>Code implementation</td>
+                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
+                        <td><span class="role-indicator role-primary"></span>Primary</td>
+                    </tr>
+                    <tr>
+                        <td>Accessibility review</td>
+                        <td><span class="role-indicator role-primary"></span>Primary</td>
+                        <td><span class="role-indicator role-supporting"></span>Supporting</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
 
         <section>
-            <h2>Status</h2>
+            <h2 class="section-title">Status</h2>
             <ul class="checklist">
                 <li class="done">Use case definitions (Markdown + JSON)</li>
                 <li class="done">Decision tree logic</li>
-                <li class="done">Interface build (React)</li>
+                <li class="done">Navigator interface (React)</li>
                 <li class="done">UX improvements (keyboard nav, progress, breadcrumbs)</li>
+                <li class="done">Compliance Guide v1.0</li>
                 <li class="done">Deployment</li>
-                <li>User feedback</li>
+                <li>User feedback integration</li>
+                <li>Ongoing updates as regulations evolve</li>
             </ul>
         </section>
 
         <section>
-            <h2>Links</h2>
+            <h2 class="section-title">Links</h2>
             <div class="doc-links">
-                <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="doc-link">Live App</a>
-                <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="doc-link doc-link-outline">GitHub</a>
+                <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Navigator App</a>
+                <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="deliverable-link outline">GitHub (App)</a>
+                <a href="https://github.com/Pi-Kay/music-ai-compliance-guide" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
             </div>
         </section>
 
         <nav>
-            <a href="sonification.html">← Crater Sonification</a>
-            <a href="valispace.html">Aerospace Traceability Design →</a>
-        </nav>  
-    </div>
+            <a href="sonification.html">← Data Sonification</a>
+            <a href="tennasonic.html">TennaSonic →</a>
+        </nav>
+    </main>
+
+    <footer>
+        <p>© 2026 Petra Kühnle</p>
+    </footer>
 </body>
 </html>
