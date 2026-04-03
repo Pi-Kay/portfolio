@@ -3,390 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI compliance tools for music creators. Interactive navigator app and open-source documentation covering EU AI Act, GDPR, and artist rights.">
-    <title>Music AI Compliance — Petra Kühnle</title>
+    <meta name="description" content="Spatial audio interface translating lunar crater data into sound. Multimodal interaction design for accessibility.">
+    <title>Data Sonification — Petra Kühnle</title>
     <link rel="stylesheet" href="style.css">
     <style>
         /* ===== PAGE-SPECIFIC STYLES ===== */
-        
-        .project-container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
 
-        .section-title {
-            font-size: 0.8em;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #6b6b6b;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        /* Two deliverables side by side */
-        .deliverables-intro {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 24px 0 40px;
-        }
-
-        .deliverable-card {
-            background: #fff;
+        /* Canvas container */
+        .canvas-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
             border: 1px solid #e5e5e5;
-            padding: 24px;
-            transition: border-color 0.2s;
+            background: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
         }
 
-        .deliverable-card:hover {
-            border-color: #1a1a1a;
+        .canvas-container:hover {
+            opacity: 0.95;
+            border-color: #8a8a8a;
         }
 
-        .deliverable-label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 8px;
+        .canvas-container:focus-visible {
+            outline: 3px solid #1a1a1a;
+            outline-offset: 3px;
         }
 
-        .deliverable-title {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
         }
 
-        .deliverable-desc {
+        .interaction-hint {
             font-size: 0.85em;
             color: #6b6b6b;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .deliverable-link {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
+            text-align: center;
+            margin: 12px 0 4px;
             font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: background 0.2s;
+            font-style: italic;
         }
 
-        .deliverable-link:hover {
-            background: #3d3d3d;
-            color: #fff;
+        .fullscreen-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 0.75em;
+            color: #8a8a8a;
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+            transition: color 0.2s;
         }
 
-        .deliverable-link.outline {
-            background: transparent;
+        .fullscreen-link:hover {
             color: #1a1a1a;
-            border: 1px solid #1a1a1a;
         }
 
-        .deliverable-link.outline:hover {
-            background: #1a1a1a;
-            color: #fff;
+        .canvas-caption {
+            font-size: 0.85em;
+            color: #8a8a8a;
+            text-align: left;
+            margin-top: 12px;
+            font-weight: 400;
         }
 
-        /* Video container */
-        .video-container {
+        /* Images */
+        .midi-chart {
             width: 100%;
-            border: 1px solid #e5e5e5;
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .video-container video {
-            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
             display: block;
         }
 
-        /* Document preview */
-        .doc-preview {
-            display: flex;
-            gap: 24px;
-            margin: 20px 0;
-            padding: 24px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            align-items: flex-start;
-        }
-
-        .doc-thumbnail {
-            flex-shrink: 0;
-            width: 160px;
-            height: 210px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .doc-thumbnail:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
-        }
-
-        .doc-thumbnail embed {
+        /* Audio player */
+        audio {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
+            max-width: 600px;
+            margin: 16px auto;
+            display: block;
         }
 
-        .doc-info {
-            flex: 1;
-        }
-
-        .doc-info-title {
-            font-size: 1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .doc-info-meta {
-            font-size: 0.85em;
-            color: #6b6b6b;
-            margin-bottom: 16px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            background: #1a1a1a;
-            border: 1px solid #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background: #3d3d3d;
-            border-color: #3d3d3d;
-            color: #fff;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #1a1a1a;
-        }
-
-        .btn-outline:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border-left: 3px solid #1a1a1a;
-            padding: 16px 20px;
-            margin: 20px 0;
-            font-size: 0.9em;
-        }
-
-        .highlight-box p {
-            margin-bottom: 8px;
-        }
-
-        .highlight-box p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Tech tags */
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 12px 0;
-        }
-
-        .tech-tag {
-            background: #f0f0f0;
-            padding: 4px 10px;
-            font-size: 0.8em;
-            color: #3d3d3d;
-        }
-
-        /* Links section */
-        .doc-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+        /* Button group */
+        .btn-group {
+            text-align: center;
             margin: 16px 0;
+        }
+
+        .btn-group button {
+            padding: 6px 14px;
+            margin: 0 4px;
+            cursor: pointer;
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #3d3d3d;
+            font-size: 0.8em;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .btn-group button:hover {
+            background: #3d3d3d;
+        }
+
+        /* Appendix */
+        .appendix {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .appendix .section-title {
+            color: #8a8a8a;
+        }
+
+        /* Code inline */
+        code {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.85em;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .deliverables-intro {
-                grid-template-columns: 1fr;
-            }
-
-            .doc-preview {
-                flex-direction: column;
-            }
-
-            .doc-thumbnail {
-                width: 100%;
-                max-width: 200px;
+            .canvas-container {
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body class="project">
     <header>
-        <h1>Music AI Compliance</h1>
-        <p>Tools helping artists, labels, and music tech companies navigate AI regulations</p>
+        <h1>Data Sonification</h1>
+        <p>Multimodal interface translating lunar crater data into spatial audio</p>
+        <p class="meta">NASA Moon Crater Database · January 2026</p>
     </header>
 
-    <main class="project-container">
+    <main>
+        <section>
+            <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
+                <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
+            </div>
+            <p class="interaction-hint">Click the moon to start</p>
+            <a href="lunar.html" target="_blank" class="fullscreen-link">open fullscreen ↗</a>
+        </section>
 
-        <!-- Research framing -->
         <section>
             <h2 class="section-title">Research Question</h2>
-            <p>How can independent creators navigate AI compliance requirements and integrate them into their creative workflow?</p>
+            <p>How can sonification enhance perception of scientific data and reveal patterns not immediately visible in traditional representations?</p>
         </section>
 
-        <!-- Context -->
         <section>
-            <h2 class="section-title">Context</h2>
-            <p>As generative AI tools become embedded in music production, creators face an increasingly complex landscape of data privacy, copyright, and compliance requirements. Current resources are either too legal (inaccessible) or too simplified (incomplete).</p>
-            <p>This project addresses both: an interactive tool for quick, personalised guidance and comprehensive documentation for those who want to understand sources and process.</p>
-        </section>
-
-        <!-- Two deliverables -->
-        <section>
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Interactive</div>
-                    <div class="deliverable-title">Navigator App</div>
-                    <div class="deliverable-desc">Decision-tree tool for step-by-step compliance guidance. Input a use case, get requirements, risks, and action steps.</div>
-                    <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch App →</a>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Documentation</div>
-                    <div class="deliverable-title">Compliance Guide</div>
-                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and artist rights. Full methodology and sources documented.</div>
-                    <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
-                </div>
-            </div>
-
+            <h2 class="section-title">Methodology</h2>
+            <p>Approach inspired by Matt Russo's sonification work, combining scientific accuracy with perceptual clarity.</p>
             <div class="highlight-box">
-                <p><strong>Why both formats?</strong></p>
-                <p>The Navigator serves users who need quick answers for specific situations. The Guide builds trust through transparency — showing sources, methodology, and the reasoning behind each recommendation. Both are accessible; together they serve different modes of learning and decision-making.</p>
+                <p><strong>Parameter Mapping</strong></p>
+                <p>Diameter → pitch (inverted: larger craters = lower tones, 110-330 Hz) + duration (larger = longer sustain, 1.5-4.0s)</p>
+                <p>Latitude/longitude → impact position on sphere</p>
+                <p>Volume scaled to crater size (56-100)</p>
             </div>
+            <p><strong>Dataset:</strong> 9 craters selected from ~9,000 catalogued formations based on parameter diversity (diameter 32-101 km, depth 1.0-4.7 km, age 108-3800 Ma) and geographical distribution.</p>
         </section>
 
-        <!-- Navigator interface -->
-        <section>
-            <h2 class="section-title">Navigator Interface</h2>
-            <div class="video-container">
-                <video 
-                    src="navigator_screenrecording.mov" 
-                    autoplay 
-                    loop 
-                    muted 
-                    playsinline>
-                </video>
-            </div>
-            <p>The app works bidirectionally: artists can check if their work was used without consent, and companies can verify their AI pipeline is ethical.</p>
-        </section>
-
-        <!-- Use cases -->
-        <section>
-            <h2 class="section-title">Use Cases</h2>
-            <ul>
-                <li><strong>Consent & Attribution</strong> — Was this work used with permission?</li>
-                <li><strong>Training Data Provenance</strong> — Where did training data come from?</li>
-                <li><strong>Generated Output Rights</strong> — Who owns AI-generated work?</li>
-                <li><strong>Transparency & Disclosure</strong> — When must I disclose AI use?</li>
-            </ul>
-        </section>
-
-        <!-- Documentation preview -->
-        <section>
-            <h2 class="section-title">Documentation</h2>
-            <div class="doc-preview">
-                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of Music AI Compliance Guide PDF">
-                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="First page preview">
-                </a>
-                <div class="doc-info">
-                    <div class="doc-info-title">Guidance on Personal Data in Generative Music Systems</div>
-                    <div class="doc-info-meta">GDPR, EU AI Act, European Accessibility Act, ICO, ENISA, WCAG 2.2</div>
-                    <a href="Music AI Compliance.pdf" target="_blank" class="btn">View PDF</a>
-                    <a href="Music AI Compliance.pdf" download class="btn btn-outline">Download</a>
-                </div>
-            </div>
-            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</p>
-        </section>
-
-        <!-- Process -->
         <section>
             <h2 class="section-title">Process</h2>
+            <p><strong>Workflow:</strong> Python/Jupyter (data processing, MIDI generation) → Logic Pro (cinematic composition) → JavaScript/Web Audio</p>
+            <p style="margin: 16px 0;"><a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" style="text-decoration: underline;">View Python notebook, data, and MIDI on GitHub →</a></p>
+            <img src="sketch1.10.png" alt="MIDI temporal structure" class="midi-chart">
+            <p class="canvas-caption">MIDI temporal structure generated in Python</p>
             <div class="highlight-box">
-                <p><strong>AI-Human Collaboration</strong></p>
-                <p>AI: Initial idea generation, requirement gathering, accuracy cross-checking across multiple models</p>
-                <p>Human: Design direction, accessibility review, Apple Pages layout, iterative refinement</p>
+                <p><strong>AI-Human Collaboration Insight</strong></p>
+                <p>During development, I identified a critical error in AI-generated pitch values: tones weren't inversely correlated with visible crater sizes (e.g., Aristarchus 40km sounded higher than Kepler 32km). Required systematic recalculation using: <code>pitch = 330 - ((diameter - 32) / (101 - 32)) × 220</code></p>
+                <p><strong>Takeaway:</strong> AI excels at code structure and mathematical operations; human perception catches relationship inconsistencies. Effective collaboration requires iterative verification against perceptual goals.</p>
             </div>
-            <ul>
-                <li>Gathered AI compliance requirements from multiple sources</li>
-                <li>Cross-verified accuracy using several AI models (Claude, Grok)</li>
-                <li>Reviewed against WCAG accessibility guidelines</li>
-                <li>Designed layout manually in Apple Pages</li>
-                <li>Wrote documentation in Markdown, managed in Obsidian</li>
-                <li>Built Navigator interface in React with full keyboard navigation</li>
-            </ul>
         </section>
 
-        <!-- Tools -->
+        <section>
+            <h2 class="section-title">Audio Output</h2>
+            <p>Logic Pro composition using Orchestral Organ, Studio Grand, and Time Delay Synth. Layered soundscape addresses temporal compression (animation: 3-5s between impacts; geological reality: millions of years).</p>
+            <audio controls>
+                <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </section>
+
+        <section>
+            <h2 class="section-title">Data Analysis</h2>
+            <img src="sketch1.2.png" alt="Crater diameter vs age" class="midi-chart">
+            <p class="canvas-caption">Crater diameter vs age: larger craters tend to be older, formed during heavy bombardment periods</p>
+            <img src="sketch1.3.png" alt="Crater diameter vs time since impact" class="midi-chart">
+            <p class="canvas-caption">Bombardment patterns over lunar history</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Applications</h2>
+            <p>Methodology transferable to other NASA datasets (exoplanet discoveries, Mars seismic activity) and scientific domains including climate research, particle physics, and biological systems. Sonification provides alternative access for visually impaired audiences; synchronized visuals support those with hearing differences.</p>
+        </section>
+
         <section>
             <h2 class="section-title">Tools</h2>
-            <div class="tech-list">
-                <span class="tech-tag">React 18</span>
-                <span class="tech-tag">Vanilla CSS</span>
-                <span class="tech-tag">GitHub Pages</span>
-                <span class="tech-tag">JSON</span>
-                <span class="tech-tag">Apple Pages</span>
-                <span class="tech-tag">Obsidian</span>
-                <span class="tech-tag">Claude</span>
-                <span class="tech-tag">Grok</span>
+            <p>Python (numpy, pandas, matplotlib, midiutil), Logic Pro, JavaScript/Web Audio API, Claude, Grok</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Reflection</h2>
+            <p>Yes. The clearest finding came from an error. An early AI-generated version had the pitch mapping reversed — Aristarchus (40 km) sounded higher than Copernicus (93 km). The inconsistency wasn't visible in the code. It was audible the moment the animation ran. Visual size and pitch contradicted each other, and the brain flagged it immediately. Fixing it required recalculation, then verification across two additional AI tools. The process confirmed something specific: AI generates functional code reliably. It does not listen to the result.</p>
+            <p>The mapping that works — larger craters sounding lower and longer — aligns with how the brain already connects size and pitch, grounded in physical acoustics and crossmodal perception research (Spence, 2011). When the mapping runs with that rather than against it, the data becomes easier to hold.</p>
+            <p>One limit the project couldn't resolve: geological time. Compressing millions of years into seconds produces a coherent animation but no felt sense of duration. That's a separate research question.</p>
+            <div class="highlight-box">
+                <p>Combining visual and audio channels for data exploration reaches more ways of processing information — some people orient through shape, others through sequence, others through sound. NASA's open data makes this kind of exploration possible at low cost. AI makes the iteration loop short enough to actually test perceptual hypotheses rather than only describe them.</p>
             </div>
         </section>
 
-        <!-- Results -->
-        <section>
-            <h2 class="section-title">Results & Next Steps</h2>
-            <p>Published as open-source resource with regular version control. Ongoing updates as AI regulations evolve.</p>
-            <div class="doc-links">
-                <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Navigator App</a>
-                <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="deliverable-link outline">GitHub (App)</a>
-                <a href="https://github.com/Pi-Kay/Music-AI-Vault" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
-            </div>
-        </section>
+        <div class="appendix">
+            <section>
+                <h2 class="section-title">Appendix: Extended Dataset</h2>
+                <p>Initial exploration with 20 craters across the full parameter range (diameter 32-225 km, age 108-4000 Ma).</p>
+                <div class="btn-group">
+                    <button id="btnName">Name</button>
+                    <button id="btnDiameter">Diameter</button>
+                    <button id="btnAge">Age</button>
+                </div>
+                <div class="canvas-container" id="extendedCanvasContainer" role="button" tabindex="0" aria-label="Interactive extended crater visualization" aria-pressed="false" style="max-width: 400px;">
+                    <canvas id="extendedCanvas" width="400" height="400" aria-hidden="true"></canvas>
+                </div>
+                <p class="interaction-hint">Click to start/stop · Buttons toggle data labels</p>
+            </section>
+        </div>
 
         <nav>
-            <a href="sonification.html">← Data Sonification</a>
-            <a href="tennasonic.html">TennaSonic →</a>
+            <a href="index.html">← Portfolio</a>
+            <a href="musicai.html">Music AI Compliance →</a>
         </nav>
     </main>
 
     <footer>
         <p>© 2026 Petra Kühnle</p>
     </footer>
+
+    <script>
+        const CRATER_DATA = [
+            {name: "Tycho", latitude: -43.31, longitude: -11.36, diameter_km: 85, depth_km: 4.7, age_ma: 108, pitch_hz: 148, volume: 95},
+            {name: "Copernicus", latitude: 9.62, longitude: -20.08, diameter_km: 93, depth_km: 3.8, age_ma: 800, pitch_hz: 135, volume: 97},
+            {name: "Kepler", latitude: 8.13, longitude: -38.04, diameter_km: 32, depth_km: 2.6, age_ma: 800, pitch_hz: 330, volume: 56},
+            {name: "Aristarchus", latitude: 23.73, longitude: -47.40, diameter_km: 40, depth_km: 3.0, age_ma: 450, pitch_hz: 304, volume: 63},
+            {name: "Plato", latitude: 51.62, longitude: -9.33, diameter_km: 101, depth_km: 1.0, age_ma: 3500, pitch_hz: 110, volume: 100},
+            {name: "Eratosthenes", latitude: 14.47, longitude: -11.29, diameter_km: 60, depth_km: 3.6, age_ma: 3200, pitch_hz: 238, volume: 77},
+            {name: "Archimedes", latitude: 29.72, longitude: -4.00, diameter_km: 83, depth_km: 2.1, age_ma: 3600, pitch_hz: 154, volume: 91},
+            {name: "Aristoteles", latitude: 50.17, longitude: 17.42, diameter_km: 88, depth_km: 3.3, age_ma: 3800, pitch_hz: 142, volume: 94},
+            {name: "Autolycus", latitude: 30.70, longitude: 1.48, diameter_km: 39, depth_km: 3.4, age_ma: 3200, pitch_hz: 310, volume: 62}
+        ];
+
+        const EXTENDED_CRATER_DATA = [
+            {name: "Tycho", latitude: -43.31, longitude: -11.36, diameter_km: 85, age_ma: 108, pitch_hz: 249, volume: 85},
+            {name: "Copernicus", latitude: 9.62, longitude: -20.08, diameter_km: 93, age_ma: 800, pitch_hz: 237, volume: 88},
+            {name: "Kepler", latitude: 8.13, longitude: -38.04, diameter_km: 32, age_ma: 800, pitch_hz: 330, volume: 56},
+            {name: "Aristarchus", latitude: 23.73, longitude: -47.40, diameter_km: 40, age_ma: 450, pitch_hz: 318, volume: 63},
+            {name: "Plato", latitude: 51.62, longitude: -9.33, diameter_km: 101, age_ma: 3500, pitch_hz: 225, volume: 92},
+            {name: "Eratosthenes", latitude: 14.47, longitude: -11.29, diameter_km: 60, age_ma: 3200, pitch_hz: 287, volume: 72},
+            {name: "Archimedes", latitude: 29.72, longitude: -4.00, diameter_km: 83, age_ma: 3600, pitch_hz: 252, volume: 84},
+            {name: "Aristoteles", latitude: 50.17, longitude: 17.42, diameter_km: 88, age_ma: 3800, pitch_hz: 245, volume: 86},
+            {name: "Autolycus", latitude: 30.70, longitude: 1.48, diameter_km: 39, age_ma: 3200, pitch_hz: 319, volume: 62},
+            {name: "Theophilus", latitude: -11.4, longitude: 26.4, diameter_km: 110, age_ma: 1100, pitch_hz: 211, volume: 95},
+            {name: "Langrenus", latitude: -8.9, longitude: 61.1, diameter_km: 127, age_ma: 1100, pitch_hz: 186, volume: 98},
+            {name: "Petavius", latitude: -25.3, longitude: 60.4, diameter_km: 177, age_ma: 3920, pitch_hz: 110, volume: 100},
+            {name: "Grimaldi", latitude: -5.2, longitude: -68.6, diameter_km: 172, age_ma: 3900, pitch_hz: 117, volume: 99},
+            {name: "Clavius", latitude: -58.4, longitude: -14.4, diameter_km: 225, age_ma: 4000, pitch_hz: 110, volume: 100},
+            {name: "Ptolemaeus", latitude: -9.2, longitude: -1.8, diameter_km: 153, age_ma: 3800, pitch_hz: 146, volume: 97},
+            {name: "Alphonsus", latitude: -13.4, longitude: -2.8, diameter_km: 119, age_ma: 3800, pitch_hz: 198, volume: 96},
+            {name: "Arzachel", latitude: -18.2, longitude: -1.9, diameter_km: 97, age_ma: 3800, pitch_hz: 231, volume: 90},
+            {name: "Albategnius", latitude: -11.2, longitude: 4.1, diameter_km: 129, age_ma: 3800, pitch_hz: 183, volume: 98},
+            {name: "Hipparchus", latitude: -5.5, longitude: 4.8, diameter_km: 150, age_ma: 4000, pitch_hz: 151, volume: 97},
+            {name: "Posidonius", latitude: 31.8, longitude: 29.9, diameter_km: 95, age_ma: 3200, pitch_hz: 234, volume: 89}
+        ];
+
+        let canvas, ctx, soundEnabled = false, audioContext;
+        let fallingStars = [], craters = [], scheduleInterval, craterIndex = 0;
+        let extendedCanvas, extendedCtx, extendedSoundEnabled = false;
+        let extendedCraterIndex = 0, extendedScheduleInterval;
+        let circles = [], displayMode = 'none';
+
+        function initCanvas() {
+            canvas = document.getElementById('moonCanvas');
+            ctx = canvas.getContext('2d');
+            drawMoon();
+            animate();
+        }
+
+        function drawMoon() {
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+            const r = Math.min(canvas.width, canvas.height) * 0.35;
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const g = ctx.createRadialGradient(cx - r*0.3, cy - r*0.3, r*0.1, cx, cy, r);
+            g.addColorStop(0, '#e8e8e8'); g.addColorStop(0.7, '#c0c0c0'); g.addColorStop(1, '#888');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+            craters.forEach(c => drawCrater(c.x, c.y, c.size, c.age));
+        }
+
+        function drawCrater(x, y, size, age) {
+            const op = Math.max(0.1, 1 - age/100);
+            ctx.strokeStyle = `rgba(80,80,80,${op*0.6})`; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI*2); ctx.stroke();
+            ctx.fillStyle = `rgba(50,50,50,${op*0.3})`;
+            ctx.beginPath(); ctx.arc(x+size*0.2, y+size*0.2, size*0.8, 0, Math.PI*2); ctx.fill();
+        }
+
+        function createFallingStarWithData(d) {
+            const cx = canvas.width/2, cy = canvas.height/2;
+            const r = Math.min(canvas.width, canvas.height)*0.35;
+            const la = d.latitude*Math.PI/180, lo = d.longitude*Math.PI/180;
+            return {
+                x: Math.random()*canvas.width, y: -50,
+                targetX: cx + r*Math.cos(la)*Math.sin(lo),
+                targetY: cy - r*Math.sin(la),
+                speed: 2+Math.random()*2, size: 2+Math.random()*2,
+                craterSize: Math.min(30, (d.diameter_km/100)*25),
+                freq: d.pitch_hz, dur: 1.5+(d.diameter_km/100)*2.5,
+                volume: d.volume/100, name: d.name
+            };
+        }
+
+        function drawFallingStar(s) {
+            const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size*3);
+            g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.5,'rgba(255,255,255,0.5)'); g.addColorStop(1,'rgba(255,255,255,0)');
+            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, s.size*3, 0, Math.PI*2); ctx.fill();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            drawMoon();
+            fallingStars.forEach((s, i) => {
+                drawFallingStar(s);
+                const dx = s.targetX-s.x, dy = s.targetY-s.y, dist = Math.hypot(dx,dy);
+                if (dist < s.speed) {
+                    craters.push({x:s.targetX, y:s.targetY, size:s.craterSize, age:0});
+                    playImpactTone(s.freq, s.dur, s.volume);
+                    fallingStars.splice(i,1);
+                } else { s.x += (dx/dist)*s.speed; s.y += (dy/dist)*s.speed; }
+            });
+            craters.forEach(c => c.age++);
+            if (craters.length > 20) craters.shift();
+        }
+
+        function playImpactTone(freq, dur, vol) {
+            if (!audioContext) return;
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator(), gain = audioContext.createGain();
+            const delay = audioContext.createDelay(), fb = audioContext.createGain(), dg = audioContext.createGain();
+            osc.type='sine'; osc.frequency.value=freq;
+            delay.delayTime.value=0.3; fb.gain.value=0.4; dg.gain.value=0.5;
+            gain.gain.setValueAtTime(0,now);
+            gain.gain.linearRampToValueAtTime(0.12*vol, now+0.05);
+            gain.gain.linearRampToValueAtTime(0.10*vol, now+dur*0.6);
+            gain.gain.exponentialRampToValueAtTime(0.00001, now+dur+0.2);
+            osc.connect(gain); gain.connect(audioContext.destination);
+            gain.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(dg); dg.connect(audioContext.destination);
+            osc.start(now); osc.stop(now+dur+0.3);
+        }
+
+        function playStartupTone() {
+            if (!audioContext) return;
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator(), gain = audioContext.createGain();
+            const delay = audioContext.createDelay(), fb = audioContext.createGain(), dg = audioContext.createGain();
+            osc.type='sine'; osc.frequency.value=220;
+            delay.delayTime.value=0.4; fb.gain.value=0.5; dg.gain.value=0.3;
+            gain.gain.setValueAtTime(0,now);
+            gain.gain.linearRampToValueAtTime(0.03,now+0.1);
+            gain.gain.exponentialRampToValueAtTime(0.001,now+1.5);
+            osc.connect(gain); gain.connect(audioContext.destination);
+            gain.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(dg); dg.connect(audioContext.destination);
+            osc.start(now); osc.stop(now+2);
+        }
+
+        function startSonification() {
+            soundEnabled = true;
+            if (!audioContext) audioContext = new (window.AudioContext||window.webkitAudioContext)();
+            if (audioContext.state==='suspended') audioContext.resume();
+            playStartupTone();
+            function next() {
+                if (!soundEnabled) return;
+                const d = CRATER_DATA[craterIndex++ % CRATER_DATA.length];
+                fallingStars.push(createFallingStarWithData(d));
+                scheduleInterval = setTimeout(next, 3000+Math.random()*2000);
+            }
+            next();
+        }
+
+        function stopSonification() {
+            soundEnabled = false;
+            clearTimeout(scheduleInterval);
+            fallingStars = []; craters = [];
+        }
+
+        function initExtendedCanvas() {
+            extendedCanvas = document.getElementById('extendedCanvas');
+            extendedCtx = extendedCanvas.getContext('2d');
+            animateExtended();
+        }
+
+        function animateExtended() {
+            requestAnimationFrame(animateExtended);
+            extendedCtx.fillStyle='#000';
+            extendedCtx.fillRect(0,0,extendedCanvas.width,extendedCanvas.height);
+            circles.forEach((c,i) => {
+                extendedCtx.fillStyle=`rgba(200,200,200,${c.opacity})`;
+                extendedCtx.beginPath(); extendedCtx.arc(c.x,c.y,c.size*0.4,0,Math.PI*2); extendedCtx.fill();
+                if (displayMode!=='none' && c.opacity>0.3) {
+                    extendedCtx.fillStyle=`rgba(255,255,255,${c.opacity})`;
+                    extendedCtx.font='11px Inter, Helvetica Neue, Arial, sans-serif';
+                    extendedCtx.textAlign='center';
+                    const label = displayMode==='name'?c.name : displayMode==='diameter'?c.diameter+' km' : c.age+' Ma';
+                    extendedCtx.fillText(label, c.x, c.y-c.size*0.4-5);
+                }
+                c.opacity -= 0.008;
+                if (c.opacity<=0) circles.splice(i,1);
+            });
+        }
+
+        function startExtendedSonification() {
+            extendedSoundEnabled = true;
+            if (!audioContext) audioContext = new (window.AudioContext||window.webkitAudioContext)();
+            if (audioContext.state==='suspended') audioContext.resume();
+            playStartupTone();
+            function next() {
+                if (!extendedSoundEnabled) return;
+                const d = EXTENDED_CRATER_DATA[extendedCraterIndex++ % EXTENDED_CRATER_DATA.length];
+                circles.push({
+                    x: 40+Math.random()*(extendedCanvas.width-80),
+                    y: 40+Math.random()*(extendedCanvas.height-80),
+                    size: (d.diameter_km/177)*40, opacity: 1.0,
+                    name: d.name, diameter: d.diameter_km, age: d.age_ma
+                });
+                playImpactTone(d.pitch_hz, 1.5+(d.diameter_km/177)*2.5, d.volume/100);
+                extendedScheduleInterval = setTimeout(next, 2000+Math.random()*1500);
+            }
+            next();
+        }
+
+        function stopExtendedSonification() {
+            extendedSoundEnabled = false;
+            clearTimeout(extendedScheduleInterval);
+            circles = [];
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCanvas();
+            initExtendedCanvas();
+
+            const mc = document.getElementById('moonCanvasContainer');
+            mc.addEventListener('click', () => {
+                if (!soundEnabled) { startSonification(); mc.setAttribute('aria-pressed','true'); }
+                else { stopSonification(); mc.setAttribute('aria-pressed','false'); }
+            });
+            mc.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); mc.click(); } });
+
+            const ec = document.getElementById('extendedCanvasContainer');
+            ec.addEventListener('click', () => {
+                if (!extendedSoundEnabled) { startExtendedSonification(); ec.setAttribute('aria-pressed','true'); }
+                else { stopExtendedSonification(); ec.setAttribute('aria-pressed','false'); }
+            });
+            ec.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); ec.click(); } });
+
+            const btnName = document.getElementById('btnName');
+            const btnDiameter = document.getElementById('btnDiameter');
+            const btnAge = document.getElementById('btnAge');
+
+            function updateBtns() {
+                [btnName,btnDiameter,btnAge].forEach(b => { b.style.background='#1a1a1a'; b.style.borderColor='#3d3d3d'; });
+                const active = displayMode==='name'?btnName : displayMode==='diameter'?btnDiameter : displayMode==='age'?btnAge : null;
+                if (active) { active.style.background='#3d3d3d'; active.style.borderColor='#6b6b6b'; }
+            }
+
+            btnName.addEventListener('click', e => { e.stopPropagation(); displayMode = displayMode==='name'?'none':'name'; updateBtns(); });
+            btnDiameter.addEventListener('click', e => { e.stopPropagation(); displayMode = displayMode==='diameter'?'none':'diameter'; updateBtns(); });
+            btnAge.addEventListener('click', e => { e.stopPropagation(); displayMode = displayMode==='age'?'none':'age'; updateBtns(); });
+        });
+    </script>
 </body>
 </html>
