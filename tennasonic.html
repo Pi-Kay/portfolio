@@ -1,360 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-/* ===== RESET & BASE STYLES ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #3d3d3d;
-    line-height: 1.6;
-}
-
-/* ===== TYPOGRAPHY ===== */
-h1 {
-    font-size: 2.5em;
-    margin: 0;
-    font-weight: 600;
-    color: #1a1a1a;
-}
-
-h2 {
-    font-size: 1.5em;
-    border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    margin-top: 30px;
-    font-weight: 600;
-    color: #1a1a1a;
-}
-
-h2:first-of-type {
-    margin-top: 0;
-}
-
-h3 {
-    font-size: 1.2em;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: #2d2d2d;
-}
-
-p {
-    margin-bottom: 15px;
-    color: #3d3d3d;
-}
-
-/* ===== LINKS ===== */
-a {
-    color: #1a1a1a;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-a:hover {
-    color: #6b6b6b;
-}
-
-a:visited {
-    color: #1a1a1a;
-}
-
-/* ===== LAYOUT ===== */
-header {
-    text-align: center;
-    padding: 50px 20px;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-header p {
-    margin-top: 10px;
-    font-size: 1.05em;
-    color: #6b6b6b;
-    font-weight: 400;
-}
-
-main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-section {
-    background: #fff;
-    padding: 30px;
-    border: 1px solid #e5e5e5;
-    margin-bottom: 20px;
-    border-radius: 2px;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-top: 1px solid #e5e5e5;
-    margin-top: 40px;
-    font-size: 0.9em;
-    color: #8a8a8a;
-}
-
-/* ===== PROJECT LIST ===== */
-.project-name {
-    font-size: 1.1em;
-    font-weight: 500;
-    color: #1a1a1a;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.project-context {
-    font-size: 0.95em;
-    color: #6b6b6b;
-    font-weight: 400;
-}
-
-/* ===== LANDING PAGE LAYOUT ===== */
-.main-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 80px 40px;
-}
-
-nav ul,
-.project-list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li a {
-    display: block;
-    transition: opacity 0.2s ease;
-}
-
-nav ul li a:hover {
-    opacity: 0.7;
-}
-
-.visual-container {
-    width: 100%;
-    aspect-ratio: 1;
-    max-width: 400px;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-}
-
-.visual-container .circle {
-    width: 75%;
-    height: 75%;
-    border-radius: 50%;
-    background: linear-gradient(180deg, #e0e0e0 0%, #c0c0c0 100%);
-}
-
-/* ===== COVER PAGE ===== */
-.cover {
-    padding: 30px;
-    border: 1px solid #e5e5e5;
-    background: #fff;
-    margin-bottom: 20px;
-    border-radius: 2px;
-    text-align: center;
-}
-
-.cover figure {
-    margin: 0 auto;
-    max-width: 80%;
-}
-
-.cover canvas {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    height: auto;
-    min-height: 200px;
-    background-color: #000;
-    background-image: url('wave-background.png');
-    background-size: cover;
-    background-position: center;
-    border-radius: 2px;
-}
-
-.cover figcaption {
-    text-align: center;
-    font-size: 0.9em;
-    color: #8a8a8a;
-    margin-top: 10px;
-    padding: 0;
-    background: transparent;
-    border: none;
-}
-
-/* ===== CASE NAVIGATION ===== */
-.case-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 50px 0 20px 0;
-    gap: 20px;
-}
-
-.case-nav .button {
-    padding: 8px 18px;
-    text-decoration: none;
-    color: #3d3d3d;
-    background-color: #f9f9f9;
-    border: 1px solid #e5e5e5;
-    border-radius: 2px;
-    font-weight: 400;
-    font-size: 0.9em;
-    transition: all 0.2s ease;
-    display: inline-block;
-}
-
-.case-nav .button:hover {
-    background-color: #fff;
-    border-color: #c0c0c0;
-    color: #1a1a1a;
-    text-decoration: none;
-}
-
-.case-nav .button.back {
-    margin-right: auto;
-}
-
-.case-nav .button.next {
-    margin-left: auto;
-}
-
-/* ===== IMAGES & SKETCHES ===== */
-.sketch {
-    max-width: 200px;
-    height: auto;
-    margin: 10px;
-    display: inline-block;
-    border: 1px solid #e5e5e5;
-    border-radius: 2px;
-    padding: 8px;
-    background: #f9f9f9;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* ===== LISTS ===== */
-ul, ol {
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-
-li {
-    margin-bottom: 8px;
-    color: #3d3d3d;
-}
-
-strong {
-    color: #2d2d2d;
-    font-weight: 600;
-}
-
-em {
-    color: #6b6b6b;
-}
-
-/* ===== PRINT STYLES ===== */
-@media print {
-    body {
-        background-color: #fff;
-    }
-    
-    h2 { 
-        page-break-after: avoid; 
-    }
-    
-    section { 
-        page-break-inside: avoid;
-        border: none;
-        padding: 10px;
-    }
-    
-    .case-nav {
-        display: none;
-    }
-    
-    header, footer {
-        border: none;
-    }
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2em;
-    }
-    
-    h2 {
-        font-size: 1.3em;
-    }
-    
-    main {
-        padding: 10px;
-    }
-    
-    section {
-        padding: 20px;
-    }
-    
-    header {
-        padding: 30px 15px;
-    }
-    
-    .main-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 40px 20px;
-    }
-
-    .visual-container {
-        order: -1;
-        max-width: 280px;
-        margin: 0 auto;
-    }
-
-    nav {
-        order: 1;
-    }
-    
-    .case-nav {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .case-nav .button {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .case-nav .button.back,
-    .case-nav .button.next {
-        margin: 0;
-    }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TennaSonic — Petra Kühnle</title>
+    <meta name="description" content="Brand identity system for deep-tech hardware startup. Antenna-in-Package platform for 5G/6G and satellite communications.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Page-specific styles only */
+        .logo-showcase { 
+            background: #000; 
+            padding: 40px; 
+            margin: 20px 0; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+        .logo-showcase.light { 
+            background: #fff; 
+            border: 1px solid #e5e5e5;
+        }
+        .logo-wordmark { 
+            font-family: 'DIN Alternate', 'DIN', 'Arial Black', sans-serif; 
+            font-size: 2em; 
+            font-weight: 700; 
+            letter-spacing: 1px;
+            color: #8A9BAD;
+        }
+        .logo-wordmark span { color: #4A4E57; }
+        .logo-tagline { 
+            font-family: 'IBM Plex Mono', 'Courier New', monospace; 
+            font-size: 0.75em; 
+            color: #6E7480; 
+            letter-spacing: 1px;
+        }
+        .logo-mark {
+            display: grid;
+            grid-template-columns: repeat(4, 12px);
+            grid-template-rows: repeat(2, 12px);
+            gap: 3px;
+        }
+        .logo-mark div {
+            background: linear-gradient(180deg, #4A4E57 0%, #8A9BAD 100%);
+            border-radius: 1px;
+        }
+        .palette-grid { 
+            display: grid; 
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 8px; 
+            margin: 20px 0; 
+        }
+        .palette-swatch { 
+            aspect-ratio: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+            padding: 6px; 
+            font-size: 0.65em; 
+            color: #fff;
+            border-radius: 2px;
+        }
+        .palette-swatch.light-text { color: #1a1a1a; }
+        .deliverables-grid { 
+            display: grid;
