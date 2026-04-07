@@ -25,10 +25,10 @@ h1 {
 }
 
 header h1 {
-       display: flex;
-       align-items: center;
-       gap: 12px;
-   }
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
 h2 {
     font-size: 1.2em;
@@ -71,7 +71,7 @@ a:hover {
     color: #6b6b6b;
 }
 
-a:visited {
+a:visited:not(.btn):not(.btn-outline):not(.deliverable-link) {
     color: #1a1a1a;
 }
 
@@ -375,6 +375,83 @@ a:visited {
     color: #aaa;
 }
 
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    background: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.btn:visited {
+    color: #fff;
+}
+
+.btn:hover {
+    background: #3d3d3d;
+    border-color: #3d3d3d;
+    color: #fff;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #1a1a1a;
+}
+
+.btn-outline:visited {
+    color: #1a1a1a;
+}
+
+.btn-outline:hover {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+/* Deliverable links */
+.deliverable-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+}
+
+.deliverable-link:visited {
+    color: #fff;
+}
+
+.deliverable-link:hover {
+    background: #3d3d3d;
+    color: #fff;
+}
+
+.deliverable-link.outline {
+    background: transparent;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+}
+
+.deliverable-link.outline:visited {
+    color: #1a1a1a;
+}
+
+.deliverable-link.outline:hover {
+    background: #1a1a1a;
+    color: #fff;
+}
+
 /* Highlight box */
 .highlight-box {
     background: #f5f5f5;
@@ -510,14 +587,5 @@ img {
         flex-direction: column;
         gap: 20px;
         text-align: center;
-    }
-
-    .deliverable-link,
-    .btn,
-    .deliverable-link:hover,
-    .btn:hover,
-    .btn-outline:hover,
-    .deliverable-link.outline:hover {
-        color: #f0f0f0;
     }
 }
