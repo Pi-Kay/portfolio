@@ -361,6 +361,20 @@ a:visited {
 
 /* ===== SHARED COMPONENTS ===== */
 
+/* Back link */
+.back-link {
+    font-size: 0.6em;
+    color: #555;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    text-decoration: none;
+    transition: color 0.4s;
+}
+
+.back-link:hover {
+    color: #aaa;
+}
+
 /* Highlight box */
 .highlight-box {
     background: #f5f5f5;
@@ -497,12 +511,13 @@ img {
         gap: 20px;
         text-align: center;
     }
+
     .deliverable-link,
-.btn,
-.deliverable-link:hover,
-.btn:hover,
-.btn-outline:hover,
-.deliverable-link.outline:hover {
-    color: #f0f0f0;
-}
+    .btn,
+    .deliverable-link:hover,
+    .btn:hover,
+    .btn-outline:hover,
+    .deliverable-link.outline:hover {
+        color: #f0f0f0;
+    }
 }
