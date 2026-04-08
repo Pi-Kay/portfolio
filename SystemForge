@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visual design language for System Forge, a systems modeling tool. Creating learnable visual standards for complex engineering diagrams.">
+    <title>System Forge · Visual Design Language — Petra Kühnle</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== PAGE-SPECIFIC STYLES ===== */
+
+        /* Two/three cards side by side */
+        .deliverables-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px 0 40px;
+        }
+
+        .deliverables-intro.three-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .deliverable-card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+
+        .deliverable-card:hover {
+            border-color: #1a1a1a;
+        }
+
+        .deliverable-label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 8px;
+        }
+
+        .deliverable-title {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .deliverable-desc {
+            font-size: 0.85em;
+            color: #6b6b6b;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .deliverable-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1a1a1a;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+
+        .deliverable-link:hover {
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        .deliverable-link.outline {
+            background: transparent;
+            color: #1a1a1a;
+            border: 1px solid #1a1a1a;
+        }
+
+        .deliverable-link.outline:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        /* Balance diagram */
+        .balance-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 24px;
+            margin: 24px 0;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+        }
+
+        .balance-point {
+            text-align: center;
+            flex: 1;
+        }
+
+        .balance-point .label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .balance-point .desc {
+            font-size: 0.8em;
+            color: #6b6b6b;
+        }
+
+        .balance-connector {
+            width: 40px;
+            height: 1px;
+            background: #e5e5e5;
+            position: relative;
+        }
+
+        .balance-connector::before,
+        .balance-connector::after {
+            content: '←';
+            position: absolute;
+            top: -8px;
+            font-size: 0.8em;
+            color: #ccc;
+        }
+
+        .balance-connector::before {
+            left: -4px;
+        }
+
+        .balance-connector::after {
+            content: '→';
+            right: -4px;
+        }
+
+        /* Phase timeline */
+        .phase-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin: 24px 0;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+        }
+
+        .phase-block {
+            padding: 24px;
+            border-right: 1px solid #e5e5e5;
+            position: relative;
+        }
+
+        .phase-block:last-child {
+            border-right: none;
+        }
+
+        .phase-block::after {
+            content: '→';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+            font-size: 0.9em;
+            background: #fff;
+            padding: 4px 0;
+        }
+
+        .phase-block:last-child::after {
+            display: none;
+        }
+
+        .phase-weeks {
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            margin-bottom: 8px;
+        }
+
+        .phase-name {
+            font-size: 1em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .phase-desc {
+            font-size: 0.8em;
+            color: #6b6b6b;
+            line-height: 1.4;
+        }
+
+        /* Status indicator */
+        .status-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            margin-left: 8px;
+        }
+
+        .status-tag.complete {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-tag.in-progress {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .status-tag.upcoming {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        /* Status list */
+        .status-list {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .status-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Links section */
+        .doc-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .deliverables-intro,
+            .deliverables-intro.three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-diagram {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .balance-connector {
+                width: 1px;
+                height: 24px;
+            }
+
+            .balance-connector::before,
+            .balance-connector::after {
+                display: none;
+            }
+
+            .phase-timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-block {
+                border-right: none;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .phase-block:last-child {
+                border-bottom: none;
+            }
+
+            .phase-block::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="project">
+    <header>
+        <h1>⬡ System Forge · Visual Design Language</h1>
+        <p>Establishing visual standards for a systems modeling tool — learnable without dumbing down</p>
+        <p class="meta">2025–26 · SysML v2, Systems Engineering · Visual Standards, Design Systems</p>
+    </header>
+
+    <main>
+        <section>
+            <h2 class="section-title">Research Question</h2>
+            <p>How can a systems modeling tool be visually accessible to engineers from any domain — without the usual training overhead, and without sacrificing the power to handle real complexity?</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Context</h2>
+            <p>System Forge is a new systems modeling tool built to be accessible to engineers across domains. It integrates SysML v2 concepts where they help, but prioritizes usability over strict specification compliance. The tool exists in early form — visual standards do not yet exist.</p>
+            <p>SysML notation has two levels: semantics (what elements mean) and presentation (how they look — layout, color, hierarchy, navigation, views). Semantic conventions must be followed. Presentation is where usability improvements can be made.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Why I took this on:</strong> Having worked at Valispace — where requirements management meets systems engineering — I understood how engineers interact with complex modeling tools. The gap between powerful tooling and actual usability is where most tools fail. This project addresses that gap at the visual layer.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">The Challenge</h2>
+            <p>Establish a visual language that balances three competing demands:</p>
+
+            <div class="balance-diagram">
+                <div class="balance-point">
+                    <div class="label">Familiarity</div>
+                    <div class="desc">What engineers expect from modeling tools</div>
+                </div>
+                <div class="balance-connector"></div>
+                <div class="balance-point">
+                    <div class="label">Accessibility</div>
+                    <div class="desc">Learnable without formal training</div>
+                </div>
+                <div class="balance-connector"></div>
+                <div class="balance-point">
+                    <div class="label">Capability</div>
+                    <div class="desc">Must handle real complexity at scale</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>The constraint:</strong> SysML v2 provides the semantic foundation — what elements mean. Presentation decisions are where learnability and usability improvements happen. The work is finding where conventions can be improved without breaking meaning.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Approach</h2>
+            <p>Structured the work in three phases, with each phase contributing to all three deliverables incrementally.</p>
+
+            <div class="phase-timeline">
+                <div class="phase-block">
+                    <div class="phase-weeks">Weeks 1–3</div>
+                    <div class="phase-name">Foundations</div>
+                    <div class="phase-desc">Core principles, understand tool direction, document borrowed vs. improved conventions</div>
+                </div>
+                <div class="phase-block">
+                    <div class="phase-weeks">Weeks 4–6</div>
+                    <div class="phase-name">User Progression</div>
+                    <div class="phase-desc">New user onboarding, building user patterns, advanced user scale</div>
+                </div>
+                <div class="phase-block">
+                    <div class="phase-weeks">Weeks 7–8</div>
+                    <div class="phase-name">Synthesis</div>
+                    <div class="phase-desc">Consolidate findings, structure deliverables, document open questions</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Guiding questions:</strong></p>
+                <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+                    <li>What visual conventions should the tool follow?</li>
+                    <li>What can be borrowed from SysML vs. improved?</li>
+                    <li>What makes diagrams learnable without formal training?</li>
+                    <li>How do diagrams relate to text and table views?</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">User Progression Framework</h2>
+            <p>Users at different stages need different visual support. The framework structures visual decisions around three user states:</p>
+
+            <div class="deliverables-intro three-col">
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Stage 1</div>
+                    <div class="deliverable-title">New User</div>
+                    <div class="deliverable-desc">First encounter with the tool. First diagram creation. Needs reduced fear, clear guardrails, obvious affordances. Visual language must teach without tutorials.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Stage 2</div>
+                    <div class="deliverable-title">Building User</div>
+                    <div class="deliverable-desc">Growing projects, increasing complexity. Needs visibility controls, sorting, multiple views. Visual language must support skill growth without overwhelming.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Stage 3</div>
+                    <div class="deliverable-title">Advanced User</div>
+                    <div class="deliverable-desc">Large-scale models, high density. Needs efficient navigation, density management, power tools. Visual language must stay out of the way.</div>
+                </div>
+            </div>
+
+            <p class="note">Each stage has distinct visual patterns documented in the pattern library — what to show, what to hide, how to scale complexity.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Trade-offs & Decisions</h2>
+
+            <div class="deliverables-intro">
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Conventions</div>
+                    <div class="deliverable-title">Borrowed vs. improved</div>
+                    <div class="deliverable-desc">SysML v2 visual conventions were analyzed for what to keep, what to modify, and what to invent. Semantic elements stay standard. Presentation elements — spacing, hierarchy, color coding — are where improvements happen.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Consistency</div>
+                    <div class="deliverable-title">Diagram, text, table</div>
+                    <div class="deliverable-desc">System Forge has three viewing modes. Visual language must translate across all three — what stays constant (element identity, color meaning) and what adapts (layout, density, interaction).</div>
+                </div>
+            </div>
+
+            <div class="deliverables-intro">
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Learnability</div>
+                    <div class="deliverable-title">Visual teaching without tutorials</div>
+                    <div class="deliverable-desc">Onboarding patterns built into the visual system itself — progressive disclosure, contextual hints, sensible defaults. The interface teaches through use, not documentation.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Scale</div>
+                    <div class="deliverable-title">Managing density at complexity</div>
+                    <div class="deliverable-desc">Large models can have hundreds of elements. Visual hierarchy, filtering, and navigation patterns designed specifically for high-density views without losing orientation.</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Deliverables</h2>
+            <p>Three outputs, built incrementally — each phase contributed to all three.</p>
+
+            <div class="deliverables-intro three-col">
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Standards</div>
+                    <div class="deliverable-title">Visual Design Document</div>
+                    <div class="deliverable-desc">Recommendations and guidelines. What conventions to follow, where to improve, how to make decisions. The rules.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Reference</div>
+                    <div class="deliverable-title">Pattern Library</div>
+                    <div class="deliverable-desc">Collected examples and reusable patterns. Organized by user stage and use case. The toolkit.</div>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-label">Framework</div>
+                    <div class="deliverable-title">Decision Method</div>
+                    <div class="deliverable-desc">How to approach future visual decisions. A framework for evaluating new patterns and edge cases. The thinking.</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Why three outputs:</strong> A document alone doesn't help a designer make decisions about edge cases. A pattern library without principles becomes a grab-bag. A method without examples is abstract. The three work together.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Open Questions</h2>
+            <p>Some decisions require user validation or are deferred to later phases:</p>
+            
+            <ul>
+                <li><strong>Density thresholds:</strong> At what point do filtering controls become mandatory vs. optional?</li>
+                <li><strong>Color meaning:</strong> How much semantic weight can color carry before it becomes overloaded?</li>
+                <li><strong>Cross-mode consistency:</strong> How much visual similarity between diagram/text/table before users expect identical behavior?</li>
+                <li><strong>Onboarding decay:</strong> When do "teaching" visual elements become clutter for experienced users?</li>
+            </ul>
+
+            <p class="note">These are documented in the deliverables as explicit open questions — flagged for validation, not ignored.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Status</h2>
+            
+            <ul class="status-list">
+                <li>Foundations <span class="status-tag complete">Complete</span></li>
+                <li>New User <span class="status-tag complete">Complete</span></li>
+                <li>Building User <span class="status-tag in-progress">In Progress</span></li>
+                <li>Advanced User <span class="status-tag upcoming">Upcoming</span></li>
+                <li>Synthesis <span class="status-tag upcoming">Upcoming</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="section-title">Tools</h2>
+            <div class="tech-list">
+                <span class="tech-tag">Figma</span>
+                <span class="tech-tag">SysML v2</span>
+                <span class="tech-tag">Markdown</span>
+                <span class="tech-tag">Obsidian</span>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Reflection</h2>
+            
+            <div class="highlight-box">
+                <p><strong>On the work:</strong> The hardest part wasn't designing visuals — it was defining where SysML standards end and presentation decisions begin. That boundary isn't documented anywhere. Drawing the line is the work.</p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>On user progression:</strong> A visual design language isn't just about aesthetics. It's about encoding progressive skill levels into the interface itself. What a new user needs to see is different from what an advanced user needs — and the visual system has to handle both without switching modes.</p>
+            </div>
+        </section>
+
+        <nav>
+            <a href="index.html">← Portfolio</a>
+            <a href="navigator.html">Navigator →</a>
+        </nav>
+    </main>
+
+    <footer>
+        <p>© 2026 Petra Kühnle</p>
+    </footer>
+</body>
+</html>
