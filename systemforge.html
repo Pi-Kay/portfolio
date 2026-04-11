@@ -1,757 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Design principles for System Forge, a systems modeling tool. Reducing cognitive load and enabling navigation in visually complex engineering software.">
-    <title>System Forge · Graph Modeling Learnability — Petra Kühnle</title>
-    <style>
-        /* ===== BASE STYLES ===== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #fafafa;
-        }
-
-        body.project {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 40px;
-            background: #fff;
-        }
-
-        /* ===== HEADER ===== */
-        header {
-            margin-bottom: 48px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        header h1 {
-            font-size: 1.8em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        header p {
-            font-size: 1.1em;
-            color: #4a4a4a;
-            margin-bottom: 8px;
-        }
-
-        header .meta {
-            font-size: 0.85em;
-            color: #8a8a8a;
-            margin-top: 16px;
-        }
-
-        /* ===== SECTIONS ===== */
-        section {
-            margin-bottom: 48px;
-        }
-
-        .section-title {
-            font-size: 0.75em;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 16px;
-        }
-
-        section p {
-            margin-bottom: 16px;
-            color: #3a3a3a;
-        }
-
-        section ul, section ol {
-            margin: 16px 0 16px 24px;
-            color: #3a3a3a;
-        }
-
-        section li {
-            margin-bottom: 8px;
-        }
-
-        .note {
-            font-size: 0.9em;
-            color: #6b6b6b;
-            font-style: italic;
-        }
-
-        /* ===== PAGE-SPECIFIC STYLES ===== */
-
-        /* Two/three cards side by side */
-        .deliverables-intro {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 24px 0 40px;
-        }
-
-        .deliverables-intro.three-col {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .deliverables-intro.four-col {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .deliverable-card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            padding: 24px;
-            transition: border-color 0.2s;
-        }
-
-        .deliverable-card:hover {
-            border-color: #1a1a1a;
-        }
-
-        .deliverable-label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 8px;
-        }
-
-        .deliverable-title {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .deliverable-desc {
-            font-size: 0.85em;
-            color: #6b6b6b;
-            line-height: 1.5;
-            margin-bottom: 0;
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .highlight-box p {
-            margin-bottom: 0;
-        }
-
-        .highlight-box ul {
-            margin: 8px 0 0 0;
-            padding-left: 20px;
-        }
-
-        /* Balance diagram */
-        .balance-diagram {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 32px 24px;
-            margin: 24px 0;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-        }
-
-        .balance-point {
-            text-align: center;
-            flex: 1;
-        }
-
-        .balance-point .label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .balance-point .desc {
-            font-size: 0.8em;
-            color: #6b6b6b;
-        }
-
-        .balance-connector {
-            width: 40px;
-            height: 1px;
-            background: #e5e5e5;
-            position: relative;
-        }
-
-        .balance-connector::before,
-        .balance-connector::after {
-            content: '←';
-            position: absolute;
-            top: -8px;
-            font-size: 0.8em;
-            color: #ccc;
-        }
-
-        .balance-connector::before {
-            left: -4px;
-        }
-
-        .balance-connector::after {
-            content: '→';
-            right: -4px;
-        }
-
-        /* Phase timeline */
-        .phase-timeline {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            margin: 24px 0;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-        }
-
-        .phase-block {
-            padding: 24px;
-            border-right: 1px solid #e5e5e5;
-            position: relative;
-        }
-
-        .phase-block:last-child {
-            border-right: none;
-        }
-
-        .phase-block::after {
-            content: '→';
-            position: absolute;
-            right: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ccc;
-            font-size: 0.9em;
-            background: #fff;
-            padding: 4px 0;
-        }
-
-        .phase-block:last-child::after {
-            display: none;
-        }
-
-        .phase-label {
-            font-size: 0.7em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 8px;
-        }
-
-        .phase-name {
-            font-size: 1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .phase-desc {
-            font-size: 0.8em;
-            color: #6b6b6b;
-            line-height: 1.4;
-        }
-
-        /* Comparison grid */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            margin: 24px 0;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-        }
-
-        .comparison-col {
-            padding: 24px;
-        }
-
-        .comparison-col:first-child {
-            border-right: 1px solid #e5e5e5;
-        }
-
-        .comparison-col .label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #1a1a1a;
-            margin-bottom: 12px;
-        }
-
-        .comparison-col ul {
-            margin: 0;
-            padding-left: 16px;
-            font-size: 0.85em;
-            color: #6b6b6b;
-        }
-
-        .comparison-col li {
-            margin-bottom: 6px;
-        }
-
-        /* Tech tags */
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tech-tag {
-            display: inline-block;
-            padding: 6px 12px;
-            background: #f5f5f5;
-            font-size: 0.8em;
-            color: #4a4a4a;
-        }
-
-        /* Status list */
-        .status-list {
-            margin: 20px 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .status-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .status-list li:last-child {
-            border-bottom: none;
-        }
-
-        .status-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            font-size: 0.7em;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            margin-left: 8px;
-        }
-
-        .status-tag.complete {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .status-tag.in-progress {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .status-tag.upcoming {
-            background: #f5f5f5;
-            color: #757575;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 32px;
-            border-top: 1px solid #e5e5e5;
-            margin-top: 48px;
-        }
-
-        nav a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 48px;
-            padding-top: 24px;
-            border-top: 1px solid #e5e5e5;
-            font-size: 0.8em;
-            color: #8a8a8a;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            body.project {
-                padding: 40px 24px;
-            }
-
-            .deliverables-intro,
-            .deliverables-intro.three-col,
-            .deliverables-intro.four-col {
-                grid-template-columns: 1fr;
-            }
-
-            .balance-diagram {
-                flex-direction: column;
-                gap: 24px;
-            }
-
-            .balance-connector {
-                width: 1px;
-                height: 24px;
-            }
-
-            .balance-connector::before,
-            .balance-connector::after {
-                display: none;
-            }
-
-            .phase-timeline {
-                grid-template-columns: 1fr;
-            }
-
-            .phase-block {
-                border-right: none;
-                border-bottom: 1px solid #e5e5e5;
-            }
-
-            .phase-block:last-child {
-                border-bottom: none;
-            }
-
-            .phase-block::after {
-                display: none;
-            }
-
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .comparison-col:first-child {
-                border-right: none;
-                border-bottom: 1px solid #e5e5e5;
-            }
-        }
-    </style>
-</head>
-<body class="project">
-    <header>
-        <h1>⬠ System Forge · Graph Modeling Learnability</h1>
-        <p>Reducing cognitive load and enabling navigation in visual complexity — design principles for B2B systems engineering software</p>
-        <p class="meta">2025–26 · SysML2, MBSE · Learnability, Cognitive Load, Visual Navigation</p>
-    </header>
-
-    <main>
-        <section>
-            <h2 class="section-title">Research Question</h2>
-            <p>How can a systems modeling tool reduce cognitive load for engineers from any domain — enabling navigation through visual complexity without the usual training overhead, and without sacrificing the power to handle real-world scale?</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Context</h2>
-            <p>System Forge is a model-based systems engineering (MBSE) tool built for learnability across engineering domains. It integrates SysML2 concepts where they help, but prioritizes reducing cognitive load over strict specification compliance. The tool exists in early form — design principles do not yet exist.</p>
-            <p>SysML notation has two levels: semantics (what elements mean) and presentation (how they look). Semantic conventions must be followed. Presentation — layout, hierarchy, navigation patterns — is where learnability improvements can be made.</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">The Challenge</h2>
-            <p>Draft design principles that balance three competing demands:</p>
-
-            <div class="balance-diagram">
-                <div class="balance-point">
-                    <div class="label">Familiarity</div>
-                    <div class="desc">What engineers expect from modeling tools</div>
-                </div>
-                <div class="balance-connector"></div>
-                <div class="balance-point">
-                    <div class="label">Learnability</div>
-                    <div class="desc">Low cognitive load without formal training</div>
-                </div>
-                <div class="balance-connector"></div>
-                <div class="balance-point">
-                    <div class="label">Capability</div>
-                    <div class="desc">Navigation must scale to real complexity</div>
-                </div>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>The constraint:</strong> SysML2 was new territory. A SysML course assumes engineering background. UX bootcamp methods assume consumer apps with quick user testing. Systems engineers aren't available for hallway tests. This required a different approach to understanding learnability barriers.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Beyond Surface-Level UX</h2>
-            <p>A common expectation in B2B software: the designer handles the visual layer while engineers handle the domain. This works for surface fixes — but not for decisions that affect cognitive load and navigation.</p>
-
-            <div class="comparison-grid">
-                <div class="comparison-col">
-                    <div class="label">Surface Fixes</div>
-                    <ul>
-                        <li>Color contrast ratios</li>
-                        <li>Keyboard shortcuts</li>
-                        <li>Error message wording</li>
-                        <li>Loading state indicators</li>
-                    </ul>
-                </div>
-                <div class="comparison-col">
-                    <div class="label">Cognitive Load Decisions</div>
-                    <ul>
-                        <li>Which data surfaces first</li>
-                        <li>How views support navigation</li>
-                        <li>What complexity to hide vs. expose</li>
-                        <li>When to filter vs. when to zoom</li>
-                    </ul>
-                </div>
-            </div>
-
-            <p>What should be most prominent in the interface? That requires knowing what users do most often, what's done daily versus once a year, what mistakes increase cognitive load unnecessarily. None of that comes from UX heuristics alone.</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Research Basis</h2>
-            <p>The principles draw on cognitive research and information design literature — synthesized for application to learnability and navigation in systems modeling software.</p>
-
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Cognitive</div>
-                    <div class="deliverable-title">Visual-Spatial Learners</div>
-                    <div class="deliverable-desc">Space engineers are disproportionately visual-spatial thinkers who need to see the whole picture before understanding parts. Semantic memory is structured as a network, not a list — graph-based navigation aligns with how engineers think (Collins & Loftus 1975; Silverman 1999).</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Cognitive</div>
-                    <div class="deliverable-title">Cognitive Load Theory</div>
-                    <div class="deliverable-desc">When information is represented inconsistently across views, cognitive load increases — decisions take longer and are substantially worse. Consistent navigation reduces the mental effort of cross-referencing (Sweller; PMC 2023).</div>
-                </div>
-            </div>
-
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Information Design</div>
-                    <div class="deliverable-title">Bertin's Retinal Variables</div>
-                    <div class="deliverable-desc">Position, size, value (light/dark), color, shape — each supports different navigation tasks. Value is superior for encoding order; color hue for category. Every mark must reduce cognitive load, not add to it.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Information Design</div>
-                    <div class="deliverable-title">Tufte's Principles</div>
-                    <div class="deliverable-desc">Data-ink ratio: every pixel should reduce cognitive load, not add visual noise. Small multiples: filtered sub-views enable navigation in dense graphs without losing orientation.</div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Where AI Helped</h2>
-            <p>AI became genuinely useful — not as a replacement for expertise, but as a translation layer for understanding learnability barriers.</p>
-
-            <div class="deliverables-intro three-col">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Translation</div>
-                    <div class="deliverable-title">Plain Language Explanations</div>
-                    <div class="deliverable-desc">AI explains engineering concepts without assuming prior knowledge — reducing my own cognitive load while learning the domain. Metaphors, examples, historical context.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Synthesis</div>
-                    <div class="deliverable-title">Framework Cross-Referencing</div>
-                    <div class="deliverable-desc">Checking if frameworks from cognitive science (load theory, visual variables) apply to systems modeling navigation. Fast connections to then validate with experts.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Mapping</div>
-                    <div class="deliverable-title">Fixed vs. Flexible</div>
-                    <div class="deliverable-desc">SysML2 is a standard, but not everything is equally fixed. Semantic elements must be followed. Presentation — where learnability lives — can be improved.</div>
-                </div>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>The limits:</strong> AI generates synthesis that can fall apart under expert scrutiny. Quickly-generated content is quickly forgotten — it doesn't reduce long-term cognitive load. The skill is knowing what to ask AI and what to ask an expert.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Engineering vs. Design Thinking</h2>
-            <p>Working closely with engineers surfaced a difference worth documenting: engineering and design are almost opposite cognitive modes.</p>
-
-            <div class="comparison-grid">
-                <div class="comparison-col">
-                    <div class="label">Engineering Mode</div>
-                    <ul>
-                        <li>Divide and conquer</li>
-                        <li>Find a solution to this piece</li>
-                        <li>Execute, move on</li>
-                        <li>Sequential navigation</li>
-                    </ul>
-                </div>
-                <div class="comparison-col">
-                    <div class="label">Design Mode</div>
-                    <ul>
-                        <li>Connect parts</li>
-                        <li>Consider all elements at once</li>
-                        <li>Hold complexity without resolving prematurely</li>
-                        <li>Simultaneous navigation</li>
-                    </ul>
-                </div>
-            </div>
-
-            <p>Neither mode is wrong. Engineering's precision produces reliable systems. Design's holistic view produces coherent experiences. The visual layer isn't separate from functionality — it emerges from understanding how navigation patterns connect all parts from the user's perspective.</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Approach</h2>
-            <p>Structured the work in three phases, cycling between domain research, framework synthesis, and expert validation.</p>
-
-            <div class="phase-timeline">
-                <div class="phase-block">
-                    <div class="phase-label">Weeks 1–3</div>
-                    <div class="phase-name">Foundations</div>
-                    <div class="phase-desc">Core learnability principles, understand tool direction, document cognitive load sources</div>
-                </div>
-                <div class="phase-block">
-                    <div class="phase-label">Weeks 4–6</div>
-                    <div class="phase-name">User Progression</div>
-                    <div class="phase-desc">New user navigation, building user patterns, advanced user scale</div>
-                </div>
-                <div class="phase-block">
-                    <div class="phase-label">Weeks 7–8</div>
-                    <div class="phase-name">Synthesis</div>
-                    <div class="phase-desc">Consolidate findings, structure deliverables, document open questions</div>
-                </div>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>The fourth activity:</strong> Slower processing. Pencil and paper. Let it sink in. This can't be accelerated — and it's what makes the cognitive load research actually internalized, not just referenced.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">User Progression Framework</h2>
-            <p>Users at different stages have different cognitive load thresholds and navigation needs. The principles structure decisions around three user states:</p>
-
-            <div class="deliverables-intro three-col">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Stage 1</div>
-                    <div class="deliverable-title">New User</div>
-                    <div class="deliverable-desc">First encounter with the tool. Cognitive load must be minimal — clear guardrails, obvious affordances. Navigation must teach without tutorials.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Stage 2</div>
-                    <div class="deliverable-title">Building User</div>
-                    <div class="deliverable-desc">Growing projects, increasing complexity. Needs visibility controls, multiple views. Navigation must support skill growth without overwhelming cognitive capacity.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Stage 3</div>
-                    <div class="deliverable-title">Advanced User</div>
-                    <div class="deliverable-desc">Large-scale models, high density. Efficient navigation and density management. Cognitive load is acceptable because skill compensates — the tool must stay out of the way.</div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Deliverable: 10 Design Principles</h2>
-            <p>The output: 10 principles organized by layer — model foundation, view design, interaction, and safety. Each principle addresses a specific source of cognitive load or navigation failure observed in existing MBSE toolchains.</p>
-
-            <div class="deliverables-intro four-col">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Non-Negotiable</div>
-                    <div class="deliverable-title">3 Principles</div>
-                    <div class="deliverable-desc">Remove any of these and cognitive load becomes unmanageable. Architectural decisions, not features.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Strong Default</div>
-                    <div class="deliverable-title">3 Principles</div>
-                    <div class="deliverable-desc">Right navigation patterns for most teams. Should be configurable — a specific minority has legitimate reasons for alternatives.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Genuine Choice</div>
-                    <div class="deliverable-title">2 Principles</div>
-                    <div class="deliverable-desc">Both options manage cognitive load differently. The right answer depends on team size and workflow maturity.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Optional</div>
-                    <div class="deliverable-title">2 Principles</div>
-                    <div class="deliverable-desc">Genuinely good ideas for reducing load. Address in v2 — not blockers for a working v1.</div>
-                </div>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>Examples:</strong> "One model, many views" is non-negotiable — without it, cognitive load from cross-referencing becomes unmanageable. "Click anywhere, land everywhere" is a strong default for navigation — but automatic sync across all views can be disorienting during focused work. "Managing edge density" is a genuine choice between strict enforcement and type-filtered display — both reduce visual complexity differently.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Open Questions</h2>
-            <p>Some decisions require user validation or are deferred to later phases:</p>
-            
+<section>
+    <h2 class="section-title">Reframing the Problem</h2>
+    <p>Early in the project, it became clear that jumping to UI elements was premature. The first task was defining principles — what guides decisions, not what pixels look like.</p>
+
+    <div class="highlight-box">
+        <p><strong>The realization:</strong> You can't design a dropdown or a panel without knowing what principles that dropdown serves. Principles first, then patterns, then components.</p>
+    </div>
+
+    <p>This reframing surfaced four interconnected challenges:</p>
+
+    <div class="deliverables-intro four-col">
+        <div class="deliverable-card">
+            <div class="deliverable-label">Challenge 1</div>
+            <div class="deliverable-title">B2B UX in Specialized Domains</div>
+            <div class="deliverable-desc">Standard UX heuristics assume consumer contexts. Specialized B2B requires understanding what practitioners actually do — not what generic best practices suggest.</div>
+        </div>
+        <div class="deliverable-card">
+            <div class="deliverable-label">Challenge 2</div>
+            <div class="deliverable-title">SysML2 Constraints</div>
+            <div class="deliverable-desc">What's fixed by the standard? What's open to interpretation? This boundary isn't documented — it had to be mapped explicitly.</div>
+        </div>
+        <div class="deliverable-card">
+            <div class="deliverable-label">Challenge 3</div>
+            <div class="deliverable-title">Integration Opportunities</div>
+            <div class="deliverable-desc">Learning from other complex professional tools — CAD, IDEs, 3D modeling — where has UX successfully reduced cognitive load in dense interfaces?</div>
+        </div>
+        <div class="deliverable-card">
+            <div class="deliverable-label">Challenge 4</div>
+            <div class="deliverable-title">Relearning Cost</div>
+            <div class="deliverable-desc">Where is improvement worth the switching cost? Reducing time to learn SysML2, reducing cognitive load, reducing errors — which changes justify relearning?</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 class="section-title">Redefined Outcomes</h2>
+    <p>With the problem reframed, the deliverables became clearer:</p>
+
+    <div class="deliverables-intro three-col">
+        <div class="deliverable-card">
+            <div class="deliverable-label">Outcome 1</div>
+            <div class="deliverable-title">10 Design Principles</div>
+            <div class="deliverable-desc">Principles specific to System Forge — not generic UX guidelines. Each addresses a concrete source of cognitive load or navigation failure in MBSE tools.</div>
+        </div>
+        <div class="deliverable-card">
+            <div class="deliverable-label">Outcome 2</div>
+            <div class="deliverable-title">SysML2 Constraint Map</div>
+            <div class="deliverable-desc">Explicit documentation of what's fixed by the standard (semantics, core notation) versus what's open for learnability improvements (layout, hierarchy, interaction).</div>
+        </div>
+        <div class="deliverable-card">
+            <div class="deliverable-label">Outcome 3</div>
+            <div class="deliverable-title">UI Pattern Categories</div>
+            <div class="deliverable-desc">20 categories of UI decisions, prioritized by impact. Starting point for detailed component work — each category maps to specific principles.</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 class="section-title">UI Pattern Categories</h2>
+    <p>Before designing individual components, map the territory. These 20 categories organize UI decisions by function — each links back to specific principles and SysML2 constraints.</p>
+
+    <div class="comparison-grid">
+        <div class="comparison-col">
+            <div class="label">Navigation & Orientation</div>
             <ul>
-                <li><strong>Density thresholds:</strong> At what cognitive load point do filtering controls become mandatory vs. optional?</li>
-                <li><strong>Color meaning:</strong> How much semantic weight can color carry before it increases rather than reduces cognitive load?</li>
-                <li><strong>Cross-mode consistency:</strong> How much visual similarity between diagram/text/table before users expect identical navigation behavior?</li>
-                <li><strong>Onboarding decay:</strong> When do teaching elements become cognitive clutter for experienced users?</li>
+                <li>Graph navigation controls</li>
+                <li>Zoom & pan behavior</li>
+                <li>Breadcrumb & location indicators</li>
+                <li>View switching & synchronization</li>
+                <li>Search & filter interfaces</li>
             </ul>
-
-            <p class="note">These are documented as explicit open questions — flagged for validation, not ignored.</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Status</h2>
-            
-            <ul class="status-list">
-                <li>Foundations <span class="status-tag complete">Complete</span></li>
-                <li>New User <span class="status-tag complete">Complete</span></li>
-                <li>Building User <span class="status-tag in-progress">In Progress</span></li>
-                <li>Advanced User <span class="status-tag upcoming">Upcoming</span></li>
-                <li>Synthesis <span class="status-tag upcoming">Upcoming</span></li>
+        </div>
+        <div class="comparison-col">
+            <div class="label">Element Representation</div>
+            <ul>
+                <li>Node styling & hierarchy</li>
+                <li>Edge display & density</li>
+                <li>Labels & annotations</li>
+                <li>Grouping & containment</li>
+                <li>State & status indicators</li>
             </ul>
-        </section>
+        </div>
+    </div>
 
-        <section>
-            <h2 class="section-title">Tools</h2>
-            <div class="tech-list">
-                <span class="tech-tag">Figma</span>
-                <span class="tech-tag">SysML2</span>
-                <span class="tech-tag">Claude</span>
-                <span class="tech-tag">Obsidian</span>
-                <span class="tech-tag">Pencil & Paper</span>
-            </div>
-        </section>
+    <div class="comparison-grid">
+        <div class="comparison-col">
+            <div class="label">Interaction & Editing</div>
+            <ul>
+                <li>Selection & multi-select</li>
+                <li>Drag, drop & connection</li>
+                <li>Context menus & quick actions</li>
+                <li>Undo/redo & history</li>
+                <li>Validation feedback</li>
+            </ul>
+        </div>
+        <div class="comparison-col">
+            <div class="label">Density & Scale</div>
+            <ul>
+                <li>Collapse & expand patterns</li>
+                <li>Level-of-detail switching</li>
+                <li>Minimap & overview</li>
+                <li>Filtering & hiding</li>
+                <li>Layout algorithms & spacing</li>
+            </ul>
+        </div>
+    </div>
 
-        <section>
-            <h2 class="section-title">Reflection</h2>
-            
-            <div class="highlight-box">
-                <p><strong>On the work:</strong> The hardest part wasn't drafting principles — it was defining where SysML standards end and learnability decisions begin. That boundary isn't documented anywhere. Drawing the line is the work.</p>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>On learning unfamiliar domains:</strong> AI speeds up learning but the slower work — digesting, questioning, validating with practitioners — can't be skipped. Fast generation doesn't reduce long-term cognitive load. The skill is knowing when to accelerate and when to slow down.</p>
-            </div>
-
-            <div class="highlight-box">
-                <p><strong>On B2B UX:</strong> Most UX methods developed for consumer apps where cognitive load is managed through simplification. Specialized B2B is different: professional users accept higher load in exchange for capability. The goal isn't minimal load — it's appropriate load for the task and skill level.</p>
-            </div>
-        </section>
-
-        <nav>
-            <a href="index.html">← Portfolio</a>
-            <a href="navigator.html">Navigator →</a>
-        </nav>
-    </main>
-
-    <footer>
-        <p>© 2026 Petra Kühnle</p>
-    </footer>
-</body>
-</html>
+    <p class="note">Each category will be developed individually — mapping to principles, documenting SysML2 constraints, and defining pattern options with cognitive load tradeoffs.</p>
+</section>
