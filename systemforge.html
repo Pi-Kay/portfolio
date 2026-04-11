@@ -3,932 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Design principles for System Forge, a systems modeling tool. Reducing cognitive load and enabling navigation in visually complex engineering software.">
-    <title>System Forge · Graph Modeling Learnability — Petra Kühnle</title>
+    <meta name="description" content="Design principles for System Forge, a systems modeling tool. Reducing cognitive load in B2B engineering software.">
+    <title>System Forge · Design Principles — Petra Kühnle</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
-            background: #fafafa;
-        }
-
-        body.project {
-            max-width: 900px;
+            background: #fff;
+            max-width: 860px;
             margin: 0 auto;
             padding: 60px 40px;
-            background: #fff;
         }
-
-        header {
-            margin-bottom: 40px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        header h1 {
-            font-size: 1.8em;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        header p {
-            font-size: 1.1em;
-            color: #4a4a4a;
-            margin-bottom: 8px;
-        }
-
-        header .meta {
-            font-size: 0.85em;
-            color: #8a8a8a;
-            margin-top: 12px;
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
+        header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #e5e5e5; }
+        header h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.5px; }
+        header p { font-size: 1.05em; color: #4a4a4a; margin-bottom: 6px; }
+        header .meta { font-size: 0.85em; color: #8a8a8a; margin-top: 12px; }
+        section { margin-bottom: 36px; }
         .section-title {
-            font-size: 0.75em;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 12px;
-        }
-
-        section p {
-            margin-bottom: 12px;
-            color: #3a3a3a;
-        }
-
-        section ul {
-            margin: 12px 0 12px 24px;
-            color: #3a3a3a;
-        }
-
-        section li {
-            margin-bottom: 6px;
-        }
-
-        .note {
-            font-size: 0.9em;
-            color: #6b6b6b;
-            font-style: italic;
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
-            padding: 16px;
-            margin: 16px 0;
-        }
-
-        .highlight-box p {
-            margin-bottom: 0;
-            font-size: 0.9em;
-        }
-
-        /* Outcomes - horizontal with color coding */
-        .outcomes-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            margin: 20px 0;
-            border: 1px solid #e5e5e5;
-        }
-
-        .outcome-card {
-            padding: 20px;
-            border-right: 1px solid #e5e5e5;
-        }
-
-        .outcome-card:last-child {
-            border-right: none;
-        }
-
-        .outcome-card.principles {
-            background: #f8f9ff;
-            border-bottom: 3px solid #1565c0;
-        }
-
-        .outcome-card.constraints {
-            background: #f9fdf9;
-            border-bottom: 3px solid #2e7d32;
-        }
-
-        .outcome-card.patterns {
-            background: #fffaf5;
-            border-bottom: 3px solid #ef6c00;
-        }
-
-        .outcome-label {
-            font-size: 0.7em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 4px;
-        }
-
-        .outcome-title {
-            font-size: 1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .outcome-desc {
-            font-size: 0.8em;
-            color: #6b6b6b;
-            line-height: 1.4;
-        }
-
-        /* Principles - compact grid */
-        .principles-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .principle-card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            padding: 16px;
-        }
-
-        .principle-header {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .principle-number {
-            font-size: 0.7em;
-            font-weight: 600;
-            color: #8a8a8a;
-        }
-
-        .principle-name {
-            font-size: 0.95em;
-            font-weight: 500;
-            color: #1a1a1a;
-        }
-
-        .principle-category {
-            font-size: 0.65em;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            padding: 2px 6px;
-            border-radius: 2px;
-            margin-left: auto;
-        }
-
-        .principle-category.product-vision { background: #e8eaf6; color: #3949ab; }
-        .principle-category.ux-research { background: #e0f2f1; color: #00796b; }
-        .principle-category.b2b-ux { background: #e8f5e9; color: #2e7d32; }
-        .principle-category.to-validate { background: #fff3e0; color: #ef6c00; }
-        .principle-category.product-decision { background: #fce4ec; color: #c2185b; }
-        .principle-category.learnability { background: #f3e5f5; color: #7b1fa2; }
-
-        .principle-note {
-            display: block;
-            margin-top: 6px;
-            font-size: 0.9em;
-            color: #888;
-        }
-
-        .principle-desc {
-            font-size: 0.8em;
-            color: #4a4a4a;
-            line-height: 1.45;
-        }
-
-        /* Constraint table - compact with color coding */
-        .constraint-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 0.85em;
-        }
-
-        .constraint-table th,
-        .constraint-table td {
-            padding: 10px 12px;
-            text-align: left;
-            border: 1px solid #e5e5e5;
-        }
-
-        .constraint-table th {
-            background: #f9f9f9;
-            font-weight: 500;
-            font-size: 0.75em;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #6b6b6b;
-        }
-
-        .constraint-table th.specified {
-            background: #fafafa;
-            color: #666;
-        }
-
-        .constraint-table th.design-space {
-            background: #f0faf0;
-            color: #2e7d32;
-        }
-
-        .constraint-table td {
-            color: #3a3a3a;
-            vertical-align: top;
-        }
-
-        .constraint-table td:first-child {
-            font-weight: 500;
-            width: 18%;
-            background: #fafafa;
-        }
-
-        .constraint-table td:nth-child(2) {
-            background: #fff;
-        }
-
-        .constraint-table td:nth-child(3) {
-            background: #f9fcf9;
-        }
-
-        /* Pattern grid - compact */
-        .pattern-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin: 16px 0;
-        }
-
-        .pattern-card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            padding: 12px;
-        }
-
-        .pattern-number {
-            font-size: 0.65em;
-            font-weight: 600;
-            color: #8a8a8a;
-            margin-bottom: 4px;
-        }
-
-        .pattern-name {
-            font-size: 0.8em;
-            font-weight: 500;
-            color: #1a1a1a;
-            line-height: 1.3;
-        }
-
-        /* Next steps - distinct cards */
-        .next-steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin: 20px 0;
-        }
-
-        .next-step-card {
-            padding: 20px;
-            border-radius: 4px;
-        }
-
-        .next-step-card.workflows {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border-left: 4px solid #43a047;
-        }
-
-        .next-step-card.validation {
-            background: linear-gradient(135deg, #e3f2fd 0%, #e8eaf6 100%);
-            border-left: 4px solid #1e88e5;
-        }
-
-        .next-step-card.library {
-            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
-            border-left: 4px solid #8e24aa;
-        }
-
-        .next-step-number {
-            font-size: 0.7em;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .next-step-title {
-            font-size: 1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .next-step-desc {
-            font-size: 0.8em;
-            color: #4a4a4a;
-            line-height: 1.45;
-        }
-
-        /* Tech tags */
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tech-tag {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #f5f5f5;
-            font-size: 0.8em;
-            color: #4a4a4a;
-        }
-
-        /* Terminology table - compact */
-        .terminology-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 0.8em;
-        }
-
-        .terminology-table th,
-        .terminology-table td {
-            padding: 6px 10px;
-            text-align: left;
-            border: 1px solid #e5e5e5;
-        }
-
-        .terminology-table th {
-            background: #f5f5f5;
-            font-weight: 500;
-            font-size: 0.75em;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #666;
-        }
-
-        .terminology-table td {
-            color: #3a3a3a;
-        }
-
-        .terminology-table .old-name {
-            color: #888;
-            font-style: italic;
-        }
-
-        .terminology-table .new-element {
-            background: #f0faf0;
-        }
-
-        .terminology-table .renamed {
-            background: #fffaf0;
-        }
-
-        /* Tufte principles - compact cards */
-        .tufte-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin: 16px 0;
-        }
-
-        .tufte-card {
-            background: #fafafa;
-            border-left: 3px solid #666;
-            padding: 12px;
-        }
-
-        .tufte-name {
-            font-size: 0.85em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .tufte-desc {
-            font-size: 0.75em;
-            color: #555;
-            line-height: 1.4;
-        }
-
-        .tufte-application {
-            font-size: 0.7em;
-            color: #888;
-            margin-top: 6px;
-            font-style: italic;
-        }
-
-        /* Discoverability note */
-        .discoverability-note {
-            background: #e8f4fd;
-            border: 1px solid #90caf9;
-            border-radius: 4px;
-            padding: 12px 16px;
-            margin: 16px 0;
-            font-size: 0.85em;
-        }
-
-        .discoverability-note strong {
-            color: #1565c0;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 24px;
-            border-top: 1px solid #e5e5e5;
-            margin-top: 40px;
-        }
-
-        nav a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e5e5;
-            font-size: 0.8em;
-            color: #8a8a8a;
-        }
+            font-size: 0.75em; font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #8a8a8a; margin-bottom: 12px;
+        }
+        section p { margin-bottom: 12px; color: #3a3a3a; }
+        
+        /* Outcomes row */
+        .outcomes-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 20px 0; border: 1px solid #e5e5e5; }
+        .outcome-card { padding: 16px; border-right: 1px solid #e5e5e5; }
+        .outcome-card:last-child { border-right: none; }
+        .outcome-card.principles { background: #f8f9ff; border-bottom: 3px solid #1565c0; }
+        .outcome-card.constraints { background: #f9fdf9; border-bottom: 3px solid #2e7d32; }
+        .outcome-card.patterns { background: #fffaf5; border-bottom: 3px solid #ef6c00; }
+        .outcome-title { font-size: 0.95em; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+        .outcome-desc { font-size: 0.8em; color: #6b6b6b; line-height: 1.4; }
+
+        /* Example principles */
+        .principles-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
+        .principle-card { background: #fafafa; border-left: 3px solid #1565c0; padding: 14px; }
+        .principle-name { font-size: 0.9em; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+        .principle-source { font-size: 0.7em; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .principle-desc { font-size: 0.8em; color: #555; line-height: 1.45; }
+
+        /* Download button */
+        .download-section { background: #f5f7fa; border: 1px solid #e0e4e8; padding: 20px; margin: 24px 0; display: flex; align-items: center; justify-content: space-between; }
+        .download-info { }
+        .download-info strong { font-size: 0.95em; color: #1a1a1a; }
+        .download-info p { font-size: 0.8em; color: #666; margin-top: 4px; }
+        .download-btn {
+            background: #1a1a1a; color: #fff; padding: 10px 20px; text-decoration: none;
+            font-size: 0.85em; font-weight: 500; border-radius: 4px;
+        }
+        .download-btn:hover { background: #333; }
+
+        /* Reflection */
+        .reflection { background: #f9f9f9; border: 1px solid #e5e5e5; padding: 16px; margin: 12px 0; }
+        .reflection p { margin-bottom: 0; font-size: 0.9em; }
+
+        /* Tools */
+        .tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tech-tag { display: inline-block; padding: 5px 10px; background: #f5f5f5; font-size: 0.8em; color: #4a4a4a; }
+
+        /* Nav & Footer */
+        nav { display: flex; justify-content: space-between; padding-top: 24px; border-top: 1px solid #e5e5e5; margin-top: 40px; }
+        nav a { color: #1a1a1a; text-decoration: none; font-size: 0.9em; }
+        nav a:hover { text-decoration: underline; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e5e5; font-size: 0.8em; color: #8a8a8a; }
 
         @media (max-width: 768px) {
-            body.project { padding: 40px 24px; }
+            body { padding: 40px 24px; }
             .outcomes-row { grid-template-columns: 1fr; }
             .outcome-card { border-right: none; border-bottom: 1px solid #e5e5e5; }
             .outcome-card:last-child { border-bottom: none; }
-            .principles-grid { grid-template-columns: 1fr; }
-            .pattern-grid { grid-template-columns: repeat(2, 1fr); }
-            .next-steps-grid { grid-template-columns: 1fr; }
-            .tufte-grid { grid-template-columns: 1fr; }
-            .principle-header { flex-wrap: wrap; }
-            .principle-category { margin-left: 0; margin-top: 6px; }
+            .principles-preview { grid-template-columns: 1fr; }
+            .download-section { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
-<body class="project">
+<body>
     <header>
-        <h1>⬠ System Forge · Graph Modeling Learnability</h1>
-        <p>Design principles for reducing cognitive load in B2B systems engineering software</p>
-        <p class="meta">2025–26 · SysML2, MBSE · Learnability, Cognitive Load, Visual Navigation</p>
+        <h1>⬠ System Forge · Design Principles</h1>
+        <p>UX foundations for a SysML2 modeling tool — reducing cognitive load in B2B engineering software</p>
+        <p class="meta">2025–26 · Collaboration with Cauê Napier (Systems Engineer, SSC)</p>
     </header>
 
     <main>
         <section>
             <h2 class="section-title">Context</h2>
-            <p>System Forge is a model-based systems engineering (MBSE) tool in early development. The founder — <strong>Cauê Napier</strong>, systems engineer at the Swedish Space Corporation (SSC) — is building it as a side project with the goal of making SysML2-based modeling more accessible across engineering domains.</p>
-            <p>At this stage, the product is taking shape: core architecture, data model, initial interface. The opportunity: establish design principles early, before patterns solidify. The question: what should guide UX decisions in a tool where users need professional capability, not consumer simplicity?</p>
+            <p>System Forge is a model-based systems engineering (MBSE) tool in early development. <strong>Cauê Napier</strong>, systems engineer at the Swedish Space Corporation (SSC), is building it as a side project to make SysML2-based modeling more accessible.</p>
+            <p>At this stage — core architecture taking shape — there's an opportunity to establish design principles before patterns solidify.</p>
         </section>
 
         <section>
-            <h2 class="section-title">Framing and Reframing the Problem</h2>
-            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts, ensure usability basics are covered.</p>
-            <p><strong>The reframe:</strong> Before reviewing any screen, define what principles that screen should follow. SysML2 specifies what elements mean and how they relate — it deliberately leaves presentation and interaction to tooling. That's not a gap in the standard; it's the design space. The work is mapping that space: where does the standard constrain choices, and where are decisions ours to make?</p>
-            <p>This reframe shaped three deliverables:</p>
-            
+            <h2 class="section-title">Framing and Reframing</h2>
+            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts.</p>
+            <p><strong>The reframe:</strong> Before reviewing screens, define what principles those screens should follow. SysML2 specifies semantics; presentation and interaction are left to tooling. That's the design space — mapping it was the first task.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Deliverables</h2>
             <div class="outcomes-row">
                 <div class="outcome-card principles">
-                    <div class="outcome-label">Outcome 1</div>
                     <div class="outcome-title">10 Design Principles</div>
-                    <div class="outcome-desc">Specific to System Forge. Each addresses a source of cognitive load or learnability barrier.</div>
+                    <div class="outcome-desc">Synthesized from product vision, UX research, and B2B domain considerations</div>
                 </div>
                 <div class="outcome-card constraints">
-                    <div class="outcome-label">Outcome 2</div>
                     <div class="outcome-title">SysML2 Constraint Map</div>
-                    <div class="outcome-desc">What's specified by standard vs. tool design space.</div>
+                    <div class="outcome-desc">What's specified by standard vs. tool design space</div>
                 </div>
                 <div class="outcome-card patterns">
-                    <div class="outcome-label">Outcome 3</div>
                     <div class="outcome-title">20 UI Pattern Categories</div>
-                    <div class="outcome-desc">Roadmap for detailed component work, each linked to principles.</div>
+                    <div class="outcome-desc">Roadmap for component work, linked to principles</div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">10 Design Principles for System Forge</h2>
-            <p>Draft principles synthesized from Cauê's product vision, UX research, and B2B domain considerations. Sources noted — some require validation.</p>
+            <h2 class="section-title">Example Principles</h2>
+            <p>Three examples showing the range — from product vision to learnability research:</p>
 
-            <div class="principles-grid">
+            <div class="principles-preview">
                 <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">01</span>
-                        <span class="principle-name">One Model, Many Views</span>
-                        <span class="principle-category product-vision">Product Vision</span>
-                    </div>
-                    <p class="principle-desc">Single source of truth with synchronized representations. Diagram, tree, table, text all reflect the same model. Changes propagate immediately. <em class="principle-note">Graph view is the exception: provides overview, not a clickable navigation mode.</em></p>
+                    <div class="principle-source">Product Vision</div>
+                    <div class="principle-name">01 · One Model, Many Views</div>
+                    <div class="principle-desc">Single source of truth with synchronized representations. Diagram, tree, table, text all reflect the same model. Graph view is the exception: provides overview, not a clickable navigation mode.</div>
                 </div>
-
                 <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">02</span>
-                        <span class="principle-name">Consistent Visual Grammar</span>
-                        <span class="principle-category ux-research">UX Research</span>
-                    </div>
-                    <p class="principle-desc">Same meaning = same appearance, everywhere. If dashed lines mean "optional" in one context, they mean "optional" in all contexts. <em class="principle-note">Ref: Bertin's visual variables.</em></p>
+                    <div class="principle-source">B2B UX Research</div>
+                    <div class="principle-name">03 · Progressive Disclosure</div>
+                    <div class="principle-desc">Show what the current task requires, hide everything else. Complexity is available, never imposed. Ref: Nielsen Norman Group enterprise patterns.</div>
                 </div>
-
                 <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">03</span>
-                        <span class="principle-name">Progressive Disclosure</span>
-                        <span class="principle-category b2b-ux">B2B UX</span>
-                    </div>
-                    <p class="principle-desc">Show what the current task requires, hide everything else. Complexity is available, never imposed. <em class="principle-note">Ref: Nielsen Norman Group, enterprise UX patterns.</em></p>
+                    <div class="principle-source">Learnability</div>
+                    <div class="principle-name">09 · Safe Exploration</div>
+                    <div class="principle-desc">Learners need to try things without risk. Generous undo, clear recovery paths, non-destructive defaults. Mistakes are cheap; hesitation is expensive.</div>
                 </div>
-
                 <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">04</span>
-                        <span class="principle-name">Click Anywhere, Land Everywhere</span>
-                        <span class="principle-category to-validate">To Validate</span>
-                    </div>
-                    <p class="principle-desc">Selecting an element in any view highlights it in all views. <em class="principle-note">Note: May not apply to graph view. At minimum: clear indication of current location and how to switch modes.</em></p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">05</span>
-                        <span class="principle-name">Context Preservation on Zoom</span>
-                        <span class="principle-category ux-research">UX Research</span>
-                    </div>
-                    <p class="principle-desc">When zooming to detail, maintain visual context of where that detail sits. Breadcrumbs, minimap, faded parent — never "zoom in and get lost."</p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">06</span>
-                        <span class="principle-name">Type-First Organization</span>
-                        <span class="principle-category ux-research">UX Research</span>
-                    </div>
-                    <p class="principle-desc">Default organization groups elements by type (all requirements together) rather than creation order. Answers "show me all X" instantly.</p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">07</span>
-                        <span class="principle-name">Edge Density Management</span>
-                        <span class="principle-category to-validate">To Validate</span>
-                    </div>
-                    <p class="principle-desc">Two approaches: (A) Strict limits — cap visible edges; or (B) Type-filtered display — show all, filter on demand. <em class="principle-note">Decision needed on preferred approach.</em></p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">08</span>
-                        <span class="principle-name">Validation Timing</span>
-                        <span class="principle-category product-decision">Product Decision</span>
-                    </div>
-                    <p class="principle-desc">Two approaches: (A) Real-time errors; or (B) On-demand validation for exploratory work. <em class="principle-note">Ref: B2B UX research on expert workflows. Requires product decision.</em></p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">09</span>
-                        <span class="principle-name">Safe Exploration</span>
-                        <span class="principle-category learnability">Learnability</span>
-                    </div>
-                    <p class="principle-desc">Learners need to try things without risk. Generous undo, clear recovery paths, non-destructive defaults. Mistakes are cheap; hesitation is expensive.</p>
-                </div>
-
-                <div class="principle-card">
-                    <div class="principle-header">
-                        <span class="principle-number">10</span>
-                        <span class="principle-name">Leverage Familiar Patterns</span>
-                        <span class="principle-category learnability">Learnability</span>
-                    </div>
-                    <p class="principle-desc">Build on what engineers already know — from IDEs, CAD tools, drawing applications. Novel interactions must justify their learning cost. <em class="principle-note">Ref: Transfer of learning.</em></p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">SysML2 Constraint Map</h2>
-            <p>SysML2 standardizes semantics and core notation. Presentation and interaction — how users navigate, filter, and manipulate views — is explicitly left to tooling. This table maps that boundary for System Forge.</p>
-
-            <table class="constraint-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th class="specified">Specified by Standard</th>
-                        <th class="design-space">Tool Design Space</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Element Types</td>
-                        <td>Block, Part, Port, Requirement, Action, State — defined types</td>
-                        <td>Icons, colors, default sizes, palette grouping, UI naming</td>
-                    </tr>
-                    <tr>
-                        <td>Relationships</td>
-                        <td>Composition, reference, dependency, allocation — semantic meaning fixed</td>
-                        <td>Line styles, routing algorithms, bundling, visibility filtering</td>
-                    </tr>
-                    <tr>
-                        <td>Notation</td>
-                        <td>Blocks are rectangles, ports are small squares on edges</td>
-                        <td>Corner radius, shadow, padding, label placement, state indicators</td>
-                    </tr>
-                    <tr>
-                        <td>Compartments</td>
-                        <td>Which compartments exist and what they contain</td>
-                        <td>Collapse/expand, default visibility, ordering, overflow handling</td>
-                    </tr>
-                    <tr>
-                        <td>Diagrams</td>
-                        <td>BDD, IBD, Requirements, Parametric — diagram semantics specified</td>
-                        <td>Create/switch UX, hybrid views, filtered views, dashboard layouts</td>
-                    </tr>
-                    <tr>
-                        <td>Textual</td>
-                        <td>SysML v2 textual syntax standardized (KerML-based)</td>
-                        <td>Syntax highlighting, autocomplete, error messages, inline docs</td>
-                    </tr>
-                    <tr>
-                        <td>Structure</td>
-                        <td>Package hierarchy, namespaces, visibility rules</td>
-                        <td>Hierarchy visualization, navigation, search/filter, favorites</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3 style="font-size: 0.8em; font-weight: 500; margin: 24px 0 12px;">SysML v1 → v2 Terminology</h3>
-            <p style="font-size: 0.85em; color: #555; margin-bottom: 12px;">Key naming changes that may cause confusion for users transitioning from v1.</p>
-
-            <div class="discoverability-note">
-                <strong>Discoverability:</strong> Search should recognize old names — when users search "Block" or "ValueProperty", the new equivalent appears with the old name in parentheses or in an info overlay.
-            </div>
-
-            <table class="terminology-table">
-                <thead>
-                    <tr>
-                        <th>v2 Name</th>
-                        <th>v1 Name</th>
-                        <th>Change</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="renamed">
-                        <td>Part</td>
-                        <td class="old-name">Block (Property)</td>
-                        <td>Definition/Usage separation</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Attribute</td>
-                        <td class="old-name">Value Property</td>
-                        <td>Simpler name, same role</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Port</td>
-                        <td class="old-name">Port / FlowPort / ConjugatedPort</td>
-                        <td>Three concepts → one with direction</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Connection</td>
-                        <td class="old-name">Connector / Association</td>
-                        <td>Now uses ConnectionDefinition</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Constraint</td>
-                        <td class="old-name">ConstraintBlock</td>
-                        <td>Simplified, can be inline</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Allocation</td>
-                        <td class="old-name">Allocate (dependency)</td>
-                        <td>Now first-class element</td>
-                    </tr>
-                    <tr class="renamed">
-                        <td>Documentation</td>
-                        <td class="old-name">Comment</td>
-                        <td>Now named, queryable</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Item</td>
-                        <td class="old-name">—</td>
-                        <td>New: replaces ItemFlow</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Interface</td>
-                        <td class="old-name">—</td>
-                        <td>New: groups Ports</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Calculation</td>
-                        <td class="old-name">—</td>
-                        <td>New: pure functions</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Concern</td>
-                        <td class="old-name">—</td>
-                        <td>New: stakeholder worries</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Case / Analysis Case</td>
-                        <td class="old-name">—</td>
-                        <td>New: test/verification scenarios</td>
-                    </tr>
-                    <tr class="new-element">
-                        <td>Metadata</td>
-                        <td class="old-name">—</td>
-                        <td>New: typed annotations</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2 class="section-title">Design Language Foundations: Tufte</h2>
-            <p>Core principles from Edward Tufte's information design work — applied to systems diagrams.</p>
-
-            <div class="tufte-grid">
-                <div class="tufte-card">
-                    <div class="tufte-name">Data-Ink Ratio</div>
-                    <div class="tufte-desc">Every visual element earns its place. If a line, border, or label doesn't carry meaning, remove it.</div>
-                    <div class="tufte-application">→ Decorative chrome obscures semantic weight</div>
-                </div>
-                <div class="tufte-card">
-                    <div class="tufte-name">Small Multiples</div>
-                    <div class="tufte-desc">Same visual grammar, repeated across instances. Consistency is what makes diagrams learnable.</div>
-                    <div class="tufte-application">→ This is what a design language is</div>
-                </div>
-                <div class="tufte-card">
-                    <div class="tufte-name">Layering & Separation</div>
-                    <div class="tufte-desc">Different information at different visual levels (color, weight, position, size) — readable independently or together.</div>
-                    <div class="tufte-application">→ Distinguishes semantic vs. presentational</div>
-                </div>
-                <div class="tufte-card">
-                    <div class="tufte-name">Micro/Macro Reading</div>
-                    <div class="tufte-desc">A well-designed diagram works at a glance and under close inspection.</div>
-                    <div class="tufte-application">→ Maps to large-scale model navigation</div>
-                </div>
-                <div class="tufte-card">
-                    <div class="tufte-name">Escaping Flatland</div>
-                    <div class="tufte-desc">Showing multi-dimensional relationships in 2D without confusion.</div>
-                    <div class="tufte-application">→ SysML has deep structure; diagrams are flat</div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">20 UI Pattern Categories</h2>
-            <p>Roadmap for detailed component work. Each links to principles and constraints.</p>
-
-            <p style="font-size: 0.8em; color: #6b6b6b; margin-bottom: 8px;"><strong>Navigation & Orientation</strong></p>
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-number">01</div>
-                    <div class="pattern-name">Graph Navigation Controls</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">02</div>
-                    <div class="pattern-name">Zoom Behavior & Levels</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">03</div>
-                    <div class="pattern-name">Breadcrumb & Location</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">04</div>
-                    <div class="pattern-name">View Switching & Sync</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">05</div>
-                    <div class="pattern-name">Search & Filter</div>
+                    <div class="principle-source">To Validate</div>
+                    <div class="principle-name">04 · Click Anywhere, Land Everywhere</div>
+                    <div class="principle-desc">Selecting an element in any view highlights it in all views. Note: May not apply to graph view. At minimum: clear indication of current location.</div>
                 </div>
             </div>
 
-            <p style="font-size: 0.8em; color: #6b6b6b; margin-bottom: 8px;"><strong>Element Representation</strong></p>
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-number">06</div>
-                    <div class="pattern-name">Node Styling & Hierarchy</div>
+            <div class="download-section">
+                <div class="download-info">
+                    <strong>Full Deliverables Package</strong>
+                    <p>All 10 principles with sources · SysML2 constraint map · v1→v2 terminology · Tufte foundations · 20 UI patterns</p>
                 </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">07</div>
-                    <div class="pattern-name">Edge Display & Routing</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">08</div>
-                    <div class="pattern-name">Labels & Annotations</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">09</div>
-                    <div class="pattern-name">Grouping & Containment</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">10</div>
-                    <div class="pattern-name">State & Status Indicators</div>
-                </div>
-            </div>
-
-            <p style="font-size: 0.8em; color: #6b6b6b; margin-bottom: 8px;"><strong>Interaction & Editing</strong></p>
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-number">11</div>
-                    <div class="pattern-name">Selection & Multi-Select</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">12</div>
-                    <div class="pattern-name">Drag, Drop & Connect</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">13</div>
-                    <div class="pattern-name">Context Menus & Actions</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">14</div>
-                    <div class="pattern-name">Undo/Redo & History</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">15</div>
-                    <div class="pattern-name">Validation & Errors</div>
-                </div>
-            </div>
-
-            <p style="font-size: 0.8em; color: #6b6b6b; margin-bottom: 8px;"><strong>Density & Scale</strong></p>
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-number">16</div>
-                    <div class="pattern-name">Collapse & Expand</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">17</div>
-                    <div class="pattern-name">Level-of-Detail Controls</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">18</div>
-                    <div class="pattern-name">Minimap & Overview</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">19</div>
-                    <div class="pattern-name">Filtering & Hiding</div>
-                </div>
-                <div class="pattern-card">
-                    <div class="pattern-number">20</div>
-                    <div class="pattern-name">Layout & Spacing</div>
-                </div>
+                <a href="systemforge-deliverables.pdf" class="download-btn">Download PDF</a>
             </div>
         </section>
 
         <section>
             <h2 class="section-title">Next Steps</h2>
-            <p>With principles established, the work moves to application and validation.</p>
-
-            <div class="next-steps-grid">
-                <div class="next-step-card workflows">
-                    <div class="next-step-number">01</div>
-                    <div class="next-step-title">Workflow Documentation</div>
-                    <div class="next-step-desc">Map common tasks (setting up a BDD, creating requirements, linking elements) with principles applied. Each workflow becomes a test case: does the UI support the principle?</div>
-                </div>
-                <div class="next-step-card validation">
-                    <div class="next-step-number">02</div>
-                    <div class="next-step-title">User Testing & Interviews</div>
-                    <div class="next-step-desc">Validate principles with practitioners. Do the learnability assumptions hold? Where do real workflows diverge from expected patterns?</div>
-                </div>
-                <div class="next-step-card library">
-                    <div class="next-step-number">03</div>
-                    <div class="next-step-title">UI Component Library</div>
-                    <div class="next-step-desc">Build components that embody principles. Each component documents which principles it implements and how — making the connection explicit and reviewable.</div>
-                </div>
-            </div>
-
-            <p class="note" style="margin-top: 16px;"><strong>Future considerations:</strong> Semantic zoom (automatic level-of-detail at different scales) and collaborative presence (real-time multi-user awareness) — valuable but dependent on stable foundations.</p>
+            <p><strong>Workflow documentation</strong> — Map common tasks with principles applied. <strong>User testing</strong> — Validate assumptions with practitioners. <strong>UI component library</strong> — Build components that embody principles explicitly.</p>
         </section>
 
         <section>
             <h2 class="section-title">Reflection</h2>
-            
-            <div class="highlight-box">
-                <p><strong>On the work:</strong> SysML2 defines semantics; presentation is the tool's responsibility. Translating that into concrete guidance — "you can style this element, but this shape is fixed" — required working through the spec systematically. That translation is the constraint map.</p>
+            <div class="reflection">
+                <p><strong>On the work:</strong> SysML2 defines semantics; presentation is the tool's responsibility. Translating that into concrete guidance — "you can style this element, but this shape is fixed" — required working through the spec systematically.</p>
             </div>
-
-            <div class="highlight-box">
-                <p><strong>On principles before pixels:</strong> The expectation for UX Designers is often visual output. But a dropdown without a principle is just a guess. Principles create constraints — and constraints make design decisions defensible, not arbitrary. And why general principles can be applied independently. Applying some principles without a good understanding and overview of all relevant principles would result in uneven quality and individual fixes.</p>
+            <div class="reflection">
+                <p><strong>On principles before pixels:</strong> The expectation for UX Designers is often visual output. But a dropdown without a principle is just a guess. Principles create constraints — and constraints make design decisions defensible, not arbitrary.</p>
             </div>
         </section>
 
@@ -939,7 +175,6 @@
                 <span class="tech-tag">SysML2</span>
                 <span class="tech-tag">Claude</span>
                 <span class="tech-tag">Obsidian</span>
-                <span class="tech-tag">Pencil & Paper</span>
             </div>
         </section>
 
