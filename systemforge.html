@@ -195,10 +195,19 @@
             margin-left: auto;
         }
 
-        .principle-category.non-negotiable { background: #e3f2fd; color: #1565c0; }
-        .principle-category.strong-default { background: #e8f5e9; color: #2e7d32; }
-        .principle-category.genuine-choice { background: #fff3e0; color: #ef6c00; }
+        .principle-category.product-vision { background: #e8eaf6; color: #3949ab; }
+        .principle-category.ux-research { background: #e0f2f1; color: #00796b; }
+        .principle-category.b2b-ux { background: #e8f5e9; color: #2e7d32; }
+        .principle-category.to-validate { background: #fff3e0; color: #ef6c00; }
+        .principle-category.product-decision { background: #fce4ec; color: #c2185b; }
         .principle-category.learnability { background: #f3e5f5; color: #7b1fa2; }
+
+        .principle-note {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.9em;
+            color: #888;
+        }
 
         .principle-desc {
             font-size: 0.8em;
@@ -350,6 +359,95 @@
             color: #4a4a4a;
         }
 
+        /* Terminology table - compact */
+        .terminology-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.8em;
+        }
+
+        .terminology-table th,
+        .terminology-table td {
+            padding: 6px 10px;
+            text-align: left;
+            border: 1px solid #e5e5e5;
+        }
+
+        .terminology-table th {
+            background: #f5f5f5;
+            font-weight: 500;
+            font-size: 0.75em;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .terminology-table td {
+            color: #3a3a3a;
+        }
+
+        .terminology-table .old-name {
+            color: #888;
+            font-style: italic;
+        }
+
+        .terminology-table .new-element {
+            background: #f0faf0;
+        }
+
+        .terminology-table .renamed {
+            background: #fffaf0;
+        }
+
+        /* Tufte principles - compact cards */
+        .tufte-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .tufte-card {
+            background: #fafafa;
+            border-left: 3px solid #666;
+            padding: 12px;
+        }
+
+        .tufte-name {
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .tufte-desc {
+            font-size: 0.75em;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .tufte-application {
+            font-size: 0.7em;
+            color: #888;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* Discoverability note */
+        .discoverability-note {
+            background: #e8f4fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-size: 0.85em;
+        }
+
+        .discoverability-note strong {
+            color: #1565c0;
+        }
+
         /* Navigation */
         nav {
             display: flex;
@@ -385,6 +483,7 @@
             .principles-grid { grid-template-columns: 1fr; }
             .pattern-grid { grid-template-columns: repeat(2, 1fr); }
             .next-steps-grid { grid-template-columns: 1fr; }
+            .tufte-grid { grid-template-columns: 1fr; }
             .principle-header { flex-wrap: wrap; }
             .principle-category { margin-left: 0; margin-top: 6px; }
         }
@@ -430,50 +529,51 @@
         </section>
 
         <section>
-            <h2 class="section-title">10 Design Principles</h2>
+            <h2 class="section-title">10 Design Principles for System Forge</h2>
+            <p>Draft principles synthesized from Cauê's product vision, UX research, and B2B domain considerations. Sources noted — some require validation.</p>
 
             <div class="principles-grid">
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">01</span>
                         <span class="principle-name">One Model, Many Views</span>
-                        <span class="principle-category non-negotiable">Non-Negotiable</span>
+                        <span class="principle-category product-vision">Product Vision</span>
                     </div>
-                    <p class="principle-desc">Single source of truth with synchronized representations. Diagram, tree, table, text all reflect the same model. Changes propagate immediately.</p>
+                    <p class="principle-desc">Single source of truth with synchronized representations. Diagram, tree, table, text all reflect the same model. Changes propagate immediately. <em class="principle-note">Graph view is the exception: provides overview, not a clickable navigation mode.</em></p>
                 </div>
 
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">02</span>
                         <span class="principle-name">Consistent Visual Grammar</span>
-                        <span class="principle-category non-negotiable">Non-Negotiable</span>
+                        <span class="principle-category ux-research">UX Research</span>
                     </div>
-                    <p class="principle-desc">Same meaning = same appearance, everywhere. If dashed lines mean "optional" in one context, they mean "optional" in all contexts.</p>
+                    <p class="principle-desc">Same meaning = same appearance, everywhere. If dashed lines mean "optional" in one context, they mean "optional" in all contexts. <em class="principle-note">Ref: Bertin's visual variables.</em></p>
                 </div>
 
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">03</span>
                         <span class="principle-name">Progressive Disclosure</span>
-                        <span class="principle-category non-negotiable">Non-Negotiable</span>
+                        <span class="principle-category b2b-ux">B2B UX</span>
                     </div>
-                    <p class="principle-desc">Show what the current task requires, hide everything else. Complexity is available, never imposed. Advanced features don't clutter primary interface.</p>
+                    <p class="principle-desc">Show what the current task requires, hide everything else. Complexity is available, never imposed. <em class="principle-note">Ref: Nielsen Norman Group, enterprise UX patterns.</em></p>
                 </div>
 
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">04</span>
                         <span class="principle-name">Click Anywhere, Land Everywhere</span>
-                        <span class="principle-category strong-default">Strong Default</span>
+                        <span class="principle-category to-validate">To Validate</span>
                     </div>
-                    <p class="principle-desc">Selecting an element in any view highlights it in all views. Navigation is unified across representations.</p>
+                    <p class="principle-desc">Selecting an element in any view highlights it in all views. <em class="principle-note">Note: May not apply to graph view. At minimum: clear indication of current location and how to switch modes.</em></p>
                 </div>
 
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">05</span>
                         <span class="principle-name">Context Preservation on Zoom</span>
-                        <span class="principle-category strong-default">Strong Default</span>
+                        <span class="principle-category ux-research">UX Research</span>
                     </div>
                     <p class="principle-desc">When zooming to detail, maintain visual context of where that detail sits. Breadcrumbs, minimap, faded parent — never "zoom in and get lost."</p>
                 </div>
@@ -482,7 +582,7 @@
                     <div class="principle-header">
                         <span class="principle-number">06</span>
                         <span class="principle-name">Type-First Organization</span>
-                        <span class="principle-category strong-default">Strong Default</span>
+                        <span class="principle-category ux-research">UX Research</span>
                     </div>
                     <p class="principle-desc">Default organization groups elements by type (all requirements together) rather than creation order. Answers "show me all X" instantly.</p>
                 </div>
@@ -491,18 +591,18 @@
                     <div class="principle-header">
                         <span class="principle-number">07</span>
                         <span class="principle-name">Edge Density Management</span>
-                        <span class="principle-category genuine-choice">Genuine Choice</span>
+                        <span class="principle-category to-validate">To Validate</span>
                     </div>
-                    <p class="principle-desc">Two valid approaches: (A) Strict limits — cap visible edges, require manual expansion; or (B) Type-filtered display — show all, filter by type on demand.</p>
+                    <p class="principle-desc">Two approaches: (A) Strict limits — cap visible edges; or (B) Type-filtered display — show all, filter on demand. <em class="principle-note">Decision needed on preferred approach.</em></p>
                 </div>
 
                 <div class="principle-card">
                     <div class="principle-header">
                         <span class="principle-number">08</span>
                         <span class="principle-name">Validation Timing</span>
-                        <span class="principle-category genuine-choice">Genuine Choice</span>
+                        <span class="principle-category product-decision">Product Decision</span>
                     </div>
-                    <p class="principle-desc">Two valid approaches: (A) Real-time — errors surface immediately; or (B) On-demand — validation when requested, allowing exploratory incomplete states.</p>
+                    <p class="principle-desc">Two approaches: (A) Real-time errors; or (B) On-demand validation for exploratory work. <em class="principle-note">Ref: B2B UX research on expert workflows. Requires product decision.</em></p>
                 </div>
 
                 <div class="principle-card">
@@ -511,7 +611,7 @@
                         <span class="principle-name">Safe Exploration</span>
                         <span class="principle-category learnability">Learnability</span>
                     </div>
-                    <p class="principle-desc">Learners need to try things without fear. Generous undo, clear recovery paths, non-destructive defaults. Mistakes are cheap; hesitation is expensive.</p>
+                    <p class="principle-desc">Learners need to try things without risk. Generous undo, clear recovery paths, non-destructive defaults. Mistakes are cheap; hesitation is expensive.</p>
                 </div>
 
                 <div class="principle-card">
@@ -520,7 +620,7 @@
                         <span class="principle-name">Leverage Familiar Patterns</span>
                         <span class="principle-category learnability">Learnability</span>
                     </div>
-                    <p class="principle-desc">Build on what engineers already know — from IDEs, CAD tools, drawing applications. Novel interactions must justify their learning cost.</p>
+                    <p class="principle-desc">Build on what engineers already know — from IDEs, CAD tools, drawing applications. Novel interactions must justify their learning cost. <em class="principle-note">Ref: Transfer of learning.</em></p>
                 </div>
             </div>
         </section>
@@ -575,6 +675,123 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h3 style="font-size: 0.8em; font-weight: 500; margin: 24px 0 12px;">SysML v1 → v2 Terminology</h3>
+            <p style="font-size: 0.85em; color: #555; margin-bottom: 12px;">Key naming changes that may cause confusion for users transitioning from v1.</p>
+
+            <div class="discoverability-note">
+                <strong>Discoverability:</strong> Search should recognize old names — when users search "Block" or "ValueProperty", the new equivalent appears with the old name in parentheses or in an info overlay.
+            </div>
+
+            <table class="terminology-table">
+                <thead>
+                    <tr>
+                        <th>v2 Name</th>
+                        <th>v1 Name</th>
+                        <th>Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="renamed">
+                        <td>Part</td>
+                        <td class="old-name">Block (Property)</td>
+                        <td>Definition/Usage separation</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Attribute</td>
+                        <td class="old-name">Value Property</td>
+                        <td>Simpler name, same role</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Port</td>
+                        <td class="old-name">Port / FlowPort / ConjugatedPort</td>
+                        <td>Three concepts → one with direction</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Connection</td>
+                        <td class="old-name">Connector / Association</td>
+                        <td>Now uses ConnectionDefinition</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Constraint</td>
+                        <td class="old-name">ConstraintBlock</td>
+                        <td>Simplified, can be inline</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Allocation</td>
+                        <td class="old-name">Allocate (dependency)</td>
+                        <td>Now first-class element</td>
+                    </tr>
+                    <tr class="renamed">
+                        <td>Documentation</td>
+                        <td class="old-name">Comment</td>
+                        <td>Now named, queryable</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Item</td>
+                        <td class="old-name">—</td>
+                        <td>New: replaces ItemFlow</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Interface</td>
+                        <td class="old-name">—</td>
+                        <td>New: groups Ports</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Calculation</td>
+                        <td class="old-name">—</td>
+                        <td>New: pure functions</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Concern</td>
+                        <td class="old-name">—</td>
+                        <td>New: stakeholder worries</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Case / Analysis Case</td>
+                        <td class="old-name">—</td>
+                        <td>New: test/verification scenarios</td>
+                    </tr>
+                    <tr class="new-element">
+                        <td>Metadata</td>
+                        <td class="old-name">—</td>
+                        <td>New: typed annotations</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2 class="section-title">Design Language Foundations: Tufte</h2>
+            <p>Core principles from Edward Tufte's information design work — applied to systems diagrams.</p>
+
+            <div class="tufte-grid">
+                <div class="tufte-card">
+                    <div class="tufte-name">Data-Ink Ratio</div>
+                    <div class="tufte-desc">Every visual element earns its place. If a line, border, or label doesn't carry meaning, remove it.</div>
+                    <div class="tufte-application">→ Decorative chrome obscures semantic weight</div>
+                </div>
+                <div class="tufte-card">
+                    <div class="tufte-name">Small Multiples</div>
+                    <div class="tufte-desc">Same visual grammar, repeated across instances. Consistency is what makes diagrams learnable.</div>
+                    <div class="tufte-application">→ This is what a design language is</div>
+                </div>
+                <div class="tufte-card">
+                    <div class="tufte-name">Layering & Separation</div>
+                    <div class="tufte-desc">Different information at different visual levels (color, weight, position, size) — readable independently or together.</div>
+                    <div class="tufte-application">→ Distinguishes semantic vs. presentational</div>
+                </div>
+                <div class="tufte-card">
+                    <div class="tufte-name">Micro/Macro Reading</div>
+                    <div class="tufte-desc">A well-designed diagram works at a glance and under close inspection.</div>
+                    <div class="tufte-application">→ Maps to large-scale model navigation</div>
+                </div>
+                <div class="tufte-card">
+                    <div class="tufte-name">Escaping Flatland</div>
+                    <div class="tufte-desc">Showing multi-dimensional relationships in 2D without confusion.</div>
+                    <div class="tufte-application">→ SysML has deep structure; diagrams are flat</div>
+                </div>
+            </div>
         </section>
 
         <section>
