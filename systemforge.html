@@ -12,85 +12,204 @@
             line-height: 1.6;
             color: #1a1a1a;
             background: #fff;
-            max-width: 860px;
+            max-width: 880px;
             margin: 0 auto;
             padding: 60px 40px;
         }
-        header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #e5e5e5; }
-        header h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.5px; }
-        header p { font-size: 1.05em; color: #4a4a4a; margin-bottom: 6px; }
-        header .meta { font-size: 0.85em; color: #8a8a8a; margin-top: 12px; }
-        section { margin-bottom: 36px; }
+        header { margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid #e5e5e5; }
+        header h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 1em; color: #4a4a4a; margin-bottom: 4px; }
+        header .meta { font-size: 0.85em; color: #8a8a8a; margin-top: 10px; }
+        section { margin-bottom: 32px; }
         .section-title {
             font-size: 0.75em; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: #8a8a8a; margin-bottom: 12px;
+            text-transform: uppercase; color: #8a8a8a; margin-bottom: 10px;
         }
-        section p { margin-bottom: 12px; color: #3a3a3a; }
-        
-        /* Outcomes row */
-        .outcomes-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 20px 0; border: 1px solid #e5e5e5; }
-        .outcome-card { padding: 16px; border-right: 1px solid #e5e5e5; }
-        .outcome-card:last-child { border-right: none; }
-        .outcome-card.principles { background: #f8f9ff; border-bottom: 3px solid #1565c0; }
-        .outcome-card.constraints { background: #f9fdf9; border-bottom: 3px solid #2e7d32; }
-        .outcome-card.patterns { background: #fffaf5; border-bottom: 3px solid #ef6c00; }
-        .outcome-title { font-size: 0.95em; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
-        .outcome-desc { font-size: 0.8em; color: #6b6b6b; line-height: 1.4; }
+        section > p { margin-bottom: 10px; color: #3a3a3a; font-size: 0.95em; }
 
-        /* Example principles */
-        .principles-preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
-        .principle-card { background: #fafafa; border-left: 3px solid #1565c0; padding: 14px; }
-        .principle-name { font-size: 0.9em; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
-        .principle-source { font-size: 0.7em; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .principle-desc { font-size: 0.8em; color: #555; line-height: 1.45; }
-
-        /* Download button */
-        .download-section { background: #f5f7fa; border: 1px solid #e0e4e8; padding: 20px; margin: 24px 0; display: flex; align-items: center; justify-content: space-between; }
-        .download-info { }
-        .download-info strong { font-size: 0.95em; color: #1a1a1a; }
-        .download-info p { font-size: 0.8em; color: #666; margin-top: 4px; }
-        .download-btn {
-            background: #1a1a1a; color: #fff; padding: 10px 20px; text-decoration: none;
-            font-size: 0.85em; font-weight: 500; border-radius: 4px;
+        /* Principles grid - compact 2x5 */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 16px 0;
         }
-        .download-btn:hover { background: #333; }
+        .principle-card {
+            display: flex;
+            gap: 10px;
+            padding: 12px;
+            background: #fafafa;
+            border-left: 3px solid #1565c0;
+        }
+        .principle-card.to-validate { border-left-color: #ef6c00; }
+        .principle-card.product { border-left-color: #7b1fa2; }
+        .principle-card.learnability { border-left-color: #2e7d32; }
+        .principle-num {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #888;
+            min-width: 20px;
+        }
+        .principle-content strong {
+            font-size: 0.85em;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .principle-content p {
+            font-size: 0.75em;
+            color: #555;
+            line-height: 1.4;
+            margin: 0;
+        }
+        .principle-source {
+            font-size: 0.65em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Constraint map - compact */
+        .constraint-compact {
+            margin: 12px 0;
+            border: 1px solid #e5e5e5;
+        }
+        .constraint-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            font-size: 0.8em;
+        }
+        .constraint-row:first-child {
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .constraint-label {
+            padding: 10px 12px;
+            background: #f5f5f5;
+            font-weight: 500;
+            color: #666;
+        }
+        .constraint-items {
+            padding: 10px 12px;
+            color: #3a3a3a;
+        }
+        .constraint-row.design-space .constraint-label {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .constraint-row.design-space .constraint-items {
+            background: #f9fdf9;
+        }
+
+        /* Pattern tags */
+        .patterns-compact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .pattern-tag {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            font-size: 0.8em;
+            color: #444;
+            border-radius: 3px;
+        }
+
+        /* Use case box */
+        .usecase-box {
+            background: #f8f9ff;
+            border: 1px solid #d0d7e8;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .usecase-item {
+            margin-bottom: 12px;
+        }
+        .usecase-item:last-child {
+            margin-bottom: 0;
+        }
+        .usecase-item strong {
+            font-size: 0.85em;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .usecase-item p {
+            font-size: 0.8em;
+            color: #555;
+            margin: 0;
+        }
+        .usecase-item.validation {
+            background: #e8f5e9;
+            margin: 12px -16px -16px -16px;
+            padding: 12px 16px;
+            border-top: 1px solid #c8e6c9;
+        }
+        .usecase-item.validation strong {
+            color: #2e7d32;
+        }
+
+        /* Next steps */
+        .next-steps-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .next-step {
+            padding: 12px;
+            background: #fafafa;
+            border-left: 3px solid #ccc;
+        }
+        .next-step strong {
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .next-step p {
+            font-size: 0.75em;
+            color: #666;
+            margin: 0;
+        }
+        .next-step.validation {
+            border-left-color: #2e7d32;
+            background: #f9fdf9;
+        }
 
         /* Reflection */
-        .reflection { background: #f9f9f9; border: 1px solid #e5e5e5; padding: 16px; margin: 12px 0; }
-        .reflection p { margin-bottom: 0; font-size: 0.9em; }
+        .reflection { background: #f9f9f9; border: 1px solid #e5e5e5; padding: 14px; margin: 10px 0; }
+        .reflection p { margin-bottom: 0; font-size: 0.85em; }
 
         /* Tools */
         .tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .tech-tag { display: inline-block; padding: 5px 10px; background: #f5f5f5; font-size: 0.8em; color: #4a4a4a; }
 
         /* Nav & Footer */
-        nav { display: flex; justify-content: space-between; padding-top: 24px; border-top: 1px solid #e5e5e5; margin-top: 40px; }
+        nav { display: flex; justify-content: space-between; padding-top: 20px; border-top: 1px solid #e5e5e5; margin-top: 32px; }
         nav a { color: #1a1a1a; text-decoration: none; font-size: 0.9em; }
         nav a:hover { text-decoration: underline; }
-        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e5e5; font-size: 0.8em; color: #8a8a8a; }
+        footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e5e5e5; font-size: 0.8em; color: #8a8a8a; }
 
         @media (max-width: 768px) {
             body { padding: 40px 24px; }
-            .outcomes-row { grid-template-columns: 1fr; }
-            .outcome-card { border-right: none; border-bottom: 1px solid #e5e5e5; }
-            .outcome-card:last-child { border-bottom: none; }
-            .principles-preview { grid-template-columns: 1fr; }
-            .download-section { flex-direction: column; gap: 16px; text-align: center; }
+            .principles-grid { grid-template-columns: 1fr; }
+            .constraint-row { grid-template-columns: 1fr; }
+            .constraint-label { border-bottom: 1px solid #e5e5e5; }
+            .next-steps-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>⬠ System Forge · Design Principles</h1>
-        <p>UX foundations for a SysML2 modeling tool — reducing cognitive load in B2B engineering software</p>
+        <p>UX foundations for a SysML2 modeling tool — reducing cognitive load in B2B systems engineering software</p>
         <p class="meta">2025–26 · Collaboration with Cauê Napier (Systems Engineer, SSC)</p>
     </header>
 
     <main>
         <section>
             <h2 class="section-title">Context</h2>
-            <p>System Forge is a model-based systems engineering (MBSE) tool in early development. <strong>Cauê Napier</strong>, systems engineer at the Swedish Space Corporation (SSC), is building it as a side project to make SysML2-based modeling more accessible.</p>
-            <p>At this stage — core architecture taking shape — there's an opportunity to establish design principles before patterns solidify.</p>
+            <p>System Forge is a model-based systems engineering (MBSE) tool in early development. <strong>Cauê Napier</strong>, systems engineer at the Swedish Space Corporation (SSC), is building it as a side project to make SysML2-based modeling more accessible. At this stage — core architecture taking shape — there's an opportunity to establish design principles before patterns solidify.</p>
         </section>
 
         <section>
@@ -100,62 +219,149 @@
         </section>
 
         <section>
-            <h2 class="section-title">Deliverables</h2>
-            <div class="outcomes-row">
-                <div class="outcome-card principles">
-                    <div class="outcome-title">10 Design Principles</div>
-                    <div class="outcome-desc">Synthesized from product vision, UX research, and B2B domain considerations</div>
+            <h2 class="section-title">Design Principles for System Forge</h2>
+            <p>Synthesized from Cauê's product vision, UX research, and B2B domain considerations.</p>
+
+            <div class="principles-grid">
+                <div class="principle-card product">
+                    <div class="principle-num">01</div>
+                    <div class="principle-content">
+                        <strong>One Model, Many Views</strong>
+                        <p>Single source of truth. Diagram, tree, table, text all sync. <span class="principle-source">Ref: Tufte "Escaping Flatland"</span></p>
+                    </div>
                 </div>
-                <div class="outcome-card constraints">
-                    <div class="outcome-title">SysML2 Constraint Map</div>
-                    <div class="outcome-desc">What's specified by standard vs. tool design space</div>
+                <div class="principle-card">
+                    <div class="principle-num">02</div>
+                    <div class="principle-content">
+                        <strong>Consistent Visual Grammar</strong>
+                        <p>Same meaning = same appearance, everywhere. <span class="principle-source">Ref: Bertin; Tufte "Small Multiples"</span></p>
+                    </div>
                 </div>
-                <div class="outcome-card patterns">
-                    <div class="outcome-title">20 UI Pattern Categories</div>
-                    <div class="outcome-desc">Roadmap for component work, linked to principles</div>
+                <div class="principle-card">
+                    <div class="principle-num">03</div>
+                    <div class="principle-content">
+                        <strong>Progressive Disclosure</strong>
+                        <p>Show what the task requires, hide the rest. <span class="principle-source">Ref: NNGroup; Miller's Law</span></p>
+                    </div>
+                </div>
+                <div class="principle-card to-validate">
+                    <div class="principle-num">04</div>
+                    <div class="principle-content">
+                        <strong>Click Anywhere, Land Everywhere</strong>
+                        <p>Selection syncs across views. <span class="principle-source">Ref: Linked views pattern</span></p>
+                    </div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-num">05</div>
+                    <div class="principle-content">
+                        <strong>Context Preservation</strong>
+                        <p>Never "zoom in and get lost." <span class="principle-source">Ref: Tufte "Micro/Macro"; Shneiderman</span></p>
+                    </div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-num">06</div>
+                    <div class="principle-content">
+                        <strong>Type-First Organization</strong>
+                        <p>Group by type, not creation order. <span class="principle-source">Ref: Information architecture</span></p>
+                    </div>
+                </div>
+                <div class="principle-card to-validate">
+                    <div class="principle-num">07</div>
+                    <div class="principle-content">
+                        <strong>Edge Density Management</strong>
+                        <p>Limit or filter edges to reduce noise. <span class="principle-source">Ref: Tufte "Layering"</span></p>
+                    </div>
+                </div>
+                <div class="principle-card product">
+                    <div class="principle-num">08</div>
+                    <div class="principle-content">
+                        <strong>Validation Timing</strong>
+                        <p>Real-time vs. on-demand error checking. <span class="principle-source">Ref: B2B expert workflows</span></p>
+                    </div>
+                </div>
+                <div class="principle-card learnability">
+                    <div class="principle-num">09</div>
+                    <div class="principle-content">
+                        <strong>Safe Exploration</strong>
+                        <p>Generous undo, non-destructive defaults. <span class="principle-source">Ref: Norman's DOET</span></p>
+                    </div>
+                </div>
+                <div class="principle-card learnability">
+                    <div class="principle-num">10</div>
+                    <div class="principle-content">
+                        <strong>Leverage Familiar Patterns</strong>
+                        <p>Build on IDE/CAD conventions. <span class="principle-source">Ref: Jakob's Law</span></p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Example Principles</h2>
-            <p>Three examples showing the range — from product vision to learnability research:</p>
-
-            <div class="principles-preview">
-                <div class="principle-card">
-                    <div class="principle-source">Product Vision</div>
-                    <div class="principle-name">01 · One Model, Many Views</div>
-                    <div class="principle-desc">Single source of truth with synchronized representations. Diagram, tree, table, text all reflect the same model. Graph view is the exception: provides overview, not a clickable navigation mode.</div>
+            <h2 class="section-title">SysML2 Constraint Map</h2>
+            <div class="constraint-compact">
+                <div class="constraint-row">
+                    <div class="constraint-label">Specified by Standard</div>
+                    <div class="constraint-items">Element types · Relationship semantics · Core notation shapes · Compartment contents · Diagram types · Textual syntax</div>
                 </div>
-                <div class="principle-card">
-                    <div class="principle-source">B2B UX Research</div>
-                    <div class="principle-name">03 · Progressive Disclosure</div>
-                    <div class="principle-desc">Show what the current task requires, hide everything else. Complexity is available, never imposed. Ref: Nielsen Norman Group enterprise patterns.</div>
-                </div>
-                <div class="principle-card">
-                    <div class="principle-source">Learnability</div>
-                    <div class="principle-name">09 · Safe Exploration</div>
-                    <div class="principle-desc">Learners need to try things without risk. Generous undo, clear recovery paths, non-destructive defaults. Mistakes are cheap; hesitation is expensive.</div>
-                </div>
-                <div class="principle-card">
-                    <div class="principle-source">To Validate</div>
-                    <div class="principle-name">04 · Click Anywhere, Land Everywhere</div>
-                    <div class="principle-desc">Selecting an element in any view highlights it in all views. Note: May not apply to graph view. At minimum: clear indication of current location.</div>
+                <div class="constraint-row design-space">
+                    <div class="constraint-label">Tool Design Space</div>
+                    <div class="constraint-items">Colors & icons · Layout algorithms · Collapse/expand · Navigation · Search/filter · View switching · Error presentation</div>
                 </div>
             </div>
+        </section>
 
-            <div class="download-section">
-                <div class="download-info">
-                    <strong>Full Deliverables Package</strong>
-                    <p>All 10 principles with sources · SysML2 constraint map · v1→v2 terminology · Tufte foundations · 20 UI patterns</p>
+        <section>
+            <h2 class="section-title">UI Pattern Categories</h2>
+            <div class="patterns-compact">
+                <span class="pattern-tag">Navigation & Zoom</span>
+                <span class="pattern-tag">View Sync</span>
+                <span class="pattern-tag">Search & Filter</span>
+                <span class="pattern-tag">Node Styling</span>
+                <span class="pattern-tag">Edge Routing</span>
+                <span class="pattern-tag">Selection</span>
+                <span class="pattern-tag">Collapse/Expand</span>
+                <span class="pattern-tag">Validation Feedback</span>
+                <span class="pattern-tag">Undo/History</span>
+                <span class="pattern-tag">Layout</span>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Use Case: Graph View</h2>
+            <p>The graph view is the first use case to work through end-to-end — applying principles and validating with experts.</p>
+            
+            <div class="usecase-box">
+                <div class="usecase-item">
+                    <strong>Graph-Specific Considerations</strong>
+                    <p>Overview only (not clickable navigation) · Edge density critical · Context preservation at scale · Type-filtered display</p>
                 </div>
-                <a href="systemforge-deliverables.pdf" class="download-btn">Download PDF</a>
+                <div class="usecase-item">
+                    <strong>Principles Most Relevant</strong>
+                    <p>#01 One Model Many Views · #05 Context Preservation · #07 Edge Density · #02 Consistent Visual Grammar</p>
+                </div>
+                <div class="usecase-item validation">
+                    <strong>Expert Validation</strong>
+                    <p>Review with systems engineers · Test with SysML practitioners · Validate density thresholds · Confirm navigation mental models</p>
+                </div>
             </div>
         </section>
 
         <section>
             <h2 class="section-title">Next Steps</h2>
-            <p><strong>Workflow documentation</strong> — Map common tasks with principles applied. <strong>User testing</strong> — Validate assumptions with practitioners. <strong>UI component library</strong> — Build components that embody principles explicitly.</p>
+            <div class="next-steps-list">
+                <div class="next-step">
+                    <strong>Workflow Documentation</strong>
+                    <p>Map graph tasks with principles applied</p>
+                </div>
+                <div class="next-step validation">
+                    <strong>Expert Validation</strong>
+                    <p>Review with systems engineers and SysML practitioners</p>
+                </div>
+                <div class="next-step">
+                    <strong>User Testing</strong>
+                    <p>Validate assumptions, gather feedback on graph interactions</p>
+                </div>
+            </div>
         </section>
 
         <section>
