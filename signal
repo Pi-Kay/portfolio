@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><title>Signal & Noise: AI Sound Pulse</title></head>
+<body>
+<h1>AI Sound Trends (X posts)</h1>
+<div style="display:flex;gap:10px" id="bars"></div>
+<button onclick="sonify()">▶ Sonify</button>
+
+<script>
+const data = [
+  {label:"MusicGen", val:45},
+  {label:"Voice AI", val:32},
+  {label:"Noise Cancel", val:28},
+  {label:"Sonification", val:18}
+];
+
+const container = document.getElementById('bars');
+data.forEach(d => {
+  const bar = document.createElement('div');
+  bar.style.width = '60px';
+  bar.style.height = d.val + 'px';
+  bar.style.background = '#00bfff';
+  bar.style.display = 'flex';
+  bar.style.alignItems = 'flex-end';
+  bar.style.justifyContent = 'center';
+  bar.style.color = 'white';
+  bar.style.fontSize = '12px';
+  bar.innerHTML = `<div>${d.label}<br>${d.val}</div>`;
+  container.appendChild(bar);
+});
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function sonify() {
+  data.forEach((d,i) => {
+    setTimeout(() => {
+      const osc = audioCtx.createOscillator();
+      osc.frequency.value = 200 + d.val * 8; // map value to pitch
+      osc.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }, i * 300);
+  });
+}
+</script>
+</body></html>
