@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Berlin Air Quality</title>
+  <meta name="description" content="Berlin environmental quality map with sonification - air pollution and noise levels by district and time of day">
+  <title>Berlin Environmental Quality</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
     * {
@@ -23,10 +24,12 @@
 
     header {
       max-width: 900px;
-      margin: 0 auto 2rem;
+      margin: 0 auto 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      flex-wrap: wrap;
+      gap: 1rem;
       border-bottom: 1px solid #e0e0e0;
       padding-bottom: 1rem;
     }
@@ -40,6 +43,65 @@
     .meta {
       font-size: 0.7rem;
       color: #888;
+    }
+
+    /* Mode toggle */
+    .controls {
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mode-toggle {
+      display: flex;
+      border: 1px solid #1a1a1a;
+    }
+
+    .mode-btn {
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .mode-btn:not(.active):hover {
+      background: #f5f5f5;
+    }
+
+    .time-control {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .time-control.hidden {
+      display: none;
+    }
+
+    .time-label {
+      font-size: 0.7rem;
+      color: #888;
+    }
+
+    .time-slider {
+      width: 180px;
+      accent-color: #1a1a1a;
+    }
+
+    .time-value {
+      font-size: 0.8rem;
+      min-width: 50px;
     }
 
     .map-container {
@@ -58,7 +120,7 @@
       fill: none;
       stroke: #1a1a1a;
       stroke-width: 0.8;
-      transition: stroke-width 0.2s ease;
+      transition: stroke-width 0.2s;
     }
 
     .district:hover {
@@ -85,6 +147,7 @@
       opacity: 0;
       transition: opacity 0.15s ease;
       z-index: 100;
+      max-width: 220px;
     }
 
     .tooltip.visible {
@@ -96,8 +159,8 @@
       margin-bottom: 0.5rem;
     }
 
-    .tooltip-aqi {
-      font-size: 1.5rem;
+    .tooltip-value {
+      font-size: 1.2rem;
       margin-bottom: 0.25rem;
     }
 
@@ -108,6 +171,13 @@
       letter-spacing: 0.1em;
     }
 
+    .tooltip-note {
+      margin-top: 0.5rem;
+      font-size: 0.6rem;
+      color: #666;
+      line-height: 1.4;
+    }
+
     /* Legend */
     .legend {
       max-width: 900px;
@@ -116,9 +186,23 @@
       border-top: 1px solid #e0e0e0;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1.5rem;
       font-size: 0.65rem;
       color: #888;
+    }
+
+    .legend-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .legend-title {
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 0.25rem;
     }
 
     .legend-scale {
@@ -144,7 +228,7 @@
     .legend-dot.medium { opacity: 0.5; }
     .legend-dot.dense { opacity: 0.85; }
 
-    .sound-hint {
+    .sound-info {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -153,14 +237,6 @@
     .sound-icon {
       width: 14px;
       height: 14px;
-    }
-
-    footer {
-      max-width: 900px;
-      margin: 2rem auto 0;
-      font-size: 0.6rem;
-      color: #aaa;
-      text-align: center;
     }
 
     /* Glossary */
@@ -179,7 +255,7 @@
       color: #1a1a1a;
     }
 
-    .glossary-items {
+    .glossary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 0.5rem 2rem;
@@ -193,90 +269,123 @@
       font-weight: 400;
       color: #1a1a1a;
     }
+
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      font-size: 0.6rem;
+      color: #aaa;
+      text-align: center;
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .controls { flex-direction: column; align-items: flex-start; }
+      .time-slider { width: 140px; }
+    }
   </style>
 </head>
 <body>
+  <a href="#main" class="sr-only">Skip to main content</a>
+
   <header>
-    <h1>Berlin Air Quality</h1>
+    <h1>Berlin Environmental Quality</h1>
     <span class="meta" id="timestamp"></span>
   </header>
 
-  <div class="map-container">
-    <svg class="map-svg" viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Berlin districts with air quality shown as dot density">
-      <!-- Berlin district outlines -->
-      <g class="districts">
-        <!-- Reinickendorf -->
-        <path class="district" data-district="reinickendorf" d="M210,45 L330,38 L360,80 L345,135 L285,150 L240,120 L195,85 Z"/>
-        
-        <!-- Pankow -->
-        <path class="district" data-district="pankow" d="M360,80 L465,68 L510,120 L480,195 L405,210 L345,180 L345,135 Z"/>
-        
-        <!-- Spandau -->
-        <path class="district" data-district="spandau" d="M60,120 L165,105 L200,155 L185,250 L115,265 L50,210 Z"/>
-        
-        <!-- Charlottenburg-Wilmersdorf -->
-        <path class="district" data-district="charlottenburg" d="M165,155 L245,140 L275,195 L260,275 L185,290 L165,245 Z"/>
-        
-        <!-- Mitte -->
-        <path class="district" data-district="mitte" d="M275,145 L350,160 L375,210 L350,265 L290,280 L265,225 Z"/>
-        
-        <!-- Friedrichshain-Kreuzberg -->
-        <path class="district" data-district="friedrichshain" d="M350,205 L410,195 L450,240 L435,315 L360,330 L335,275 Z"/>
-        
-        <!-- Lichtenberg -->
-        <path class="district" data-district="lichtenberg" d="M450,195 L525,180 L560,245 L530,325 L465,340 L435,285 Z"/>
-        
-        <!-- Marzahn-Hellersdorf -->
-        <path class="district" data-district="marzahn" d="M525,180 L585,165 L595,240 L565,330 L530,325 L545,235 Z"/>
-        
-        <!-- Steglitz-Zehlendorf -->
-        <path class="district" data-district="steglitz" d="M115,290 L215,305 L240,375 L195,435 L90,420 L65,345 Z"/>
-        
-        <!-- Tempelhof-Schöneberg -->
-        <path class="district" data-district="tempelhof" d="M215,300 L310,285 L345,350 L320,420 L245,435 L225,375 Z"/>
-        
-        <!-- Neukölln -->
-        <path class="district" data-district="neukoelln" d="M325,315 L420,300 L465,365 L440,435 L350,450 L310,385 Z"/>
-        
-        <!-- Treptow-Köpenick -->
-        <path class="district" data-district="treptow" d="M440,340 L545,325 L585,395 L560,470 L455,460 L425,400 Z"/>
-      </g>
+  <div class="controls" role="tablist" aria-label="Data mode selection">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-air" role="tab" aria-selected="true" aria-controls="panel-map">
+        Air Quality
+      </button>
+      <button class="mode-btn" id="btn-noise" role="tab" aria-selected="false" aria-controls="panel-map">
+        Noise Levels
+      </button>
+    </div>
 
-      <!-- Pollution dots will be generated by JavaScript -->
-      <g class="pollution-dots" id="pollution-dots"></g>
-    </svg>
+    <div class="time-control hidden" id="time-control">
+      <span class="time-label">Time of day:</span>
+      <input type="range" class="time-slider" id="time-slider" min="0" max="23" value="12" aria-label="Hour of day">
+      <span class="time-value" id="time-value">12:00</span>
+    </div>
   </div>
 
+  <main id="main">
+    <div class="map-container" id="panel-map" role="tabpanel">
+      <svg class="map-svg" viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Berlin districts with environmental data shown as dot density">
+        <g class="districts">
+          <path class="district" data-district="reinickendorf" d="M210,45 L330,38 L360,80 L345,135 L285,150 L240,120 L195,85 Z"/>
+          <path class="district" data-district="pankow" d="M360,80 L465,68 L510,120 L480,195 L405,210 L345,180 L345,135 Z"/>
+          <path class="district" data-district="spandau" d="M60,120 L165,105 L200,155 L185,250 L115,265 L50,210 Z"/>
+          <path class="district" data-district="charlottenburg" d="M165,155 L245,140 L275,195 L260,275 L185,290 L165,245 Z"/>
+          <path class="district" data-district="mitte" d="M275,145 L350,160 L375,210 L350,265 L290,280 L265,225 Z"/>
+          <path class="district" data-district="friedrichshain" d="M350,205 L410,195 L450,240 L435,315 L360,330 L335,275 Z"/>
+          <path class="district" data-district="lichtenberg" d="M450,195 L525,180 L560,245 L530,325 L465,340 L435,285 Z"/>
+          <path class="district" data-district="marzahn" d="M525,180 L585,165 L595,240 L565,330 L530,325 L545,235 Z"/>
+          <path class="district" data-district="steglitz" d="M115,290 L215,305 L240,375 L195,435 L90,420 L65,345 Z"/>
+          <path class="district" data-district="tempelhof" d="M215,300 L310,285 L345,350 L320,420 L245,435 L225,375 Z"/>
+          <path class="district" data-district="neukoelln" d="M325,315 L420,300 L465,365 L440,435 L350,450 L310,385 Z"/>
+          <path class="district" data-district="treptow" d="M440,340 L545,325 L585,395 L560,470 L455,460 L425,400 Z"/>
+        </g>
+        <g class="pollution-dots" id="pollution-dots"></g>
+      </svg>
+    </div>
+  </main>
+
   <div class="legend">
-    <div class="legend-scale">
-      <span>Dot density indicates pollution level:</span>
-      <div class="legend-dots">
-        <div class="legend-dot sparse"></div>
-        <span>Good</span>
-      </div>
-      <div class="legend-dots">
-        <div class="legend-dot medium"></div>
-        <span>Moderate</span>
-      </div>
-      <div class="legend-dots">
-        <div class="legend-dot dense"></div>
-        <span>Poor</span>
+    <div class="legend-section">
+      <div class="legend-title">Dot density</div>
+      <div class="legend-scale">
+        <div class="legend-dots">
+          <div class="legend-dot sparse"></div>
+          <span>Low</span>
+        </div>
+        <div class="legend-dots">
+          <div class="legend-dot medium"></div>
+          <span>Medium</span>
+        </div>
+        <div class="legend-dots">
+          <div class="legend-dot dense"></div>
+          <span>High</span>
+        </div>
       </div>
     </div>
-    <div class="sound-hint">
-      <svg class="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-      </svg>
-      <span>Hover dots for sound feedback</span>
+
+    <div class="legend-section">
+      <div class="legend-title">Sonification</div>
+      <div class="sound-info">
+        <svg class="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <span id="sound-description">Hover dots: higher pitch = better air</span>
+      </div>
+    </div>
+
+    <div class="legend-section">
+      <div class="legend-title">Regulatory thresholds</div>
+      <div id="threshold-info">
+        <span>WHO guideline: PM2.5 ≤ 15 µg/m³</span>
+      </div>
     </div>
   </div>
 
   <div class="glossary">
     <div class="glossary-title">Understanding the data</div>
-    <div class="glossary-items">
-      <div class="glossary-item"><span class="glossary-term">AQI</span> — Air Quality Index, 0-500 scale</div>
+    <div class="glossary-grid" id="glossary-content">
+      <div class="glossary-item"><span class="glossary-term">AQI</span> — Air Quality Index, 0–500 scale</div>
       <div class="glossary-item"><span class="glossary-term">PM 2.5</span> — Fine particles under 2.5 micrometers</div>
       <div class="glossary-item"><span class="glossary-term">NO₂</span> — Nitrogen dioxide from traffic</div>
       <div class="glossary-item"><span class="glossary-term">µg/m³</span> — Micrograms per cubic meter</div>
@@ -284,90 +393,183 @@
   </div>
 
   <footer>
-    Data: IQAir, AQICN, Berlin Senate
+    Data: Berlin Senate, IQAir, AQICN, EU Strategic Noise Maps 2022
   </footer>
 
-  <div class="tooltip" id="tooltip">
+  <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true">
     <div class="tooltip-name" id="tooltip-name"></div>
-    <div class="tooltip-aqi" id="tooltip-aqi"></div>
-    <div class="tooltip-label">AQI</div>
+    <div class="tooltip-value" id="tooltip-value"></div>
+    <div class="tooltip-label" id="tooltip-unit"></div>
+    <div class="tooltip-note" id="tooltip-note"></div>
   </div>
 
   <script>
-    // District data with centroids and pollution levels
+    // === DATA ===
     const districts = {
-      reinickendorf: { name: 'Reinickendorf', aqi: 28, cx: 280, cy: 95, radius: 45 },
-      pankow: { name: 'Pankow', aqi: 32, cx: 420, cy: 140, radius: 55 },
-      spandau: { name: 'Spandau', aqi: 26, cx: 125, cy: 180, radius: 50 },
-      charlottenburg: { name: 'Charlottenburg-Wilmersdorf', aqi: 52, cx: 220, cy: 210, radius: 45 },
-      mitte: { name: 'Mitte', aqi: 58, cx: 315, cy: 210, radius: 40 },
-      friedrichshain: { name: 'Friedrichshain-Kreuzberg', aqi: 68, cx: 395, cy: 265, radius: 40 },
-      lichtenberg: { name: 'Lichtenberg', aqi: 30, cx: 490, cy: 260, radius: 45 },
-      marzahn: { name: 'Marzahn-Hellersdorf', aqi: 24, cx: 555, cy: 250, radius: 35 },
-      steglitz: { name: 'Steglitz-Zehlendorf', aqi: 22, cx: 155, cy: 365, radius: 50 },
-      tempelhof: { name: 'Tempelhof-Schöneberg', aqi: 54, cx: 275, cy: 360, radius: 45 },
-      neukoelln: { name: 'Neukölln', aqi: 56, cx: 385, cy: 375, radius: 45 },
-      treptow: { name: 'Treptow-Köpenick', aqi: 20, cx: 500, cy: 395, radius: 55 }
+      reinickendorf: { name: 'Reinickendorf', cx: 280, cy: 95, radius: 45 },
+      pankow: { name: 'Pankow', cx: 420, cy: 140, radius: 55 },
+      spandau: { name: 'Spandau', cx: 125, cy: 180, radius: 50 },
+      charlottenburg: { name: 'Charlottenburg-Wilmersdorf', cx: 220, cy: 210, radius: 45 },
+      mitte: { name: 'Mitte', cx: 315, cy: 210, radius: 40 },
+      friedrichshain: { name: 'Friedrichshain-Kreuzberg', cx: 395, cy: 265, radius: 40 },
+      lichtenberg: { name: 'Lichtenberg', cx: 490, cy: 260, radius: 45 },
+      marzahn: { name: 'Marzahn-Hellersdorf', cx: 555, cy: 250, radius: 35 },
+      steglitz: { name: 'Steglitz-Zehlendorf', cx: 155, cy: 365, radius: 50 },
+      tempelhof: { name: 'Tempelhof-Schöneberg', cx: 275, cy: 360, radius: 45 },
+      neukoelln: { name: 'Neukölln', cx: 385, cy: 375, radius: 45 },
+      treptow: { name: 'Treptow-Köpenick', cx: 500, cy: 395, radius: 55 }
     };
 
-    // Audio context for sonification
+    // Air quality data (AQI)
+    const airData = {
+      reinickendorf: 28, pankow: 32, spandau: 26, charlottenburg: 52,
+      mitte: 58, friedrichshain: 68, lichtenberg: 30, marzahn: 24,
+      steglitz: 22, tempelhof: 54, neukoelln: 56, treptow: 20
+    };
+
+    // Noise data by hour (dB LDEN estimates based on Berlin strategic noise maps)
+    // Pattern: quietest at 4am, peaks at 8am and 6pm (rush hours)
+    function getNoiseByHour(district, hour) {
+      const baseNoise = {
+        reinickendorf: 52, pankow: 54, spandau: 48, charlottenburg: 62,
+        mitte: 68, friedrichshain: 72, lichtenberg: 55, marzahn: 45,
+        steglitz: 50, tempelhof: 64, neukoelln: 66, treptow: 42
+      };
+      
+      // Time-based modulation (rush hours, night quiet)
+      const hourMod = [
+        -12, -14, -15, -16, -15, -10, // 0-5: night
+        -5, 0, 8, 6, 4, 3,            // 6-11: morning rush then calm
+        2, 2, 3, 4, 6, 10,            // 12-17: afternoon buildup
+        8, 4, 0, -4, -8, -10          // 18-23: evening decline
+      ];
+      
+      return Math.max(35, baseNoise[district] + hourMod[hour]);
+    }
+
+    // === STATE ===
+    let currentMode = 'air'; // 'air' or 'noise'
+    let currentHour = 12;
     let audioCtx = null;
 
+    // === AUDIO ===
     function initAudio() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    // Generate sound based on AQI
-    function playTone(aqi) {
+    // Air quality sonification: good = pleasant high tone, bad = harsh low tone
+    function playAirTone(aqi) {
       if (!audioCtx) return;
       
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      
-      // Map AQI to sound characteristics
-      // Good (0-50): High, pure sine wave, pleasant
-      // Moderate (51-100): Mid-range, slight harshness
-      // Poor (101+): Low, harsh, dissonant
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
       
       if (aqi <= 35) {
-        // Pleasant: high pitch, pure sine
-        oscillator.type = 'sine';
-        oscillator.frequency.value = 800 - (aqi * 5); // 800-625 Hz
-        gainNode.gain.value = 0.08;
+        osc.type = 'sine';
+        osc.frequency.value = 800 - (aqi * 5);
+        gain.gain.value = 0.08;
       } else if (aqi <= 55) {
-        // Moderate: mid pitch, triangle wave
-        oscillator.type = 'triangle';
-        oscillator.frequency.value = 500 - ((aqi - 35) * 8); // 500-340 Hz
-        gainNode.gain.value = 0.1;
+        osc.type = 'triangle';
+        osc.frequency.value = 500 - ((aqi - 35) * 8);
+        gain.gain.value = 0.1;
       } else {
-        // Poor: low pitch, sawtooth (harsh)
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.value = 280 - ((aqi - 55) * 3); // 280-240 Hz
-        gainNode.gain.value = 0.06;
+        osc.type = 'sawtooth';
+        osc.frequency.value = 280 - ((aqi - 55) * 3);
+        gain.gain.value = 0.06;
       }
       
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
       
-      // Quick attack, short decay
-      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(gainNode.gain.value, audioCtx.currentTime + 0.02);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(gain.gain.value, audioCtx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
       
-      oscillator.start(audioCtx.currentTime);
-      oscillator.stop(audioCtx.currentTime + 0.15);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    // Generate random points within a circle (for dot placement)
+    // Noise level sonification: simulates actual noise character
+    // Quiet areas = soft wind/ambience, loud areas = traffic-like harsh noise
+    function playNoiseTone(db) {
+      if (!audioCtx) return;
+      
+      const duration = 0.2;
+      const now = audioCtx.currentTime;
+      
+      if (db <= 50) {
+        // Quiet: soft sine wave, gentle
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 300 + Math.random() * 100;
+        gain.gain.value = 0.04;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.04, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        osc.start(now);
+        osc.stop(now + duration);
+      } else if (db <= 60) {
+        // Moderate: mixed tone, some edge
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc1.type = 'triangle';
+        osc2.type = 'square';
+        osc1.frequency.value = 200;
+        osc2.frequency.value = 180;
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.05, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + duration);
+        osc2.stop(now + duration);
+      } else {
+        // Loud: harsh noise, multiple dissonant frequencies (traffic simulation)
+        const bufferSize = audioCtx.sampleRate * duration;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        // Pink-ish noise filtered to be traffic-like
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * 0.3;
+        }
+        
+        const noise = audioCtx.createBufferSource();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+        
+        noise.buffer = buffer;
+        filter.type = 'lowpass';
+        filter.frequency.value = 400 + (db - 60) * 20; // louder = more high freq
+        
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.08, now + 0.02);
+        gain.gain.linearRampToValueAtTime(0.06, now + duration * 0.7);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        
+        noise.start(now);
+        noise.stop(now + duration);
+      }
+    }
+
+    // === DOT GENERATION ===
     function generateDotsInArea(cx, cy, radius, count) {
       const dots = [];
       for (let i = 0; i < count; i++) {
-        // Use rejection sampling for uniform distribution
         let x, y;
         do {
           x = cx + (Math.random() - 0.5) * radius * 2;
@@ -378,31 +580,47 @@
       return dots;
     }
 
-    // Calculate dot count based on AQI (more dots = more pollution)
-    function getDotCount(aqi) {
-      if (aqi <= 30) return Math.floor(aqi / 3) + 5; // 5-15 dots
-      if (aqi <= 50) return Math.floor(aqi / 2); // 15-25 dots
-      return Math.floor(aqi / 1.5); // 25-45+ dots
+    function getDotCountAir(aqi) {
+      if (aqi <= 30) return Math.floor(aqi / 3) + 5;
+      if (aqi <= 50) return Math.floor(aqi / 2);
+      return Math.floor(aqi / 1.5);
     }
 
-    // Calculate opacity based on AQI (higher = darker)
-    function getDotOpacity(aqi) {
-      const base = 0.15;
-      const scale = Math.min(aqi / 100, 1);
-      return base + (scale * 0.6); // 0.15 to 0.75
+    function getDotCountNoise(db) {
+      if (db <= 50) return 8;
+      if (db <= 60) return 15;
+      return Math.floor((db - 40) / 1.2);
     }
 
-    // Create dots for all districts
-    function createDots() {
+    function getOpacityAir(aqi) {
+      return 0.15 + (Math.min(aqi / 100, 1) * 0.6);
+    }
+
+    function getOpacityNoise(db) {
+      return 0.15 + (Math.min((db - 35) / 50, 1) * 0.65);
+    }
+
+    // === RENDERING ===
+    function renderDots() {
       const container = document.getElementById('pollution-dots');
       container.innerHTML = '';
 
-      Object.entries(districts).forEach(([id, data]) => {
-        const dotCount = getDotCount(data.aqi);
-        const opacity = getDotOpacity(data.aqi);
-        const dots = generateDotsInArea(data.cx, data.cy, data.radius, dotCount);
+      Object.entries(districts).forEach(([id, geo]) => {
+        let value, dotCount, opacity;
+        
+        if (currentMode === 'air') {
+          value = airData[id];
+          dotCount = getDotCountAir(value);
+          opacity = getOpacityAir(value);
+        } else {
+          value = getNoiseByHour(id, currentHour);
+          dotCount = getDotCountNoise(value);
+          opacity = getOpacityNoise(value);
+        }
 
-        dots.forEach((dot, i) => {
+        const dots = generateDotsInArea(geo.cx, geo.cy, geo.radius, dotCount);
+
+        dots.forEach((dot) => {
           const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
           circle.setAttribute('cx', dot.x);
           circle.setAttribute('cy', dot.y);
@@ -411,30 +629,66 @@
           circle.setAttribute('opacity', opacity);
           circle.setAttribute('class', 'pollution-dot');
           circle.setAttribute('data-district', id);
-          circle.setAttribute('data-aqi', data.aqi);
-          
-          // Sound on hover
+          circle.setAttribute('data-value', value);
+          circle.setAttribute('tabindex', '0');
+          circle.setAttribute('role', 'button');
+          circle.setAttribute('aria-label', `${geo.name}: ${value} ${currentMode === 'air' ? 'AQI' : 'dB'}`);
+
           circle.addEventListener('mouseenter', (e) => {
             initAudio();
-            playTone(data.aqi);
-            showTooltip(e, data);
+            if (currentMode === 'air') {
+              playAirTone(value);
+            } else {
+              playNoiseTone(value);
+            }
+            showTooltip(e, id, value);
           });
           
           circle.addEventListener('mousemove', moveTooltip);
           circle.addEventListener('mouseleave', hideTooltip);
           
+          circle.addEventListener('focus', (e) => {
+            initAudio();
+            if (currentMode === 'air') playAirTone(value);
+            else playNoiseTone(value);
+            showTooltip(e, id, value);
+          });
+          circle.addEventListener('blur', hideTooltip);
+
           container.appendChild(circle);
         });
       });
     }
 
-    // Tooltip functions
+    // === TOOLTIP ===
     const tooltip = document.getElementById('tooltip');
 
-    function showTooltip(e, data) {
-      document.getElementById('tooltip-name').textContent = data.name;
-      document.getElementById('tooltip-aqi').textContent = data.aqi;
+    function showTooltip(e, districtId, value) {
+      const geo = districts[districtId];
+      document.getElementById('tooltip-name').textContent = geo.name;
+      
+      if (currentMode === 'air') {
+        document.getElementById('tooltip-value').textContent = value;
+        document.getElementById('tooltip-unit').textContent = 'AQI (Air Quality Index)';
+        
+        let note = '';
+        if (value <= 50) note = 'Good — safe for outdoor activities';
+        else if (value <= 100) note = 'Moderate — sensitive groups may be affected';
+        else note = 'Unhealthy — limit outdoor exposure';
+        document.getElementById('tooltip-note').textContent = note;
+      } else {
+        document.getElementById('tooltip-value').textContent = value + ' dB';
+        document.getElementById('tooltip-unit').textContent = `Noise level at ${currentHour}:00`;
+        
+        let note = '';
+        if (value <= 50) note = 'Quiet — below WHO guidelines (53 dB)';
+        else if (value <= 65) note = 'Moderate — may cause annoyance';
+        else note = 'Loud — exceeds EU night limit (50 dB) and day limit (65 dB)';
+        document.getElementById('tooltip-note').textContent = note;
+      }
+
       tooltip.classList.add('visible');
+      tooltip.setAttribute('aria-hidden', 'false');
     }
 
     function moveTooltip(e) {
@@ -444,9 +698,53 @@
 
     function hideTooltip() {
       tooltip.classList.remove('visible');
+      tooltip.setAttribute('aria-hidden', 'true');
     }
 
-    // Update timestamp
+    // === UI UPDATES ===
+    function updateMode(mode) {
+      currentMode = mode;
+      
+      document.getElementById('btn-air').classList.toggle('active', mode === 'air');
+      document.getElementById('btn-noise').classList.toggle('active', mode === 'noise');
+      document.getElementById('btn-air').setAttribute('aria-selected', mode === 'air');
+      document.getElementById('btn-noise').setAttribute('aria-selected', mode === 'noise');
+      
+      document.getElementById('time-control').classList.toggle('hidden', mode === 'air');
+      
+      // Update legend
+      if (mode === 'air') {
+        document.getElementById('sound-description').textContent = 'Hover dots: higher pitch = better air';
+        document.getElementById('threshold-info').innerHTML = '<span>WHO guideline: PM2.5 ≤ 15 µg/m³</span>';
+        document.getElementById('glossary-content').innerHTML = `
+          <div class="glossary-item"><span class="glossary-term">AQI</span> — Air Quality Index, 0–500 scale</div>
+          <div class="glossary-item"><span class="glossary-term">PM 2.5</span> — Fine particles under 2.5 micrometers</div>
+          <div class="glossary-item"><span class="glossary-term">NO₂</span> — Nitrogen dioxide from traffic</div>
+          <div class="glossary-item"><span class="glossary-term">µg/m³</span> — Micrograms per cubic meter</div>
+        `;
+      } else {
+        document.getElementById('sound-description').textContent = 'Hover dots: simulates actual noise character';
+        document.getElementById('threshold-info').innerHTML = `
+          <span>WHO: 53 dB day / EU: 65 dB day, 50 dB night</span>
+        `;
+        document.getElementById('glossary-content').innerHTML = `
+          <div class="glossary-item"><span class="glossary-term">dB</span> — Decibels, logarithmic sound intensity scale</div>
+          <div class="glossary-item"><span class="glossary-term">LDEN</span> — Day-evening-night weighted average</div>
+          <div class="glossary-item"><span class="glossary-term">LN</span> — Night noise index (22:00–06:00)</div>
+          <div class="glossary-item"><span class="glossary-term">Traffic noise</span> — Primary source in Berlin</div>
+        `;
+      }
+      
+      renderDots();
+    }
+
+    function updateTime(hour) {
+      currentHour = hour;
+      document.getElementById('time-value').textContent = hour.toString().padStart(2, '0') + ':00';
+      renderDots();
+    }
+
+    // === INIT ===
     function updateTimestamp() {
       const now = new Date();
       document.getElementById('timestamp').textContent = 
@@ -454,13 +752,15 @@
         ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // Initialize
-    updateTimestamp();
-    createDots();
+    document.getElementById('btn-air').addEventListener('click', () => updateMode('air'));
+    document.getElementById('btn-noise').addEventListener('click', () => updateMode('noise'));
+    document.getElementById('time-slider').addEventListener('input', (e) => updateTime(parseInt(e.target.value)));
 
-    // Enable audio on first interaction
     document.body.addEventListener('click', initAudio, { once: true });
     document.body.addEventListener('touchstart', initAudio, { once: true });
+
+    updateTimestamp();
+    renderDots();
   </script>
 </body>
 </html>
