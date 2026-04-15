@@ -1,43 +1,57 @@
 <!DOCTYPE html>
-<html><head><title>Signal & Noise: AI Sound Pulse</title></head>
-<body>
-<h1>AI Sound Trends (X posts)</h1>
-<div style="display:flex;gap:10px" id="bars"></div>
-<button onclick="sonify()">▶ Sonify</button>
+<html><head><title>Berlin Sound Map • Sonifier</title></head>
+<body style="font-family:sans-serif; margin:20px; background:#f8f8f8">
+<h1>Berlin Position Data — Noise Levels</h1>
+<svg id="map" width="620" height="420" style="background:#e0f0ff; border:3px solid #333; display:block;">
+  <!-- Simple Berlin map background -->
+  <rect x="60" y="60" width="500" height="300" fill="#c8e0ff" stroke="#333" stroke-width="8"/>
+  <text x="310" y="40" text-anchor="middle" font-size="24" fill="#222">BERLIN</text>
+  
+  <!-- Data points -->
+  <!-- Mitte -->
+  <circle cx="310" cy="160" r="18" fill="#ff0066" stroke="#fff" stroke-width="4"/>
+  <text x="310" y="155" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Mitte<br>68 dB</text>
+  
+  <!-- Kreuzberg -->
+  <circle cx="420" cy="240" r="18" fill="#ff0066" stroke="#fff" stroke-width="4"/>
+  <text x="420" y="235" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Kreuzberg<br>75 dB</text>
+  
+  <!-- Prenzlauer Berg -->
+  <circle cx="280" cy="100" r="18" fill="#00cc88" stroke="#fff" stroke-width="4"/>
+  <text x="280" y="95" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Prenzlauer<br>62 dB</text>
+  
+  <!-- Charlottenburg -->
+  <circle cx="140" cy="180" r="18" fill="#00cc88" stroke="#fff" stroke-width="4"/>
+  <text x="140" y="175" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Charlottenburg<br>64 dB</text>
+  
+  <!-- Neukölln -->
+  <circle cx="380" cy="290" r="18" fill="#ffaa00" stroke="#fff" stroke-width="4"/>
+  <text x="380" y="285" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Neukölln<br>71 dB</text>
+</svg>
+
+<button onclick="sonifyAll()" style="margin-top:15px; padding:12px 24px; font-size:18px; background:#ff0066; color:white; border:none; border-radius:8px; cursor:pointer">▶ Sonify Berlin Map</button>
 
 <script>
-const data = [
-  {label:"MusicGen", val:45},
-  {label:"Voice AI", val:32},
-  {label:"Noise Cancel", val:28},
-  {label:"Sonification", val:18}
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const points = [
+  {name:"Mitte", val:68},
+  {name:"Kreuzberg", val:75},
+  {name:"Prenzlauer Berg", val:62},
+  {name:"Charlottenburg", val:64},
+  {name:"Neukölln", val:71}
 ];
 
-const container = document.getElementById('bars');
-data.forEach(d => {
-  const bar = document.createElement('div');
-  bar.style.width = '60px';
-  bar.style.height = d.val + 'px';
-  bar.style.background = '#00bfff';
-  bar.style.display = 'flex';
-  bar.style.alignItems = 'flex-end';
-  bar.style.justifyContent = 'center';
-  bar.style.color = 'white';
-  bar.style.fontSize = '12px';
-  bar.innerHTML = `<div>${d.label}<br>${d.val}</div>`;
-  container.appendChild(bar);
-});
-
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function sonify() {
-  data.forEach((d,i) => {
+function sonifyAll() {
+  points.forEach((p, i) => {
     setTimeout(() => {
-      const osc = audioCtx.createOscillator();
-      osc.frequency.value = 200 + d.val * 8; // map value to pitch
-      osc.connect(audioCtx.destination);
+      const osc = ctx.createOscillator();
+      osc.frequency.value = 180 + p.val * 6;   // pitch = value
+      const gain = ctx.createGain();
+      gain.gain.value = 0.6;
+      osc.connect(gain).connect(ctx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.3);
-    }, i * 300);
+      osc.stop(ctx.currentTime + 0.45);
+    }, i * 420);
   });
 }
 </script>
