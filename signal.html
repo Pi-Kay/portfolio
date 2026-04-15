@@ -1,425 +1,466 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI compliance tools for music creators. Interactive navigator app and open-source documentation covering EU AI Act, GDPR, and artist rights.">
-    <title>Navigator · Sound AI Regulations App & Guide — Petra Kühnle</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* ===== PAGE-SPECIFIC STYLES ===== */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berlin Air Quality</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Two deliverables side by side */
-        .deliverables-intro {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 24px 0 40px;
-        }
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      background: #fff;
+      color: #1a1a1a;
+      min-height: 100vh;
+      padding: 2rem;
+    }
 
-        .deliverable-card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            padding: 24px;
-            transition: border-color 0.2s;
-        }
+    header {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 1rem;
+    }
 
-        .deliverable-card:hover {
-            border-color: #1a1a1a;
-        }
+    h1 {
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
 
-        .deliverable-label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #8a8a8a;
-            margin-bottom: 8px;
-        }
+    .meta {
+      font-size: 0.7rem;
+      color: #888;
+    }
 
-        .deliverable-title {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
+    .map-container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-        .deliverable-desc {
-            font-size: 0.85em;
-            color: #6b6b6b;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
+    .map-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-        .deliverable-link {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: background 0.2s;
-        }
+    .district {
+      fill: none;
+      stroke: #1a1a1a;
+      stroke-width: 0.8;
+      transition: stroke-width 0.2s ease;
+    }
 
-        .deliverable-link:hover {
-            background: #3d3d3d;
-            color: #fff;
-        }
+    .district:hover {
+      stroke-width: 1.5;
+    }
 
-        .deliverable-link.outline {
-            background: transparent;
-            color: #1a1a1a;
-            border: 1px solid #1a1a1a;
-        }
+    .pollution-dot {
+      cursor: pointer;
+      transition: r 0.15s ease, opacity 0.15s ease;
+    }
 
-        .deliverable-link.outline:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
+    .pollution-dot:hover {
+      opacity: 1 !important;
+    }
 
-        /* Force Launch App visible without hover */
-        .deliverable-card .deliverable-link {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: none !important;
-        }
+    /* Tooltip */
+    .tooltip {
+      position: fixed;
+      background: #fff;
+      border: 1px solid #1a1a1a;
+      padding: 0.75rem 1rem;
+      font-size: 0.7rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 100;
+    }
 
-        /* Video container */
-        .video-container {
-            width: 100%;
-            border: 1px solid #e5e5e5;
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
+    .tooltip.visible {
+      opacity: 1;
+    }
 
-        .video-container video {
-            width: 100%;
-            display: block;
-        }
+    .tooltip-name {
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
 
-        /* Document preview */
-        .doc-preview {
-            display: flex;
-            gap: 24px;
-            margin: 20px 0;
-            padding: 24px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            align-items: flex-start;
-        }
+    .tooltip-aqi {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
 
-        .doc-thumbnail {
-            flex-shrink: 0;
-            width: 160px;
-            height: 210px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .tooltip-label {
+      font-size: 0.6rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
-        .doc-thumbnail:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
-        }
+    /* Legend */
+    .legend {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: #888;
+    }
 
-        .doc-thumbnail embed {
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+    .legend-scale {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-        .doc-info {
-            flex: 1;
-        }
+    .legend-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .doc-info-title {
-            font-size: 1em;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
+    .legend-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #1a1a1a;
+    }
 
-        .doc-info-meta {
-            font-size: 0.85em;
-            color: #6b6b6b;
-            margin-bottom: 16px;
-        }
+    .legend-dot.sparse { opacity: 0.2; }
+    .legend-dot.medium { opacity: 0.5; }
+    .legend-dot.dense { opacity: 0.85; }
 
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            background: #1a1a1a;
-            border: 1px solid #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
+    .sound-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .btn:hover {
-            background: #3d3d3d;
-            border-color: #3d3d3d;
-            color: #fff;
-        }
+    .sound-icon {
+      width: 14px;
+      height: 14px;
+    }
 
-        .btn-outline {
-            background: transparent;
-            color: #1a1a1a;
-        }
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      font-size: 0.6rem;
+      color: #aaa;
+      text-align: center;
+    }
 
-        .btn-outline:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
+    /* Glossary */
+    .glossary {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.65rem;
+      color: #666;
+    }
 
-        /* Links section */
-        .doc-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 16px 0;
-        }
+    .glossary-title {
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      color: #1a1a1a;
+    }
 
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
-            padding: 20px;
-            margin: 20px 0;
-        }
+    .glossary-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.5rem 2rem;
+    }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .deliverables-intro {
-                grid-template-columns: 1fr;
-            }
+    .glossary-item {
+      line-height: 1.5;
+    }
 
-            .doc-preview {
-                flex-direction: column;
-            }
-
-            .doc-thumbnail {
-                width: 100%;
-                max-width: 200px;
-            }
-        }
-    </style>
+    .glossary-term {
+      font-weight: 400;
+      color: #1a1a1a;
+    }
+  </style>
 </head>
-<body class="project">
-    <header>
-        <h1>⬡ Navigator · Sound AI Regulations App & Guide</h1>
-        <p>Tools helping artists, labels, and music-tech companies navigate AI regulations</p>
-        <p class="meta">2025–26 · EU AI Act, GDPR, European Accessibility Act · Music, soundscapes, sound design</p>
-    </header>
+<body>
+  <header>
+    <h1>Berlin Air Quality</h1>
+    <span class="meta" id="timestamp"></span>
+  </header>
 
-    <main>
-        <section>
-            <h2 class="section-title">Research Question</h2>
-            <p>How can artists, platforms, and music-tech companies navigate AI compliance — understanding what's legal, what's required, and how to work ethically in a landscape where AI is here to stay?</p>
-        </section>
+  <div class="map-container">
+    <svg class="map-svg" viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Berlin districts with air quality shown as dot density">
+      <!-- Berlin district outlines -->
+      <g class="districts">
+        <!-- Reinickendorf -->
+        <path class="district" data-district="reinickendorf" d="M210,45 L330,38 L360,80 L345,135 L285,150 L240,120 L195,85 Z"/>
+        
+        <!-- Pankow -->
+        <path class="district" data-district="pankow" d="M360,80 L465,68 L510,120 L480,195 L405,210 L345,180 L345,135 Z"/>
+        
+        <!-- Spandau -->
+        <path class="district" data-district="spandau" d="M60,120 L165,105 L200,155 L185,250 L115,265 L50,210 Z"/>
+        
+        <!-- Charlottenburg-Wilmersdorf -->
+        <path class="district" data-district="charlottenburg" d="M165,155 L245,140 L275,195 L260,275 L185,290 L165,245 Z"/>
+        
+        <!-- Mitte -->
+        <path class="district" data-district="mitte" d="M275,145 L350,160 L375,210 L350,265 L290,280 L265,225 Z"/>
+        
+        <!-- Friedrichshain-Kreuzberg -->
+        <path class="district" data-district="friedrichshain" d="M350,205 L410,195 L450,240 L435,315 L360,330 L335,275 Z"/>
+        
+        <!-- Lichtenberg -->
+        <path class="district" data-district="lichtenberg" d="M450,195 L525,180 L560,245 L530,325 L465,340 L435,285 Z"/>
+        
+        <!-- Marzahn-Hellersdorf -->
+        <path class="district" data-district="marzahn" d="M525,180 L585,165 L595,240 L565,330 L530,325 L545,235 Z"/>
+        
+        <!-- Steglitz-Zehlendorf -->
+        <path class="district" data-district="steglitz" d="M115,290 L215,305 L240,375 L195,435 L90,420 L65,345 Z"/>
+        
+        <!-- Tempelhof-Schöneberg -->
+        <path class="district" data-district="tempelhof" d="M215,300 L310,285 L345,350 L320,420 L245,435 L225,375 Z"/>
+        
+        <!-- Neukölln -->
+        <path class="district" data-district="neukoelln" d="M325,315 L420,300 L465,365 L440,435 L350,450 L310,385 Z"/>
+        
+        <!-- Treptow-Köpenick -->
+        <path class="district" data-district="treptow" d="M440,340 L545,325 L585,395 L560,470 L455,460 L425,400 Z"/>
+      </g>
 
-        <section>
-            <h2 class="section-title">Context</h2>
-            <p>AI in sound — music, soundscapes, sound design — isn't going away. Creators worry about consent and compensation. Ethical platforms and new AI-native companies want to do things right. Both need the same thing: clarity on regulations, risks, and how to protect and prove authenticity.</p>
-            <p>Current resources are either too legal (inaccessible) or too simplified (incomplete). This project addresses both with a bidirectional tool — artists can check if their work was used without consent; companies can verify their AI pipeline is compliant.</p>
-            
-            <div class="highlight-box">
-                <p><strong>Why I built this:</strong> Having worked at Valispace — a requirements compliance tool for the aerospace industry — I understood how regulated industries approach compliance tooling. Sound creators and music-tech companies now face similar complexity with EU AI regulations, but lack accessible tools.</p>
-            </div>
-        </section>
+      <!-- Pollution dots will be generated by JavaScript -->
+      <g class="pollution-dots" id="pollution-dots"></g>
+    </svg>
+  </div>
 
-        <section>
-            <h2 class="section-title">Problem Validation</h2>
-            
-            <p>Before designing, I spoke with musicians and observed industry patterns to understand pain points on both sides.</p>
-            
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Creator concerns</div>
-                    <div class="deliverable-title">"No pay, no say"</div>
-                    <div class="deliverable-desc">Artists worry about their sound and lyrics being used to train AI models without consent or compensation. They need to know their rights and when to act.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Platform opportunities</div>
-                    <div class="deliverable-title">Compliance as a feature</div>
-                    <div class="deliverable-desc">Platforms receiving music submissions could provide compliance guidance to creators. Indie and open-source platforms may want to differentiate AI vs. human work, or integrate auto-updating regulation checks into their workflow.</div>
-                </div>
-            </div>
+  <div class="legend">
+    <div class="legend-scale">
+      <span>Dot density indicates pollution level:</span>
+      <div class="legend-dots">
+        <div class="legend-dot sparse"></div>
+        <span>Good</span>
+      </div>
+      <div class="legend-dots">
+        <div class="legend-dot medium"></div>
+        <span>Moderate</span>
+      </div>
+      <div class="legend-dots">
+        <div class="legend-dot dense"></div>
+        <span>Poor</span>
+      </div>
+    </div>
+    <div class="sound-hint">
+      <svg class="sound-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <span>Hover dots for sound feedback</span>
+    </div>
+  </div>
 
-            <div class="highlight-box">
-                <p><strong>Market context:</strong> 80% of musicians report being "worried" about AI in music. Meanwhile, companies face the EU AI Act, GDPR, and accessibility requirements with no clear guidance. Both sides need orientation. (Sources: PRS For Music, 2026; UK IPO consultation, 2026)</p>
-            </div>
-        </section>
+  <div class="glossary">
+    <div class="glossary-title">Understanding the data</div>
+    <div class="glossary-items">
+      <div class="glossary-item"><span class="glossary-term">AQI</span> — Air Quality Index, 0-500 scale</div>
+      <div class="glossary-item"><span class="glossary-term">PM 2.5</span> — Fine particles under 2.5 micrometers</div>
+      <div class="glossary-item"><span class="glossary-term">NO₂</span> — Nitrogen dioxide from traffic</div>
+      <div class="glossary-item"><span class="glossary-term">µg/m³</span> — Micrograms per cubic meter</div>
+    </div>
+  </div>
 
-        <section>
-            <h2 class="section-title">Solution</h2>
-            
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Interactive</div>
-                    <div class="deliverable-title">Navigator App</div>
-                    <div class="deliverable-desc">Decision-tree tool for step-by-step compliance guidance. Input a use case, get requirements, risks, and action steps.</div>
-                    <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch App →</a>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Documentation</div>
-                    <div class="deliverable-title">Compliance Guide</div>
-                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented.</div>
-                    <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
-                </div>
-            </div>
+  <footer>
+    Data: IQAir, AQICN, Berlin Senate
+  </footer>
 
-            <div class="highlight-box">
-                <p><strong>Why both formats?</strong> The Navigator serves users who need quick answers for specific situations. The Guide builds trust through transparency — showing sources, methodology, and reasoning. Together they serve different modes of decision-making: quick lookup vs. deep understanding.</p>
-            </div>
-        </section>
+  <div class="tooltip" id="tooltip">
+    <div class="tooltip-name" id="tooltip-name"></div>
+    <div class="tooltip-aqi" id="tooltip-aqi"></div>
+    <div class="tooltip-label">AQI</div>
+  </div>
 
-        <section>
-            <h2 class="section-title">Navigator Interface</h2>
-            <div class="video-container">
-                <video 
-                    src="navigator_screenrecording.mov" 
-                    autoplay 
-                    loop 
-                    muted 
-                    playsinline>
-                </video>
-            </div>
-            
-            <h3>Use Cases</h3>
-            <ul>
-                <li><strong>Consent & Attribution</strong> — Was this work used with permission?</li>
-                <li><strong>Training Data Provenance</strong> — Where did training data come from?</li>
-                <li><strong>Generated Output Rights</strong> — Who owns AI-generated work?</li>
-                <li><strong>Transparency & Disclosure</strong> — When must I disclose AI use?</li>
-                <li><strong>Authenticity & Recognition</strong> — How can creators prove and protect original work?</li>
-            </ul>
-            <p class="note">Use cases lean creator-side — individual artists typically want guidance for their specific scenario, not a full compliance audit.</p>
-        </section>
+  <script>
+    // District data with centroids and pollution levels
+    const districts = {
+      reinickendorf: { name: 'Reinickendorf', aqi: 28, cx: 280, cy: 95, radius: 45 },
+      pankow: { name: 'Pankow', aqi: 32, cx: 420, cy: 140, radius: 55 },
+      spandau: { name: 'Spandau', aqi: 26, cx: 125, cy: 180, radius: 50 },
+      charlottenburg: { name: 'Charlottenburg-Wilmersdorf', aqi: 52, cx: 220, cy: 210, radius: 45 },
+      mitte: { name: 'Mitte', aqi: 58, cx: 315, cy: 210, radius: 40 },
+      friedrichshain: { name: 'Friedrichshain-Kreuzberg', aqi: 68, cx: 395, cy: 265, radius: 40 },
+      lichtenberg: { name: 'Lichtenberg', aqi: 30, cx: 490, cy: 260, radius: 45 },
+      marzahn: { name: 'Marzahn-Hellersdorf', aqi: 24, cx: 555, cy: 250, radius: 35 },
+      steglitz: { name: 'Steglitz-Zehlendorf', aqi: 22, cx: 155, cy: 365, radius: 50 },
+      tempelhof: { name: 'Tempelhof-Schöneberg', aqi: 54, cx: 275, cy: 360, radius: 45 },
+      neukoelln: { name: 'Neukölln', aqi: 56, cx: 385, cy: 375, radius: 45 },
+      treptow: { name: 'Treptow-Köpenick', aqi: 20, cx: 500, cy: 395, radius: 55 }
+    };
 
-        <section>
-            <h2 class="section-title">Trade-offs & Decisions</h2>
-            
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Sequencing</div>
-                    <div class="deliverable-title">Documentation first, then app</div>
-                    <div class="deliverable-desc">Started with the comprehensive Guide as a single source of truth, then built the Navigator for quick access. The Guide ensures accuracy and auditability; the app ensures accessibility.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Scope</div>
-                    <div class="deliverable-title">EU regulations, global relevance</div>
-                    <div class="deliverable-desc">Scoped to EU regulations (AI Act, GDPR, Accessibility Act) for V1. The questions around sound, AI, and copyright are global — but legal frameworks differ. Started with EU as a focused, useful baseline.</div>
-                </div>
-            </div>
+    // Audio context for sonification
+    let audioCtx = null;
 
-            <div class="deliverables-intro">
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Architecture</div>
-                    <div class="deliverable-title">Decision tree, not chatbot</div>
-                    <div class="deliverable-desc">Chose a structured decision tree over an AI chatbot. Users need predictable, verifiable answers for compliance — not probabilistic responses. Every path can be traced and audited.</div>
-                </div>
-                <div class="deliverable-card">
-                    <div class="deliverable-label">Positioning</div>
-                    <div class="deliverable-title">Orientation, not legal advice</div>
-                    <div class="deliverable-desc">Navigator helps users understand if they need to act and when to consult a lawyer. It doesn't replace legal counsel — it helps people know when they need it.</div>
-                </div>
-            </div>
-        </section>
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
 
-        <section>
-            <h2 class="section-title">Documentation</h2>
-            <div class="doc-preview">
-                <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of Music AI Compliance Guide PDF">
-                    <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="First page preview">
-                </a>
-                <div class="doc-info">
-                    <div class="doc-info-title">Guidance on Personal Data in Generative Music Systems</div>
-                    <div class="doc-info-meta">GDPR, EU AI Act, European Accessibility Act, ICO, ENISA, WCAG 2.2</div>
-                    <a href="Music AI Compliance.pdf" target="_blank" class="btn">View PDF</a>
-                    <a href="Music AI Compliance.pdf" download class="btn btn-outline">Download</a>
-                </div>
-            </div>
-            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</p>
-        </section>
+    // Generate sound based on AQI
+    function playTone(aqi) {
+      if (!audioCtx) return;
+      
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      // Map AQI to sound characteristics
+      // Good (0-50): High, pure sine wave, pleasant
+      // Moderate (51-100): Mid-range, slight harshness
+      // Poor (101+): Low, harsh, dissonant
+      
+      if (aqi <= 35) {
+        // Pleasant: high pitch, pure sine
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 800 - (aqi * 5); // 800-625 Hz
+        gainNode.gain.value = 0.08;
+      } else if (aqi <= 55) {
+        // Moderate: mid pitch, triangle wave
+        oscillator.type = 'triangle';
+        oscillator.frequency.value = 500 - ((aqi - 35) * 8); // 500-340 Hz
+        gainNode.gain.value = 0.1;
+      } else {
+        // Poor: low pitch, sawtooth (harsh)
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.value = 280 - ((aqi - 55) * 3); // 280-240 Hz
+        gainNode.gain.value = 0.06;
+      }
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      // Quick attack, short decay
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(gainNode.gain.value, audioCtx.currentTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+      
+      oscillator.start(audioCtx.currentTime);
+      oscillator.stop(audioCtx.currentTime + 0.15);
+    }
 
-        <section>
-            <h2 class="section-title">Process</h2>
-            
-            <div class="highlight-box">
-                <p><strong>Guide — Document-as-Code</strong></p>
-                <p>Wrote compliance documentation in Markdown, managed as a linked knowledge base in Obsidian. This enabled version control, cross-referencing between regulations, and easy updates as laws evolve. Designed final PDF in Apple Pages.</p>
-            </div>
+    // Generate random points within a circle (for dot placement)
+    function generateDotsInArea(cx, cy, radius, count) {
+      const dots = [];
+      for (let i = 0; i < count; i++) {
+        // Use rejection sampling for uniform distribution
+        let x, y;
+        do {
+          x = cx + (Math.random() - 0.5) * radius * 2;
+          y = cy + (Math.random() - 0.5) * radius * 2;
+        } while (Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) > radius);
+        dots.push({ x, y });
+      }
+      return dots;
+    }
 
-            <div class="highlight-box">
-                <p><strong>Navigator — Prototyping with AI</strong></p>
-                <p>Prototyped the React app using Claude as a design tool — a fast way to test decision-tree logic and get a working interface for feedback. This let me validate the concept before involving engineering resources.</p>
-            </div>
+    // Calculate dot count based on AQI (more dots = more pollution)
+    function getDotCount(aqi) {
+      if (aqi <= 30) return Math.floor(aqi / 3) + 5; // 5-15 dots
+      if (aqi <= 50) return Math.floor(aqi / 2); // 15-25 dots
+      return Math.floor(aqi / 1.5); // 25-45+ dots
+    }
 
-            <div class="highlight-box">
-                <p><strong>Handover & Collaboration</strong></p>
-                <p>Prototype handed over to a backend engineer for professional implementation. Ongoing collaboration on: tool logic and decision-tree structure, auto-updating regulations from official sources, accessibility and language translation (my responsibility).</p>
-            </div>
+    // Calculate opacity based on AQI (higher = darker)
+    function getDotOpacity(aqi) {
+      const base = 0.15;
+      const scale = Math.min(aqi / 100, 1);
+      return base + (scale * 0.6); // 0.15 to 0.75
+    }
 
-            <div class="highlight-box">
-                <p><strong>AI-Human Collaboration</strong></p>
-                <p>AI-assisted: requirement gathering, cross-verification across models (Claude, Grok), rapid prototyping.</p>
-                <p>Human-led: design direction, information architecture, accessibility review, editorial decisions, source verification, engineering collaboration.</p>
-            </div>
-        </section>
+    // Create dots for all districts
+    function createDots() {
+      const container = document.getElementById('pollution-dots');
+      container.innerHTML = '';
 
-        <section>
-            <h2 class="section-title">Tools</h2>
-            <div class="tech-list">
-                <span class="tech-tag">React 18</span>
-                <span class="tech-tag">Vanilla CSS</span>
-                <span class="tech-tag">GitHub Pages</span>
-                <span class="tech-tag">JSON</span>
-                <span class="tech-tag">Markdown</span>
-                <span class="tech-tag">Obsidian</span>
-                <span class="tech-tag">Apple Pages</span>
-                <span class="tech-tag">Claude</span>
-                <span class="tech-tag">Grok</span>
-            </div>
-        </section>
+      Object.entries(districts).forEach(([id, data]) => {
+        const dotCount = getDotCount(data.aqi);
+        const opacity = getDotOpacity(data.aqi);
+        const dots = generateDotsInArea(data.cx, data.cy, data.radius, dotCount);
 
-        <section>
-            <h2 class="section-title">Outcome & Next Steps</h2>
-            <p>Published as an open-source resource under version control. Prototype validated the concept; now in professional development.</p>
-            
-            <ul>
-                <li><strong>V2 in development:</strong> Backend engineer building production version with auto-updating regulation feeds from official sources — designed to be embeddable for platforms wanting to offer compliance guidance to their users</li>
-                <li><strong>My ongoing role:</strong> Frontend collaboration, accessibility implementation, language translation</li>
-            </ul>
+        dots.forEach((dot, i) => {
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', dot.x);
+          circle.setAttribute('cy', dot.y);
+          circle.setAttribute('r', 2.5);
+          circle.setAttribute('fill', '#1a1a1a');
+          circle.setAttribute('opacity', opacity);
+          circle.setAttribute('class', 'pollution-dot');
+          circle.setAttribute('data-district', id);
+          circle.setAttribute('data-aqi', data.aqi);
+          
+          // Sound on hover
+          circle.addEventListener('mouseenter', (e) => {
+            initAudio();
+            playTone(data.aqi);
+            showTooltip(e, data);
+          });
+          
+          circle.addEventListener('mousemove', moveTooltip);
+          circle.addEventListener('mouseleave', hideTooltip);
+          
+          container.appendChild(circle);
+        });
+      });
+    }
 
-            <div class="highlight-box">
-                <p><strong>On the changing role:</strong> AI expanded what's possible as an indie project. Learning and creating in parallel — fusing form and function, testing in real scenarios faster, without over-designing or validating with the wrong audience. Easier to gather feedback online, through data, at scale, and with individual users once identified. This is product-focused work, not only UX — human-focused. The job is changing. The landscape is changing. Other people's jobs are changing too.</p>
-            </div>
+    // Tooltip functions
+    const tooltip = document.getElementById('tooltip');
 
-            <div class="doc-links">
-                <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Navigator App</a>
-                <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="deliverable-link outline">GitHub (App)</a>
-                <a href="https://github.com/Pi-Kay/Music-AI-Vault" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
-            </div>
-        </section>
+    function showTooltip(e, data) {
+      document.getElementById('tooltip-name').textContent = data.name;
+      document.getElementById('tooltip-aqi').textContent = data.aqi;
+      tooltip.classList.add('visible');
+    }
 
-        <nav>
-            <a href="valispace.html">← Valispace</a>
-            <a href="apple.html"> Apple →</a>
-        </nav>
-    </main>
+    function moveTooltip(e) {
+      tooltip.style.left = (e.clientX + 12) + 'px';
+      tooltip.style.top = (e.clientY - 8) + 'px';
+    }
 
-    <footer>
-        <p>© 2026 Petra Kühnle</p>
-    </footer>
+    function hideTooltip() {
+      tooltip.classList.remove('visible');
+    }
+
+    // Update timestamp
+    function updateTimestamp() {
+      const now = new Date();
+      document.getElementById('timestamp').textContent = 
+        now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + 
+        ' · ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Initialize
+    updateTimestamp();
+    createDots();
+
+    // Enable audio on first interaction
+    document.body.addEventListener('click', initAudio, { once: true });
+    document.body.addEventListener('touchstart', initAudio, { once: true });
+  </script>
 </body>
 </html>
