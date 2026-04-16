@@ -110,6 +110,9 @@
             gap: 12px;
             margin: 16px 0;
         }
+        .process-steps.process-steps-five {
+            grid-template-columns: repeat(5, 1fr);
+        }
         .process-step {
             padding: 14px;
             background: #fafafa;
@@ -438,9 +441,12 @@
         /* Roadmap */
         .roadmap-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
             margin: 16px 0;
+        }
+        @media (max-width: 1100px) {
+            .roadmap-grid { grid-template-columns: repeat(3, 1fr); }
         }
         .roadmap-item {
             padding: 16px;
@@ -479,6 +485,41 @@
         .status.done { background: #e8f5e9; color: #2e7d32; }
         .status.current { background: #e3f2fd; color: #1565c0; }
         .status.next { background: #f5f5f5; color: #666; }
+
+        /* Recommendations box */
+        .recommendations-box {
+            margin: 24px 0 0;
+            padding: 20px 22px;
+            background: #f9fdf9;
+            border: 1px solid #c8e6c9;
+            border-left: 3px solid #2e7d32;
+        }
+        .recommendations-box h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 6px;
+        }
+        .recommendations-intro {
+            font-size: 0.85em;
+            color: #3a3a3a;
+            margin-bottom: 14px;
+        }
+        .recommendations-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .recommendations-list li {
+            font-size: 0.85em;
+            color: #3a3a3a;
+            line-height: 1.55;
+            margin-bottom: 10px;
+        }
+        .recommendations-list li:last-child { margin-bottom: 0; }
+        .recommendations-list li strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
 
         /* Deliverables */
         .deliverables-list {
@@ -528,6 +569,32 @@
         .tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .tech-tag { display: inline-block; padding: 5px 10px; background: #f5f5f5; font-size: 0.8em; color: #4a4a4a; }
 
+        /* Sources strip */
+        .sources-strip {
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-left: 3px solid #1565c0;
+            padding: 14px 16px;
+            margin: 16px 0;
+        }
+        .sources-strip-label {
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #1565c0;
+            margin-bottom: 8px;
+        }
+        .sources-strip-content {
+            font-size: 0.82em;
+            color: #3a3a3a;
+            line-height: 1.55;
+        }
+        .sources-strip-content strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
         /* Design space visual */
         .design-space-visual {
             margin: 20px 0 8px;
@@ -566,9 +633,11 @@
             .principles-grid { grid-template-columns: 1fr; }
             .constraint-row { grid-template-columns: 1fr; }
             .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .process-steps.process-steps-five { grid-template-columns: repeat(2, 1fr); }
             .user-types { grid-template-columns: 1fr; }
             .annotation-list { grid-template-columns: 1fr; }
             .roadmap-grid { grid-template-columns: 1fr; }
+            .recommendations-box { padding: 16px; }
             .summary-list { grid-template-columns: 1fr; }
             .constraint-table { font-size: 0.78em; }
             .constraint-table td, .constraint-table th { padding: 8px 10px; }
@@ -595,7 +664,7 @@
                 </div>
                 <div class="role-item">
                     <strong>Deliverables</strong>
-                    <span>Design principles, UI analysis, roadmap</span>
+                    <span>Principles, analysis, roadmap, recommendations</span>
                 </div>
             </div>
         </section>
@@ -618,50 +687,43 @@
             <p><strong>What changed:</strong> The work became scoped to design foundations, not screen fixes. That shift made the deliverables different — principles, an interface audit mapped to those principles, and a roadmap — and made them more durable. Principles outlive individual screens.</p>
 
             <div class="design-space-visual">
-                <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML2 specification on the left containing fixed shapes like rectangles, diamonds, circles, and arrows; on the right, the tool design space containing color, layout, navigation, tooltips, and filters.">
+                <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
                     <!-- Left: Fixed zone -->
                     <rect x="20" y="30" width="300" height="200" rx="4" fill="#f5f5f5" stroke="#cccccc" stroke-width="1.5"/>
                     <text x="170" y="55" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#666">FIXED BY SPECIFICATION</text>
                     <text x="170" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#333">SysML2 semantics</text>
 
-                    <!-- Sample SysML shapes: rectangle (part), diamond (composition), small squares (ports), arrow, circle (state), rounded rect -->
-                    <!-- Part rectangle -->
-                    <rect x="50" y="100" width="70" height="36" fill="#ffffff" stroke="#666" stroke-width="1.5"/>
-                    <text x="85" y="116" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="8" fill="#888">«part»</text>
-                    <text x="85" y="128" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" fill="#333">Block</text>
-                    <!-- small ports on edge -->
-                    <rect x="115" y="112" width="6" height="6" fill="#666"/>
-                    <rect x="115" y="122" width="6" height="6" fill="#666"/>
+                    <!-- Chips representing what the standard fixes -->
+                    <g font-family="-apple-system, Segoe UI, sans-serif" font-size="10" fill="#555">
+                        <rect x="40" y="95" width="100" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="90" y="111" text-anchor="middle">Element types</text>
 
-                    <!-- Composition diamond -->
-                    <polygon points="160,118 172,110 184,118 172,126" fill="#666" stroke="#666" stroke-width="1.5"/>
+                        <rect x="150" y="95" width="150" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="225" y="111" text-anchor="middle">Relationship semantics</text>
 
-                    <!-- Requirement rectangle -->
-                    <rect x="200" y="100" width="70" height="36" fill="#ffffff" stroke="#666" stroke-width="1.5"/>
-                    <text x="235" y="116" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="8" fill="#888">«requirement»</text>
-                    <text x="235" y="128" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" fill="#333">R1.1</text>
+                        <rect x="40" y="130" width="120" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="100" y="146" text-anchor="middle">Notation shapes</text>
 
-                    <!-- State: rounded rect -->
-                    <rect x="60" y="170" width="60" height="28" rx="14" fill="#ffffff" stroke="#666" stroke-width="1.5"/>
-                    <text x="90" y="188" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" fill="#333">State</text>
+                        <rect x="170" y="130" width="130" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="235" y="146" text-anchor="middle">Compartment rules</text>
 
-                    <!-- Initial state: filled circle -->
-                    <circle cx="150" cy="184" r="5" fill="#666"/>
-                    <!-- Arrow -->
-                    <line x1="158" y1="184" x2="200" y2="184" stroke="#666" stroke-width="1.5"/>
-                    <polygon points="200,184 194,181 194,187" fill="#666"/>
-                    <!-- End state: bullseye -->
-                    <circle cx="215" cy="184" r="7" fill="none" stroke="#666" stroke-width="1.5"/>
-                    <circle cx="215" cy="184" r="3" fill="#666"/>
+                        <rect x="40" y="165" width="110" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="95" y="181" text-anchor="middle">Diagram types</text>
 
-                    <!-- Boundary line / The design work lives here -->
+                        <rect x="160" y="165" width="130" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <text x="225" y="181" text-anchor="middle">Textual syntax</text>
+                    </g>
+
+                    <text x="170" y="215" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#666">Interoperable across tools</text>
+
+                    <!-- Boundary line -->
                     <line x1="340" y1="50" x2="340" y2="230" stroke="#f57c00" stroke-width="2" stroke-dasharray="4,4"/>
-                    <text x="340" y="44" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" font-weight="600" fill="#f57c00">boundary</text>
+                    <text x="340" y="22" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" font-weight="600" fill="#f57c00">boundary</text>
 
                     <!-- Right: Flexible zone -->
                     <rect x="360" y="30" width="340" height="200" rx="4" fill="#f9fdf9" stroke="#c8e6c9" stroke-width="1.5"/>
                     <text x="530" y="55" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#2e7d32">OPEN TO DESIGN</text>
-                    <text x="530" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#333">Tool presentation & interaction</text>
+                    <text x="530" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#333">Tool presentation &amp; interaction</text>
 
                     <!-- Chips representing design concerns -->
                     <g font-family="-apple-system, Segoe UI, sans-serif" font-size="10" fill="#2e7d32">
@@ -695,7 +757,7 @@
 
                     <text x="530" y="215" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#555">Where learnability is designed in</text>
                 </svg>
-                <p class="design-space-caption">The standard fixes semantics — shapes and notation carry meaning. Everything else is the <strong>tool design space</strong>, and that's where the work happens.</p>
+                <p class="design-space-caption">The standard fixes semantics — element types, notation, syntax. Everything else is the <strong>tool design space</strong>, and that's where the work happens.</p>
             </div>
         </section>
 
@@ -720,9 +782,9 @@
 
         <section>
             <h2 class="section-title">Approach: Principles Before Pixels</h2>
-            <p>For a new product with a solo designer, establishing principles early prevents arbitrary decisions later. Each phase feeds the next — principles constrain analysis, analysis constrains architecture, architecture constrains the design system.</p>
+            <p>For a new product with a solo designer, establishing principles early prevents arbitrary decisions later. The work flows through five phases — each one feeds the next, and each can be revisited when new information surfaces.</p>
             
-            <div class="process-steps">
+            <div class="process-steps process-steps-five">
                 <div class="process-step">
                     <span class="num">01</span>
                     <strong>Design Principles</strong>
@@ -740,17 +802,29 @@
                 </div>
                 <div class="process-step">
                     <span class="num">04</span>
+                    <strong>Interaction Design</strong>
+                    <p>User flows per task</p>
+                </div>
+                <div class="process-step">
+                    <span class="num">05</span>
                     <strong>Design System</strong>
                     <p>Components & tokens</p>
                 </div>
             </div>
             
-            <p>This order is intentional. Principles create constraints that make design decisions <em>defensible</em> rather than arbitrary. Interface analysis reveals which principles are already supported and where gaps exist. Information architecture defines where everything lives. Only then does a design system lock in component-level decisions — because changing tokens is expensive once they're in production.</p>
+            <p>This order is intentional. Principles create constraints that make design decisions <em>defensible</em> rather than arbitrary. Interface analysis reveals which principles are already supported and where gaps exist. Information architecture defines where everything lives. Interaction design works out how users move through tasks. Only at the end does a design system lock in component-level decisions — because changing tokens is expensive once they're in production.</p>
         </section>
 
         <section>
             <h2 class="section-title">Design Principles</h2>
-            <p>Ten principles synthesized from product vision, UX research, and systems engineering requirements. Several principles emerged directly from Cauê's domain expertise — for instance, why Model Explorer visibility matters more than generic sidebar balance. <span style="color: #2e7d32; font-weight: 500;">Green</span> = directly supports learnability.</p>
+            <p>I researched and synthesized ten principles from established UX and information design literature, then refined them with Cauê as domain expert to ensure each one held up against how systems engineers actually work. The principles aren't invented — they're curated from existing theory and mapped onto System Forge's specific context. <span style="color: #2e7d32; font-weight: 500;">Green</span> = directly supports learnability.</p>
+
+            <div class="sources-strip">
+                <div class="sources-strip-label">Synthesized from</div>
+                <div class="sources-strip-content">
+                    <strong>Edward Tufte</strong> (information design — data-ink, layering, small multiples) · <strong>Jacques Bertin</strong> (visual variables) · <strong>Jakob Nielsen</strong> (usability heuristics) · <strong>Ben Shneiderman</strong> (overview + detail, linked views) · <strong>Don Norman</strong> (affordances, safe exploration) · <strong>Cognitive load theory</strong> (Sweller, Miller) · <strong>SysML2 specification</strong> · domain review with a practicing systems engineer.
+                </div>
+            </div>
 
             <div class="principles-grid">
                 <div class="principle-card">
@@ -947,7 +1021,7 @@
 
         <section>
             <h2 class="section-title">Interface Analysis: Annotated Examples</h2>
-            <p>The analysis evaluated first impressions and key workflow phases. Below are sample observations with annotations — noting both strengths and areas to explore further.</p>
+            <p>The analysis evaluated first impressions and key workflow moments. Below are sample observations with annotations — noting both strengths and areas to explore further.</p>
 
             <!-- Example 1: Main Interface Layout -->
             <div class="screenshot-annotation">
@@ -1015,10 +1089,11 @@
         </section>
 
         <section>
-            <h2 class="section-title">Summary: Strengths & Recommendations</h2>
-            
+            <h2 class="section-title">Analysis Findings: What's Already Working</h2>
+            <p>The interface analysis surfaced genuine strengths worth preserving as the product evolves. These are observations from Phase 02, mapped against the principles — the full recommendations that followed are captured in the next section.</p>
+
             <div class="summary-box">
-                <h4>Key Strengths Identified</h4>
+                <h4>Key strengths identified</h4>
                 <div class="summary-list">
                     <div class="summary-item strength">Clean, modern interface compared to typical systems engineering tools</div>
                     <div class="summary-item strength">Restrained color scheme supports focus</div>
@@ -1028,49 +1103,55 @@
                     <div class="summary-item strength">Auto Layout and MiniMap for navigation</div>
                 </div>
             </div>
-
-            <div class="summary-box">
-                <h4>Recommendations for Review</h4>
-                <div class="summary-list">
-                    <div class="summary-item recommendation">Make Model Explorer visually dominant in sidebar</div>
-                    <div class="summary-item recommendation">Standardize icon styles and hover behaviors</div>
-                    <div class="summary-item recommendation">Add v1→v2 terminology support in search</div>
-                    <div class="summary-item recommendation">Clarify reversibility of choices (e.g., diagram type)</div>
-                    <div class="summary-item recommendation">Consider tooltips explaining SysML2 concepts</div>
-                    <div class="summary-item recommendation">Review "File Explorer" label with systems engineering experts</div>
-                </div>
-            </div>
         </section>
 
         <section>
-            <h2 class="section-title">Where the Work Stands Today</h2>
-            <p>The four phases outlined above don't run strictly in sequence — information architecture and interaction design inform each other and can proceed in parallel. Both must stabilize before locking design system decisions. Here's current status across the roadmap.</p>
+            <h2 class="section-title">Status & Recommended Next Steps</h2>
+            <p>The five phases don't run strictly in sequence — information architecture and interaction design inform each other and overlap. Here's where each phase stands today, and what I've recommended as the next pieces of work.</p>
 
             <div class="roadmap-grid">
                 <div class="roadmap-item complete">
-                    <div class="phase">Phase 1</div>
+                    <div class="phase">Phase 01</div>
                     <strong>Design Principles</strong>
-                    <p>Values, guidelines, decision criteria. 10 principles documented with references.</p>
+                    <p>Ten principles synthesized from established UX literature and reviewed with Cauê for domain accuracy.</p>
                     <span class="status done">Complete</span>
                 </div>
                 <div class="roadmap-item complete">
-                    <div class="phase">Phase 2a</div>
+                    <div class="phase">Phase 02</div>
                     <strong>Interface Analysis</strong>
-                    <p>Current state audit. Workflows documented, observations mapped to principles.</p>
+                    <p>Current-state audit of key workflows. Observations mapped to the principles; strengths and gaps documented.</p>
                     <span class="status done">Complete</span>
                 </div>
                 <div class="roadmap-item">
-                    <div class="phase">Phase 2b</div>
+                    <div class="phase">Phase 03</div>
                     <strong>Information Architecture</strong>
-                    <p>Content hierarchy, sidebar structure, Model vs File Explorer, Views/Editors/Tools grouping.</p>
+                    <p>Content hierarchy and sidebar structure. Resolving Model Explorer vs File Explorer; grouping Views, Editors, Tools.</p>
                     <span class="status current">In Progress</span>
                 </div>
                 <div class="roadmap-item">
-                    <div class="phase">Phase 3</div>
+                    <div class="phase">Phase 04</div>
                     <strong>Interaction Design</strong>
-                    <p>User flows per workflow phase. Create diagram, add parts, connect elements, review/validate.</p>
-                    <span class="status next">Next</span>
+                    <p>User flows per task: create diagram, add parts, connect elements, review and validate. Depends on IA stabilizing first.</p>
+                    <span class="status next">Recommended Next</span>
                 </div>
+                <div class="roadmap-item">
+                    <div class="phase">Phase 05</div>
+                    <strong>Design System</strong>
+                    <p>Tokens, components, patterns. Intentionally deferred until IA and interaction are stable — tokens are expensive to change later.</p>
+                    <span class="status next">Deferred</span>
+                </div>
+            </div>
+
+            <div class="recommendations-box">
+                <h3>Concrete recommendations</h3>
+                <p class="recommendations-intro">Grounded in the interface analysis, these are the near-term moves I've proposed to Cauê — ordered by what unblocks the most downstream work.</p>
+                <ol class="recommendations-list">
+                    <li><strong>Resolve the Model Explorer vs File Explorer question.</strong> Systems engineering workflows start from the model tree — this is the single most consequential IA decision, and it gates sidebar hierarchy, icon weight, and default view. Review with Cauê, then commit.</li>
+                    <li><strong>Add v1 → v2 terminology bridging in element search.</strong> Searching "Block" should surface "Part" with the v1 label visible. Highest-leverage learnability win for the transitioning-user audience, and the implementation is small.</li>
+                    <li><strong>Standardize icon style and hover behavior across the sidebar.</strong> Mixed flat/filled icons weaken visual grammar (Principle #02). A one-pass cleanup before IA decisions harden.</li>
+                    <li><strong>Map the core workflows end-to-end.</strong> Create diagram → add parts → connect → review/validate. Each workflow surfaces interaction gaps the static analysis can't catch. Begin Phase 04 once IA is settled.</li>
+                    <li><strong>Draft tooltip patterns that teach SysML2 concepts.</strong> The "Part tooltip" pattern already exists in the palette — extend it systematically so every element type explains itself in context. Strongest lever for the "teach through use" thesis.</li>
+                </ol>
             </div>
         </section>
 
@@ -1111,7 +1192,7 @@
         <section>
             <h2 class="section-title">Reflection</h2>
             <div class="reflection">
-                <p><strong>On working with domain expertise:</strong> I'm not a systems engineer, and most of the principles that ended up on this page came from questions Cauê answered — why Model Explorer matters more than File Explorer, why element shapes are non-negotiable, why v1 users need a terminology bridge. UX for a specialized tool isn't applied from the outside; it's assembled through repeated checking against how the users actually work.</p>
+                <p><strong>On research, synthesis, and expert review:</strong> I'm not a systems engineer. My contribution was researching the UX and information design literature — Tufte, Bertin, Nielsen, Shneiderman, cognitive load theory — and synthesizing it into principles that fit a SysML2 modeling tool specifically. Cauê reviewed each principle against real engineering practice, which caught things I'd have missed: why Model Explorer matters more than File Explorer, why element shapes are non-negotiable, why v1 users need a terminology bridge. The principles are grounded in established theory and accurate to the domain because both steps happened.</p>
             </div>
             <div class="reflection">
                 <p><strong>On documentation as design work:</strong> In early-stage products, clear documentation is as valuable as screens. Principles and analysis create shared understanding, reducing ambiguity and rework. The analysis report and roadmap are not byproducts — they're the foundation that makes future design decisions faster and more defensible.</p>
