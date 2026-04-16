@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Design principles for System Forge — making SysML2 learnable through UX, not courses.">
-    <title>System Forge · Design Principles — Petra Kühnle</title>
+    <meta name="description" content="UX analysis and design documentation for System Forge — a SysML2 modeling tool.">
+    <title>System Forge · UX Analysis & Documentation — Petra Kühnle</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -12,7 +12,7 @@
             line-height: 1.6;
             color: #1a1a1a;
             background: #fff;
-            max-width: 880px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 60px 40px;
         }
@@ -20,12 +20,54 @@
         header h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
         header p { font-size: 1em; color: #4a4a4a; margin-bottom: 4px; }
         header .meta { font-size: 0.85em; color: #8a8a8a; margin-top: 10px; }
-        section { margin-bottom: 32px; }
+        section { margin-bottom: 36px; }
         .section-title {
             font-size: 0.75em; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: #8a8a8a; margin-bottom: 10px;
+            text-transform: uppercase; color: #8a8a8a; margin-bottom: 12px;
         }
-        section > p { margin-bottom: 10px; color: #3a3a3a; font-size: 0.95em; }
+        section > p { margin-bottom: 12px; color: #3a3a3a; font-size: 0.95em; }
+
+        /* Role summary */
+        .role-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+            padding: 16px;
+            background: #f9f9f9;
+            border-left: 3px solid #1565c0;
+        }
+        .role-item strong {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .role-item span {
+            font-size: 0.9em;
+            color: #1a1a1a;
+        }
+
+        /* Challenge box */
+        .challenge-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
+            border: 1px solid #ffe082;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .challenge-box h3 {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        .challenge-box p {
+            font-size: 0.9em;
+            color: #5d4037;
+            margin: 0;
+        }
 
         /* Learnability goal box */
         .learnability-goal {
@@ -61,7 +103,151 @@
             margin: 0;
         }
 
-        /* Principles grid - compact 2x5 */
+        /* Process steps */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .process-step {
+            padding: 14px;
+            background: #fafafa;
+            border-top: 3px solid #e0e0e0;
+            text-align: center;
+        }
+        .process-step.active { border-top-color: #1565c0; background: #e3f2fd; }
+        .process-step.complete { border-top-color: #2e7d32; }
+        .process-step .num {
+            font-size: 0.7em;
+            font-weight: 600;
+            color: #888;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .process-step strong {
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .process-step p {
+            font-size: 0.75em;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Screenshot annotation */
+        .screenshot-annotation {
+            border: 1px solid #e0e0e0;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+        .screenshot-header {
+            padding: 12px 16px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #333;
+        }
+        .screenshot-body {
+            padding: 20px;
+        }
+        .screenshot-placeholder {
+            background: #e8e8e8;
+            border: 2px dashed #ccc;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .screenshot-placeholder .mock-ui {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+            font-size: 0.8em;
+        }
+        .screenshot-placeholder .mock-sidebar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .screenshot-placeholder .mock-icon {
+            width: 24px;
+            height: 24px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+        }
+        .screenshot-placeholder .mock-label {
+            background: #1565c0;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            border-radius: 2px;
+        }
+        .annotation-callout {
+            position: absolute;
+            background: #ff5722;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 0.7em;
+            font-weight: 600;
+            border-radius: 3px;
+        }
+        .screenshot-image {
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .screenshot-image img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .annotation-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .annotation-item {
+            padding: 12px;
+            background: #fff;
+            border-left: 3px solid #1565c0;
+        }
+        .annotation-item.strength {
+            border-left-color: #2e7d32;
+        }
+        .annotation-item.consideration {
+            border-left-color: #ff9800;
+        }
+        .annotation-item strong {
+            font-size: 0.8em;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .annotation-item p {
+            font-size: 0.78em;
+            color: #555;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .annotation-item .tag {
+            display: inline-block;
+            font-size: 0.65em;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            color: #666;
+            margin-top: 6px;
+            border-radius: 2px;
+        }
+
+        /* Principles grid */
         .principles-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -75,8 +261,6 @@
             background: #fafafa;
             border-left: 3px solid #1565c0;
         }
-        .principle-card.to-validate { border-left-color: #ef6c00; }
-        .principle-card.product { border-left-color: #7b1fa2; }
         .principle-card.learnability { border-left-color: #2e7d32; }
         .principle-num {
             font-size: 0.75em;
@@ -99,18 +283,16 @@
         .principle-source {
             font-size: 0.65em;
             color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* Constraint map - compact */
+        /* Constraint map */
         .constraint-compact {
             margin: 12px 0;
             border: 1px solid #e5e5e5;
         }
         .constraint-row {
             display: grid;
-            grid-template-columns: 140px 1fr;
+            grid-template-columns: 160px 1fr;
             font-size: 0.8em;
         }
         .constraint-row:first-child {
@@ -134,120 +316,120 @@
             background: #f9fdf9;
         }
 
-        /* v1-v2 Terminology */
-        .terminology-intro {
-            background: #fff8e1;
-            border: 1px solid #ffe082;
-            padding: 12px 14px;
-            margin: 12px 0;
-            font-size: 0.85em;
+        /* Summary box */
+        .summary-box {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin: 16px 0;
         }
-        .terminology-intro strong { color: #f57c00; }
-        .terminology-grid {
+        .summary-box h4 {
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .summary-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .summary-item {
+            font-size: 0.8em;
+            padding: 8px 10px;
+            background: #fff;
+            border-left: 2px solid #ccc;
+        }
+        .summary-item.strength { border-left-color: #2e7d32; }
+        .summary-item.recommendation { border-left-color: #1565c0; }
+
+        /* Roadmap */
+        .roadmap-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 12px 0;
+            gap: 16px;
+            margin: 16px 0;
         }
-        .term-card {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            padding: 8px 12px;
-            font-size: 0.8em;
-        }
-        .term-card.renamed {
-            background: #fff8e1;
-            border-left: 3px solid #ffc107;
-        }
-        .term-card.new {
-            background: #e8f5e9;
-            border-left: 3px solid #4caf50;
-        }
-        .term-v2 { font-weight: 600; color: #1a1a1a; }
-        .term-arrow { color: #999; }
-        .term-v1 { color: #888; }
-        .term-note { color: #666; font-size: 0.9em; }
-
-        /* Pattern tags */
-        .patterns-compact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 12px 0;
-        }
-        .pattern-tag {
-            padding: 6px 12px;
-            background: #f0f0f0;
-            font-size: 0.8em;
-            color: #444;
-            border-radius: 3px;
-        }
-
-        /* Use case box */
-        .usecase-box {
-            background: #f8f9ff;
-            border: 1px solid #d0d7e8;
+        .roadmap-item {
             padding: 16px;
-            margin: 12px 0;
+            background: #fafafa;
+            border-left: 3px solid #1565c0;
         }
-        .usecase-item {
-            margin-bottom: 12px;
+        .roadmap-item.complete {
+            border-left-color: #2e7d32;
+            background: #f9fdf9;
         }
-        .usecase-item:last-child {
-            margin-bottom: 0;
-        }
-        .usecase-item strong {
-            font-size: 0.85em;
-            color: #1a1a1a;
-            display: block;
+        .roadmap-item .phase {
+            font-size: 0.7em;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
-        .usecase-item p {
+        .roadmap-item strong {
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .roadmap-item p {
             font-size: 0.8em;
             color: #555;
             margin: 0;
         }
-        .usecase-item.validation {
-            background: #e8f5e9;
-            margin: 12px -16px -16px -16px;
-            padding: 12px 16px;
-            border-top: 1px solid #c8e6c9;
+        .roadmap-item .status {
+            font-size: 0.7em;
+            margin-top: 8px;
+            padding: 3px 8px;
+            display: inline-block;
+            border-radius: 3px;
         }
-        .usecase-item.validation strong {
-            color: #2e7d32;
-        }
+        .status.done { background: #e8f5e9; color: #2e7d32; }
+        .status.current { background: #e3f2fd; color: #1565c0; }
+        .status.next { background: #f5f5f5; color: #666; }
 
-        /* Next steps */
-        .next-steps-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        /* Deliverables */
+        .deliverables-list {
+            margin: 16px 0;
+        }
+        .deliverable-item {
+            display: flex;
+            align-items: center;
             gap: 12px;
-            margin: 12px 0;
-        }
-        .next-step {
             padding: 12px;
-            background: #fafafa;
-            border-left: 3px solid #ccc;
+            border-bottom: 1px solid #e8e8e8;
         }
-        .next-step strong {
+        .deliverable-item:last-child { border-bottom: none; }
+        .deliverable-icon {
+            width: 36px;
+            height: 36px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+        .deliverable-info strong {
             font-size: 0.85em;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
-        .next-step p {
+        .deliverable-info span {
             font-size: 0.75em;
             color: #666;
-            margin: 0;
-        }
-        .next-step.validation {
-            border-left-color: #2e7d32;
-            background: #f9fdf9;
         }
 
         /* Reflection */
-        .reflection { background: #f9f9f9; border: 1px solid #e5e5e5; padding: 14px; margin: 10px 0; }
-        .reflection p { margin-bottom: 0; font-size: 0.85em; }
+        .reflection {
+            background: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .reflection p {
+            margin-bottom: 0;
+            font-size: 0.85em;
+        }
 
         /* Tools */
         .tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -261,192 +443,183 @@
 
         @media (max-width: 768px) {
             body { padding: 40px 24px; }
+            .role-summary { grid-template-columns: 1fr; }
             .principles-grid { grid-template-columns: 1fr; }
             .constraint-row { grid-template-columns: 1fr; }
-            .constraint-label { border-bottom: 1px solid #e5e5e5; }
-            .next-steps-list { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: repeat(2, 1fr); }
             .user-types { grid-template-columns: 1fr; }
-            .terminology-grid { grid-template-columns: 1fr; }
+            .annotation-list { grid-template-columns: 1fr; }
+            .roadmap-grid { grid-template-columns: 1fr; }
+            .summary-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>⬠ System Forge · Design Principles</h1>
-        <p>Making SysML2 learnable through UX — not courses</p>
-        <p class="meta">2026 - today · Collaboration with Cauê Napier (Systems Engineer, SSC)</p>
+        <h1>⬠ System Forge · UX Analysis & Documentation</h1>
+        <p>Design principles, interface analysis, and documentation for a SysML2 modeling tool</p>
+        <p class="meta">2026 · Collaboration with Cauê Napier, Systems Engineer at Swedish Space Corporation</p>
     </header>
 
     <main>
         <section>
-            <h2 class="section-title">Context</h2>
-            <p>System Forge is a model-based systems engineering (MBSE) tool in early development. <strong>Cauê Napier</strong>, systems engineer at the Swedish Space Corporation (SSC), is building it to make SysML2-based modeling more accessible — without requiring users to take a course first.</p>
-            <p>The core question: can good UX reduce the learning curve for a complex modeling language? Can design decisions make the difference between "I need training" and "I can figure this out"?</p>
+            <div class="role-summary">
+                <div class="role-item">
+                    <strong>Role</strong>
+                    <span>UX Analysis & Documentation</span>
+                </div>
+                <div class="role-item">
+                    <strong>Duration</strong>
+                    <span>Ongoing (2026–present)</span>
+                </div>
+                <div class="role-item">
+                    <strong>Deliverables</strong>
+                    <span>Design principles, UI analysis, roadmap</span>
+                </div>
+            </div>
         </section>
 
         <section>
-            <h2 class="section-title">The Learnability Goal</h2>
-            <p>Two distinct user journeys, one shared challenge: learning SysML2 through the tool itself.</p>
+            <h2 class="section-title">Context</h2>
+            <p>System Forge is a model-based systems engineering (MBSE) tool in early development, created by Cauê Napier, a systems engineer at the Swedish Space Corporation. The goal: make SysML2 modeling more accessible — without requiring users to take a course first.</p>
+            <p>I contribute UX analysis and design documentation as a side project collaboration. My role: establish design foundations that can guide development decisions — principles, interface evaluation, and a roadmap for systematic improvement.</p>
+            
+            <div class="challenge-box">
+                <h3>The Technical Challenge</h3>
+                <p>SysML2 (released September 2025) specifies element semantics and core notation, but leaves presentation and interaction design to individual tools. This creates both constraint and opportunity: the interface must teach a complex modeling language while respecting a strict specification. Every design decision must distinguish between <em>what the standard requires</em> and <em>where tooling can innovate</em>.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Two User Journeys, One Design Challenge</h2>
+            <p>The tool must serve two distinct learning paths simultaneously.</p>
             
             <div class="learnability-goal">
-                <h3>Design for Learning</h3>
+                <h3>Designing for Learnability</h3>
                 <div class="user-types">
                     <div class="user-type">
                         <strong>New to SysML</strong>
-                        <p>Engineers who need MBSE but haven't used SysML before. The tool should teach the language through use — progressive disclosure, clear feedback, safe exploration. No course required.</p>
+                        <p>Engineers who need MBSE but haven't used SysML before. The tool should teach the language through use — progressive disclosure, clear feedback, safe exploration.</p>
                     </div>
                     <div class="user-type">
                         <strong>Transitioning v1 → v2</strong>
-                        <p>Experienced SysML users adapting to v2's new terminology and concepts. The tool should bridge old and new — showing familiar names alongside v2 equivalents, surfacing what changed and why.</p>
+                        <p>Experienced SysML users adapting to v2's new terminology. The tool should bridge old and new — showing familiar names alongside v2 equivalents.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Framing and Reframing</h2>
-            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts.</p>
-            <p><strong>The reframe:</strong> Before reviewing screens, define what principles those screens should follow — with learnability as the primary lens. SysML2 specifies semantics; presentation and interaction are left to tooling. That's where learning happens.</p>
+            <h2 class="section-title">Approach: Principles Before Pixels</h2>
+            <p>For a new product with a solo designer, establishing principles early prevents arbitrary decisions later. The sequence matters: abstract foundations must stabilize before committing to component-level design systems.</p>
+            
+            <div class="process-steps">
+                <div class="process-step complete">
+                    <span class="num">01</span>
+                    <strong>Design Principles</strong>
+                    <p>Values & decision criteria</p>
+                </div>
+                <div class="process-step active">
+                    <span class="num">02</span>
+                    <strong>Interface Analysis</strong>
+                    <p>Current state audit</p>
+                </div>
+                <div class="process-step">
+                    <span class="num">03</span>
+                    <strong>Information Architecture</strong>
+                    <p>Content hierarchy</p>
+                </div>
+                <div class="process-step">
+                    <span class="num">04</span>
+                    <strong>Design System</strong>
+                    <p>Components & tokens</p>
+                </div>
+            </div>
+            
+            <p>This order is intentional. Principles create constraints that make design decisions <em>defensible</em> rather than arbitrary. Interface analysis reveals which principles are already supported and where gaps exist. Information architecture defines where everything lives. Only then does a design system lock in component-level decisions — because changing tokens is expensive once they're in production.</p>
         </section>
 
         <section>
-            <h2 class="section-title">Design Principles for System Forge</h2>
-            <p>Synthesized from product vision, UX research, and B2B considerations. <span style="color: #2e7d32; font-weight: 500;">Green = directly supports learnability.</span></p>
+            <h2 class="section-title">Design Principles</h2>
+            <p>Ten principles synthesized from product vision, UX research, and systems engineering requirements. Several principles emerged directly from Cauê's domain expertise — for instance, why Model Explorer visibility matters more than generic sidebar balance. <span style="color: #2e7d32; font-weight: 500;">Green</span> = directly supports learnability.</p>
 
             <div class="principles-grid">
-                <div class="principle-card product">
+                <div class="principle-card">
                     <div class="principle-num">01</div>
                     <div class="principle-content">
                         <strong>One Model, Many Views</strong>
-                        <p>Single source of truth. Diagram, tree, table, text all sync. <span class="principle-source">Ref: Tufte "Escaping Flatland"</span></p>
+                        <p>Single source of truth. Diagram, tree, table, text all sync. <span class="principle-source">Ref: Tufte, "Escaping Flatland"</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">02</div>
                     <div class="principle-content">
                         <strong>Consistent Visual Grammar</strong>
-                        <p>Same meaning = same appearance. Consistency enables learning. <span class="principle-source">Ref: Bertin; Tufte "Small Multiples"</span></p>
+                        <p>Same meaning = same appearance. Consistency enables pattern recognition. <span class="principle-source">Ref: Bertin; Tufte "Small Multiples"</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">03</div>
                     <div class="principle-content">
                         <strong>Progressive Disclosure</strong>
-                        <p>Show what the task requires, hide the rest. Learn as you go. <span class="principle-source">Ref: NNGroup; Miller's Law</span></p>
+                        <p>Show what the task requires, hide the rest. Reduces cognitive load. <span class="principle-source">Ref: Miller's Law; NNGroup</span></p>
                     </div>
                 </div>
-                <div class="principle-card to-validate">
+                <div class="principle-card">
                     <div class="principle-num">04</div>
                     <div class="principle-content">
                         <strong>Click Anywhere, Land Everywhere</strong>
-                        <p>Selection syncs across views. <span class="principle-source">Ref: Linked views pattern</span></p>
+                        <p>Selection syncs across all views instantly. <span class="principle-source">Ref: Linked views pattern</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">05</div>
                     <div class="principle-content">
                         <strong>Context Preservation</strong>
-                        <p>Never "zoom in and get lost." Orientation supports learning. <span class="principle-source">Ref: Tufte; Shneiderman</span></p>
+                        <p>Never "zoom in and get lost." Orientation supports learning. <span class="principle-source">Ref: Shneiderman's mantra</span></p>
                     </div>
                 </div>
                 <div class="principle-card">
                     <div class="principle-num">06</div>
                     <div class="principle-content">
                         <strong>Type-First Organization</strong>
-                        <p>Group by type, not creation order. <span class="principle-source">Ref: Information architecture</span></p>
+                        <p>Group by element type, not creation order. <span class="principle-source">Ref: Information architecture</span></p>
                     </div>
                 </div>
-                <div class="principle-card to-validate">
+                <div class="principle-card">
                     <div class="principle-num">07</div>
                     <div class="principle-content">
                         <strong>Edge Density Management</strong>
-                        <p>Limit or filter edges to reduce noise. <span class="principle-source">Ref: Tufte "Layering"</span></p>
+                        <p>Filter or limit edges to reduce visual noise. <span class="principle-source">Ref: Tufte "Layering and Separation"</span></p>
                     </div>
                 </div>
-                <div class="principle-card product">
+                <div class="principle-card">
                     <div class="principle-num">08</div>
                     <div class="principle-content">
                         <strong>Validation Timing</strong>
-                        <p>Real-time vs. on-demand error checking. <span class="principle-source">Ref: B2B expert workflows</span></p>
+                        <p>Real-time vs. on-demand error checking — user controls interruption. <span class="principle-source">Ref: B2B expert workflows</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">09</div>
                     <div class="principle-content">
                         <strong>Safe Exploration</strong>
-                        <p>Generous undo, non-destructive defaults. Mistakes are cheap. <span class="principle-source">Ref: Norman's DOET</span></p>
+                        <p>Generous undo, non-destructive defaults. Mistakes are cheap. <span class="principle-source">Ref: Norman, Design of Everyday Things</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">10</div>
                     <div class="principle-content">
                         <strong>Leverage Familiar Patterns</strong>
-                        <p>Build on IDE/CAD conventions. Reduce novelty cost. <span class="principle-source">Ref: Jakob's Law</span></p>
+                        <p>Build on IDE/CAD conventions users already know. <span class="principle-source">Ref: Jakob's Law</span></p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">SysML v1 → v2 Terminology</h2>
-            <p>Key naming changes for users transitioning from v1. Search should recognize old names.</p>
-            
-            <div class="terminology-intro">
-                <strong>Discoverability principle:</strong> When users search "Block" or "ValueProperty", show the v2 equivalent with the old name in parentheses.
-            </div>
-
-            <div class="terminology-grid">
-                <div class="term-card renamed">
-                    <span class="term-v2">Part</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">Block</span>
-                </div>
-                <div class="term-card renamed">
-                    <span class="term-v2">Attribute</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">Value Property</span>
-                </div>
-                <div class="term-card renamed">
-                    <span class="term-v2">Port</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">Port / FlowPort / Conjugated</span>
-                </div>
-                <div class="term-card renamed">
-                    <span class="term-v2">Connection</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">Connector / Association</span>
-                </div>
-                <div class="term-card renamed">
-                    <span class="term-v2">Constraint</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">ConstraintBlock</span>
-                </div>
-                <div class="term-card renamed">
-                    <span class="term-v2">Allocation</span>
-                    <span class="term-arrow">←</span>
-                    <span class="term-v1">Allocate (dependency)</span>
-                </div>
-                <div class="term-card new">
-                    <span class="term-v2">Item</span>
-                    <span class="term-note">New in v2</span>
-                </div>
-                <div class="term-card new">
-                    <span class="term-v2">Interface</span>
-                    <span class="term-note">New in v2</span>
-                </div>
-                <div class="term-card new">
-                    <span class="term-v2">Calculation</span>
-                    <span class="term-note">New in v2</span>
-                </div>
-                <div class="term-card new">
-                    <span class="term-v2">Concern</span>
-                    <span class="term-note">New in v2</span>
-                </div>
-            </div>
-        </section>
-
-        <section>
             <h2 class="section-title">SysML2 Constraint Map</h2>
+            <p>Understanding where the specification constrains design vs. where tooling can innovate.</p>
             <div class="constraint-compact">
                 <div class="constraint-row">
                     <div class="constraint-label">Specified by Standard</div>
@@ -454,61 +627,170 @@
                 </div>
                 <div class="constraint-row design-space">
                     <div class="constraint-label">Tool Design Space</div>
-                    <div class="constraint-items">Colors & icons · Layout algorithms · Collapse/expand · Navigation · Search/filter · View switching · Error presentation</div>
+                    <div class="constraint-items">Colors & icons · Layout algorithms · Collapse/expand behavior · Navigation patterns · Search/filter · View switching · Error presentation · Tooltips & help</div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">UI Pattern Categories</h2>
-            <div class="patterns-compact">
-                <span class="pattern-tag">Navigation & Zoom</span>
-                <span class="pattern-tag">View Sync</span>
-                <span class="pattern-tag">Search & Filter</span>
-                <span class="pattern-tag">Node Styling</span>
-                <span class="pattern-tag">Edge Routing</span>
-                <span class="pattern-tag">Selection</span>
-                <span class="pattern-tag">Collapse/Expand</span>
-                <span class="pattern-tag">Validation Feedback</span>
-                <span class="pattern-tag">Undo/History</span>
-                <span class="pattern-tag">Layout</span>
+            <h2 class="section-title">Interface Analysis: Annotated Examples</h2>
+            <p>The analysis evaluated first impressions and key workflow phases. Below are sample observations with annotations — noting both strengths and areas to explore further.</p>
+
+            <!-- Example 1: Main Interface Layout -->
+            <div class="screenshot-annotation">
+                <div class="screenshot-header">Example 1: Main Interface Layout</div>
+                <div class="screenshot-body">
+                    <div class="screenshot-image">
+                        <img src="sf-main-interface.png" alt="System Forge main interface showing sidebar with Model Explorer and package tree" style="max-width: 100%; border: 1px solid #ddd;">
+                    </div>
+                    <div class="annotation-list">
+                        <div class="annotation-item strength">
+                            <strong>✓ Clear layout structure</strong>
+                            <p>Users can identify where to find tools and where diagrams appear. Icon groupings in left sidebar are visible and logically separated by function.</p>
+                            <span class="tag">Supports: Jakob's Law</span>
+                        </div>
+                        <div class="annotation-item strength">
+                            <strong>✓ Restrained color scheme</strong>
+                            <p>Interface is more modern than most systems engineering tools on first impression. Minimal visual clutter supports focus on the model content.</p>
+                            <span class="tag">Supports: Professional trust</span>
+                        </div>
+                        <div class="annotation-item consideration">
+                            <strong>→ Sidebar icon differentiation</strong>
+                            <p>All sidebar icons have similar visual weight. Model Explorer could be more visually dominant since SE workflows start from the model tree.</p>
+                            <span class="tag">Principle: #06 Type-First</span>
+                        </div>
+                        <div class="annotation-item consideration">
+                            <strong>→ Icon style consistency</strong>
+                            <p>Some icons are flat line style while others have fills. Standardizing would strengthen visual grammar across the interface.</p>
+                            <span class="tag">Principle: #02 Consistent Grammar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 2: Add Element Palette -->
+            <div class="screenshot-annotation">
+                <div class="screenshot-header">Example 2: Add Element Palette</div>
+                <div class="screenshot-body">
+                    <div class="screenshot-image">
+                        <img src="sf-element-palette.png" alt="System Forge element palette showing Structure, Behavior, Requirements categories with Part tooltip visible" style="max-width: 100%; border: 1px solid #ddd;">
+                    </div>
+                    <div class="annotation-list">
+                        <div class="annotation-item strength">
+                            <strong>✓ Grouped by category</strong>
+                            <p>Elements organized into meaningful categories (Structure, Behavior, Requirements, Connections, Organization, Documentation) rather than flat lists.</p>
+                            <span class="tag">Supports: #06 Type-First</span>
+                        </div>
+                        <div class="annotation-item strength">
+                            <strong>✓ Tooltips present</strong>
+                            <p>Hovering "Part" shows "Create an instance of a part" — helping users understand SysML2 concepts in context. This directly supports learnability.</p>
+                            <span class="tag">Supports: #03 Progressive Disclosure</span>
+                        </div>
+                        <div class="annotation-item strength">
+                            <strong>✓ Search available</strong>
+                            <p>"Search element types..." input allows direct access without navigating categories. Supports both novice (browse) and expert (search) patterns.</p>
+                            <span class="tag">Supports: Flexibility</span>
+                        </div>
+                        <div class="annotation-item consideration">
+                            <strong>→ v1 terminology in search</strong>
+                            <p>When users search "Block" (v1 term), consider showing "Part" (v2 equivalent) with the old name visible. Supports users transitioning from SysML v1.</p>
+                            <span class="tag">Learnability: v1→v2 users</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Use Case: Diagram View</h2>
-            <p>The diagram view is the first use case to work through — applying principles with learnability as the primary lens.</p>
+            <h2 class="section-title">Summary: Strengths & Recommendations</h2>
             
-            <div class="usecase-box">
-                <div class="usecase-item">
-                    <strong>Diagram-Specific Considerations</strong>
-                    <p>Primary editing surface · Edge density critical · Context preservation at scale · Type-filtered display</p>
+            <div class="summary-box">
+                <h4>Key Strengths Identified</h4>
+                <div class="summary-list">
+                    <div class="summary-item strength">Clean, modern interface compared to typical SE tools</div>
+                    <div class="summary-item strength">Restrained color scheme supports focus</div>
+                    <div class="summary-item strength">Elements grouped by category, not flat list</div>
+                    <div class="summary-item strength">Diagram type selection includes explanations</div>
+                    <div class="summary-item strength">Search available for element types</div>
+                    <div class="summary-item strength">Auto Layout and MiniMap for navigation</div>
                 </div>
-                <div class="usecase-item">
-                    <strong>Learnability Focus</strong>
-                    <p>How does a new user understand what they're looking at? How does a v1 user recognize familiar concepts? What feedback helps users learn correct usage?</p>
-                </div>
-                <div class="usecase-item validation">
-                    <strong>Expert Validation</strong>
-                    <p>Review with systems engineers · Test with SysML v1 practitioners · Test with MBSE newcomers · Validate mental models</p>
+            </div>
+
+            <div class="summary-box">
+                <h4>Recommendations for Review</h4>
+                <div class="summary-list">
+                    <div class="summary-item recommendation">Make Model Explorer visually dominant in sidebar</div>
+                    <div class="summary-item recommendation">Standardize icon styles and hover behaviors</div>
+                    <div class="summary-item recommendation">Add v1→v2 terminology support in search</div>
+                    <div class="summary-item recommendation">Clarify reversibility of choices (e.g., diagram type)</div>
+                    <div class="summary-item recommendation">Consider tooltips explaining SysML2 concepts</div>
+                    <div class="summary-item recommendation">Review "File Explorer" label with SE team</div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Next Steps</h2>
-            <div class="next-steps-list">
-                <div class="next-step">
-                    <strong>Workflow Documentation</strong>
-                    <p>Map diagram tasks with principles applied</p>
+            <h2 class="section-title">Roadmap: Two Parallel Workstreams</h2>
+            <p>Information architecture (where things live) and interaction design (how users accomplish tasks) can proceed in parallel — they inform each other. Both must stabilize before locking design system decisions.</p>
+
+            <div class="roadmap-grid">
+                <div class="roadmap-item complete">
+                    <div class="phase">Phase 1</div>
+                    <strong>Design Principles</strong>
+                    <p>Values, guidelines, decision criteria. 10 principles documented with references.</p>
+                    <span class="status done">Complete</span>
                 </div>
-                <div class="next-step validation">
-                    <strong>Expert Validation</strong>
-                    <p>Review with systems engineers and SysML practitioners (v1 and v2)</p>
+                <div class="roadmap-item complete">
+                    <div class="phase">Phase 2a</div>
+                    <strong>Interface Analysis</strong>
+                    <p>Current state audit. Workflows documented, observations mapped to principles.</p>
+                    <span class="status done">Complete</span>
                 </div>
-                <div class="next-step">
-                    <strong>User Testing</strong>
-                    <p>Test with newcomers: can they learn SysML through the tool?</p>
+                <div class="roadmap-item">
+                    <div class="phase">Phase 2b</div>
+                    <strong>Information Architecture</strong>
+                    <p>Content hierarchy, sidebar structure, Model vs File Explorer, Views/Editors/Tools grouping.</p>
+                    <span class="status current">In Progress</span>
+                </div>
+                <div class="roadmap-item">
+                    <div class="phase">Phase 3</div>
+                    <strong>Interaction Design</strong>
+                    <p>User flows per workflow phase. Create diagram, add parts, connect elements, review/validate.</p>
+                    <span class="status next">Next</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Deliverables</h2>
+            <div class="deliverables-list">
+                <div class="deliverable-item">
+                    <div class="deliverable-icon">📋</div>
+                    <div class="deliverable-info">
+                        <strong>Design Principles Document</strong>
+                        <span>10 principles with rationale and references · HTML portfolio page</span>
+                    </div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-icon">📊</div>
+                    <div class="deliverable-info">
+                        <strong>Interface Analysis Report</strong>
+                        <span>22-page PDF · Workflow evaluation with annotated screenshots</span>
+                    </div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-icon">🗺️</div>
+                    <div class="deliverable-info">
+                        <strong>UX Roadmap</strong>
+                        <span>A4 diagram · Workstream structure, sequencing, deliverables</span>
+                    </div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-icon">📝</div>
+                    <div class="deliverable-info">
+                        <strong>Terminology Reference</strong>
+                        <span>SysML v1 → v2 mapping for search and tooltip implementation</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -516,19 +798,23 @@
         <section>
             <h2 class="section-title">Reflection</h2>
             <div class="reflection">
-                <p><strong>On learnability as a design goal:</strong> Most MBSE tools assume training. System Forge asks: what if the interface itself teaches? Every tooltip, every visual cue, every error message is an opportunity to help users learn — not just use — the language.</p>
+                <p><strong>On working with domain expertise:</strong> Design principles for a specialized tool require ongoing alignment with engineering knowledge. Cauê's systems engineering expertise shaped which principles matter most — for example, why "Model Explorer must be visually dominant" follows directly from SE workflow priorities, not generic UX logic. This kind of principle refinement happens through conversation, not isolation.</p>
             </div>
             <div class="reflection">
-                <p><strong>On principles before pixels:</strong> The expectation for UX Designers is often visual output. But a dropdown without a principle is just a guess. Principles create constraints — and constraints make design decisions defensible, not arbitrary.</p>
+                <p><strong>On documentation as design work:</strong> In early-stage products, clear documentation is as valuable as screens. Principles and analysis create shared understanding, reducing ambiguity and rework. The analysis report and roadmap are not byproducts — they're the foundation that makes future design decisions faster and more defensible.</p>
+            </div>
+            <div class="reflection">
+                <p><strong>On learnability as a design goal:</strong> Most MBSE tools assume training. System Forge asks: what if the interface itself teaches? Every tooltip, every visual cue, every error message is an opportunity to help users learn — not just use — a complex modeling language.</p>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Tools</h2>
+            <h2 class="section-title">Tools & Methods</h2>
             <div class="tech-list">
                 <span class="tech-tag">Figma</span>
-                <span class="tech-tag">SysML2</span>
-                <span class="tech-tag">Claude</span>
+                <span class="tech-tag">SysML2 Specification</span>
+                <span class="tech-tag">Heuristic Evaluation</span>
+                <span class="tech-tag">Workflow Analysis</span>
                 <span class="tech-tag">Obsidian</span>
             </div>
         </section>
