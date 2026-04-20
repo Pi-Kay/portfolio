@@ -197,6 +197,108 @@
             margin: 20px 0;
         }
 
+        /* ===== NEW: status chip + phases strip + split-role block ===== */
+
+        /* Status chip — for "Work in progress" marker on artifacts */
+        .status-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            margin-left: 8px;
+            font-size: 0.7em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            background: #f0f0f0;
+            border: 1px solid #e5e5e5;
+            vertical-align: middle;
+        }
+
+        .status-chip.live {
+            color: #1a1a1a;
+            background: #fff;
+            border-color: #1a1a1a;
+        }
+
+        /* Project phases strip */
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 24px 0 32px;
+        }
+
+        .phase {
+            padding: 14px 14px 16px;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        .phase.current {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        .phase-num {
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.7em;
+            letter-spacing: 1px;
+            color: #8a8a8a;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .phase.current .phase-num { color: #a1a1a6; }
+
+        .phase-title {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .phase.current .phase-title { color: #fff; }
+
+        .phase-meta {
+            font-size: 0.85em;
+            color: #8a8a8a;
+        }
+
+        .phase.current .phase-meta { color: #a1a1a6; }
+
+        /* Split role block for AI + human collaboration */
+        .split-role {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .role-col {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            padding: 20px;
+        }
+
+        .role-col h4 {
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .role-col ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 0.9em;
+            color: #3d3d3d;
+            line-height: 1.55;
+        }
+
+        .role-col li { margin-bottom: 4px; }
+
         /* Responsive */
         @media (max-width: 768px) {
             .deliverables-intro {
@@ -211,6 +313,14 @@
                 width: 100%;
                 max-width: 200px;
             }
+
+            .phases {
+                grid-template-columns: 1fr;
+            }
+
+            .split-role {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -222,26 +332,73 @@
     </header>
 
     <main>
+
+        <!-- ============ STATUS NOTE (new) ============ -->
+        <section>
+            <div class="highlight-box">
+                <p><strong>Project status · Work in progress.</strong> Navigator is an ongoing, exemplary side project developed together with a backend engineer as a shared learning exercise. The Guide (v1.0) is published; specific content points are still being finalised and open to expert review. The Navigator app prototype is live; the production version (V2) is in development. The handbook described below is the next artifact in the arc — it exists in draft form. Everything on this page is honest about what's shipped, what's in flight, and what's still forming.</p>
+                <p style="margin-top: 8px; font-size: 0.9em; color: #6b6b6b;"><strong>Positioning:</strong> Orientation, not legal advice. Practitioner-to-practitioner — not a product, not a consultancy offering.</p>
+            </div>
+        </section>
+
+        <!-- ============ PROJECT PHASES (new) ============ -->
+        <section>
+            <h2 class="section-title">Project phases</h2>
+            <p>Each phase is a finished artifact on its own. Together they tell the arc of how one side project grew from a document into a small toolkit.</p>
+
+            <div class="phases">
+                <div class="phase">
+                    <span class="phase-num">01 — DONE</span>
+                    <div class="phase-title">Guide v1.0</div>
+                    <div class="phase-meta">Dec 2025 · published</div>
+                </div>
+                <div class="phase">
+                    <span class="phase-num">02 — DONE</span>
+                    <div class="phase-title">Navigator web app</div>
+                    <div class="phase-meta">AI-prototyped · live</div>
+                </div>
+                <div class="phase">
+                    <span class="phase-num">03 — IN FLIGHT</span>
+                    <div class="phase-title">Backend collab</div>
+                    <div class="phase-meta">V2 in development</div>
+                </div>
+                <div class="phase current">
+                    <span class="phase-num">04 — NOW</span>
+                    <div class="phase-title">Guidelines &amp; logic</div>
+                    <div class="phase-meta">Drafted &amp; shared</div>
+                </div>
+                <div class="phase">
+                    <span class="phase-num">05 — NEXT</span>
+                    <div class="phase-title">Handbook, user stories, user guide</div>
+                    <div class="phase-meta">Draft in hand</div>
+                </div>
+            </div>
+
+            <p class="note">Phase 04 is where most of the thinking lives — decision logic for the app, Req IDs for the Guide, draft API shape for V2, and editorial notes reconciling the Guide's creator-protective framing with the handbook's developer-facing framing.</p>
+        </section>
+
+        <!-- ============ RESEARCH QUESTION (unchanged) ============ -->
         <section>
             <h2 class="section-title">Research Question</h2>
             <p>How can artists, platforms, and music-tech companies navigate AI compliance — understanding what's legal, what's required, and how to work ethically in a landscape where AI is here to stay?</p>
         </section>
 
+        <!-- ============ CONTEXT (unchanged) ============ -->
         <section>
             <h2 class="section-title">Context</h2>
             <p>AI in sound — music, soundscapes, sound design — isn't going away. Creators worry about consent and compensation. Ethical platforms and new AI-native companies want to do things right. Both need the same thing: clarity on regulations, risks, and how to protect and prove authenticity.</p>
             <p>Current resources are either too legal (inaccessible) or too simplified (incomplete). This project addresses both with a bidirectional tool — artists can check if their work was used without consent; companies can verify their AI pipeline is compliant.</p>
-            
+
             <div class="highlight-box">
                 <p><strong>Why I built this:</strong> Having worked at Valispace — a requirements compliance tool for the aerospace industry — I understood how regulated industries approach compliance tooling. Sound creators and music-tech companies now face similar complexity with EU AI regulations, but lack accessible tools.</p>
             </div>
         </section>
 
+        <!-- ============ PROBLEM VALIDATION (unchanged) ============ -->
         <section>
             <h2 class="section-title">Problem Validation</h2>
-            
             <p>Before designing, I spoke with musicians and observed industry patterns to understand pain points on both sides.</p>
-            
+
             <div class="deliverables-intro">
                 <div class="deliverable-card">
                     <div class="deliverable-label">Creator concerns</div>
@@ -260,20 +417,21 @@
             </div>
         </section>
 
+        <!-- ============ SOLUTION (status chips added) ============ -->
         <section>
             <h2 class="section-title">Solution</h2>
-            
+
             <div class="deliverables-intro">
                 <div class="deliverable-card">
                     <div class="deliverable-label">Interactive</div>
-                    <div class="deliverable-title">Navigator App</div>
+                    <div class="deliverable-title">Navigator App <span class="status-chip live">Live · V1</span></div>
                     <div class="deliverable-desc">Decision-tree tool for step-by-step compliance guidance. Input a use case, get requirements, risks, and action steps.</div>
                     <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch App →</a>
                 </div>
                 <div class="deliverable-card">
                     <div class="deliverable-label">Documentation</div>
-                    <div class="deliverable-title">Compliance Guide</div>
-                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented.</div>
+                    <div class="deliverable-title">Compliance Guide <span class="status-chip live">Published · v1.0</span></div>
+                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented. Some content points still being finalised; open to expert review.</div>
                     <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
                 </div>
             </div>
@@ -283,18 +441,19 @@
             </div>
         </section>
 
+        <!-- ============ NAVIGATOR INTERFACE (unchanged) ============ -->
         <section>
             <h2 class="section-title">Navigator Interface</h2>
             <div class="video-container">
-                <video 
-                    src="navigator_screenrecording.mov" 
-                    autoplay 
-                    loop 
-                    muted 
+                <video
+                    src="navigator_screenrecording.mov"
+                    autoplay
+                    loop
+                    muted
                     playsinline>
                 </video>
             </div>
-            
+
             <h3>Use Cases</h3>
             <ul>
                 <li><strong>Consent & Attribution</strong> — Was this work used with permission?</li>
@@ -306,9 +465,10 @@
             <p class="note">Use cases lean creator-side — individual artists typically want guidance for their specific scenario, not a full compliance audit.</p>
         </section>
 
+        <!-- ============ TRADE-OFFS & DECISIONS (unchanged) ============ -->
         <section>
             <h2 class="section-title">Trade-offs & Decisions</h2>
-            
+
             <div class="deliverables-intro">
                 <div class="deliverable-card">
                     <div class="deliverable-label">Sequencing</div>
@@ -336,25 +496,40 @@
             </div>
         </section>
 
+        <!-- ============ DOCUMENTATION (status + handbook card added) ============ -->
         <section>
             <h2 class="section-title">Documentation</h2>
+
             <div class="doc-preview">
                 <a href="Music AI Compliance.pdf" target="_blank" class="doc-thumbnail" aria-label="Preview of Music AI Compliance Guide PDF">
                     <embed src="Music AI Compliance.pdf#page=1" type="application/pdf" title="First page preview">
                 </a>
                 <div class="doc-info">
-                    <div class="doc-info-title">Guidance on Personal Data in Generative Music Systems</div>
+                    <div class="doc-info-title">Guidance on Personal Data in Generative Music Systems <span class="status-chip live">Published · v1.0</span></div>
                     <div class="doc-info-meta">GDPR, EU AI Act, European Accessibility Act, ICO, ENISA, WCAG 2.2</div>
                     <a href="Music AI Compliance.pdf" target="_blank" class="btn">View PDF</a>
                     <a href="Music AI Compliance.pdf" download class="btn btn-outline">Download</a>
                 </div>
             </div>
-            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order.</p>
+            <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order. Some content points still being finalised — the Guide is a living document, open to expert review and community corrections.</p>
+
+            <div class="doc-preview">
+                <div class="doc-thumbnail" style="display: flex; align-items: center; justify-content: center; font-family: 'SF Mono', Menlo, monospace; font-size: 0.7em; color: #8a8a8a; text-align: center; padding: 16px;">
+                    Handbook<br>draft<br>(companion<br>to the Guide)
+                </div>
+                <div class="doc-info">
+                    <div class="doc-info-title">Shipping a Generative Audio Feature Under the EU AI Act — A Developer's Handbook <span class="status-chip">Draft · v0.9</span></div>
+                    <div class="doc-info-meta">Developer-facing companion to the Guide · Risk classification, pre-ship checklist, worked example, draft API user stories for Navigator V2, glossary</div>
+                    <p style="font-size: 0.85em; color: #6b6b6b; margin: 8px 0 12px;">Where the Guide is creator-side orientation, the handbook is developer-side. Drafted collaboratively with AI assistance as a scaffolding exercise; structure, voice, editorial decisions, and final text by me. Rewrite in progress in Obsidian, doc-as-code.</p>
+                </div>
+            </div>
+            <p class="note">Handbook publication planned after rewrite in my own voice and reconciliation with the Guide's Req ID structure (LB-, DP-, TR-, FB-) and risk-tier framing.</p>
         </section>
 
+        <!-- ============ PROCESS (restructured with AI+human insight) ============ -->
         <section>
             <h2 class="section-title">Process</h2>
-            
+
             <div class="highlight-box">
                 <p><strong>Guide — Document-as-Code</strong></p>
                 <p>Wrote compliance documentation in Markdown, managed as a linked knowledge base in Obsidian. This enabled version control, cross-referencing between regulations, and easy updates as laws evolve. Designed final PDF in Apple Pages.</p>
@@ -366,17 +541,43 @@
             </div>
 
             <div class="highlight-box">
-                <p><strong>Handover & Collaboration</strong></p>
-                <p>Prototype handed over to a backend engineer for professional implementation. Ongoing collaboration on: tool logic and decision-tree structure, auto-updating regulations from official sources, accessibility and language translation (my responsibility).</p>
+                <p><strong>Handover &amp; Collaboration</strong></p>
+                <p>Prototype handed over to a backend engineer for professional implementation. Ongoing collaboration on: tool logic and decision-tree structure, auto-updating regulations from official sources, accessibility and language translation (my responsibility). This is a mutual learning exercise — we each teach the other what our discipline knows.</p>
+            </div>
+
+            <h3>AI + human: where each does what</h3>
+            <p>This project is deliberately honest about where AI helped and where I made the calls. The split below is the actual working arrangement, not a retrofit.</p>
+
+            <div class="split-role">
+                <div class="role-col">
+                    <h4>AI-assisted</h4>
+                    <ul>
+                        <li>Requirement gathering across scattered regulatory sources</li>
+                        <li>Cross-verification across models (Claude, Grok) to catch single-source errors</li>
+                        <li>Rapid React prototyping for the decision-tree UI</li>
+                        <li>Scaffolding drafts for the developer-facing handbook</li>
+                        <li>Reformulating legal text into plain language candidates</li>
+                    </ul>
+                </div>
+                <div class="role-col">
+                    <h4>Human-led</h4>
+                    <ul>
+                        <li>Design direction, information architecture, editorial decisions</li>
+                        <li>Audience framing — who reads this, at what reading age, in what context</li>
+                        <li>Source verification against primary regulation texts</li>
+                        <li>Accessibility review (WCAG 2.2 AA), tagged structure, alt text</li>
+                        <li>Reconciling tensions — e.g. creator-protective vs. developer-facing framings</li>
+                        <li>Engineering collaboration, handover decisions, scope control</li>
+                    </ul>
+                </div>
             </div>
 
             <div class="highlight-box">
-                <p><strong>AI-Human Collaboration</strong></p>
-                <p>AI-assisted: requirement gathering, cross-verification across models (Claude, Grok), rapid prototyping.</p>
-                <p>Human-led: design direction, information architecture, accessibility review, editorial decisions, source verification, engineering collaboration.</p>
+                <p><strong>Honest note on AI drafts.</strong> The handbook was scaffolded with AI. Publishing AI prose as-is is not the skill; using AI to move faster <em>and</em> making the editorial calls that only a domain practitioner can make is the skill. Every decision where the Guide and handbook disagreed — risk tier framing, whether voice is special-category data by default, retention baselines, which obligations are binding today versus phased in — was mine. The rewrite is being done in Obsidian with Git version control, so the decision trail is auditable.</p>
             </div>
         </section>
 
+        <!-- ============ TOOLS (unchanged) ============ -->
         <section>
             <h2 class="section-title">Tools</h2>
             <div class="tech-list">
@@ -392,13 +593,15 @@
             </div>
         </section>
 
+        <!-- ============ OUTCOME & NEXT STEPS (tightened, reflects phases) ============ -->
         <section>
             <h2 class="section-title">Outcome & Next Steps</h2>
-            <p>Published as an open-source resource under version control. Prototype validated the concept; now in professional development.</p>
-            
+            <p>Published as an open-source resource under version control. Prototype validated the concept; V2 is now in professional development.</p>
+
             <ul>
-                <li><strong>V2 in development:</strong> Backend engineer building production version with auto-updating regulation feeds from official sources — designed to be embeddable for platforms wanting to offer compliance guidance to their users</li>
-                <li><strong>My ongoing role:</strong> Frontend collaboration, accessibility implementation, language translation</li>
+                <li><strong>V2 in development:</strong> Backend engineer building the production version with auto-updating regulation feeds from official sources — designed to be embeddable for platforms wanting to offer compliance guidance to their users.</li>
+                <li><strong>My ongoing role:</strong> Frontend collaboration, accessibility implementation, language translation, and the developer-facing handbook.</li>
+                <li><strong>Next artifact:</strong> Handbook v1.0 after rewrite, with user stories and a short user guide for V2 integrators.</li>
             </ul>
 
             <div class="highlight-box">
