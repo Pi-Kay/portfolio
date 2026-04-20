@@ -209,10 +209,48 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-        header {
-    text-align: center;
-    margin-bottom: 4rem;
+header {
+    text-align: left;
+    margin-bottom: 100px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+}
+
+.tagline {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #3d3d3d;
+    letter-spacing: 0;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+.meta {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #8a8a8a;
+    margin: 0;
+}
+
+.meta a {
+    color: #8a8a8a;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.meta a:hover {
+    color: #1a1a1a;
+    border-bottom-color: #1a1a1a;
 }
 
 
@@ -223,8 +261,8 @@
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <div class="container">
-    <header>
-    <h3>Petra Kühnle</h3>
+   <header>
+    <h1>Petra Kühnle</h1>
     <p class="tagline">Designing and documenting expert tools</p>
     <p class="meta">Berlin · Remote · <a href="bio.html">Bio</a></p>
 </header>
