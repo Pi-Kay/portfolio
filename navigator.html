@@ -220,20 +220,46 @@
             border-color: #1a1a1a;
         }
 
-        /* Project phases strip */
+        /* Project phases strip — horizontal, flows with arrow separators */
         .phases {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            display: flex;
+            align-items: stretch;
+            gap: 0;
             margin: 24px 0 32px;
+            overflow-x: auto;
+            padding-bottom: 4px;
         }
 
         .phase {
+            flex: 1 1 0;
+            min-width: 140px;
             padding: 14px 14px 16px;
             background: #fff;
             border: 1px solid #e5e5e5;
             font-size: 0.85em;
             line-height: 1.4;
+            position: relative;
+        }
+
+        .phase + .phase {
+            border-left: none;
+        }
+
+        /* Arrow / chevron between phases */
+        .phase + .phase::before {
+            content: "›";
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            color: #8a8a8a;
+            font-size: 14px;
+            line-height: 14px;
+            text-align: center;
+            z-index: 2;
         }
 
         .phase.current {
@@ -315,7 +341,13 @@
             }
 
             .phases {
-                grid-template-columns: 1fr;
+                /* Keep horizontal on mobile; user scrolls */
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .phase {
+                min-width: 160px;
             }
 
             .split-role {
@@ -514,16 +546,16 @@
             <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order. Some content points still being finalised — the Guide is a living document, open to expert review and community corrections.</p>
 
             <div class="doc-preview">
-                <div class="doc-thumbnail" style="display: flex; align-items: center; justify-content: center; font-family: 'SF Mono', Menlo, monospace; font-size: 0.7em; color: #8a8a8a; text-align: center; padding: 16px;">
-                    Handbook<br>draft<br>(companion<br>to the Guide)
+                <div class="doc-thumbnail" style="display: flex; align-items: center; justify-content: center; font-family: 'SF Mono', Menlo, monospace; font-size: 0.7em; color: #8a8a8a; text-align: center; padding: 16px; background: #fafafa;">
+                    Handbook<br>coming<br>next
                 </div>
                 <div class="doc-info">
-                    <div class="doc-info-title">Shipping a Generative Audio Feature Under the EU AI Act — A Developer's Handbook <span class="status-chip">Draft · v0.9</span></div>
+                    <div class="doc-info-title">Shipping a Generative Audio Feature Under the EU AI Act — A Developer's Handbook <span class="status-chip">In progress</span></div>
                     <div class="doc-info-meta">Developer-facing companion to the Guide · Risk classification, pre-ship checklist, worked example, draft API user stories for Navigator V2, glossary</div>
-                    <p style="font-size: 0.85em; color: #6b6b6b; margin: 8px 0 12px;">Where the Guide is creator-side orientation, the handbook is developer-side. Drafted collaboratively with AI assistance as a scaffolding exercise; structure, voice, editorial decisions, and final text by me. Rewrite in progress in Obsidian, doc-as-code.</p>
+                    <p style="font-size: 0.85em; color: #6b6b6b; margin: 8px 0 0;">Where the Guide is creator-side orientation, the handbook will be developer-side. Currently being written in Obsidian as doc-as-code, reconciled against the Guide's Req ID structure (LB-, DP-, TR-, FB-) and risk-tier framing. Scaffolded with AI assistance; structure, voice, and editorial calls are mine. Published once the rewrite is complete.</p>
                 </div>
             </div>
-            <p class="note">Handbook publication planned after rewrite in my own voice and reconciliation with the Guide's Req ID structure (LB-, DP-, TR-, FB-) and risk-tier framing.</p>
+            <p class="note">The handbook is not yet available for download — it's listed here because it's the next planned artifact in the arc, and because the Guide references a forthcoming developer companion.</p>
         </section>
 
         <!-- ============ PROCESS (restructured with AI+human insight) ============ -->
@@ -600,8 +632,8 @@
 
             <ul>
                 <li><strong>V2 in development:</strong> Backend engineer building the production version with auto-updating regulation feeds from official sources — designed to be embeddable for platforms wanting to offer compliance guidance to their users.</li>
-                <li><strong>My ongoing role:</strong> Frontend collaboration, accessibility implementation, language translation, and the developer-facing handbook.</li>
-                <li><strong>Next artifact:</strong> Handbook v1.0 after rewrite, with user stories and a short user guide for V2 integrators.</li>
+                <li><strong>My ongoing role:</strong> Frontend collaboration, accessibility implementation, language translation.</li>
+                <li><strong>In progress:</strong> Developer-facing handbook as the next companion artifact — published when the rewrite is ready, not before.</li>
             </ul>
 
             <div class="highlight-box">
