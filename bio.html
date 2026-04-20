@@ -3,218 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bio - Petra Kühnle</title>
+  <title>Bio — Petra Kühnle</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: #fafafa;
+      background: #fafaf9;
       color: #1a1a1a;
-      line-height: 1.8;
+      line-height: 1.6;
       min-height: 100vh;
       padding: 80px 20px;
       font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
-      animation: fadeIn 1s ease-out;
+      animation: fadeIn 0.9s ease-out;
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
+    /* HEADER — two-tone tonal gradient, no border */
     header {
-      margin-bottom: 80px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 96px;
     }
 
     h1 {
-      font-size: 1.875em;
+      font-size: 2rem;
       font-weight: 300;
-      letter-spacing: -0.3px;
-      margin-bottom: 8px;
-      color: #000;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+      color: #1a1a1a;
     }
 
     .location {
-      font-size: 0.9375em;
+      font-size: 0.9375rem;
       color: #888;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
+      font-weight: 400;
+      margin-bottom: 22px;
     }
 
     .tagline {
-      font-size: 0.9375em;
+      font-size: 0.9375rem;
       color: #333;
-      font-weight: 300;
-      letter-spacing: 0.2px;
-      line-height: 1.7;
+      font-weight: 400;
+      line-height: 1.5;
     }
 
+    .tagline .tags {
+      display: block;
+      color: #888;
+      font-size: 0.8125rem;
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* SECTIONS — no borders, whitespace does the work */
     section {
-      margin-bottom: 70px;
+      margin-bottom: 72px;
     }
 
     h2 {
-      font-size: 0.875em;
-      font-weight: 400;
-      letter-spacing: 1.5px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #666;
-      margin-bottom: 20px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #f0f0f0;
+      color: #999;
+      margin-bottom: 28px;
     }
 
     p {
-      font-size: 0.9375em;
-      color: #333;
-      margin-bottom: 18px;
-      font-weight: 300;
-    }
-
-    .detail-group {
-      margin-bottom: 40px;
-    }
-
-    .detail-group h3 {
-      font-size: 0.8125em;
+      font-size: 0.9375rem;
+      color: #1a1a1a;
+      margin-bottom: 16px;
       font-weight: 400;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #999;
-      margin-bottom: 14px;
     }
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      font-size: 0.9375em;
-      color: #444;
-      margin-bottom: 9px;
-      padding-left: 18px;
-      position: relative;
-      font-weight: 300;
-      line-height: 1.6;
-    }
-
-    li:before {
-      content: "—";
-      position: absolute;
-      left: 0;
-      color: #ccc;
-    }
-
+    /* EXPERIENCE ITEMS */
     .experience-item {
-      margin-bottom: 24px;
-      padding-left: 0;
+      margin-bottom: 32px;
     }
 
-    .experience-item:before {
-      content: none;
+    .experience-item:last-child {
+      margin-bottom: 0;
     }
 
     .experience-title {
-      font-size: 0.9375em;
-      font-weight: 400;
-      color: #222;
-      margin-bottom: 3px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+      letter-spacing: -0.005em;
     }
 
     .experience-date {
-      font-size: 0.8125em;
+      font-size: 0.8125rem;
       color: #999;
-      font-weight: 300;
-      margin-bottom: 7px;
-    }
-
-    .experience-desc {
-      font-size: 0.9375em;
-      color: #555;
-      line-height: 1.6;
+      font-weight: 400;
+      margin-bottom: 10px;
+      font-variant-numeric: tabular-nums;
     }
 
     .experience-desc p {
-      font-size: 0.9375em;
-      color: #555;
-      margin-bottom: 14px;
-      font-weight: 300;
+      font-size: 0.9375rem;
+      color: #444;
+      margin-bottom: 10px;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
-    .contact {
-      font-size: 0.9375em;
+    .experience-desc p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* SKILLS — compressed lead-in style, no dash bullets */
+    .skill-group {
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 16px;
+      align-items: baseline;
+    }
+
+    .skill-group-label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #666;
+      letter-spacing: 0.02em;
+    }
+
+    .skill-group-list {
+      font-size: 0.9375rem;
       color: #333;
-      margin-top: 24px;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 560px) {
+      .skill-group {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        margin-bottom: 24px;
+      }
+    }
+
+    /* CONTACT */
+    .contact {
+      font-size: 0.9375rem;
+      color: #333;
     }
 
     .contact a {
-      color: #666;
+      color: #1a1a1a;
       text-decoration: none;
-      border-bottom: 1px solid #ddd;
-      transition: border-color 0.2s;
+      border-bottom: 1px solid #ccc;
+      transition: border-color 0.25s;
     }
 
     .contact a:hover {
-      border-bottom-color: #000;
+      border-bottom-color: #1a1a1a;
     }
 
+    /* NAV — quiet, single rule */
     nav {
-      margin-top: 70px;
-      padding-top: 32px;
-      border-top: 1px solid #e0e0e0;
-      text-align: center;
+      margin-top: 96px;
+      padding-top: 36px;
+      border-top: 1px solid #e5e5e5;
     }
 
     nav a {
-      color: #666;
+      color: #888;
       text-decoration: none;
-      font-size: 0.875em;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      transition: color 0.25s;
     }
 
     nav a:hover {
-      color: #000;
+      color: #1a1a1a;
     }
 
     @media (max-width: 768px) {
-      body {
-        padding: 50px 20px;
-        font-size: 15px;
-      }
-
-      h1 {
-        font-size: 1.75em;
-      }
-
-      header {
-        margin-bottom: 50px;
-      }
-
-      section {
-        margin-bottom: 50px;
-      }
+      body { padding: 56px 20px; font-size: 15px; }
+      h1 { font-size: 1.75rem; }
+      header { margin-bottom: 64px; }
+      section { margin-bottom: 56px; }
     }
   </style>
 </head>
@@ -223,38 +204,41 @@
     <header>
       <h1>Petra Kühnle</h1>
       <p class="location">Berlin</p>
-      <p class="tagline">Complex systems → human understanding | Documentation, interfaces, accessibility</p>
+      <p class="tagline">
+        Complex systems → human understanding
+        <span class="tags">Documentation · interfaces · accessibility</span>
+      </p>
     </header>
 
     <section>
       <h2>About</h2>
-      <p>I design and document new tools, features, and technology for experts — pro audio engineers, aerospace systems designers, and AI practitioners navigating the EU AI Act.</p>
+      <p>I design and document the tools experts use — pro audio engineers, aerospace systems designers, and AI practitioners navigating the EU AI Act.</p>
     </section>
 
     <section>
       <h2>Current Work</h2>
-      
+
       <div class="experience-item">
-        <div class="experience-title">System Forge | UX Analysis & Documentation</div>
-        <div class="experience-date">2026 – present | Collaboration</div>
+        <div class="experience-title">System Forge — UX Analysis & Documentation</div>
+        <div class="experience-date">2026 – present · Remote</div>
         <div class="experience-desc">
-          <p>Design documentation for a SysML2 modeling tool. Design principles, interface evaluation, technical roadmap. Collaboration with systems engineer at Swedish Space Corporation.</p>
+          <p>Design documentation for a SysML2 modeling tool. Design principles, interface evaluation, technical roadmap. In collaboration with a systems engineer at Swedish Space Corporation.</p>
         </div>
       </div>
 
       <div class="experience-item">
-        <div class="experience-title">Sound AI Navigator | Mozilla Fellowship 2026 Nominee</div>
-        <div class="experience-date">2025 – present</div>
+        <div class="experience-title">Sound AI Navigator — Mozilla Fellowship 2026 Nominee</div>
+        <div class="experience-date">2025 – present · Independent</div>
         <div class="experience-desc">
-          <p>AI compliance tooling for generative audio. Navigating EU AI Act & GDPR for sound artists and creative teams.</p>
+          <p>AI compliance tooling for generative audio. Navigating EU AI Act and GDPR for sound artists and creative teams.</p>
         </div>
       </div>
 
       <div class="experience-item">
-        <div class="experience-title">Accessibility Framework | Autismus Leben Berlin</div>
-        <div class="experience-date">2024 – 2025</div>
+        <div class="experience-title">Accessibility Framework — Autismus Leben Berlin</div>
+        <div class="experience-date">2024 – 2025 · Berlin</div>
         <div class="experience-desc">
-          <p>Perception-based digital photography framework developed with autistic adults. ARTPAED-certified through cultural education program (Wetek gGmbH & Alice Salomon Hochschule).</p>
+          <p>Perception-based digital photography framework developed with autistic adults. ARTPAED-certified through a cultural education programme (Wetek gGmbH & Alice Salomon Hochschule).</p>
         </div>
       </div>
     </section>
@@ -263,18 +247,18 @@
       <h2>Previous Roles</h2>
 
       <div class="experience-item">
-        <div class="experience-title">Valispace → Altium 365 | Design & Documentation</div>
-        <div class="experience-date">2021 – 2023 | Bremen / Lisbon</div>
+        <div class="experience-title">Valispace → Altium 365 — Design & Documentation</div>
+        <div class="experience-date">2021 – 2023 · Bremen / Lisbon</div>
         <div class="experience-desc">
-          <p>Sole designer for systems engineering platform. Wrote design requirements with engineers, prototyped system-in-systems features. Prototypes led to €100k+ development contract. Features shipped and survived acquisition.</p>
+          <p>Sole designer for a systems engineering platform. Wrote design requirements with engineers, prototyped system-in-systems features. Prototypes led to a €100k+ development contract. Features shipped and survived acquisition.</p>
         </div>
       </div>
 
       <div class="experience-item">
-        <div class="experience-title">Apple | Technical Consultation & Documentation</div>
-        <div class="experience-date">2016 – 2020 | Cork</div>
+        <div class="experience-title">Apple — Technical Consultation & Documentation</div>
+        <div class="experience-date">2016 – 2020 · Cork</div>
         <div class="experience-desc">
-          <p>Advisor → Supervisor → Specialist. Technical case documentation and expert consultation for Logic Pro and Final Cut Pro users across EU. Apple Care Excellence Award 2018.</p>
+          <p>Advisor → Supervisor → Specialist. Technical case documentation and expert consultation for Logic Pro and Final Cut Pro users across the EU. Apple Care Excellence Award 2018.</p>
         </div>
       </div>
     </section>
@@ -283,8 +267,8 @@
       <h2>Foundation</h2>
 
       <div class="experience-item">
-        <div class="experience-title">Multimedia Art | Sensory Perception</div>
-        <div class="experience-date">2012 – 2016 | Groningen, Netherlands</div>
+        <div class="experience-title">Multimedia Art — Sensory Perception</div>
+        <div class="experience-date">2012 – 2016 · Groningen, Netherlands</div>
         <div class="experience-desc">
           <p>Site-specific installations examining signal processing, contextual meaning, and crossmodal perception. George Verberg Prize nominee (€10k, 2014).</p>
           <p>Select exhibitions: Minerva Graduation Show, Wallhouse #2, European Exchange Academy (Beelitz), Kunstpodium T, Hogtij The Hague.</p>
@@ -294,71 +278,54 @@
 
     <section>
       <h2>Education</h2>
-      <ul>
-        <li>Cultural Education Certificate | ASH Berlin & Wetek gGmbH, 2024</li>
-        <li>Digital Media Design & Development (Level 8) | CIT Cork, 2019</li>
-        <li>BFA Media Art | Academie Minerva, Hanze, 2014</li>
-        <li>BA Human-Centered Intervention Design, Visual Art Therapy Track | HAN Nijmegen, 2008</li>
-      </ul>
+      <div class="experience-item">
+        <div class="experience-desc">
+          <p>Cultural Education Certificate — ASH Berlin & Wetek gGmbH, 2024</p>
+          <p>Digital Media Design & Development (Level 8) — CIT Cork, 2019</p>
+          <p>BFA Media Art — Academie Minerva, Hanze, 2014</p>
+          <p>BA Human-Centered Intervention Design, Visual Art Therapy Track — HAN Nijmegen, 2008</p>
+        </div>
+      </div>
     </section>
 
     <section>
-      <h2>Skills</h2>
- 
-      <div class="detail-group">
-        <h3>Documentation & Analysis</h3>
-        <ul>
-          <li>Technical Writing (design requirements, specs, user stories, knowledge bases)</li>
-          <li>Interface Analysis & Evaluation (heuristic review, workflow documentation)</li>
-          <li>Design Principles & Systems Documentation</li>
-        </ul>
+      <h2>Practice</h2>
+
+      <div class="skill-group">
+        <div class="skill-group-label">Documentation</div>
+        <div class="skill-group-list">Technical writing, design requirements, specs, user stories, knowledge bases, interface analysis, design principles.</div>
       </div>
 
-      <div class="detail-group">
-        <h3>Research & Design</h3>
-        <ul>
-          <li>Human-Centered Research (interviews, think-aloud, Indi Young method)</li>
-          <li>Information Architecture (complex B2B, system-in-systems)</li>
-          <li>Interface Design & Prototyping (Figma, Sketch, pen & paper)</li>
-        </ul>
+      <div class="skill-group">
+        <div class="skill-group-label">Research & Design</div>
+        <div class="skill-group-list">Human-centered research (interviews, think-aloud, Indi Young method), information architecture for complex B2B systems, interface design and prototyping.</div>
       </div>
 
-      <div class="detail-group">
-        <h3>Accessibility & Perception</h3>
-        <ul>
-          <li>Accessibility standards (WCAG, European Accessibility Act)</li>
-          <li>Multimodal interfaces & perception-based design</li>
-          <li>Sonic interaction & sonification (experimental)</li>
-        </ul>
+      <div class="skill-group">
+        <div class="skill-group-label">Accessibility</div>
+        <div class="skill-group-list">WCAG, European Accessibility Act, multimodal interfaces, perception-based design, sonic interaction.</div>
       </div>
 
-      <div class="detail-group">
-        <h3>Regulatory Awareness</h3>
-        <ul>
-          <li>EU AI Act, GDPR, SGB IX, EAA compliance</li>
-        </ul>
+      <div class="skill-group">
+        <div class="skill-group-label">Regulatory</div>
+        <div class="skill-group-list">EU AI Act, GDPR, SGB IX, EAA.</div>
       </div>
 
-      <div class="detail-group">
-        <h3>Tools</h3>
-        <ul>
-          <li>Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian</li>
-          <li>Hybrid AI-human workflow with transparency</li>
-        </ul>
+      <div class="skill-group">
+        <div class="skill-group-label">Tools</div>
+        <div class="skill-group-list">Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian. Hybrid AI-human workflow with transparency.</div>
       </div>
 
-      <div class="detail-group">
-        <h3>Languages</h3>
-        <ul>
-          <li>German (Native) · English (Professional) · Dutch (Professional)</li>
-        </ul>
+      <div class="skill-group">
+        <div class="skill-group-label">Languages</div>
+        <div class="skill-group-list">German (native) · English (professional) · Dutch (professional).</div>
       </div>
     </section>
-    
+
     <section>
       <h2>Contact</h2>
       <p class="contact">
-        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> · 
+        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> ·
         <a href="mailto:petra.kuehnle@gmail.com">Email</a>
       </p>
     </section>
