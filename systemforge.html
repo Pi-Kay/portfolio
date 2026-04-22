@@ -4,42 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="UX analysis and design documentation for System Forge — a SysML2 modeling tool.">
-    <title>System Forge · UX Analysis & Documentation — Petra Kühnle</title>
+    <title>System Forge · UX Analysis &amp; Documentation — Petra Kühnle</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: #fff;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 40px;
-        }
-        header { margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid #e5e5e5; }
-        header h1 { font-size: 1.7em; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.5px; }
-        header p { font-size: 1em; color: #4a4a4a; margin-bottom: 4px; }
-        header .meta { font-size: 0.85em; color: #8a8a8a; margin-top: 10px; }
-        section { margin-bottom: 36px; }
-        .section-title {
-            font-size: 0.75em; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: #8a8a8a; margin-bottom: 12px;
-        }
-        section > p { margin-bottom: 12px; color: #3a3a3a; font-size: 0.95em; }
+        /* ===== SYSTEMFORGE-SPECIFIC =====
+           Uses softened semantic accents from style.css:
+           --accent-neutral  (slate blue, replaces #1565c0)
+           --accent-positive (forest,   replaces #2e7d32)
+           --accent-warn     (ochre,    replaces #f57c00)
+           These carry information-design meaning: neutral = principle,
+           positive = learnability / flexible / open, warn = challenge / fixed. */
 
         /* TL;DR */
         .tldr {
-            background: #fafafa;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-raised);
+            border-left: 3px solid var(--accent-neutral);
             padding: 18px 22px;
             margin-bottom: 28px;
         }
         .tldr-label {
             font-size: 0.7em; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: #1565c0; margin-bottom: 8px;
+            text-transform: uppercase; color: var(--accent-neutral); margin-bottom: 8px;
         }
         .tldr p {
-            font-size: 0.95em; color: #1a1a1a; margin: 0; line-height: 1.55;
+            font-size: 0.95em; color: var(--ink); margin: 0; line-height: 1.55;
         }
         .tldr p + p { margin-top: 8px; }
 
@@ -50,52 +41,54 @@
             gap: 16px;
             margin: 16px 0;
             padding: 16px;
-            background: #f9f9f9;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-sunken);
+            border-left: 3px solid var(--accent-neutral);
         }
         .role-item strong {
             font-size: 0.75em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: #666;
+            color: var(--ink-muted);
             display: block;
             margin-bottom: 4px;
         }
         .role-item span {
             font-size: 0.9em;
-            color: #1a1a1a;
+            color: var(--ink);
         }
 
-        /* Challenge box */
+        /* Challenge box (warn accent) */
         .challenge-box {
-            background: linear-gradient(135deg, #fff8e1 0%, #fffde7 100%);
-            border: 1px solid #ffe082;
+            background: var(--accent-warn-bg);
+            border: 1px solid var(--hairline);
+            border-left: 3px solid var(--accent-warn);
             padding: 20px;
             margin: 16px 0;
         }
         .challenge-box h3 {
             font-size: 0.9em;
             font-weight: 600;
-            color: #f57c00;
+            color: var(--accent-warn);
             margin-bottom: 10px;
         }
         .challenge-box p {
             font-size: 0.9em;
-            color: #5d4037;
+            color: var(--accent-warn-ink);
             margin: 0;
         }
 
-        /* Learnability goal box */
+        /* Learnability goal (positive accent) */
         .learnability-goal {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border: 1px solid #c8e6c9;
+            background: var(--accent-positive-bg);
+            border: 1px solid var(--hairline);
+            border-left: 3px solid var(--accent-positive);
             padding: 20px;
             margin: 16px 0;
         }
         .learnability-goal h3 {
             font-size: 0.9em;
             font-weight: 600;
-            color: #2e7d32;
+            color: var(--accent-positive);
             margin-bottom: 12px;
         }
         .user-types {
@@ -104,18 +97,19 @@
             gap: 16px;
         }
         .user-type {
-            background: #fff;
+            background: var(--bg-raised);
             padding: 14px;
-            border-left: 3px solid #2e7d32;
+            border-left: 3px solid var(--accent-positive);
         }
         .user-type strong {
             font-size: 0.85em;
             display: block;
             margin-bottom: 4px;
+            color: var(--ink);
         }
         .user-type p {
             font-size: 0.8em;
-            color: #555;
+            color: var(--ink-soft);
             margin: 0;
         }
 
@@ -128,15 +122,15 @@
         }
         .process-step {
             padding: 14px;
-            background: #fafafa;
-            border-top: 3px solid #e0e0e0;
+            background: var(--bg-raised);
+            border-top: 3px solid var(--hairline);
             text-align: center;
         }
-        .process-step.complete { border-top-color: #2e7d32; }
+        .process-step.complete { border-top-color: var(--accent-positive); }
         .process-step .num {
             font-size: 0.7em;
             font-weight: 600;
-            color: #888;
+            color: var(--ink-faint);
             display: block;
             margin-bottom: 4px;
         }
@@ -144,26 +138,27 @@
             font-size: 0.85em;
             display: block;
             margin-bottom: 4px;
+            color: var(--ink);
         }
         .process-step p {
             font-size: 0.75em;
-            color: #666;
+            color: var(--ink-muted);
             margin: 0;
         }
 
         /* Screenshot annotation */
         .screenshot-annotation {
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--hairline);
             margin: 20px 0;
-            background: #fafafa;
+            background: var(--bg-raised);
         }
         .screenshot-header {
             padding: 12px 16px;
-            background: #f0f0f0;
-            border-bottom: 1px solid #e0e0e0;
+            background: var(--bg-sunken);
+            border-bottom: 1px solid var(--hairline);
             font-size: 0.85em;
             font-weight: 600;
-            color: #333;
+            color: var(--ink);
         }
         .screenshot-body { padding: 20px; }
         .screenshot-image {
@@ -172,7 +167,7 @@
         }
         .screenshot-image img {
             max-width: 100%;
-            border: 1px solid #ddd;
+            border: 1px solid var(--hairline);
             border-radius: 4px;
         }
         .annotation-list {
@@ -182,19 +177,20 @@
         }
         .annotation-item {
             padding: 12px;
-            background: #fff;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-raised);
+            border-left: 3px solid var(--accent-neutral);
         }
-        .annotation-item.strength { border-left-color: #2e7d32; }
-        .annotation-item.consideration { border-left-color: #ff9800; }
+        .annotation-item.strength { border-left-color: var(--accent-positive); }
+        .annotation-item.consideration { border-left-color: var(--accent-warn); }
         .annotation-item strong {
             font-size: 0.8em;
             display: block;
             margin-bottom: 4px;
+            color: var(--ink);
         }
         .annotation-item p {
             font-size: 0.78em;
-            color: #555;
+            color: var(--ink-soft);
             margin: 0;
             line-height: 1.5;
         }
@@ -202,8 +198,8 @@
             display: inline-block;
             font-size: 0.65em;
             padding: 2px 6px;
-            background: #f0f0f0;
-            color: #666;
+            background: var(--bg-sunken);
+            color: var(--ink-muted);
             margin-top: 6px;
             border-radius: 2px;
         }
@@ -219,29 +215,29 @@
             display: flex;
             gap: 10px;
             padding: 12px;
-            background: #fafafa;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-raised);
+            border-left: 3px solid var(--accent-neutral);
         }
-        .principle-card.learnability { border-left-color: #2e7d32; }
+        .principle-card.learnability { border-left-color: var(--accent-positive); }
         .principle-num {
             font-size: 0.75em;
             font-weight: 600;
-            color: #888;
+            color: var(--ink-faint);
             min-width: 20px;
         }
         .principle-content strong {
             font-size: 0.85em;
-            color: #1a1a1a;
+            color: var(--ink);
             display: block;
             margin-bottom: 2px;
         }
         .principle-content p {
             font-size: 0.75em;
-            color: #555;
+            color: var(--ink-soft);
             line-height: 1.4;
             margin: 0;
         }
-        .principle-source { font-size: 0.65em; color: #888; }
+        .principle-source { font-size: 0.65em; color: var(--ink-faint); }
 
         /* Constraint detail tables */
         .constraint-detail { margin: 20px 0; }
@@ -259,26 +255,26 @@
             padding: 4px 10px;
             border-radius: 2px;
         }
-        .constraint-detail-header .label.fixed { background: #f5f5f5; color: #555; }
-        .constraint-detail-header .label.flexible { background: #e8f5e9; color: #2e7d32; }
+        .constraint-detail-header .label.fixed { background: var(--bg-sunken); color: var(--ink-muted); }
+        .constraint-detail-header .label.flexible { background: var(--accent-positive-bg); color: var(--accent-positive); }
         .constraint-detail-header h4 {
             font-size: 0.9em;
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--ink);
         }
         .constraint-detail-intro {
             font-size: 0.85em;
-            color: #555;
+            color: var(--ink-soft);
             margin-bottom: 12px;
         }
         .constraint-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.82em;
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--hairline);
         }
-        .constraint-table thead { background: #f5f5f5; }
-        .constraint-table.flexible thead { background: #e8f5e9; }
+        .constraint-table thead { background: var(--bg-sunken); }
+        .constraint-table.flexible thead { background: var(--accent-positive-bg); }
         .constraint-table th {
             text-align: left;
             padding: 10px 12px;
@@ -286,43 +282,43 @@
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            color: #666;
-            border-bottom: 1px solid #e5e5e5;
+            color: var(--ink-muted);
+            border-bottom: 1px solid var(--hairline);
         }
-        .constraint-table.flexible th { color: #2e7d32; }
+        .constraint-table.flexible th { color: var(--accent-positive); }
         .constraint-table td {
             padding: 9px 12px;
-            border-bottom: 1px solid #f0f0f0;
-            color: #3a3a3a;
+            border-bottom: 1px solid var(--hairline);
+            color: var(--ink-soft);
             vertical-align: top;
         }
         .constraint-table tr:last-child td { border-bottom: none; }
         .constraint-table td:first-child {
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--ink);
             width: 35%;
         }
         .constraint-boundary-note {
-            background: #fff8e1;
-            border-left: 3px solid #f57c00;
+            background: var(--accent-warn-bg);
+            border-left: 3px solid var(--accent-warn);
             padding: 12px 14px;
             margin: 16px 0;
             font-size: 0.85em;
-            color: #5d4037;
+            color: var(--accent-warn-ink);
         }
-        .constraint-boundary-note strong { color: #f57c00; }
+        .constraint-boundary-note strong { color: var(--accent-warn); }
 
         /* Summary box */
         .summary-box {
-            background: #f5f5f5;
-            border: 1px solid #e0e0e0;
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
             padding: 16px;
             margin: 16px 0;
         }
         .summary-box h4 {
             font-size: 0.85em;
             margin-bottom: 10px;
-            color: #333;
+            color: var(--ink);
         }
         .summary-list {
             display: grid;
@@ -332,8 +328,9 @@
         .summary-item {
             font-size: 0.8em;
             padding: 8px 10px;
-            background: #fff;
-            border-left: 2px solid #2e7d32;
+            background: var(--bg-raised);
+            border-left: 2px solid var(--accent-positive);
+            color: var(--ink-soft);
         }
 
         /* Roadmap */
@@ -348,17 +345,17 @@
         }
         .roadmap-item {
             padding: 16px;
-            background: #fafafa;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-raised);
+            border-left: 3px solid var(--accent-neutral);
         }
         .roadmap-item.complete {
-            border-left-color: #2e7d32;
-            background: #f9fdf9;
+            border-left-color: var(--accent-positive);
+            background: var(--accent-positive-bg);
         }
         .roadmap-item .phase {
             font-size: 0.7em;
             font-weight: 600;
-            color: #888;
+            color: var(--ink-faint);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 4px;
@@ -367,10 +364,11 @@
             font-size: 0.9em;
             display: block;
             margin-bottom: 6px;
+            color: var(--ink);
         }
         .roadmap-item p {
             font-size: 0.8em;
-            color: #555;
+            color: var(--ink-soft);
             margin: 0;
         }
         .roadmap-item .status {
@@ -380,38 +378,40 @@
             display: inline-block;
             border-radius: 3px;
         }
-        .status.done { background: #e8f5e9; color: #2e7d32; }
-        .status.current { background: #e3f2fd; color: #1565c0; }
-        .status.next { background: #f5f5f5; color: #666; }
+        .status.done { background: var(--accent-positive-bg); color: var(--accent-positive); }
+        .status.current { background: var(--accent-neutral-bg); color: var(--accent-neutral); }
+        .status.next { background: var(--bg-sunken); color: var(--ink-muted); }
 
         /* Recommendations box */
         .recommendations-box {
             margin: 24px 0 0;
             padding: 20px 22px;
-            background: #f9fdf9;
-            border: 1px solid #c8e6c9;
-            border-left: 3px solid #2e7d32;
+            background: var(--accent-positive-bg);
+            border: 1px solid var(--hairline);
+            border-left: 3px solid var(--accent-positive);
         }
         .recommendations-box h3 {
             font-size: 0.95em;
             font-weight: 600;
-            color: #2e7d32;
+            color: var(--accent-positive);
             margin-bottom: 6px;
         }
         .recommendations-intro {
             font-size: 0.85em;
-            color: #3a3a3a;
+            color: var(--ink-soft);
             margin-bottom: 14px;
         }
-        .recommendations-list { margin: 0; padding-left: 20px; }
+        .recommendations-list { margin: 0; padding-left: 20px; list-style: decimal; }
         .recommendations-list li {
             font-size: 0.85em;
-            color: #3a3a3a;
+            color: var(--ink-soft);
             line-height: 1.55;
             margin-bottom: 10px;
+            padding-left: 0;
         }
+        .recommendations-list li:before { content: none; }
         .recommendations-list li:last-child { margin-bottom: 0; }
-        .recommendations-list li strong { color: #1a1a1a; font-weight: 600; }
+        .recommendations-list li strong { color: var(--ink); font-weight: 600; }
 
         /* Deliverables */
         .deliverables-list { margin: 16px 0; }
@@ -420,13 +420,13 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            border-bottom: 1px solid #e8e8e8;
+            border-bottom: 1px solid var(--hairline);
         }
         .deliverable-item:last-child { border-bottom: none; }
         .deliverable-icon {
             width: 36px;
             height: 36px;
-            background: #f0f0f0;
+            background: var(--bg-sunken);
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -437,16 +437,17 @@
             font-size: 0.85em;
             display: block;
             margin-bottom: 2px;
+            color: var(--ink);
         }
         .deliverable-info span {
             font-size: 0.75em;
-            color: #666;
+            color: var(--ink-muted);
         }
 
         /* Reflection */
         .reflection {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
             padding: 16px;
             margin: 12px 0;
         }
@@ -455,15 +456,11 @@
             font-size: 0.85em;
         }
 
-        /* Tools */
-        .tech-list { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tech-tag { display: inline-block; padding: 5px 10px; background: #f5f5f5; font-size: 0.8em; color: #4a4a4a; }
-
         /* Sources strip */
         .sources-strip {
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
-            border-left: 3px solid #1565c0;
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
+            border-left: 3px solid var(--accent-neutral);
             padding: 14px 16px;
             margin: 16px 0;
         }
@@ -472,22 +469,22 @@
             font-weight: 600;
             letter-spacing: 1.2px;
             text-transform: uppercase;
-            color: #1565c0;
+            color: var(--accent-neutral);
             margin-bottom: 8px;
         }
         .sources-strip-content {
             font-size: 0.82em;
-            color: #3a3a3a;
+            color: var(--ink-soft);
             line-height: 1.55;
         }
-        .sources-strip-content strong { color: #1a1a1a; font-weight: 600; }
+        .sources-strip-content strong { color: var(--ink); font-weight: 600; }
 
         /* Design space visual */
         .design-space-visual {
             margin: 20px 0 8px;
             padding: 24px 20px 16px;
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
         }
         .design-space-visual svg {
             display: block;
@@ -499,37 +496,44 @@
         .design-space-caption {
             text-align: center;
             font-size: 0.8em;
-            color: #666;
+            color: var(--ink-muted);
             margin-top: 14px;
             max-width: 560px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.5;
         }
-        .design-space-caption strong { color: #2e7d32; font-weight: 600; }
+        .design-space-caption strong { color: var(--accent-positive); font-weight: 600; }
 
         /* Thesis pull-quote */
         .thesis-quote {
             margin: 24px 0;
             padding: 18px 24px;
-            border-left: 3px solid #1565c0;
-            background: #fafafa;
+            border-left: 3px solid var(--accent-neutral);
+            background: var(--bg-sunken);
             font-size: 1.05em;
-            color: #1a1a1a;
+            color: var(--ink);
             font-style: italic;
             line-height: 1.5;
         }
-        .thesis-quote::before { content: "“"; color: #1565c0; font-size: 1.3em; margin-right: 2px; }
-        .thesis-quote::after { content: "”"; color: #1565c0; font-size: 1.3em; margin-left: 2px; }
+        .thesis-quote::before { content: "\201C"; color: var(--accent-neutral); font-size: 1.3em; margin-right: 2px; }
+        .thesis-quote::after { content: "\201D"; color: var(--accent-neutral); font-size: 1.3em; margin-left: 2px; }
 
-        /* Nav & Footer */
-        nav { display: flex; justify-content: space-between; padding-top: 20px; border-top: 1px solid #e5e5e5; margin-top: 32px; }
-        nav a { color: #1a1a1a; text-decoration: none; font-size: 0.9em; }
-        nav a:hover { text-decoration: underline; }
-        footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e5e5e5; font-size: 0.8em; color: #8a8a8a; }
+        /* Override project's em-dash bullets for structured lists inside cards */
+        .user-types li,
+        .summary-list .summary-item,
+        .deliverables-list li,
+        .skills-grid li {
+            padding-left: 0;
+        }
+        .user-types li:before,
+        .summary-list .summary-item:before,
+        .deliverables-list li:before,
+        .skills-grid li:before {
+            content: none;
+        }
 
         @media (max-width: 768px) {
-            body { padding: 40px 24px; }
             .role-summary { grid-template-columns: 1fr; }
             .principles-grid { grid-template-columns: 1fr; }
             .process-steps { grid-template-columns: repeat(2, 1fr); }
@@ -543,7 +547,7 @@
         }
     </style>
 </head>
-<body>
+<body class="project wide">
     <header>
         <h1>⬠ System Forge · UX Analysis &amp; Documentation</h1>
         <p>Making SysML2 learnable through UX — not courses</p>
@@ -593,56 +597,56 @@
 
             <div class="design-space-visual">
                 <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
-                    <rect x="20" y="30" width="300" height="200" rx="4" fill="#f5f5f5" stroke="#cccccc" stroke-width="1.5"/>
-                    <text x="170" y="55" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#666">FIXED BY SPECIFICATION</text>
-                    <text x="170" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#333">SysML2 semantics</text>
+                    <rect x="20" y="30" width="300" height="200" rx="4" fill="#efece5" stroke="#d9d4ca" stroke-width="1.5"/>
+                    <text x="170" y="55" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#7a756d">FIXED BY SPECIFICATION</text>
+                    <text x="170" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">SysML2 semantics</text>
 
-                    <g font-family="-apple-system, Segoe UI, sans-serif" font-size="10" fill="#555">
-                        <rect x="40" y="95" width="100" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                    <g font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#4a4641">
+                        <rect x="40" y="95" width="100" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="90" y="111" text-anchor="middle">Element types</text>
-                        <rect x="150" y="95" width="150" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <rect x="150" y="95" width="150" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="225" y="111" text-anchor="middle">Relationship semantics</text>
-                        <rect x="40" y="130" width="120" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <rect x="40" y="130" width="120" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="100" y="146" text-anchor="middle">Notation shapes</text>
-                        <rect x="170" y="130" width="130" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <rect x="170" y="130" width="130" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="235" y="146" text-anchor="middle">Compartment rules</text>
-                        <rect x="40" y="165" width="110" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <rect x="40" y="165" width="110" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="95" y="181" text-anchor="middle">Diagram types</text>
-                        <rect x="160" y="165" width="130" height="24" rx="12" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+                        <rect x="160" y="165" width="130" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="225" y="181" text-anchor="middle">Textual syntax</text>
                     </g>
 
-                    <text x="170" y="215" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#666">Interoperable across tools</text>
+                    <text x="170" y="215" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#7a756d">Interoperable across tools</text>
 
-                    <line x1="340" y1="50" x2="340" y2="230" stroke="#f57c00" stroke-width="2" stroke-dasharray="4,4"/>
-                    <text x="340" y="22" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="9" font-weight="600" fill="#f57c00">boundary</text>
+                    <line x1="340" y1="50" x2="340" y2="230" stroke="#a67849" stroke-width="2" stroke-dasharray="4,4"/>
+                    <text x="340" y="22" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="9" font-weight="600" fill="#a67849">boundary</text>
 
-                    <rect x="360" y="30" width="340" height="200" rx="4" fill="#f9fdf9" stroke="#c8e6c9" stroke-width="1.5"/>
-                    <text x="530" y="55" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#2e7d32">OPEN TO DESIGN</text>
-                    <text x="530" y="72" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#333">Tool presentation &amp; interaction</text>
+                    <rect x="360" y="30" width="340" height="200" rx="4" fill="#eef2ec" stroke="#b8b1a4" stroke-width="1.5"/>
+                    <text x="530" y="55" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#6b8761">OPEN TO DESIGN</text>
+                    <text x="530" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">Tool presentation &amp; interaction</text>
 
-                    <g font-family="-apple-system, Segoe UI, sans-serif" font-size="10" fill="#2e7d32">
-                        <rect x="380" y="95" width="70" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                    <g font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#6b8761">
+                        <rect x="380" y="95" width="70" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="415" y="111" text-anchor="middle">Color</text>
-                        <rect x="460" y="95" width="70" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="460" y="95" width="70" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="495" y="111" text-anchor="middle">Layout</text>
-                        <rect x="540" y="95" width="90" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="540" y="95" width="90" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="585" y="111" text-anchor="middle">Navigation</text>
-                        <rect x="380" y="130" width="80" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="380" y="130" width="80" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="420" y="146" text-anchor="middle">Tooltips</text>
-                        <rect x="470" y="130" width="90" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="470" y="130" width="90" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="515" y="146" text-anchor="middle">Filtering</text>
-                        <rect x="570" y="130" width="80" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="570" y="130" width="80" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="610" y="146" text-anchor="middle">Search</text>
-                        <rect x="380" y="165" width="100" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="380" y="165" width="100" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="430" y="181" text-anchor="middle">Edge routing</text>
-                        <rect x="490" y="165" width="80" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="490" y="165" width="80" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="530" y="181" text-anchor="middle">Labels</text>
-                        <rect x="580" y="165" width="90" height="24" rx="12" fill="#ffffff" stroke="#c8e6c9" stroke-width="1"/>
+                        <rect x="580" y="165" width="90" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="625" y="181" text-anchor="middle">Animation</text>
                     </g>
 
-                    <text x="530" y="215" text-anchor="middle" font-family="-apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#555">Where learnability is designed in</text>
+                    <text x="530" y="215" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#4a4641">Where learnability is designed in</text>
                 </svg>
                 <p class="design-space-caption">The standard fixes semantics. Everything else is the <strong>tool design space</strong> — and that's where the work happens.</p>
             </div>
@@ -704,7 +708,7 @@
 
         <section>
             <h2 class="section-title">Design Principles</h2>
-            <p>Ten principles synthesized from UX and information design literature, then reviewed with Cauê to ensure each held up against how systems engineers actually work. Not invented — curated from existing theory and mapped onto System Forge's context. <span style="color: #2e7d32; font-weight: 500;">Green</span> marks principles that directly support learnability.</p>
+            <p>Ten principles synthesized from UX and information design literature, then reviewed with Cauê to ensure each held up against how systems engineers actually work. Not invented — curated from existing theory and mapped onto System Forge's context. <span style="color: var(--accent-positive); font-weight: 500;">Green</span> marks principles that directly support learnability.</p>
 
             <div class="sources-strip">
                 <div class="sources-strip-label">Synthesized from</div>
