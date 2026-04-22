@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Petra Kühnle">
-    <title>Petra Kühnle - Portfolio</title>
+    <meta name="description" content="Portfolio of Petra Kühnle — Pro Audio & Aerospace Technical Designer, Writer. Berlin.">
+    <title>Petra Kühnle — Portfolio</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Open Graph / LinkedIn / social preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Petra Kühnle — Portfolio">
+    <meta property="og:description" content="Pro Audio & Aerospace Technical Designer · Writer. Berlin.">
+    <meta property="og:image" content="favicon.svg">
+    <meta name="twitter:card" content="summary">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
         * {
             margin: 0;
@@ -14,56 +24,81 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f5f3ef;
+            --ink: #2a2824;
+            --ink-soft: #4a4641;
+            --ink-muted: #7a756d;
+            --ink-faint: #9a948b;
+            --hairline: #d9d4ca;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f9f9f9;
-            color: #1a1a1a;
+            background: var(--bg);
+            color: var(--ink);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 1.2s ease-out;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
         h1 {
-            font-size: 2.8em;
+            font-size: 1.5rem;
             font-weight: 400;
-            letter-spacing: -0.3px;
-            margin-bottom: 16px;
-            color: #1a1a1a;
+            letter-spacing: 0.01em;
+            color: var(--ink);
+            margin: 0 0 10px 0;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--ink-soft);
+            margin: 0 0 18px 0;
+            line-height: 1.5;
+            letter-spacing: 0.01em;
         }
 
         .meta {
-            font-size: 0.95em;
-            color: #6b6b6b;
+            font-size: 0.8rem;
             font-weight: 300;
-            margin-bottom: 10px;
+            color: var(--ink-muted);
+            margin: 0;
+            letter-spacing: 0.02em;
         }
 
         .meta a {
-            color: #3d3d3d;
+            color: var(--ink-soft);
             text-decoration: none;
-            transition: color 0.2s ease;
+            border-bottom: 1px solid var(--hairline);
+            padding-bottom: 1px;
+            transition: border-color 0.4s ease, color 0.4s ease;
         }
 
         .meta a:hover {
-            color: #1a1a1a;
+            color: var(--ink);
+            border-bottom-color: var(--ink-muted);
         }
 
         /* Two-column: projects left, visual right */
         .main-content {
             display: grid;
             grid-template-columns: auto auto;
-            gap: 80px;
+            gap: 90px;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
@@ -75,48 +110,50 @@
         }
 
         nav li {
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
 
         nav a {
             text-decoration: none;
-            color: #1a1a1a;
+            color: var(--ink);
             display: block;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.4s ease;
         }
 
         nav a:hover {
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
         nav a:hover .project-name {
-            border-bottom-color: #1a1a1a;
+            border-bottom-color: var(--ink-muted);
         }
 
         .project-name {
             font-size: 0.9em;
-            font-weight: 500;
-            color: #1a1a1a;
-            letter-spacing: -0.2px;
+            font-weight: 400;
+            color: var(--ink);
+            letter-spacing: 0;
             border-bottom: 1px solid transparent;
             display: inline;
-            transition: border-color 0.2s;
+            transition: border-color 0.4s ease;
         }
 
         .project-context {
             font-size: 0.8em;
-            color: #737373;
-            font-weight: 400;
-            margin-top: 2px;
+            color: var(--ink-muted);
+            font-weight: 300;
+            margin-top: 3px;
+            letter-spacing: 0.01em;
         }
 
         .project-status {
             font-style: italic;
-            color: #8a8a8a;
+            color: var(--ink-faint);
             font-size: 0.85em;
         }
 
-        /* Visual */
+        /* Visual — Sugimoto seascape palette: deep warm charcoal
+           with a luminous silver disc, soft radial gradient */
         .visual-link {
             display: block;
             text-decoration: none;
@@ -126,14 +163,22 @@
             position: relative;
             width: 340px;
             height: 340px;
-            background: #000;
+            background:
+                radial-gradient(
+                    ellipse at 50% 45%,
+                    #4a453f 0%,
+                    #35302b 35%,
+                    #252220 70%,
+                    #1f1c1a 100%
+                );
             flex-shrink: 0;
             cursor: pointer;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.6s ease;
+            overflow: hidden;
         }
 
         .visual-link:hover .visual-container {
-            opacity: 0.9;
+            opacity: 0.92;
         }
 
         .circle {
@@ -142,10 +187,19 @@
             left: 50%;
             width: 72%;
             height: 72%;
-            background: #d4d4d4;
+            background: radial-gradient(
+                circle at 45% 40%,
+                #eeeae2 0%,
+                #d8d2c6 45%,
+                #b8b1a4 85%,
+                #a8a194 100%
+            );
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 0 60px rgba(230, 224, 212, 0.08),
+                0 0 120px rgba(230, 224, 212, 0.04);
         }
 
         .visual-link:hover .circle {
@@ -155,17 +209,19 @@
 
         footer {
             text-align: center;
-            margin-top: 60px;
-            font-size: 0.85em;
-            color: #8a8a8a;
+            margin-top: 80px;
+            font-size: 0.8rem;
+            color: var(--ink-faint);
+            font-weight: 300;
+            letter-spacing: 0.02em;
         }
 
         .skip-link {
             position: absolute;
             top: -40px;
             left: 0;
-            background: #1a1a1a;
-            color: #fff;
+            background: var(--ink);
+            color: var(--bg);
             padding: 8px;
             text-decoration: none;
             z-index: 100;
@@ -177,16 +233,16 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 40px 20px;
+                padding: 50px 20px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.4rem;
             }
 
             .main-content {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 50px;
             }
 
             .visual-link {
@@ -209,29 +265,7 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-h1 {
-    font-size: 1.5rem;           /* ~24px — quiet confidence */
-    font-weight: 500;             /* medium, not display-regular */
-    letter-spacing: -0.01em;
-    color: #1a1a1a;
-    margin: 0 0 8px 0;
-}
-
-.tagline {
-    font-size: 0.95rem;           /* ~15px — same as project descriptions */
-    font-weight: 400;
-    color: #3d3d3d;
-    margin: 0 0 16px 0;
-    line-height: 1.5;
-}
-
-.meta {
-    font-size: 0.8rem;            /* ~13px — quietly subordinate */
-    font-weight: 400;
-    color: #8a8a8a;
-    margin: 0;
-}
-
+        }
     </style>
 </head>
 
@@ -239,11 +273,11 @@ h1 {
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <div class="container">
-   <header>
-    <h1>Petra Kühnle</h1>
-    <p class="tagline">Pro Audio & Aerospace Technical Designer | Writer</p>
-    <p class="meta">Berlin · Remote · <a href="bio.html">Bio</a></p>
-</header>
+        <header>
+            <h1>Petra Kühnle</h1>
+            <p class="tagline">Pro Audio &amp; Aerospace Technical Writer | Designer</p>
+            <p class="meta">Berlin · Remote · <a href="bio.html">Bio</a></p>
+        </header>
 
         <div class="main-content">
             <nav aria-label="Portfolio projects" id="main">
@@ -251,48 +285,27 @@ h1 {
                     <li>
                         <a href="systemforge.html">
                             <span class="project-name">System Forge</span>
-                            <div class="project-context">SysML2 modeling · Learnability UX & documentation</div>
+                            <div class="project-context">SysML2 modeling · Learnability UX &amp; documentation</div>
                         </a>
                     </li>
-                     <li>
+                    <li>
                         <a href="navigator.html">
                             <span class="project-name">Navigator</span>
                             <div class="project-context">AI music compliance EU · Mozilla Fellowship Nominee</div>
                         </a>
                     </li>
-                
-                       <li>
+                    <li>
                         <a href="valispace.html">
                             <span class="project-name">Valispace</span>
                             <div class="project-context">Systems engineering · Prototypes shipped post-acquisition</div>
                         </a>
                     </li>
-
-                     <li>
+                    <li>
                         <a href="apple.html">
                             <span class="project-name">Apple</span>
-                            <div class="project-context">Pro audio/video · Expert technical support & documentation</div>
+                            <div class="project-context">Pro audio/video · Expert technical support &amp; documentation</div>
                         </a>
                     </li>
-
-
-                           <!----
-                    <li>
-                        <a href="sonification.html">
-                            <span class="project-name">NASA | Open Source Data</span>
-                            <div class="project-context">Open Data Accessibility · Multimodal Interface</div>
-                        </a>
-                    </li>
-   ----->
-                    
-             <!----
-                    <li>
-                        <a href="tennasonic.html">
-                            <span class="project-name">TennaSonic</span>
-                            <div class="project-context">Deep-Tech Visual Identity · AiP / 5G</div>
-                        </a>
-                    </li>
-                 ----->
                 </ul>
             </nav>
 
