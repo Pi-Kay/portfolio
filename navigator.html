@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI compliance tools for music creators. Interactive navigator app and open-source documentation covering EU AI Act, GDPR, and artist rights.">
     <title>Navigator · Sound AI Regulations App & Guide — Petra Kühnle</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== PAGE-SPECIFIC STYLES ===== */
+        /* ===== NAVIGATOR-SPECIFIC ===== */
 
-        /* Two deliverables side by side */
         .deliverables-intro {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -18,14 +20,14 @@
         }
 
         .deliverable-card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
             padding: 24px;
             transition: border-color 0.2s;
         }
 
         .deliverable-card:hover {
-            border-color: #1a1a1a;
+            border-color: var(--ink);
         }
 
         .deliverable-label {
@@ -33,81 +35,37 @@
             font-weight: 500;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: #8a8a8a;
+            color: var(--ink-faint);
             margin-bottom: 8px;
         }
 
         .deliverable-title {
             font-size: 1.1em;
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--ink);
             margin-bottom: 8px;
         }
 
         .deliverable-desc {
             font-size: 0.85em;
-            color: #6b6b6b;
+            color: var(--ink-muted);
             line-height: 1.5;
             margin-bottom: 16px;
         }
 
-        .deliverable-link {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: background 0.2s;
-        }
-
-        .deliverable-link:hover {
-            background: #3d3d3d;
-            color: #fff;
-        }
-
-        .deliverable-link.outline {
-            background: transparent;
-            color: #1a1a1a;
-            border: 1px solid #1a1a1a;
-        }
-
-        .deliverable-link.outline:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
-
-        /* Force Launch App visible without hover */
         .deliverable-card .deliverable-link {
             opacity: 1 !important;
             visibility: visible !important;
             transform: none !important;
         }
 
-        /* Video container */
-        .video-container {
-            width: 100%;
-            border: 1px solid #e5e5e5;
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .video-container video {
-            width: 100%;
-            display: block;
-        }
-
-        /* Document preview */
         .doc-preview {
             display: flex;
             gap: 24px;
             margin: 20px 0;
             padding: 24px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
             align-items: flex-start;
         }
 
@@ -115,15 +73,15 @@
             flex-shrink: 0;
             width: 160px;
             height: 210px;
-            background: #f5f5f5;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .doc-thumbnail:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(42, 40, 36, 0.10);
             transform: translateY(-2px);
         }
 
@@ -133,55 +91,21 @@
             pointer-events: none;
         }
 
-        .doc-info {
-            flex: 1;
-        }
+        .doc-info { flex: 1; }
 
         .doc-info-title {
             font-size: 1em;
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--ink);
             margin-bottom: 8px;
         }
 
         .doc-info-meta {
             font-size: 0.85em;
-            color: #6b6b6b;
+            color: var(--ink-muted);
             margin-bottom: 16px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            background: #1a1a1a;
-            border: 1px solid #1a1a1a;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.8em;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background: #3d3d3d;
-            border-color: #3d3d3d;
-            color: #fff;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #1a1a1a;
-        }
-
-        .btn-outline:hover {
-            background: #1a1a1a;
-            color: #fff;
-        }
-
-        /* Links section */
         .doc-links {
             display: flex;
             gap: 12px;
@@ -189,17 +113,7 @@
             margin: 16px 0;
         }
 
-        /* Highlight box */
-        .highlight-box {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        /* ===== NEW: status chip + phases strip + split-role block ===== */
-
-        /* Status chip — for "Work in progress" marker on artifacts */
+        /* Status chip */
         .status-chip {
             display: inline-block;
             padding: 2px 8px;
@@ -208,19 +122,19 @@
             font-weight: 500;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            color: #6b6b6b;
-            background: #f0f0f0;
-            border: 1px solid #e5e5e5;
+            color: var(--ink-muted);
+            background: var(--bg-sunken);
+            border: 1px solid var(--hairline);
             vertical-align: middle;
         }
 
         .status-chip.live {
-            color: #1a1a1a;
-            background: #fff;
-            border-color: #1a1a1a;
+            color: var(--ink);
+            background: var(--bg-raised);
+            border-color: var(--ink);
         }
 
-        /* Project phases strip — horizontal, flows with arrow separators */
+        /* Phases strip */
         .phases {
             display: flex;
             align-items: stretch;
@@ -234,18 +148,15 @@
             flex: 1 1 0;
             min-width: 140px;
             padding: 14px 14px 16px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
             font-size: 0.85em;
             line-height: 1.4;
             position: relative;
         }
 
-        .phase + .phase {
-            border-left: none;
-        }
+        .phase + .phase { border-left: none; }
 
-        /* Arrow / chevron between phases */
         .phase + .phase::before {
             content: "›";
             position: absolute;
@@ -254,8 +165,8 @@
             transform: translateY(-50%);
             width: 16px;
             height: 16px;
-            background: #fff;
-            color: #8a8a8a;
+            background: var(--bg-raised);
+            color: var(--ink-faint);
             font-size: 14px;
             line-height: 14px;
             text-align: center;
@@ -263,38 +174,38 @@
         }
 
         .phase.current {
-            background: #1a1a1a;
-            color: #fff;
-            border-color: #1a1a1a;
+            background: var(--ink);
+            color: var(--bg);
+            border-color: var(--ink);
         }
 
         .phase-num {
             font-family: 'SF Mono', Menlo, Consolas, monospace;
             font-size: 0.7em;
             letter-spacing: 1px;
-            color: #8a8a8a;
+            color: var(--ink-faint);
             display: block;
             margin-bottom: 6px;
         }
 
-        .phase.current .phase-num { color: #a1a1a6; }
+        .phase.current .phase-num { color: var(--hairline-strong); }
 
         .phase-title {
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--ink);
             margin-bottom: 2px;
         }
 
-        .phase.current .phase-title { color: #fff; }
+        .phase.current .phase-title { color: var(--bg); }
 
         .phase-meta {
             font-size: 0.85em;
-            color: #8a8a8a;
+            color: var(--ink-faint);
         }
 
-        .phase.current .phase-meta { color: #a1a1a6; }
+        .phase.current .phase-meta { color: var(--hairline-strong); }
 
-        /* Split role block for AI + human collaboration */
+        /* Split role block */
         .split-role {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -303,8 +214,8 @@
         }
 
         .role-col {
-            background: #fff;
-            border: 1px solid #e5e5e5;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
             padding: 20px;
         }
 
@@ -312,68 +223,47 @@
             margin: 0 0 10px 0;
             font-size: 0.95em;
             font-weight: 500;
-            color: #1a1a1a;
+            color: var(--ink);
         }
 
         .role-col ul {
             margin: 0;
             padding-left: 18px;
             font-size: 0.9em;
-            color: #3d3d3d;
+            color: var(--ink-soft);
             line-height: 1.55;
         }
 
         .role-col li { margin-bottom: 4px; }
+        /* Override project's em-dash bullets inside role-col */
+        .role-col ul { list-style: disc; }
+        .role-col li { padding-left: 0; }
+        .role-col li:before { content: none; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .deliverables-intro {
-                grid-template-columns: 1fr;
-            }
-
-            .doc-preview {
-                flex-direction: column;
-            }
-
-            .doc-thumbnail {
-                width: 100%;
-                max-width: 200px;
-            }
-
-            .phases {
-                /* Keep horizontal on mobile; user scrolls */
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .phase {
-                min-width: 160px;
-            }
-
-            .split-role {
-                grid-template-columns: 1fr;
-            }
+            .deliverables-intro { grid-template-columns: 1fr; }
+            .doc-preview { flex-direction: column; }
+            .doc-thumbnail { width: 100%; max-width: 200px; }
+            .phase { min-width: 160px; }
+            .split-role { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body class="project">
     <header>
-        <h1>⬡ Navigator · Sound AI Regulations App & Guide</h1>
+        <h1>⬡ Navigator · Sound AI Regulations App &amp; Guide</h1>
         <p>Tools helping artists, labels, and music-tech companies navigate AI regulations</p>
         <p class="meta">2025–26 · EU AI Act, GDPR, European Accessibility Act · Music, soundscapes, sound design</p>
     </header>
 
     <main>
-
-        <!-- ============ STATUS NOTE (new) ============ -->
         <section>
             <div class="highlight-box">
                 <p><strong>Project status · Work in progress.</strong> Navigator is an ongoing, exemplary side project developed together with a backend engineer as a shared learning exercise. The Guide (v1.0) is published; specific content points are still being finalised and open to expert review. The Navigator app prototype is live; the production version (V2) is in development. The handbook described below is the next artifact in the arc — it exists in draft form. Everything on this page is honest about what's shipped, what's in flight, and what's still forming.</p>
-                <p style="margin-top: 8px; font-size: 0.9em; color: #6b6b6b;"><strong>Positioning:</strong> Orientation, not legal advice. Practitioner-to-practitioner — not a product, not a consultancy offering.</p>
+                <p style="margin-top: 8px; font-size: 0.9em; color: var(--ink-muted);"><strong>Positioning:</strong> Orientation, not legal advice. Practitioner-to-practitioner — not a product, not a consultancy offering.</p>
             </div>
         </section>
 
-        <!-- ============ PROJECT PHASES (new) ============ -->
         <section>
             <h2 class="section-title">Project phases</h2>
             <p>Each phase is a finished artifact on its own. Together they tell the arc of how one side project grew from a document into a small toolkit.</p>
@@ -409,13 +299,11 @@
             <p class="note">Phase 04 is where most of the thinking lives — decision logic for the app, Req IDs for the Guide, draft API shape for V2, and editorial notes reconciling the Guide's creator-protective framing with the handbook's developer-facing framing.</p>
         </section>
 
-        <!-- ============ RESEARCH QUESTION (unchanged) ============ -->
         <section>
             <h2 class="section-title">Research Question</h2>
             <p>How can artists, platforms, and music-tech companies navigate AI compliance — understanding what's legal, what's required, and how to work ethically in a landscape where AI is here to stay?</p>
         </section>
 
-        <!-- ============ CONTEXT (unchanged) ============ -->
         <section>
             <h2 class="section-title">Context</h2>
             <p>AI in sound — music, soundscapes, sound design — isn't going away. Creators worry about consent and compensation. Ethical platforms and new AI-native companies want to do things right. Both need the same thing: clarity on regulations, risks, and how to protect and prove authenticity.</p>
@@ -426,7 +314,6 @@
             </div>
         </section>
 
-        <!-- ============ PROBLEM VALIDATION (unchanged) ============ -->
         <section>
             <h2 class="section-title">Problem Validation</h2>
             <p>Before designing, I spoke with musicians and observed industry patterns to understand pain points on both sides.</p>
@@ -449,7 +336,6 @@
             </div>
         </section>
 
-        <!-- ============ SOLUTION (status chips added) ============ -->
         <section>
             <h2 class="section-title">Solution</h2>
 
@@ -473,33 +359,25 @@
             </div>
         </section>
 
-        <!-- ============ NAVIGATOR INTERFACE (unchanged) ============ -->
         <section>
             <h2 class="section-title">Navigator Interface</h2>
             <div class="video-container">
-                <video
-                    src="navigator_screenrecording.mov"
-                    autoplay
-                    loop
-                    muted
-                    playsinline>
-                </video>
+                <video src="navigator_screenrecording.mov" autoplay loop muted playsinline></video>
             </div>
 
             <h3>Use Cases</h3>
             <ul>
-                <li><strong>Consent & Attribution</strong> — Was this work used with permission?</li>
+                <li><strong>Consent &amp; Attribution</strong> — Was this work used with permission?</li>
                 <li><strong>Training Data Provenance</strong> — Where did training data come from?</li>
                 <li><strong>Generated Output Rights</strong> — Who owns AI-generated work?</li>
-                <li><strong>Transparency & Disclosure</strong> — When must I disclose AI use?</li>
-                <li><strong>Authenticity & Recognition</strong> — How can creators prove and protect original work?</li>
+                <li><strong>Transparency &amp; Disclosure</strong> — When must I disclose AI use?</li>
+                <li><strong>Authenticity &amp; Recognition</strong> — How can creators prove and protect original work?</li>
             </ul>
             <p class="note">Use cases lean creator-side — individual artists typically want guidance for their specific scenario, not a full compliance audit.</p>
         </section>
 
-        <!-- ============ TRADE-OFFS & DECISIONS (unchanged) ============ -->
         <section>
-            <h2 class="section-title">Trade-offs & Decisions</h2>
+            <h2 class="section-title">Trade-offs &amp; Decisions</h2>
 
             <div class="deliverables-intro">
                 <div class="deliverable-card">
@@ -528,7 +406,6 @@
             </div>
         </section>
 
-        <!-- ============ DOCUMENTATION (status + handbook card added) ============ -->
         <section>
             <h2 class="section-title">Documentation</h2>
 
@@ -546,19 +423,18 @@
             <p class="note">Document follows WCAG 2.1 AA guidelines: tagged structure, alt text, logical reading order. Some content points still being finalised — the Guide is a living document, open to expert review and community corrections.</p>
 
             <div class="doc-preview">
-                <div class="doc-thumbnail" style="display: flex; align-items: center; justify-content: center; font-family: 'SF Mono', Menlo, monospace; font-size: 0.7em; color: #8a8a8a; text-align: center; padding: 16px; background: #fafafa;">
+                <div class="doc-thumbnail" style="display: flex; align-items: center; justify-content: center; font-family: 'SF Mono', Menlo, monospace; font-size: 0.7em; color: var(--ink-faint); text-align: center; padding: 16px; background: var(--bg-sunken);">
                     Handbook<br>coming<br>next
                 </div>
                 <div class="doc-info">
                     <div class="doc-info-title">Shipping a Generative Audio Feature Under the EU AI Act — A Developer's Handbook <span class="status-chip">In progress</span></div>
                     <div class="doc-info-meta">Developer-facing companion to the Guide · Risk classification, pre-ship checklist, worked example, draft API user stories for Navigator V2, glossary</div>
-                    <p style="font-size: 0.85em; color: #6b6b6b; margin: 8px 0 0;">Where the Guide is creator-side orientation, the handbook will be developer-side. Currently being written in Obsidian as doc-as-code, reconciled against the Guide's Req ID structure (LB-, DP-, TR-, FB-) and risk-tier framing. Scaffolded with AI assistance; structure, voice, and editorial calls are mine. Published once the rewrite is complete.</p>
+                    <p style="font-size: 0.85em; color: var(--ink-muted); margin: 8px 0 0;">Where the Guide is creator-side orientation, the handbook will be developer-side. Currently being written in Obsidian as doc-as-code, reconciled against the Guide's Req ID structure (LB-, DP-, TR-, FB-) and risk-tier framing. Scaffolded with AI assistance; structure, voice, and editorial calls are mine. Published once the rewrite is complete.</p>
                 </div>
             </div>
             <p class="note">The handbook is not yet available for download — it's listed here because it's the next planned artifact in the arc, and because the Guide references a forthcoming developer companion.</p>
         </section>
 
-        <!-- ============ PROCESS (restructured with AI+human insight) ============ -->
         <section>
             <h2 class="section-title">Process</h2>
 
@@ -609,7 +485,6 @@
             </div>
         </section>
 
-        <!-- ============ TOOLS (unchanged) ============ -->
         <section>
             <h2 class="section-title">Tools</h2>
             <div class="tech-list">
@@ -625,9 +500,8 @@
             </div>
         </section>
 
-        <!-- ============ OUTCOME & NEXT STEPS (tightened, reflects phases) ============ -->
         <section>
-            <h2 class="section-title">Outcome & Next Steps</h2>
+            <h2 class="section-title">Outcome &amp; Next Steps</h2>
             <p>Published as an open-source resource under version control. Prototype validated the concept; V2 is now in professional development.</p>
 
             <ul>
@@ -649,7 +523,7 @@
 
         <nav>
             <a href="systemforge.html">← System Forge</a>
-            <a href="valispace.html"> Valispace →</a>
+            <a href="valispace.html">Valispace →</a>
         </nav>
     </main>
 
