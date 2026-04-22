@@ -3,94 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Petra Kühnle — Pro Audio & Aerospace Technical Writer | Designer. Berlin.">
   <title>Bio — Petra Kühnle</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background: #fafaf9;
-      color: #1a1a1a;
-      line-height: 1.6;
-      min-height: 100vh;
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== BIO-SPECIFIC =====
+       Bio uses a tighter column and more whitespace than
+       project case studies — it's a reading document, not a
+       reference document. Overrides project defaults accordingly. */
+
+    body.bio {
       padding: 80px 20px;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    .container {
+    .bio .container {
       max-width: 640px;
       margin: 0 auto;
       animation: fadeIn 0.9s ease-out;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* HEADER — two-tone tonal gradient, no border */
-    header {
+    .bio header {
       margin-bottom: 96px;
+      padding-bottom: 0;
+      border-bottom: none;
+      max-width: none;
+      text-align: left;
     }
 
-    h1 {
+    .bio h1 {
       font-size: 2rem;
       font-weight: 300;
       letter-spacing: -0.015em;
       margin-bottom: 14px;
-      color: #1a1a1a;
+      color: var(--ink);
+      display: block;
     }
 
-    .location {
+    .bio .location {
       font-size: 0.9375rem;
-      color: #888;
+      color: var(--ink-faint);
       font-weight: 400;
       margin-bottom: 22px;
     }
 
-    .tagline {
+    .bio .tagline {
       font-size: 0.9375rem;
-      color: #333;
+      color: var(--ink-soft);
       font-weight: 400;
       line-height: 1.5;
     }
 
-    .tagline .tags {
+    .bio .tagline .tags {
       display: block;
-      color: #888;
+      color: var(--ink-faint);
       font-size: 0.8125rem;
       margin-top: 4px;
       letter-spacing: 0.02em;
     }
 
-    /* SECTIONS — no borders, whitespace does the work */
-    section {
+    .bio main {
+      max-width: none;
+    }
+
+    .bio section {
       margin-bottom: 72px;
     }
 
-    h2 {
+    /* Bio uses subtler section headers than project pages */
+    .bio h2 {
       font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #999;
+      color: var(--ink-faint);
       margin-bottom: 28px;
+      padding-bottom: 0;
+      border-bottom: none;
     }
 
-    p {
+    .bio p {
       font-size: 0.9375rem;
-      color: #1a1a1a;
+      color: var(--ink);
       margin-bottom: 16px;
       font-weight: 400;
     }
 
-    /* EXPERIENCE ITEMS */
     .experience-item {
       margin-bottom: 32px;
     }
-
     .experience-item:last-child {
       margin-bottom: 0;
     }
@@ -98,14 +101,14 @@
     .experience-title {
       font-size: 0.9375rem;
       font-weight: 500;
-      color: #1a1a1a;
+      color: var(--ink);
       margin-bottom: 4px;
       letter-spacing: -0.005em;
     }
 
     .experience-date {
       font-size: 0.8125rem;
-      color: #999;
+      color: var(--ink-faint);
       font-weight: 400;
       margin-bottom: 10px;
       font-variant-numeric: tabular-nums;
@@ -113,17 +116,16 @@
 
     .experience-desc p {
       font-size: 0.9375rem;
-      color: #444;
+      color: var(--ink-soft);
       margin-bottom: 10px;
       font-weight: 400;
       line-height: 1.6;
     }
-
     .experience-desc p:last-child {
       margin-bottom: 0;
     }
 
-    /* SKILLS — compressed lead-in style, no dash bullets */
+    /* Skills — two-column lead-in rows */
     .skill-group {
       margin-bottom: 20px;
       display: grid;
@@ -135,15 +137,62 @@
     .skill-group-label {
       font-size: 0.8125rem;
       font-weight: 500;
-      color: #666;
+      color: var(--ink-muted);
       letter-spacing: 0.02em;
     }
 
     .skill-group-list {
       font-size: 0.9375rem;
-      color: #333;
+      color: var(--ink-soft);
       font-weight: 400;
       line-height: 1.55;
+    }
+
+    /* Contact */
+    .contact {
+      font-size: 0.9375rem;
+      color: var(--ink-soft);
+    }
+
+    .contact a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hairline);
+      padding-bottom: 1px;
+      transition: border-color 0.25s;
+    }
+
+    .contact a:hover {
+      border-bottom-color: var(--ink);
+    }
+
+    /* Bio nav — quieter than project nav (no right-side link) */
+    .bio nav {
+      margin: 96px auto 0;
+      padding-top: 36px;
+      border-top: 1px solid var(--hairline);
+      max-width: none;
+      display: block;
+    }
+
+    .bio nav a {
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      transition: color 0.25s;
+    }
+
+    .bio nav a:hover {
+      color: var(--ink);
+    }
+
+    @media (max-width: 768px) {
+      body.bio { padding: 56px 20px; }
+      .bio h1 { font-size: 1.75rem; }
+      .bio header { margin-bottom: 64px; }
+      .bio section { margin-bottom: 56px; }
     }
 
     @media (max-width: 560px) {
@@ -153,186 +202,144 @@
         margin-bottom: 24px;
       }
     }
-
-    /* CONTACT */
-    .contact {
-      font-size: 0.9375rem;
-      color: #333;
-    }
-
-    .contact a {
-      color: #1a1a1a;
-      text-decoration: none;
-      border-bottom: 1px solid #ccc;
-      transition: border-color 0.25s;
-    }
-
-    .contact a:hover {
-      border-bottom-color: #1a1a1a;
-    }
-
-    /* NAV — quiet, single rule */
-    nav {
-      margin-top: 96px;
-      padding-top: 36px;
-      border-top: 1px solid #e5e5e5;
-    }
-
-    nav a {
-      color: #888;
-      text-decoration: none;
-      font-size: 0.8125rem;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      transition: color 0.25s;
-    }
-
-    nav a:hover {
-      color: #1a1a1a;
-    }
-
-    @media (max-width: 768px) {
-      body { padding: 56px 20px; font-size: 15px; }
-      h1 { font-size: 1.75rem; }
-      header { margin-bottom: 64px; }
-      section { margin-bottom: 56px; }
-    }
   </style>
 </head>
-<body>
+<body class="bio">
   <div class="container">
     <header>
       <h1>Petra Kühnle</h1>
       <p class="location">Berlin</p>
       <p class="tagline">
-        Complex systems → human understanding
+        Pro Audio &amp; Aerospace Technical Writer | Designer
         <span class="tags">Documentation · interfaces · accessibility</span>
       </p>
     </header>
 
-    <section>
-      <h2>About</h2>
-      <p>I design and document the tools experts use — pro audio engineers, aerospace systems designers, and AI practitioners navigating the EU AI Act.</p>
-    </section>
+    <main>
+      <section>
+        <h2>About</h2>
+        <p>I design and document the tools experts use — pro audio engineers, aerospace systems designers, and AI practitioners navigating the EU AI Act.</p>
+      </section>
 
-    <section>
-      <h2>Current Work</h2>
+      <section>
+        <h2>Current Work</h2>
 
-      <div class="experience-item">
-        <div class="experience-title">System Forge — UX Analysis & Documentation</div>
-        <div class="experience-date">2026 – present · Remote</div>
-        <div class="experience-desc">
-          <p>Design documentation for a SysML2 modeling tool. Design principles, interface evaluation, technical roadmap. In collaboration with a systems engineer at Swedish Space Corporation.</p>
+        <div class="experience-item">
+          <div class="experience-title">System Forge — UX Analysis &amp; Documentation</div>
+          <div class="experience-date">2026 – present · Remote</div>
+          <div class="experience-desc">
+            <p>Design documentation for a SysML2 modeling tool. Design principles, interface evaluation, technical roadmap. In collaboration with a systems engineer at Swedish Space Corporation.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="experience-item">
-        <div class="experience-title">Sound AI Navigator — Mozilla Fellowship 2026 Nominee</div>
-        <div class="experience-date">2025 – present · Independent</div>
-        <div class="experience-desc">
-          <p>AI compliance tooling for generative audio. Navigating EU AI Act and GDPR for sound artists and creative teams.</p>
+        <div class="experience-item">
+          <div class="experience-title">Sound AI Navigator — Mozilla Fellowship 2026 Nominee</div>
+          <div class="experience-date">2025 – present · Independent</div>
+          <div class="experience-desc">
+            <p>AI compliance tooling for generative audio. Navigating EU AI Act and GDPR for sound artists and creative teams.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="experience-item">
-        <div class="experience-title">Accessibility Framework — Autismus Leben Berlin</div>
-        <div class="experience-date">2024 – 2025 · Berlin</div>
-        <div class="experience-desc">
-          <p>Perception-based digital photography framework developed with autistic adults. ARTPAED-certified through a cultural education programme (Wetek gGmbH & Alice Salomon Hochschule).</p>
+        <div class="experience-item">
+          <div class="experience-title">Accessibility Framework — Autismus Leben Berlin</div>
+          <div class="experience-date">2024 – 2025 · Berlin</div>
+          <div class="experience-desc">
+            <p>Perception-based digital photography framework developed with autistic adults. ARTPAED-certified through a cultural education programme (Wetek gGmbH &amp; Alice Salomon Hochschule).</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Previous Roles</h2>
+      <section>
+        <h2>Previous Roles</h2>
 
-      <div class="experience-item">
-        <div class="experience-title">Valispace → Altium 365 — Design & Documentation</div>
-        <div class="experience-date">2021 – 2023 · Bremen / Lisbon</div>
-        <div class="experience-desc">
-          <p>Sole designer for a systems engineering platform. Wrote design requirements with engineers, prototyped system-in-systems features. Prototypes led to a €100k+ development contract. Features shipped and survived acquisition.</p>
+        <div class="experience-item">
+          <div class="experience-title">Valispace → Altium 365 — Design &amp; Documentation</div>
+          <div class="experience-date">2021 – 2023 · Bremen / Lisbon</div>
+          <div class="experience-desc">
+            <p>Sole designer for a systems engineering platform. Wrote design requirements with engineers, prototyped system-in-systems features. Prototypes led to a €100k+ development contract. Features shipped and survived acquisition.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="experience-item">
-        <div class="experience-title">Apple — Technical Consultation & Documentation</div>
-        <div class="experience-date">2016 – 2020 · Cork</div>
-        <div class="experience-desc">
-          <p>Advisor → Supervisor → Specialist. Technical case documentation and expert consultation for Logic Pro and Final Cut Pro users across the EU. Apple Care Excellence Award 2018.</p>
+        <div class="experience-item">
+          <div class="experience-title">Apple — Technical Consultation &amp; Documentation</div>
+          <div class="experience-date">2016 – 2020 · Cork</div>
+          <div class="experience-desc">
+            <p>Advisor → Supervisor → Specialist. Technical case documentation and expert consultation for Logic Pro and Final Cut Pro users across the EU. Apple Care Excellence Award 2018.</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Foundation</h2>
+      <section>
+        <h2>Foundation</h2>
 
-      <div class="experience-item">
-        <div class="experience-title">Multimedia Art — Sensory Perception</div>
-        <div class="experience-date">2012 – 2016 · Groningen, Netherlands</div>
-        <div class="experience-desc">
-          <p>Site-specific installations examining signal processing, contextual meaning, and crossmodal perception. George Verberg Prize nominee (€10k, 2014).</p>
-          <p>Select exhibitions: Minerva Graduation Show, Wallhouse #2, European Exchange Academy (Beelitz), Kunstpodium T, Hogtij The Hague.</p>
+        <div class="experience-item">
+          <div class="experience-title">Multimedia Art — Sensory Perception</div>
+          <div class="experience-date">2012 – 2016 · Groningen, Netherlands</div>
+          <div class="experience-desc">
+            <p>Site-specific installations examining signal processing, contextual meaning, and crossmodal perception. George Verberg Prize nominee (€10k, 2014).</p>
+            <p>Select exhibitions: Minerva Graduation Show, Wallhouse #2, European Exchange Academy (Beelitz), Kunstpodium T, Hogtij The Hague.</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Education</h2>
-      <div class="experience-item">
-        <div class="experience-desc">
-          <p>Cultural Education Certificate — ASH Berlin & Wetek gGmbH, 2024</p>
-          <p>Digital Media Design & Development (Level 8) — CIT Cork, 2019</p>
-          <p>BFA Media Art — Academie Minerva, Hanze, 2014</p>
-          <p>BA Human-Centered Intervention Design, Visual Art Therapy Track — HAN Nijmegen, 2008</p>
+      <section>
+        <h2>Education</h2>
+        <div class="experience-item">
+          <div class="experience-desc">
+            <p>Cultural Education Certificate — ASH Berlin &amp; Wetek gGmbH, 2024</p>
+            <p>Digital Media Design &amp; Development (Level 8) — CIT Cork, 2019</p>
+            <p>BFA Media Art — Academie Minerva, Hanze, 2014</p>
+            <p>BA Human-Centered Intervention Design, Visual Art Therapy Track — HAN Nijmegen, 2008</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Practice</h2>
+      <section>
+        <h2>Practice</h2>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Documentation</div>
-        <div class="skill-group-list">Technical writing, design requirements, specs, user stories, knowledge bases, interface analysis, design principles.</div>
-      </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Documentation</div>
+          <div class="skill-group-list">Technical writing, design requirements, specs, user stories, knowledge bases, interface analysis, design principles.</div>
+        </div>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Research & Design</div>
-        <div class="skill-group-list">Human-centered research (interviews, think-aloud, Indi Young method), information architecture for complex B2B systems, interface design and prototyping.</div>
-      </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Research &amp; Design</div>
+          <div class="skill-group-list">Human-centered research (interviews, think-aloud, Indi Young method), information architecture for complex B2B systems, interface design and prototyping.</div>
+        </div>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Accessibility</div>
-        <div class="skill-group-list">WCAG, European Accessibility Act, multimodal interfaces, perception-based design, sonic interaction.</div>
-      </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Accessibility</div>
+          <div class="skill-group-list">WCAG, European Accessibility Act, multimodal interfaces, perception-based design, sonic interaction.</div>
+        </div>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Regulatory</div>
-        <div class="skill-group-list">EU AI Act, GDPR, SGB IX, EAA.</div>
-      </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Regulatory</div>
+          <div class="skill-group-list">EU AI Act, GDPR, SGB IX, EAA.</div>
+        </div>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Tools</div>
-        <div class="skill-group-list">Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian. Hybrid AI-human workflow with transparency.</div>
-      </div>
+        <div class="skill-group">
+          <div class="skill-group-label">Tools</div>
+          <div class="skill-group-list">Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian. Hybrid AI-human workflow with transparency.</div>
+        </div>
 
-      <div class="skill-group">
-        <div class="skill-group-label">Languages</div>
-        <div class="skill-group-list">German (native) · English (professional) · Dutch (professional).</div>
-      </div>
-    </section>
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-group-list">German (native) · English (professional) · Dutch (professional).</div>
+        </div>
+      </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p class="contact">
-        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> ·
-        <a href="mailto:petra.kuehnle@gmail.com">Email</a>
-      </p>
-    </section>
+      <section>
+        <h2>Contact</h2>
+        <p class="contact">
+          <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> ·
+          <a href="mailto:petra.kuehnle@gmail.com">Email</a>
+        </p>
+      </section>
 
-    <nav>
-      <a href="index.html">← Portfolio</a>
-    </nav>
+      <nav>
+        <a href="index.html">← Portfolio</a>
+      </nav>
+    </main>
   </div>
 </body>
 </html>
