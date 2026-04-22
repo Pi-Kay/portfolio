@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#4a453f"/>
+      <stop offset="35%" stop-color="#35302b"/>
+      <stop offset="70%" stop-color="#252220"/>
+      <stop offset="100%" stop-color="#1f1c1a"/>
+    </radialGradient>
+    <radialGradient id="moon" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#eeeae2"/>
+      <stop offset="45%" stop-color="#d8d2c6"/>
+      <stop offset="85%" stop-color="#b8b1a4"/>
+      <stop offset="100%" stop-color="#a8a194"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="23" fill="url(#moon)"/>
+</svg>
