@@ -78,21 +78,29 @@
             </span>
             Aerospace · Traceability Design
         </h1>
-        <p>Translating fragmented workflows into specifications for systems engineers</p>
+        <p>A system-in-systems feature for tracing who did what, when, and what changed.</p>
         <p class="meta">March 2021 – April 2023 · Valispace → Altium 365</p>
     </header>
 
     <main>
         <section>
-            <h2 class="section-title">Role</h2>
-            <p>Sole designer, working closely with engineers. Surfaced hidden constraints in digital and offline workflows — regulatory logic, verification dependencies, traceability gaps — and translated them into design prototypes.</p>
-            <p>Also contributed to API design consistency and product documentation — reviewed interfaces, flagged inconsistencies, and gave feedback on clarity and annotations.</p>
+            <h2 class="section-title">Context</h2>
+            <p>In regulated aerospace work, a requirement isn't a line item. It links to hardware, test plans, verification steps, and other requirements across the system. When something changes, the impact propagates — and someone has to know where, and whether the work downstream is still valid.</p>
+            <p>The feature set had to surface that network: linking requirements across hierarchies, tracing what verifies what, and signalling draft versus reviewed versus final across collaborators. Prototyped 2021–2022, before LLMs entered day-to-day workflows. The problems it addresses — provenance, change propagation, version state across distributed work — have only become more relevant since.</p>
         </section>
 
         <section>
-            <h2 class="section-title">Method</h2>
-            <p>Aerospace SMEs rarely articulate the constraints they've internalized over decades. Much of the work was surfacing assumptions experts no longer questioned, then translating fragmented feature requests into coherent system flows.</p>
-            <p>Writing detailed user stories — specifying for a novice what an expert does by reflex — often fell to design rather than to the experts themselves. Holding the whole alongside the parts, across Master-Follower, V&amp;V Matrix, and Review Center, meant designing for coherence at the system level while each screen stayed usable on its own.</p>
+            <h2 class="section-title">Role</h2>
+            <p>Sole designer. Built the high-fidelity interactive Figma prototypes from scratch — prototype design, interaction, and system logic end-to-end, with occasional review from engineers.</p>
+            <p>Ran two iteration rounds with external and internal stakeholders. In round two, I pushed to introduce detailed user stories alongside the design, and to define MVP-critical scope explicitly — separating what had to exist on day one from what needed to be extensible later. Not standard practice at the time. Both were my call.</p>
+            <p>Also contributed to API design consistency and product documentation — reviewed interfaces, flagged inconsistencies, gave feedback on clarity and annotations.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">The real bottleneck</h2>
+            <p>Engineering capacity wasn't the constraint. Neither was expertise. The constraint was translation — turning what domain experts knew by reflex into something a developer outside that field could build.</p>
+            <p>Experts who have worked in regulated aerospace for decades rarely articulate the constraints they've internalized. Much of the work was surfacing assumptions no one questioned anymore, then making them explicit enough to hand across roles. Writing user stories that specified for a novice what an expert does by habit fell to design, not to the experts.</p>
+            <p>This is a pattern in B2B software at the edge of a domain: the hard part isn't whether the tool <em>can</em> be built, it's whether what the tool should <em>do</em> can be captured as a coherent whole — in language and visuals — before it re-enters the expert's field as a product.</p>
         </section>
 
         <section>
@@ -111,7 +119,7 @@
                 </div>
                 <div class="feature">
                     <div class="feature-name">Review Center</div>
-                    <div class="feature-desc">Collaborative review workflows</div>
+                    <div class="feature-desc">Collaborative review workflows with state signalling</div>
                     <a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/review-center" target="_blank" class="feature-link">View docs →</a>
                 </div>
             </div>
@@ -133,8 +141,8 @@
         <section>
             <h2 class="section-title">Outcomes</h2>
             <ul>
-                <li>Prototypes drove follow-on product development</li>
-                <li>Features continued in Altium 365 following the acquisition</li>
+                <li>Prototypes led to a €100k+ development contract</li>
+                <li>Features retained and extended in Altium 365 following the acquisition</li>
             </ul>
         </section>
 
