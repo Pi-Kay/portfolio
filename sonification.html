@@ -5,80 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Spatial audio interface translating lunar crater data into sound. Multimodal interaction design for accessibility.">
     <title>Data Sonification — Petra Kühnle</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== PAGE-SPECIFIC STYLES ===== */
+        /* ===== SONIFICATION-SPECIFIC ===== */
 
         /* Canvas container */
         .canvas-container {
             width: 100%;
             max-width: 600px;
             margin: 30px auto;
-            border: 1px solid #e5e5e5;
+            border: 1px solid var(--hairline);
             background: #000;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease, border-color 0.3s ease;
             outline: none;
         }
-
         .canvas-container:hover {
             opacity: 0.95;
-            border-color: #8a8a8a;
+            border-color: var(--ink-soft);
         }
-
         .canvas-container:focus-visible {
-            outline: 3px solid #1a1a1a;
+            outline: 3px solid var(--ink);
             outline-offset: 3px;
         }
-
         canvas {
             display: block;
             width: 100%;
             height: auto;
         }
 
+        /* Hints and captions */
         .interaction-hint {
             font-size: 0.85em;
-            color: #6b6b6b;
+            color: var(--ink-muted);
             text-align: center;
             margin: 12px 0 4px;
-            font-weight: 400;
             font-style: italic;
         }
-
+        .canvas-caption {
+            font-size: 0.85em;
+            color: var(--ink-soft);
+            text-align: left;
+            margin-top: 12px;
+        }
         .fullscreen-link {
             display: block;
             text-align: center;
             margin-bottom: 12px;
             font-size: 0.75em;
-            color: #8a8a8a;
+            color: var(--ink-soft);
             text-decoration: none;
             letter-spacing: 0.15em;
-            font-weight: 400;
             transition: color 0.2s;
         }
-
         .fullscreen-link:hover {
-            color: #1a1a1a;
+            color: var(--ink);
         }
 
-        .canvas-caption {
+        /* Mapping cards — mirrors Valispace .features pattern */
+        .mappings {
+            display: flex;
+            gap: 24px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .mapping {
+            flex: 1;
+            min-width: 160px;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
+            padding: 16px;
+        }
+        .mapping-name {
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .mapping-desc {
             font-size: 0.85em;
-            color: #8a8a8a;
-            text-align: left;
-            margin-top: 12px;
-            font-weight: 400;
+            color: var(--ink-muted);
+            line-height: 1.6;
         }
 
-        /* Images */
+        /* Media */
         .midi-chart {
             width: 100%;
             max-width: 600px;
             margin: 20px auto;
             display: block;
         }
-
-        /* Audio player */
         audio {
             width: 100%;
             max-width: 600px;
@@ -91,82 +110,65 @@
             text-align: center;
             margin: 16px 0;
         }
-
         .btn-group button {
             padding: 6px 14px;
             margin: 0 4px;
             cursor: pointer;
-            background: #1a1a1a;
-            color: #fff;
-            border: 1px solid #3d3d3d;
+            background: var(--ink);
+            color: var(--bg);
+            border: 1px solid var(--ink-soft);
             font-size: 0.8em;
             font-family: inherit;
-            transition: all 0.2s;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-group button:hover {
+            background: var(--ink-soft);
         }
 
-        .btn-group button:hover {
-            background: #3d3d3d;
+        /* Inline code */
+        code {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.85em;
+            background: var(--bg-raised);
+            padding: 2px 6px;
+            border-radius: 3px;
         }
 
         /* Appendix */
         .appendix {
             margin-top: 60px;
             padding-top: 40px;
-            border-top: 1px solid #e5e5e5;
+            border-top: 1px solid var(--hairline);
         }
-
         .appendix .section-title {
-            color: #8a8a8a;
-        }
-
-        /* Code inline */
-        code {
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 0.85em;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            border-radius: 3px;
+            color: var(--ink-soft);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .canvas-container {
-                max-width: 100%;
-            }
-
-        /* BUTTON TEXT VISIBILITY FIX – text always at least partially visible */
-.deliverable-link,
-.btn,
-.btn-outline {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.deliverable-link *,
-.btn *,
-.btn-outline * {
-    opacity: 0.9;                    /* partially visible by default */
-    transition: opacity 0.2s ease;
-}
-
-.deliverable-link:hover *,
-.btn:hover *,
-.btn-outline:hover * {
-    opacity: 1;
-}a
+            .canvas-container { max-width: 100%; }
+            .mappings { flex-direction: column; gap: 16px; }
         }
     </style>
 </head>
 <body class="project">
     <header>
-        <h1>◐ NASA Open Source Data · AV · Accessibility </h1>
-        <p>Multimodal interface translating lunar crater data into interactive AV interface</p>
+        <h1>
+            <span class="header-icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="14" cy="14" r="10"/>
+                    <path d="M14 4 A 10 10 0 0 1 14 24 Z" fill="currentColor"/>
+                </svg>
+            </span>
+            NASA Open Data · AV · Accessibility
+        </h1>
+        <p>Multimodal interface translating lunar crater data into an interactive AV experience.</p>
         <p class="meta">NASA Moon Crater Database · 2026</p>
     </header>
 
     <main>
         <section>
-            <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization - click to start sonification" aria-pressed="false">
+            <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization — click to start sonification" aria-pressed="false">
                 <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
             </div>
             <p class="interaction-hint">Click the moon to start</p>
@@ -180,32 +182,45 @@
 
         <section>
             <h2 class="section-title">Methodology</h2>
-            <p>Approach inspired by Matt Russo's sonification work, combining scientific accuracy with perceptual clarity.</p>
-            <div class="highlight-box">
-                <p><strong>Parameter Mapping</strong></p>
-                <p>Diameter → pitch (inverted: larger craters = lower tones, 110-330 Hz) + duration (larger = longer sustain, 1.5-4.0s)</p>
-                <p>Latitude/longitude → impact position on sphere</p>
-                <p>Volume scaled to crater size (56-100)</p>
+            <p>Approach inspired by Matt Russo's sonification work, combining scientific accuracy with perceptual clarity. Parameters mapped from physical crater properties to audible properties such that visual size and pitch reinforce rather than contradict each other.</p>
+
+            <div class="mappings">
+                <div class="mapping">
+                    <div class="mapping-name">Diameter → Pitch &amp; Duration</div>
+                    <div class="mapping-desc">Inverted: larger craters sound lower (110–330 Hz) and sustain longer (1.5–4.0s).</div>
+                </div>
+                <div class="mapping">
+                    <div class="mapping-name">Latitude / Longitude → Position</div>
+                    <div class="mapping-desc">Impact location mapped to the visible sphere.</div>
+                </div>
+                <div class="mapping">
+                    <div class="mapping-name">Size → Volume</div>
+                    <div class="mapping-desc">Volume scaled to crater diameter (56–100).</div>
+                </div>
             </div>
-            <p><strong>Dataset:</strong> 9 craters selected from ~9,000 catalogued formations based on parameter diversity (diameter 32-101 km, depth 1.0-4.7 km, age 108-3800 Ma) and geographical distribution.</p>
+
+            <p class="note">Dataset: 9 craters selected from ~9,000 catalogued formations based on parameter diversity (diameter 32–101 km, depth 1.0–4.7 km, age 108–3800 Ma) and geographical distribution.</p>
         </section>
 
         <section>
             <h2 class="section-title">Process</h2>
-            <p><strong>Workflow:</strong> Python/Jupyter (data processing, MIDI generation) → Logic Pro (cinematic composition) → JavaScript/Web Audio</p>
-            <p style="margin: 16px 0;"><a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" style="text-decoration: underline;">View Python notebook, data, and MIDI on GitHub →</a></p>
+            <p>Workflow: Python/Jupyter (data processing, MIDI generation) → Logic Pro (cinematic composition) → JavaScript / Web Audio API.</p>
+            <p><a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" class="link">View Python notebook, data, and MIDI on GitHub →</a></p>
             <img src="sketch1.10.png" alt="MIDI temporal structure" class="midi-chart">
-            <p class="canvas-caption">MIDI temporal structure generated in Python</p>
-            <div class="highlight-box">
-                <p><strong>AI-Human Collaboration Insight</strong></p>
-                <p>During development, I identified a critical error in AI-generated pitch values: tones weren't inversely correlated with visible crater sizes (e.g., Aristarchus 40km sounded higher than Kepler 32km). Required systematic recalculation using: <code>pitch = 330 - ((diameter - 32) / (101 - 32)) × 220</code></p>
-                <p><strong>Takeaway:</strong> AI excels at code structure and mathematical operations; human perception catches relationship inconsistencies. Effective collaboration requires iterative verification against perceptual goals.</p>
-            </div>
+            <p class="canvas-caption">MIDI temporal structure generated in Python.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">AI–Human Collaboration</h2>
+            <p>During development, I identified a critical error in AI-generated pitch values: tones weren't inversely correlated with visible crater sizes. Aristarchus (40 km) sounded higher than Kepler (32 km) — a contradiction the code didn't surface but the ear caught immediately.</p>
+            <p>Required systematic recalculation using:</p>
+            <p><code>pitch = 330 − ((diameter − 32) / (101 − 32)) × 220</code></p>
+            <p class="note">Takeaway: AI handles code structure and arithmetic reliably. Human perception catches relationship inconsistencies. Effective collaboration requires iterative verification against perceptual goals — not only functional ones.</p>
         </section>
 
         <section>
             <h2 class="section-title">Audio Output</h2>
-            <p>Logic Pro composition using Orchestral Organ, Studio Grand, and Time Delay Synth. Layered soundscape addresses temporal compression (animation: 3-5s between impacts; geological reality: millions of years).</p>
+            <p>Logic Pro composition using Orchestral Organ, Studio Grand, and Time Delay Synth. Layered soundscape addresses temporal compression — animation plays at 3–5s between impacts; geological reality is millions of years.</p>
             <audio controls>
                 <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
@@ -215,9 +230,9 @@
         <section>
             <h2 class="section-title">Data Analysis</h2>
             <img src="sketch1.2.png" alt="Crater diameter vs age" class="midi-chart">
-            <p class="canvas-caption">Crater diameter vs age: larger craters tend to be older, formed during heavy bombardment periods</p>
+            <p class="canvas-caption">Crater diameter vs age: larger craters tend to be older, formed during heavy bombardment periods.</p>
             <img src="sketch1.3.png" alt="Crater diameter vs time since impact" class="midi-chart">
-            <p class="canvas-caption">Bombardment patterns over lunar history</p>
+            <p class="canvas-caption">Bombardment patterns over lunar history.</p>
         </section>
 
         <section>
@@ -227,23 +242,21 @@
 
         <section>
             <h2 class="section-title">Tools</h2>
-            <p>Python (numpy, pandas, matplotlib, midiutil), Logic Pro, JavaScript/Web Audio API, Claude, Grok</p>
+            <p>Python (numpy, pandas, matplotlib, midiutil), Logic Pro, JavaScript / Web Audio API, Claude, Grok.</p>
         </section>
 
         <section>
             <h2 class="section-title">Reflection</h2>
-            <p>Yes. The clearest finding came from an error. An early AI-generated version had the pitch mapping reversed — Aristarchus (40 km) sounded higher than Copernicus (93 km). The inconsistency wasn't visible in the code. It was audible the moment the animation ran. Visual size and pitch contradicted each other, and the brain flagged it immediately. Fixing it required recalculation, then verification across two additional AI tools. The process confirmed something specific: AI generates functional code reliably. It does not listen to the result.</p>
+            <p>The clearest finding came from an error. An early AI-generated version had the pitch mapping reversed — Aristarchus (40 km) sounded higher than Copernicus (93 km). The inconsistency wasn't visible in the code. It was audible the moment the animation ran. Visual size and pitch contradicted each other, and the brain flagged it immediately. Fixing it required recalculation, then verification across two additional AI tools. The process confirmed something specific: AI generates functional code reliably. It does not listen to the result.</p>
             <p>The mapping that works — larger craters sounding lower and longer — aligns with how the brain already connects size and pitch, grounded in physical acoustics and crossmodal perception research (Spence, 2011). When the mapping runs with that rather than against it, the data becomes easier to hold.</p>
             <p>One limit the project couldn't resolve: geological time. Compressing millions of years into seconds produces a coherent animation but no felt sense of duration. That's a separate research question.</p>
-            <div class="highlight-box">
-                <p>Combining visual and audio channels for data exploration reaches more ways of processing information — some people orient through shape, others through sequence, others through sound. NASA's open data makes this kind of exploration possible at low cost. AI makes the iteration loop short enough to actually test perceptual hypotheses rather than only describe them.</p>
-            </div>
+            <p class="note">Combining visual and audio channels for data exploration reaches more ways of processing information — some people orient through shape, others through sequence, others through sound. NASA's open data makes this kind of exploration possible at low cost. AI makes the iteration loop short enough to actually test perceptual hypotheses rather than only describe them.</p>
         </section>
 
         <div class="appendix">
             <section>
-                <h2 class="section-title">Appendix: Extended Dataset</h2>
-                <p>Initial exploration with 20 craters across the full parameter range (diameter 32-225 km, age 108-4000 Ma).</p>
+                <h2 class="section-title">Appendix · Extended Dataset</h2>
+                <p>Initial exploration with 20 craters across the full parameter range (diameter 32–225 km, age 108–4000 Ma).</p>
                 <div class="btn-group">
                     <button id="btnName">Name</button>
                     <button id="btnDiameter">Diameter</button>
@@ -497,9 +510,9 @@
             const btnAge = document.getElementById('btnAge');
 
             function updateBtns() {
-                [btnName,btnDiameter,btnAge].forEach(b => { b.style.background='#1a1a1a'; b.style.borderColor='#3d3d3d'; });
+                [btnName,btnDiameter,btnAge].forEach(b => { b.style.background=''; b.style.borderColor=''; });
                 const active = displayMode==='name'?btnName : displayMode==='diameter'?btnDiameter : displayMode==='age'?btnAge : null;
-                if (active) { active.style.background='#3d3d3d'; active.style.borderColor='#6b6b6b'; }
+                if (active) { active.style.background='var(--ink-soft)'; }
             }
 
             btnName.addEventListener('click', e => { e.stopPropagation(); displayMode = displayMode==='name'?'none':'name'; updateBtns(); });
