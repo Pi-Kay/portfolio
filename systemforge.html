@@ -505,6 +505,41 @@
         }
         .design-space-caption strong { color: var(--accent-positive); font-weight: 600; }
 
+        /* Next case study card */
+        .next-case-card {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            background: var(--bg-raised);
+            border: 1px solid var(--hairline);
+            border-left: 3px solid var(--accent-neutral);
+        }
+        .next-case-meta {
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--accent-neutral);
+        }
+        .next-case-card strong {
+            font-size: 1em;
+            color: var(--ink);
+        }
+        .next-case-card p {
+            font-size: 0.88em;
+            color: var(--ink-soft);
+            margin: 0;
+            line-height: 1.55;
+        }
+        .next-case-link {
+            font-size: 0.82em;
+            color: var(--accent-neutral);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
         /* Thesis pull-quote */
         .thesis-quote {
             margin: 24px 0;
@@ -693,13 +728,13 @@
                 </div>
                 <div class="process-step">
                     <span class="num">04</span>
-                    <strong>Interaction Design</strong>
-                    <p>User flows per task</p>
+                    <strong>Onboarding</strong>
+                    <p>First-run experience</p>
                 </div>
                 <div class="process-step">
                     <span class="num">05</span>
-                    <strong>Design System</strong>
-                    <p>Components &amp; tokens</p>
+                    <strong>Design Foundations</strong>
+                    <p>Tokens &amp; patterns</p>
                 </div>
             </div>
 
@@ -956,14 +991,14 @@
                 </div>
                 <div class="roadmap-item">
                     <div class="phase">Phase 04</div>
-                    <strong>Interaction Design</strong>
-                    <p>User flows per task: create diagram, add parts, connect, review, validate.</p>
-                    <span class="status next">Recommended Next</span>
+                    <strong>Onboarding · First Model</strong>
+                    <p>First-run experience for engineers new to SysML. A five-minute path to a working first model — covered in the companion case study below.</p>
+                    <span class="status current">In Progress</span>
                 </div>
                 <div class="roadmap-item">
                     <div class="phase">Phase 05</div>
-                    <strong>Design System</strong>
-                    <p>Tokens, components, patterns. Deferred until IA and interaction are stable.</p>
+                    <strong>Design Foundations</strong>
+                    <p>Tokens and patterns extracted from real onboarding work. A full design system would be premature; foundations come first.</p>
                     <span class="status next">Deferred</span>
                 </div>
             </div>
@@ -978,6 +1013,18 @@
                     <li><strong>Map core workflows end-to-end.</strong> Create → add parts → connect → review/validate. Surfaces interaction gaps static analysis misses.</li>
                     <li><strong>Draft tooltip patterns that teach SysML2 concepts.</strong> Extend the "Part tooltip" pattern systematically — strongest lever for teaching through use.</li>
                 </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Next · Companion Case Study</h2>
+            <p>Phase 04 continues as a focused companion case study. Where this study set the foundations — principles, audit, roadmap — the next one applies them to a single concrete moment: the first five minutes for an engineer who has never seen SysML before.</p>
+
+            <div class="next-case-card">
+                <div class="next-case-meta">Continues this case study</div>
+                <strong>System Forge · Onboarding Foundations</strong>
+                <p>One slice, deeply: B2B context and competitive scan, a before/after analysis of the current first-run experience, the onboarding flow itself, and the design foundations — tokens and patterns — pulled from real onboarding work.</p>
+                <span class="next-case-link">→ In progress · Coming Q2 2026</span>
             </div>
         </section>
 
@@ -1044,7 +1091,7 @@
 
         <nav>
             <a href="index.html">← Portfolio</a>
-            <a href="navigator.html">Navigator →</a>
+            <a href="systemforge-onboarding.html">Continues: Onboarding →</a>
         </nav>
     </main>
 
