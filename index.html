@@ -328,13 +328,12 @@
                 
                 <div class="visual-container">
 
-                    <img src="https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014992/Moon_Phases_Waxing_Thumbnail_V3.png"
-
+                    <img src="moon.webp"
+                         srcset="moon.webp 1x, https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014992/Moon_Phases_Waxing_Thumbnail_V3.png 1x"
                          alt="Lunar surface render based on NASA Lunar Reconnaissance Orbiter color data. Image: NASA Scientific Visualization Studio." 
-
                          class="moon-image"
-
-                         loading="lazy">
+                         loading="lazy"
+                         onerror="this.src='https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014992/Moon_Phases_Waxing_Thumbnail_V3.png'">
 
                 </div>
             </a>
