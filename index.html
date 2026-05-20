@@ -94,23 +94,21 @@
             font-weight: 300;
             color: var(--ink-muted);
             letter-spacing: 0.02em;
-            margin-bottom: 6px;
         }
 
-        .meta a {
+        /* ===== UNIFIED LINK STYLING ===== */
+        .meta a,
+        .proof a {
             color: var(--ink-soft);
             text-decoration: none;
             border-bottom: 1px solid var(--hairline);
             padding-bottom: 1px;
             transition: border-color 0.3s ease, color 0.3s ease;
         }
-        .meta a:hover { color: var(--ink); border-bottom-color: var(--ink-muted); }
-
-        .languages {
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.04em;
-            margin-top: 22px;
+        .meta a:hover,
+        .proof a:hover {
+            color: var(--ink);
+            border-bottom-color: var(--ink-muted);
         }
 
         /* ===== SPECS PANELS (proof + stack) ===== */
@@ -128,8 +126,7 @@
 
         .proof { margin-top: 28px; }
 
-        .proof-label,
-        .stack-label {
+        .proof-label {
             display: inline-block;
             font-family: var(--mono);
             font-size: 0.68rem;
@@ -139,23 +136,8 @@
             margin-right: 10px;
         }
 
-        .proof strong,
-        .stack strong {
-            font-weight: 500;
-            color: var(--ink);
-        }
-
-        .proof a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            border-bottom: 1px solid var(--hairline);
-            padding-bottom: 1px;
-            transition: border-color 0.3s ease, color 0.3s ease;
-        }
-        .proof a:hover { color: var(--ink); border-bottom-color: var(--ink-muted); }
-
-        /* ===== BIO (Background paragraph) ===== */
-        .bio {
+        /* ===== BACKGROUND PARAGRAPH ===== */
+        .bio-text {
             margin-top: 22px;
             font-size: 0.85rem;
             color: var(--ink-soft);
@@ -163,21 +145,17 @@
             letter-spacing: 0.01em;
         }
 
-        .bio p { margin-bottom: 0; }
-
-        .bio strong {
+        .bio-text strong {
             font-weight: 500;
             color: var(--ink);
         }
 
-        .bio-label {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 0.68rem;
+        /* ===== LANGUAGES ===== */
+        .languages {
+            font-size: 0.78rem;
             color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-right: 10px;
+            letter-spacing: 0.04em;
+            margin-top: 22px;
         }
 
         /* ===== PROJECTS ===== */
@@ -288,21 +266,17 @@
         <header>
             <div class="name-row">
                 <span class="mark" aria-hidden="true">
-                    <!-- quiet geometric mark: signal node -->
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
                         <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/>
                         <circle cx="12" cy="12" r="6.5"/>
                         <circle cx="12" cy="12" r="10.5" opacity="0.35"/>
                     </svg>
                 </span>
-                <h1>Petra Kühnle</h1>
+                <h1>Petra Kühnle</h1>·<h2>Technical UX · audio &amp; engineering software</h2>
             </div>
 
-            <p class="positioning">Technical UX · audio &amp; engineering software</p>
-            <p class="positioning-sub">Working in the space between humans and technology — verbal, non-verbal, auditory.</p>
-
             <p class="meta">
-                <strong>Berlin</strong> · Remote ·
+                Berlin · Remote 
                 <a href="bio.html">Bio</a> ·
                 <a href="mailto:petra.kuehnle@gmail.com">Contact</a> ·
                 <a href="https://www.linkedin.com/in/petrakuhnle">LinkedIn</a>
@@ -310,24 +284,19 @@
 
             <div class="proof">
                 <span class="proof-label">Currently</span>
-                <strong>Mozilla AI Fellowship 2026</strong> (shortlisted, passed 1st round for Web App concept Music AI Compliance) ·
-                <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed"><strong>MDN Web Audio API</strong></a> — open-source contributor, API reference &amp; terminology ·
-                Designed features that ship in <strong>Altium 365</strong>
+                Mozilla AI Fellowship 2026 (shortlisted) ·
+                <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed">MDN Web Audio API contributor</a>
             </div>
 
-            <div class="bio">
-                <p>
-                    <span class="bio-label">Background</span>
-                    Sole designer at <strong>Valispace</strong> (acquired by Altium) — prototypes co-built with aerospace engineers secured <strong>€100k+ in development contracts within six months</strong>; features ship in Altium 365 today. Before that, four years at <strong>Apple</strong> as a <strong>T4 Creative Media Advisor</strong>, diagnosing Logic Pro and Final Cut workflows for professional users across the EU.
-                </p>
-            </div>
+            <p class="bio-text">
+                Sole designer at Valispace (acquired by Altium) — prototypes built with aerospace engineers secured <strong>€100k+ in contracts in six months</strong>; features ship in Altium 365 today. Four years prior at Apple as T4 Creative Media Advisor for Logic Pro and Final Cut professionals across the EU.
+            </p>
 
             <div class="stack">
-                <span class="stack-label">Stack</span>
-                Figma · HTML/CSS · Logic Pro · Final Cut · Python · Terminal · Claude · pen &amp; paper · technical writing
+                Figma · Logic Pro · Final Cut · Python · HTML/CSS · technical writing
             </div>
 
-            <p class="languages"><strong>DE native</strong> · EN fluent · NL fluent — extensive international and multilingual experience</p>
+            <p class="languages">DE native · EN fluent · NL fluent</p>
         </header>
 
         <main id="main">
