@@ -659,3 +659,30 @@ img {
         text-align: center;
     }
 }
+
+/* ===== BIO ===== */
+.bio {
+    margin-top: 22px;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+}
+
+.bio p { margin-bottom: 14px; }
+.bio p:last-child { margin-bottom: 0; }
+
+.bio strong {
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.bio-label {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-right: 10px;
+}
