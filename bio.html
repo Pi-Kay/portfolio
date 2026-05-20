@@ -3,21 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Petra Kühnle — Technical UX (audio, aerospace)">
+  <meta name="description" content="Petra Kühnle — Technical UX Designer for audio and engineering software. Berlin / Remote.">
   <title>Bio — Petra Kühnle</title>
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="shortcut icon" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
+
   <style>
     /* ===== BIO-SPECIFIC =====
-       Bio uses a tighter column and more whitespace than
-       project case studies — it's a reading document, not a
-       reference document. Overrides project defaults accordingly. */
+       Bio is a reading document — tighter column, more whitespace,
+       quieter section headers than the project case studies. */
 
-    body.bio {
-      padding: 80px 20px;
-    }
+    body.bio { padding: 80px 20px; }
 
     .bio .container {
       max-width: 640px;
@@ -26,7 +24,7 @@
     }
 
     .bio header {
-      margin-bottom: 96px;
+      margin-bottom: 88px;
       padding-bottom: 0;
       border-bottom: none;
       max-width: none;
@@ -37,7 +35,7 @@
       font-size: 2rem;
       font-weight: 300;
       letter-spacing: -0.015em;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       color: var(--ink);
       display: block;
     }
@@ -46,7 +44,7 @@
       font-size: 0.9375rem;
       color: var(--ink-faint);
       font-weight: 400;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .bio .tagline {
@@ -56,30 +54,18 @@
       line-height: 1.5;
     }
 
-    .bio .tagline .tags {
-      display: block;
-      color: var(--ink-faint);
-      font-size: 0.8125rem;
-      margin-top: 4px;
-      letter-spacing: 0.02em;
-    }
+    .bio main { max-width: none; }
 
-    .bio main {
-      max-width: none;
-    }
+    .bio section { margin-bottom: 64px; }
+    .bio section:last-of-type { margin-bottom: 0; }
 
-    .bio section {
-      margin-bottom: 72px;
-    }
-
-    /* Bio uses subtler section headers than project pages */
     .bio h2 {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--ink-faint);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       padding-bottom: 0;
       border-bottom: none;
     }
@@ -87,22 +73,26 @@
     .bio p {
       font-size: 0.9375rem;
       color: var(--ink);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       font-weight: 400;
+      line-height: 1.65;
+    }
+    .bio p:last-child { margin-bottom: 0; }
+
+    .bio strong {
+      font-weight: 500;
+      color: var(--ink);
     }
 
-    .experience-item {
-      margin-bottom: 32px;
-    }
-    .experience-item:last-child {
-      margin-bottom: 0;
-    }
+    /* Experience timeline — one row per role, compact */
+    .experience-item { margin-bottom: 26px; }
+    .experience-item:last-child { margin-bottom: 0; }
 
     .experience-title {
       font-size: 0.9375rem;
       font-weight: 500;
       color: var(--ink);
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       letter-spacing: -0.005em;
     }
 
@@ -110,29 +100,37 @@
       font-size: 0.8125rem;
       color: var(--ink-faint);
       font-weight: 400;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-variant-numeric: tabular-nums;
     }
 
     .experience-desc p {
       font-size: 0.9375rem;
       color: var(--ink-soft);
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       font-weight: 400;
       line-height: 1.6;
     }
-    .experience-desc p:last-child {
-      margin-bottom: 0;
+    .experience-desc p:last-child { margin-bottom: 0; }
+
+    /* Education — flat list, no per-item titles */
+    .edu-list p {
+      font-size: 0.9375rem;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+      line-height: 1.6;
     }
+    .edu-list p:last-child { margin-bottom: 0; }
 
     /* Skills — two-column lead-in rows */
     .skill-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       display: grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 150px 1fr;
       gap: 16px;
       align-items: baseline;
     }
+    .skill-group:last-child { margin-bottom: 0; }
 
     .skill-group-label {
       font-size: 0.8125rem;
@@ -149,10 +147,7 @@
     }
 
     /* Contact */
-    .contact {
-      font-size: 0.9375rem;
-      color: var(--ink-soft);
-    }
+    .contact { font-size: 0.9375rem; color: var(--ink-soft); }
 
     .contact a {
       color: var(--ink);
@@ -161,15 +156,24 @@
       padding-bottom: 1px;
       transition: border-color 0.25s;
     }
+    .contact a:hover { border-bottom-color: var(--ink); }
 
-    .contact a:hover {
-      border-bottom-color: var(--ink);
+    /* Inline link inside body copy */
+    .bio a.inline {
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hairline);
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .bio a.inline:hover {
+      color: var(--ink);
+      border-bottom-color: var(--ink-muted);
     }
 
-    /* Bio nav — quieter than project nav (no right-side link) */
+    /* Bottom nav back to portfolio */
     .bio nav {
-      margin: 96px auto 0;
-      padding-top: 36px;
+      margin: 88px auto 0;
+      padding-top: 32px;
       border-top: 1px solid var(--hairline);
       max-width: none;
       display: block;
@@ -183,113 +187,85 @@
       letter-spacing: 0.02em;
       transition: color 0.25s;
     }
-
-    .bio nav a:hover {
-      color: var(--ink);
-    }
+    .bio nav a:hover { color: var(--ink); }
 
     @media (max-width: 768px) {
       body.bio { padding: 56px 20px; }
       .bio h1 { font-size: 1.75rem; }
-      .bio header { margin-bottom: 64px; }
-      .bio section { margin-bottom: 56px; }
+      .bio header { margin-bottom: 56px; }
+      .bio section { margin-bottom: 48px; }
     }
 
     @media (max-width: 560px) {
       .skill-group {
         grid-template-columns: 1fr;
         gap: 4px;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
       }
     }
   </style>
 </head>
+
 <body class="bio">
   <div class="container">
+
     <header>
       <h1>Petra Kühnle</h1>
-      <p class="location">Berlin</p>
-      <p class="tagline">
-        Technical UX
-      </p>
+      <p class="location">Berlin · Remote</p>
+      <p class="tagline">Technical UX · audio &amp; engineering software</p>
     </header>
 
     <main>
+
       <section>
         <h2>About</h2>
-        <p>I design and document expert tools for aerospace and pro audio, combining UX, technical writing, and systems thinking. My work focuses on making complex engineered products easier to learn, trust, and use.</p>
+        <p>Technical UX Designer for audio tools, engineering software, and technical documentation. From senior pro-audio support at <strong>Apple</strong>, to sole designer at <strong>Valispace</strong> (acquired by Altium), to Web Audio API contributions at <strong>MDN</strong>.</p>
+        <p>One question runs through the work: what happens in the space between humans and technology — verbal, non-verbal, auditory. Art therapy, audio-only tech support, engineer interviews, interface design. Different surfaces, same inquiry.</p>
       </section>
 
       <section>
-        <h2>Current Work</h2>
+        <h2>Experience</h2>
 
         <div class="experience-item">
-          <div class="experience-title">System Forge — UX Analysis &amp; Documentation</div>
-          <div class="experience-date">2026 – present · Remote</div>
+          <div class="experience-title">Independent practice — Technical UX &amp; Documentation</div>
+          <div class="experience-date">2024 – present · Berlin / Remote</div>
           <div class="experience-desc">
-            <p>Design documentation for a SysML2 modeling tool. Design principles, interface evaluation, technical roadmap. In collaboration with a systems engineer at Swedish Space Corporation.<[...]
+            <p>UX, documentation, and accessibility work for audio and engineering software. Current projects on the <a class="inline" href="index.html">portfolio</a>.</p>
           </div>
         </div>
 
         <div class="experience-item">
-          <div class="experience-title">Sound AI Navigator — Mozilla Fellowship 2026 Nominee</div>
-          <div class="experience-date">2025 – present · Independent</div>
-          <div class="experience-desc">
-            <p>AI compliance tooling for generative audio. Navigating EU AI Act and GDPR for sound artists and creative teams.</p>
-          </div>
-        </div>
-
-        <div class="experience-item">
-          <div class="experience-title">Accessibility Framework — Autismus Leben Berlin</div>
-          <div class="experience-date">2024 – 2025 · Berlin</div>
-          <div class="experience-desc">
-            <p>Perception-based digital photography framework developed with autistic adults. ARTPAED-certified through a cultural education programme (Wetek gGmbH &amp; Alice Salomon Hochschule)[...]
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Previous Roles</h2>
-
-        <div class="experience-item">
-          <div class="experience-title">Valispace → Altium 365 — Design &amp; Documentation</div>
+          <div class="experience-title">Valispace (acquired by Altium) — Solo Designer</div>
           <div class="experience-date">2021 – 2023 · Bremen / Lisbon</div>
           <div class="experience-desc">
-            <p>Sole designer for a systems engineering platform. Wrote design requirements with engineers, prototyped system-in-systems features. Prototypes led to a €100k+ development contract[...]
+            <p>Sole designer on a systems engineering platform for aerospace. Prototypes co-built with engineers secured <strong>€100k+ in development contracts within six months</strong>. Features ship in Altium 365 today.</p>
           </div>
         </div>
 
         <div class="experience-item">
-          <div class="experience-title">Apple — Technical Consultation &amp; Documentation</div>
+          <div class="experience-title">Apple — T4 Creative Media Advisor</div>
           <div class="experience-date">2016 – 2020 · Cork</div>
           <div class="experience-desc">
-            <p>Advisor → Supervisor → Specialist. Technical case documentation and expert consultation for Logic Pro and Final Cut Pro users across the EU. Apple Care Excellence Award 2018.<[...]
+            <p>Senior-tier technical support for Logic Pro and Final Cut Pro professionals across the EU. Advisor → Supervisor → Specialist. <strong>Apple Care Excellence Award, 2018</strong>.</p>
           </div>
         </div>
-      </section>
-
-      <section>
-        <h2>Foundation</h2>
 
         <div class="experience-item">
-          <div class="experience-title">Multimedia Art — Sensory Perception</div>
+          <div class="experience-title">Multimedia Art Practice</div>
           <div class="experience-date">2012 – 2016 · Groningen, Netherlands</div>
           <div class="experience-desc">
-            <p>Site-specific installations examining signal processing, contextual meaning, and crossmodal perception. George Verberg Prize nominee (€10k, 2014).</p>
-            <p>Select exhibitions: Minerva Graduation Show, Wallhouse #2, European Exchange Academy (Beelitz), Kunstpodium T, Hogtij The Hague.</p>
+            <p>Site-specific installations on signal processing, contextual meaning, and crossmodal perception. <strong>George Verberg Prize nominee (€10k, 2014)</strong>. Exhibitions include Minerva Graduation Show, Wallhouse #2, European Exchange Academy (Beelitz), and Kunstpodium T.</p>
           </div>
         </div>
       </section>
 
       <section>
         <h2>Education</h2>
-        <div class="experience-item">
-          <div class="experience-desc">
-            <p>Cultural Education Certificate — ASH Berlin &amp; Wetek gGmbH, 2024</p>
-            <p>Digital Media Design &amp; Development (Level 8) — CIT Cork, 2019</p>
-            <p>BFA Media Art — Academie Minerva, Hanze, 2014</p>
-            <p>BA Human-Centered Intervention Design, Visual Art Therapy Track — HAN Nijmegen, 2008</p>
-          </div>
+        <div class="edu-list">
+          <p>Cultural Education Certificate (ARTPAED) — ASH Berlin &amp; Wetek gGmbH, 2024</p>
+          <p>Digital Media Design &amp; Development, Level 8 — CIT Cork, 2019</p>
+          <p>BFA Media Art — Academie Minerva, Hanze, 2014</p>
+          <p>BA Human-Centered Intervention Design, Visual Art Therapy track — HAN Nijmegen, 2008</p>
         </div>
       </section>
 
@@ -303,7 +279,7 @@
 
         <div class="skill-group">
           <div class="skill-group-label">Research &amp; Design</div>
-          <div class="skill-group-list">Human-centered research (interviews, think-aloud, Indi Young method), information architecture for complex B2B systems, interface design and prototyping.<[...]
+          <div class="skill-group-list">Human-centered research (interviews, think-aloud, Indi Young method), information architecture for complex B2B systems, interface design and prototyping.</div>
         </div>
 
         <div class="skill-group">
@@ -318,19 +294,20 @@
 
         <div class="skill-group">
           <div class="skill-group-label">Tools</div>
-          <div class="skill-group-list">Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian. Hybrid AI-human workflow with transparency.</div>
+          <div class="skill-group-list">Figma, Sketch, Logic Pro, Final Cut Pro, Obsidian. Hybrid AI–human workflow with transparency.</div>
         </div>
 
         <div class="skill-group">
           <div class="skill-group-label">Languages</div>
-          <div class="skill-group-list">German (native) · English (professional) · Dutch (professional).</div>
+          <div class="skill-group-list">German (native) · English (fluent) · Dutch (fluent).</div>
         </div>
       </section>
 
       <section>
         <h2>Contact</h2>
+        <p>Open to roles in audio software, developer tools, and engineering platforms. Berlin or remote.</p>
         <p class="contact">
-          <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank">LinkedIn</a> ·
+          <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener">LinkedIn</a> ·
           <a href="mailto:petra.kuehnle@gmail.com">Email</a>
         </p>
       </section>
@@ -338,6 +315,7 @@
       <nav>
         <a href="index.html">← Portfolio</a>
       </nav>
+
     </main>
   </div>
 </body>
