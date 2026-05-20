@@ -130,6 +130,15 @@
             color: var(--ink);
         }
 
+        .proof a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline);
+            padding-bottom: 1px;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .proof a:hover { color: var(--ink); border-bottom-color: var(--ink-muted); }
+
         /* ===== PROJECTS ===== */
         .section-label {
             font-family: var(--mono);
@@ -256,14 +265,19 @@
 
             <p class="positioning">Technical UX · audio &amp; engineering software</p>
 
-            <p class="meta"><strong>Berlin</strong> · Remote · <a href="bio.html">Bio</a> · <a href="mailto:petra.kuehnle@gmail.com">Contact</a></p><a href="https://www.linkedin.com/in/petrakuhnle"/>Linkedin</a>
-            <p class="languages"><strong>DE native</strong> · EN fluent · NL fluent with extensive international and multilingual experience</p>
+            <p class="meta">
+                <strong>Berlin</strong> · Remote ·
+                <a href="bio.html">Bio</a> ·
+                <a href="mailto:petra.kuehnle@gmail.com">Contact</a> ·
+                <a href="https://www.linkedin.com/in/petrakuhnle">LinkedIn</a>
+            </p>
+
+            <p class="languages"><strong>DE native</strong> · EN fluent · NL fluent — extensive international and multilingual experience</p>
 
             <div class="proof">
                 <span class="proof-label">Currently</span>
                 <strong>Mozilla AI Fellowship 2026</strong> (shortlisted, passed 1st round for Web App concept Music AI Compliance) ·
-                <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed"><strong>MDN Web Audio API</strong>Open-source contributor · API reference &amp; terminology</div>
-                    ·
+                <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed"><strong>MDN Web Audio API</strong> — open-source contributor, API reference &amp; terminology</a> ·
                 Designed features that ship in <strong>Altium 365</strong>
             </div>
         </header>
@@ -273,7 +287,7 @@
 
             <nav aria-label="Portfolio projects">
                 <ul>
-                      <li>
+                    <li>
                         <a href="systemforge.html">
                             <div>
                                 <span class="project-name">SystemForge</span>
@@ -282,45 +296,41 @@
                         </a>
                     </li>
 
-                          <li>
+                    <li>
                         <a href="navigator.html">
                             <div>
                                 <span class="project-name">Sound AI Navigator</span>
                                 <div class="project-context">Prototype Mozilla nominated · AI critical workflow evaluation</div>
                             </div>
-             
                         </a>
                     </li>
 
-                     <li>
+                    <li>
                         <a href="sonification.html">
                             <div>
                                 <span class="project-name">Data Sonification</span>
                                 <div class="project-context">NASA Open Data · AI Python library librosa, Terminal, pen sketches</div>
                             </div>
-                     
                         </a>
                     </li>
-                  
+
                     <li>
                         <a href="valispace.html">
                             <div>
                                 <span class="project-name">Valispace → Altium 365</span>
                                 <div class="project-context">Aerospace · systems engineering · Solo Designer Interactive Prototypes · ships now</div>
                             </div>
-                          
                         </a>
                     </li>
+
                     <li>
                         <a href="apple.html">
                             <div>
                                 <span class="project-name">Apple Pro Apps</span>
                                 <div class="project-context">Logic Pro &amp; Final Cut · Solid Foundation Communication in Technical Environment</div>
                             </div>
-                     
                         </a>
                     </li>
-                 
                 </ul>
             </nav>
         </main>
