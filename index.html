@@ -3,26 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Petra Kühnle — Pro Audio & Aerospace Technical Designer, Writer. Berlin.">
-    <title>Petra Kühnle — Portfolio</title>
+    <meta name="description" content="Petra Kühnle — Technical UX for audio & engineering software. Berlin / Remote.">
+    <title>Petra Kühnle — Technical UX · Audio & Engineering Software</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
-
-    <!-- Open Graph / LinkedIn / social preview -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Petra Kühnle — Portfolio">
-    <meta property="og:description" content="Pro Audio & Aerospace Technical Designer · Writer. Berlin.">
-    <meta property="og:image" content="favicon.svg">
-    <meta name="twitter:card" content="summary">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+    <meta property="og:title" content="Petra Kühnle — Technical UX · Audio & Engineering Software">
+    <meta property="og:description" content="Technical UX for audio & engineering software. Berlin · Remote.">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg: #f5f3ef;
@@ -31,6 +22,8 @@
             --ink-muted: #7a756d;
             --ink-faint: #9a948b;
             --hairline: #d9d4ca;
+            --hairline-strong: #b8b1a4;
+            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
         }
 
         body {
@@ -39,46 +32,60 @@
             color: var(--ink);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 80px 20px;
+            padding: 80px 24px;
             font-weight: 300;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 680px;
             margin: 0 auto;
-            animation: fadeIn 1.2s ease-out;
+            animation: fadeIn 0.9s ease-out;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 80px;
+        /* ===== HEADER ===== */
+        header { margin-bottom: 64px; }
+
+        .name-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 6px;
         }
 
         h1 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
             color: var(--ink);
-            margin: 0 0 10px 0;
         }
 
-        .tagline {
-            font-size: 0.95rem;
+        .mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            margin-bottom: 2px;
+        }
+
+        .mark svg { width: 100%; height: 100%; }
+
+        .positioning {
+            font-size: 1rem;
             font-weight: 300;
             color: var(--ink-soft);
-            margin: 0 0 18px 0;
-            line-height: 1.5;
+            margin-bottom: 24px;
             letter-spacing: 0.01em;
         }
 
         .meta {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 300;
             color: var(--ink-muted);
-            margin: 0;
             letter-spacing: 0.02em;
+            margin-bottom: 6px;
         }
 
         .meta a {
@@ -86,145 +93,118 @@
             text-decoration: none;
             border-bottom: 1px solid var(--hairline);
             padding-bottom: 1px;
-            transition: border-color 0.4s ease, color 0.4s ease;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .meta a:hover { color: var(--ink); border-bottom-color: var(--ink-muted); }
+
+        .languages {
+            font-size: 0.78rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.04em;
         }
 
-        .meta a:hover {
+        /* ===== PROOF STRIP ===== */
+        .proof {
+            margin-top: 28px;
+            padding: 14px 0;
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            letter-spacing: 0.01em;
+            line-height: 1.7;
+        }
+
+        .proof-label {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-right: 10px;
+        }
+
+        .proof strong {
+            font-weight: 500;
             color: var(--ink);
-            border-bottom-color: var(--ink-muted);
         }
 
-        /* Two-column: projects left, visual right */
-        .main-content {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 90px;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
+        /* ===== PROJECTS ===== */
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 22px;
         }
 
-        /* Projects */
-        nav ul {
-            list-style: none;
-        }
+        nav ul { list-style: none; }
 
         nav li {
             margin-bottom: 22px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--hairline);
         }
+        nav li:last-child { border-bottom: none; }
 
         nav a {
             text-decoration: none;
             color: var(--ink);
-            display: block;
-            transition: opacity 0.4s ease;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: baseline;
+            gap: 16px;
+            transition: opacity 0.3s ease;
         }
-
-        nav a:hover {
-            opacity: 0.65;
-        }
-
-        nav a:hover .project-name {
-            border-bottom-color: var(--ink-muted);
-        }
+        nav a:hover { opacity: 0.65; }
+        nav a:hover .project-name { border-bottom-color: var(--ink-muted); }
 
         .project-name {
-            font-size: 0.9em;
-            font-weight: 400;
+            font-size: 0.95rem;
+            font-weight: 500;
             color: var(--ink);
-            letter-spacing: 0;
             border-bottom: 1px solid transparent;
             display: inline;
-            transition: border-color 0.4s ease;
+            transition: border-color 0.3s ease;
         }
 
         .project-context {
-            font-size: 0.8em;
+            font-size: 0.82rem;
             color: var(--ink-muted);
             font-weight: 300;
-            margin-top: 3px;
+            margin-top: 4px;
             letter-spacing: 0.01em;
         }
 
-        .project-status {
-            font-style: italic;
+        .project-date {
+            font-family: var(--mono);
+            font-size: 0.7rem;
             color: var(--ink-faint);
-            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            text-align: right;
         }
 
-        /* Visual — Sugimoto seascape palette: deep warm charcoal
-           with a luminous silver disc, soft radial gradient */
-        .visual-link {
-            display: block;
-            text-decoration: none;
+        .project-date.current {
+            color: var(--ink);
         }
 
-        .visual-container {
-            position: relative;
-            width: 340px;
-            height: 340px;
-            background:
-                radial-gradient(
-                    ellipse at 50% 45%,
-                    #4a453f 0%,
-                    #35302b 35%,
-                    #252220 70%,
-                    #1f1c1a 100%
-                );
-            flex-shrink: 0;
-            cursor: pointer;
-            transition: opacity 0.6s ease;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .project-date.current::before {
+            content: "● ";
+            color: var(--ink);
         }
 
-        .visual-link:hover .visual-container {
-            opacity: 0.92;
-        }
-
-        .moon-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-        }
-
-        .circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 72%;
-            height: 72%;
-            background: radial-gradient(
-                circle at 45% 40%,
-                #eeeae2 0%,
-                #d8d2c6 45%,
-                #b8b1a4 85%,
-                #a8a194 100%
-            );
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow:
-                0 0 60px rgba(230, 224, 212, 0.08),
-                0 0 120px rgba(230, 224, 212, 0.04);
-        }
-
-        .visual-link:hover .circle {
-            width: 74%;
-            height: 74%;
-        }
-
+        /* ===== FOOTER ===== */
         footer {
-            text-align: center;
-            margin-top: 80px;
-            font-size: 0.8rem;
+            margin-top: 72px;
+            font-size: 0.75rem;
             color: var(--ink-faint);
             font-weight: 300;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
+            display: flex;
+            justify-content: space-between;
         }
 
         .skip-link {
@@ -237,45 +217,21 @@
             text-decoration: none;
             z-index: 100;
         }
+        .skip-link:focus { top: 0; }
 
-        .skip-link:focus {
-            top: 0;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 50px 20px;
-            }
-
-            h1 {
-                font-size: 1.4rem;
-            }
-
-            .main-content {
+        @media (max-width: 600px) {
+            body { padding: 48px 20px; }
+            nav a {
                 grid-template-columns: 1fr;
-                gap: 50px;
+                gap: 4px;
             }
-
-            .visual-link {
-                order: -1;
-            }
-
-            .visual-container {
-                width: 100%;
-                max-width: 280px;
-                height: auto;
-                aspect-ratio: 1;
-                margin: 0 auto;
-            }
-
-            nav {
-                order: 1;
-            }
+            .project-date { text-align: left; }
+            footer { flex-direction: column; gap: 6px; }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -284,67 +240,101 @@
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <div class="container">
-        <header>
-            <h1>Petra Kühnle</h1>
-            <p class="tagline">
 
-Designer · Prototyper · Technical Writer</p>
-            <p class="meta">Berlin · Remote · <a href="bio.html">Bio</a></p>
+        <header>
+            <div class="name-row">
+                <span class="mark" aria-hidden="true">
+                    <!-- quiet geometric mark: signal node -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                        <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/>
+                        <circle cx="12" cy="12" r="6.5"/>
+                        <circle cx="12" cy="12" r="10.5" opacity="0.35"/>
+                    </svg>
+                </span>
+                <h1>Petra Kühnle</h1>
+            </div>
+
+            <p class="positioning">Technical UX · audio &amp; engineering software</p>
+
+            <p class="meta">Berlin · Remote · <a href="bio.html">Bio</a> · <a href="mailto:petra.kuehnle@gmail.com">Contact</a></p>
+            <p class="languages">DE native · EN fluent · NL fluent</p>
+
+            <div class="proof">
+                <span class="proof-label">Currently</span>
+                <strong>Mozilla AI Fellowship 2026</strong> (shortlist) ·
+                <strong>MDN Web Audio API</strong> contributor ·
+                Designed features that ship in <strong>Altium 365</strong>
+            </div>
         </header>
 
-        <div class="main-content">
-            <nav aria-label="Portfolio projects" id="main">
+        <main id="main">
+            <p class="section-label">Selected work</p>
+
+            <nav aria-label="Portfolio projects">
                 <ul>
                     <li>
-                        <a href="systemforge.html">
-                            <span class="project-name">System Forge</span>
-                            <div class="project-context">SysML2 · Design principles & Learnability</div>
+                        <a href="sound-ai-navigator.html">
+                            <div>
+                                <span class="project-name">Sound AI Navigator</span>
+                                <div class="project-context">Audio AI · EU AI Act / GDPR compliance · prototype</div>
+                            </div>
+                            <span class="project-date current">2026</span>
                         </a>
                     </li>
-               
+                    <li>
+                        <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed">
+                            <div>
+                                <span class="project-name">MDN Web Audio API</span>
+                                <div class="project-context">Open-source · API reference &amp; terminology</div>
+                            </div>
+                            <span class="project-date current">2026</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="systemforge.html">
+                            <div>
+                                <span class="project-name">SystemForge</span>
+                                <div class="project-context">SysML2 · learnability for systems engineers</div>
+                            </div>
+                            <span class="project-date current">2026 - present </span>
+                        </a>
+                    </li>
                     <li>
                         <a href="valispace.html">
-                            <span class="project-name">Valispace</span>
-                            <div class="project-context">Systems Engineering · Traceability</div>
+                            <div>
+                                <span class="project-name">Valispace → Altium 365</span>
+                                <div class="project-context">Aerospace · systems engineering · traceability · ships now</div>
+                            </div>
+                            <span class="project-date">2021–23</span>
                         </a>
                     </li>
-                   
                     <li>
                         <a href="apple.html">
-                            <span class="project-name">Apple</span>
-                            <div class="project-context">Logic Pro & Final Cut · Technical case resolution</div>
+                            <div>
+                                <span class="project-name">Apple Pro Apps</span>
+                                <div class="project-context">Logic Pro &amp; Final Cut · EU technical specialist</div>
+                            </div>
+                            <span class="project-date">2016–20</span>
                         </a>
                     </li>
-
-                     <li>
+                    <li>
                         <a href="sonification.html">
-                            <span class="project-name">Data Sonification</span>
-                            <div class="project-context">NASA Open Data · Data Accessibility</div>
+                            <div>
+                                <span class="project-name">Data Sonification</span>
+                                <div class="project-context">NASA Open Data · accessibility through sound</div>
+                            </div>
+                            <span class="project-date">side</span>
                         </a>
                     </li>
-        
                 </ul>
             </nav>
-
-            <a href="lunar.html" class="visual-link" aria-label="View Crater Sonification project"> 
-                
-                <div class="visual-container">
-
-                    <img src="moon.webp"
-                         srcset="moon.webp 1x, https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014992/Moon_Phases_Waxing_Thumbnail_V3.png 1x"
-                         alt="Lunar surface render based on NASA Lunar Reconnaissance Orbiter color data. Image: NASA Scientific Visualization Studio." 
-                         class="moon-image"
-                         loading="lazy"
-                         onerror="this.src='https://svs.gsfc.nasa.gov/vis/a010000/a014900/a014992/Moon_Phases_Waxing_Thumbnail_V3.png'">
-
-                </div>
-            </a>
-            
-        </div>
+        </main>
 
         <footer>
-            <p>© 2026 Petra Kühnle</p>
+            <span>© 2026 Petra Kühnle</span>
+            <span><a href="https://www.linkedin.com/in/petrakuhnle" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--hairline);">LinkedIn</a></span>
         </footer>
+
     </div>
 </body>
 </html>
