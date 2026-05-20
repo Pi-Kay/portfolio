@@ -11,222 +11,366 @@
     <meta property="og:description" content="Technical UX for audio & engineering software. Berlin · Remote.">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #f5f3ef;
-            --ink: #2a2824;
-            --ink-soft: #4a4641;
-            --ink-muted: #7a756d;
+            --bg: #f3f0ea;
+            --ink: #232118;
+            --ink-soft: #45413a;
+            --ink-muted: #76716a;
             --ink-faint: #9a948b;
-            --hairline: #d9d4ca;
+            --hairline: #d6d0c4;
             --hairline-strong: #b8b1a4;
-            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+            --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+            --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--ink);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 80px 24px;
-            font-weight: 300;
+            padding: 72px 32px 96px;
+            font-weight: 400;
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 680px;
+            max-width: 720px;
             margin: 0 auto;
-            animation: fadeIn 0.9s ease-out;
+            animation: fadeIn 0.7s ease-out;
         }
 
-        /* ===== HEADER ===== */
-        header { margin-bottom: 64px; }
-
-        .name-row {
+        .topbar {
             display: flex;
-            align-items: baseline;
-            gap: 16px;
-            margin-bottom: 6px;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            color: var(--ink);
-        }
-
-        .mark {
-            display: inline-flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            flex-shrink: 0;
-            margin-bottom: 2px;
-        }
-
-        .mark svg { width: 100%; height: 100%; }
-
-        .positioning {
-            font-size: 1rem;
-            font-weight: 300;
-            color: var(--ink-soft);
-            margin-bottom: 4px;
-            letter-spacing: 0.01em;
-        }
-
-        .positioning-sub {
-            font-size: 0.85rem;
-            font-weight: 300;
-            color: var(--ink-muted);
-            margin-bottom: 24px;
-            letter-spacing: 0.01em;
-            line-height: 1.55;
-        }
-
-        .meta {
-            font-size: 0.82rem;
-            font-weight: 300;
-            color: var(--ink-muted);
-            letter-spacing: 0.02em;
-        }
-
-        /* ===== UNIFIED LINK STYLING ===== */
-        .meta a,
-        .proof a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            border-bottom: 1px solid var(--hairline);
-            padding-bottom: 1px;
-            transition: border-color 0.3s ease, color 0.3s ease;
-        }
-        .meta a:hover,
-        .proof a:hover {
-            color: var(--ink);
-            border-bottom-color: var(--ink-muted);
-        }
-
-        /* ===== SPECS PANELS (proof + stack) ===== */
-        .proof,
-        .stack {
-            margin-top: 22px;
-            padding: 14px 0;
-            border-top: 1px solid var(--hairline);
-            border-bottom: 1px solid var(--hairline);
-            font-size: 0.78rem;
-            color: var(--ink-soft);
-            letter-spacing: 0.01em;
-            line-height: 1.7;
-        }
-
-        .proof { margin-top: 28px; }
-
-        .proof-label {
-            display: inline-block;
+            margin-bottom: 56px;
             font-family: var(--mono);
-            font-size: 0.68rem;
+            font-size: 0.72rem;
             color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-right: 10px;
+            letter-spacing: 0.06em;
         }
 
-        /* ===== BACKGROUND PARAGRAPH ===== */
-        .bio-text {
-            margin-top: 22px;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            line-height: 1.75;
-            letter-spacing: 0.01em;
+        .locale-left {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.08em;
+            font-variant-numeric: tabular-nums;
         }
 
-        .bio-text strong {
-            font-weight: 500;
-            color: var(--ink);
-        }
-
-        /* ===== LANGUAGES ===== */
-        .languages {
-            font-size: 0.78rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.04em;
-            margin-top: 22px;
-        }
-
-        /* ===== PROJECTS ===== */
-        .section-label {
+        .locale {
             font-family: var(--mono);
             font-size: 0.7rem;
             color: var(--ink-faint);
+            letter-spacing: 0.08em;
+        }
+
+        header { margin-bottom: 96px; }
+
+        .name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: -0.005em;
+            margin-bottom: 44px;
+        }
+
+        h1 {
+            font-size: clamp(1.4rem, 2.4vw, 1.55rem);
+            font-weight: 400;
+            letter-spacing: -0.008em;
+            line-height: 1.5;
+            color: var(--ink);
+            margin-bottom: 32px;
+            text-wrap: balance;
+            max-width: 44ch;
+        }
+
+        .lede {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--ink-soft);
+            line-height: 1.8;
+            max-width: 58ch;
+            letter-spacing: 0.005em;
+        }
+        .lede strong {
+            font-weight: 500;
+            color: var(--ink);
+            box-shadow: inset 0 -1px 0 var(--ink-muted);
+        }
+
+        .meta-row {
+            margin-top: 56px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 14px 32px;
+            font-size: 0.82rem;
+            line-height: 1.55;
+        }
+        .meta-key {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            padding-top: 2px;
+        }
+        .meta-val {
+            color: var(--ink-soft);
+            font-weight: 400;
+            letter-spacing: 0.005em;
+        }
+        .meta-val a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline-strong);
+            padding-bottom: 1px;
+            transition: border-color 0.25s ease, color 0.25s ease;
+        }
+        .meta-val a:hover { border-bottom-color: var(--ink); }
+        .meta-val .dim {
+            color: var(--ink-muted);
+            margin: 0 6px;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--ink-faint);
             text-transform: uppercase;
             letter-spacing: 0.18em;
-            margin-bottom: 22px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .section-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--hairline);
+        }
+        .section-count {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.08em;
         }
 
         nav ul { list-style: none; }
 
-        nav li {
-            margin-bottom: 22px;
-            padding-bottom: 22px;
-            border-bottom: 1px solid var(--hairline);
-        }
-        nav li:last-child { border-bottom: none; }
+        nav li { border-bottom: 1px solid var(--hairline); }
+        nav li:first-child { border-top: 1px solid var(--hairline); }
 
         nav a {
             text-decoration: none;
             color: var(--ink);
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: 56px 1fr auto;
             align-items: baseline;
-            gap: 16px;
-            transition: opacity 0.3s ease;
+            gap: 18px;
+            padding: 22px 0 22px 4px;
+            transition: padding 0.3s ease;
+            position: relative;
         }
-        nav a:hover { opacity: 0.65; }
-        nav a:hover .project-name { border-bottom-color: var(--ink-muted); }
+        nav a::before {
+            content: "";
+            position: absolute;
+            left: -32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--ink);
+            transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+        nav a:hover { padding-left: 16px; }
+        nav a:hover::before { width: 18px; }
+        nav a:hover .project-name { color: var(--ink-soft); }
+        nav a:hover .arrow { opacity: 1; transform: translateX(0); }
+
+        .project-idx {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.04em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .project-body { min-width: 0; }
 
         .project-name {
-            font-size: 0.95rem;
+            font-size: 1.02rem;
             font-weight: 500;
             color: var(--ink);
-            border-bottom: 1px solid transparent;
-            display: inline;
-            transition: border-color 0.3s ease;
+            letter-spacing: -0.005em;
+            transition: color 0.25s ease;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .project-name .sep-dot {
+            color: var(--ink-faint);
+            margin: 0 6px;
+            font-weight: 300;
+        }
+        .project-client {
+            font-weight: 400;
+            color: var(--ink-muted);
         }
 
         .project-context {
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             color: var(--ink-muted);
-            font-weight: 300;
-            margin-top: 4px;
-            letter-spacing: 0.01em;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.005em;
+            max-width: 52ch;
+        }
+        .project-context strong {
+            font-weight: 500;
+            color: var(--ink);
         }
 
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .tag {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 3px 8px;
+            border: 1px solid var(--hairline-strong);
+            border-radius: 2px;
+            background: transparent;
+            white-space: nowrap;
+        }
+        .tag.live {
+            color: var(--ink-soft);
+            border-color: var(--ink-soft);
+        }
+        .tag.shipped {
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .project-meta {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .project-note {
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+            line-height: 1.55;
+            padding: 0 0 22px 78px;
+            margin-top: -10px;
+            max-width: 64ch;
+            letter-spacing: 0.005em;
+        }
+        .project-note .note-label {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            font-weight: 500;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-right: 8px;
+        }
+        .project-note a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline-strong);
+            padding-bottom: 1px;
+            transition: color 0.25s ease, border-color 0.25s ease;
+            white-space: nowrap;
+        }
+        .project-note a:hover {
+            color: var(--ink);
+            border-bottom-color: var(--ink);
+        }
         .project-date {
             font-family: var(--mono);
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             color: var(--ink-faint);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
+            font-variant-numeric: tabular-nums;
             white-space: nowrap;
-            text-align: right;
+        }
+        .arrow {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            white-space: nowrap;
         }
 
-        .project-date.current { color: var(--ink); }
-        .project-date.current::before { content: "● "; color: var(--ink); }
+        .sign-off { margin-top: 72px; }
+        .sign-off-text {
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--ink-muted);
+            line-height: 1.65;
+            letter-spacing: 0.005em;
+            max-width: 56ch;
+        }
+        .sign-off-text a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline);
+            padding-bottom: 1px;
+            transition: border-color 0.25s ease, color 0.25s ease;
+            white-space: nowrap;
+        }
+        .sign-off-text a:hover {
+            color: var(--ink);
+            border-bottom-color: var(--ink-muted);
+        }
 
-        /* ===== FOOTER ===== */
         footer {
             margin-top: 72px;
-            font-size: 0.75rem;
+            padding-top: 28px;
+            border-top: 1px solid var(--hairline);
+            font-family: var(--mono);
+            font-size: 0.68rem;
             color: var(--ink-faint);
-            font-weight: 300;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            opacity: 0.85;
+        }
+        footer a {
+            color: var(--ink-faint);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        footer a:hover { color: var(--ink-muted); }
+        .colophon {
+            display: flex;
+            gap: 18px;
         }
 
         .skip-link {
@@ -235,25 +379,53 @@
             left: 0;
             background: var(--ink);
             color: var(--bg);
-            padding: 8px;
+            padding: 8px 12px;
             text-decoration: none;
             z-index: 100;
+            font-size: 0.85rem;
         }
         .skip-link:focus { top: 0; }
 
-        @media (max-width: 600px) {
-            body { padding: 48px 20px; }
-            nav a {
-                grid-template-columns: 1fr;
-                gap: 4px;
+        a:focus-visible {
+            outline: 1px solid var(--ink);
+            outline-offset: 3px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 40px 22px 64px; }
+            .topbar { margin-bottom: 40px; }
+            header { margin-bottom: 56px; }
+            h1 { font-size: 1.9rem; max-width: none; }
+            .meta-row { grid-template-columns: 1fr; gap: 4px 0; }
+            .meta-key { padding-top: 14px; }
+            .meta-row > .meta-key:first-child { padding-top: 2px; }
+            nav a { grid-template-columns: 28px 1fr; gap: 12px; padding: 20px 0; }
+            nav a:hover { padding-left: 8px; }
+            .project-note { padding-left: 40px; margin-top: -6px; }
+            .project-meta {
+                grid-column: 2;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                text-align: left;
+                margin-top: 6px;
             }
-            .project-date { text-align: left; }
-            footer { flex-direction: column; gap: 6px; }
+            .arrow { display: none; }
+            .sign-off { margin-top: 48px; }
+            footer { font-size: 0.65rem; }
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                transition-duration: 0.001ms !important;
+            }
         }
     </style>
 </head>
@@ -263,98 +435,157 @@
 
     <div class="container">
 
+        <div class="topbar">
+            <span class="locale-left">A = 440 Hz</span>
+            <span class="locale">Berlin · UTC+1</span>
+        </div>
+
         <header>
-            <div class="name-row">
-                <span class="mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-                        <circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/>
-                        <circle cx="12" cy="12" r="6.5"/>
-                        <circle cx="12" cy="12" r="10.5" opacity="0.35"/>
-                    </svg>
-                </span>
-                <h1>Petra Kühnle</h1>·<h2>Technical UX · audio &amp; engineering software</h2>
-            </div>
+            <p class="name">Petra Kühnle</p>
 
-            <p class="meta">
-                Berlin · Remote 
-                <a href="bio.html">Bio</a> ·
-                <a href="mailto:petra.kuehnle@gmail.com">Contact</a> ·
-                <a href="https://www.linkedin.com/in/petrakuhnle">LinkedIn</a>
+            <h1>Interaction design and technical writing for audio, aerospace, and engineering software.</h1>
+
+            <p class="lede">
+                Previously sole designer at Valispace (acquired by Altium), and four years at Apple as T4 Creative Media Advisor for Logic Pro and Final Cut professionals across the EU.
             </p>
 
-            <div class="proof">
-                <span class="proof-label">Currently</span>
-                Mozilla AI Fellowship 2026 (shortlisted) ·
-                <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed">MDN Web Audio API contributor</a>
+            <div class="meta-row">
+                <span class="meta-key">Based</span>
+                <span class="meta-val">Berlin <span class="dim">·</span> Remote-friendly across EU / NA timezones</span>
+
+                <span class="meta-key">Currently</span>
+                <span class="meta-val">Mozilla AI Fellowship 2026 (shortlisted) <span class="dim">·</span> <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed">MDN Web Audio API contributor</a></span>
+
+                <span class="meta-key">Stack</span>
+                <span class="meta-val">Figma <span class="dim">·</span> Logic Pro <span class="dim">·</span> Final Cut <span class="dim">·</span> Python <span class="dim">·</span> Claude.ai <span class="dim">·</span> HTML / CSS <span class="dim">·</span> technical writing</span>
+
+                <span class="meta-key">Speak</span>
+                <span class="meta-val">DE native <span class="dim">·</span> EN fluent <span class="dim">·</span> NL fluent</span>
+
+                <span class="meta-key">Online</span>
+                <span class="meta-val"><a href="https://github.com/Pi-Kay" target="_blank" rel="noopener">GitHub</a> <span class="dim">·</span> <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener">LinkedIn</a></span>
             </div>
-
-            <p class="bio-text">
-                Sole designer at Valispace (acquired by Altium) — prototypes built with aerospace engineers secured <strong>€100k+ in contracts in six months</strong>; features ship in Altium 365 today. Four years prior at Apple as T4 Creative Media Advisor for Logic Pro and Final Cut professionals across the EU.
-            </p>
-
-            <div class="stack">
-                Figma · Logic Pro · Final Cut · Python · HTML/CSS · technical writing
-            </div>
-
-            <p class="languages">DE native · EN fluent · NL fluent</p>
         </header>
 
         <main id="main">
-            <p class="section-label">Selected work</p>
+            <p class="section-label">
+                <span>Selected work</span>
+                <span class="section-count">05 / 2016—26</span>
+            </p>
 
             <nav aria-label="Portfolio projects">
                 <ul>
                     <li>
                         <a href="systemforge.html">
-                            <div>
-                                <span class="project-name">SystemForge · Systems Engineering Software</span>
-                                <div class="project-context">Evaluated Design opportunities in standardized diagramming in engineering for SysML2</div>
+                            <span class="project-idx">01</span>
+                            <div class="project-body">
+                                <span class="project-name">SystemForge <span class="sep-dot">/</span><span class="project-client">Systems engineering software</span></span>
+                                <span class="project-context">Evaluating design opportunities for standardized diagramming in engineering, built around the <strong>SysML v2</strong> spec.</span>
+                                <div class="project-tags">
+                                    <span class="tag live">In progress</span>
+                                    <span class="tag">Concept</span>
+                                    <span class="tag">Research</span>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-date">2026 —</span>
+                                <span class="arrow">View →</span>
                             </div>
                         </a>
                     </li>
 
                     <li>
                         <a href="navigator.html">
-                            <div>
-                                <span class="project-name">Navigator · Music and Sound EU AI Compliance Web App</span>
-                                <div class="project-context">Conceptualized and prototyped · AI critical workflow evaluation · Mozilla nominated</div>
+                            <span class="project-idx">02</span>
+                            <div class="project-body">
+                                <span class="project-name">Navigator <span class="sep-dot">/</span><span class="project-client">EU AI compliance for music & sound</span></span>
+                                <span class="project-context">A web app that helps independent musicians and sound designers navigate AI regulation. Conceptualized, prototyped, and nominated for the <strong>Mozilla AI Fellowship</strong>.</span>
+                                <div class="project-tags">
+                                    <span class="tag">Concept</span>
+                                    <span class="tag">Prototype</span>
+                                    <span class="tag">AI workflow</span>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-date">2026</span>
+                                <span class="arrow">View →</span>
                             </div>
                         </a>
                     </li>
 
                     <li>
                         <a href="sonification.html">
-                            <div>
-                                <span class="project-name">NASA Open Data · Moon Crater Data</span>
-                                <div class="project-context">Designed with sketches, terminal, python and AI · AI critical workflow evaluation</div>
+                            <span class="project-idx">03</span>
+                            <div class="project-body">
+                                <span class="project-name">Crater <span class="sep-dot">/</span><span class="project-client">NASA open data sonification</span></span>
+                                <span class="project-context">Turned moon crater datasets into sound — Python with the <strong>librosa</strong> library, terminal sessions, and a critical evaluation of AI-assisted workflows.</span>
+                                <div class="project-tags">
+                                    <span class="tag">Python</span>
+                                    <span class="tag">librosa</span>
+                                    <span class="tag">Self-initiated</span>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-date">2026</span>
+                                <span class="arrow">View →</span>
                             </div>
                         </a>
                     </li>
 
                     <li>
                         <a href="valispace.html">
-                            <div>
-                                <span class="project-name">Valispace → Altium 365 · Aerospace · Systems engineering</span>
-                                <div class="project-context">Designed interactive Figma Prototypes · 100k+ contract based on designs · features ship in Altium 365 today</div>
+                            <span class="project-idx">04</span>
+                            <div class="project-body">
+                                <span class="project-name">Valispace → Altium 365 <span class="sep-dot">/</span><span class="project-client">Aerospace systems engineering</span></span>
+                                <span class="project-context">Sole designer working alongside hardware and software engineers. Figma prototypes translated into €100k+ in contracts and features that <strong>ship in Altium 365 today</strong>.</span>
+                                <div class="project-tags">
+                                    <span class="tag shipped">Shipped</span>
+                                    <span class="tag">Sole designer</span>
+                                    <span class="tag">API & docs</span>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-date">2021 — 23</span>
+                                <span class="arrow">View →</span>
                             </div>
                         </a>
+                        <p class="project-note">
+                            <span class="note-label">Note</span>Altium provides electronic design automation software to engineers for designing printed circuit boards. <a href="https://en.wikipedia.org/wiki/Altium" target="_blank" rel="noopener">Wikipedia ↗</a>
+                        </p>
                     </li>
 
                     <li>
                         <a href="apple.html">
-                            <div>
-                                <span class="project-name">Apple Pro Apps · Logic Pro &amp; Final Cut</span>
-                                <div class="project-context">Solid Foundation Communication in Technical Environment · ACEA Award</div>
+                            <span class="project-idx">05</span>
+                            <div class="project-body">
+                                <span class="project-name">Apple Pro Apps <span class="sep-dot">/</span><span class="project-client">Logic Pro & Final Cut</span></span>
+                                <span class="project-context">Four years as T4 Creative Media Advisor for Logic Pro and Final Cut professionals across the EU. <strong>Apple Care Excellence Award 2019</strong> — technical precision paired with clear communication, verbal and written.</span>
+                                <div class="project-tags">
+                                    <span class="tag">Workflow</span>
+                                    <span class="tag">Pro audio / video</span>
+                                    <span class="tag">ACEA 2019</span>
+                                </div>
+                            </div>
+                            <div class="project-meta">
+                                <span class="project-date">2016 — 20</span>
+                                <span class="arrow">View →</span>
                             </div>
                         </a>
                     </li>
                 </ul>
             </nav>
+
+            <section class="sign-off" aria-label="Contact">
+                <p class="sign-off-text">Open to conversations about technical design or documentation engagements. <a href="mailto:petra.kuehnle@gmail.com">petra.kuehnle@gmail.com</a></p>
+            </section>
         </main>
 
         <footer>
             <span>© 2026 Petra Kühnle</span>
-            <span><a href="https://www.linkedin.com/in/petrakuhnle" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--hairline);">LinkedIn</a></span>
+            <span class="colophon">
+                <a href="bio.html">Bio</a>
+                <span>Berlin · UTC+1</span>
+            </span>
         </footer>
 
     </div>
