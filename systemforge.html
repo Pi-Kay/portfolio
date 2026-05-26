@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="UX analysis and design documentation for System Forge — a SysML2 modeling tool.">
+    <meta name="description" content="UX analysis and design documentation for System Forge — a SysML v2 modeling tool.">
     <title>System Forge · UX Analysis &amp; Documentation — Petra Kühnle</title>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -585,56 +585,45 @@
 <body class="project wide">
     <header>
         <h1>⬠ System Forge · UX Analysis &amp; Learnability</h1>
-        <p>Making SysML2 learnable through UX — not courses</p>
-        <p class="meta">2026 · Collaboration with Cauê Napier, Systems Engineer at Swedish Space Corporation</p>
+        <p>Making SysML v2 learnable through UX</p>
+        <p class="meta">2026 · UX input for side project of Cauê Napier, Systems Engineer at Swedish Space Corporation</p>
     </header>
 
     <main>
         <section>
-            <div class="tldr">
-                <div class="tldr-label">Summary</div>
-                <p>UX analysis and design documentation for System Forge, an early-stage SysML2 modeling tool. I established design foundations — ten principles synthesized from UX literature, an interface audit mapped to those principles, a phased roadmap, and concrete next-step recommendations.</p>
-                <p>The work treats documentation as design: principles and analysis that outlive individual screens and make future decisions faster and more defensible.</p>
-            </div>
 
             <div class="role-summary">
                 <div class="role-item">
                     <strong>Role</strong>
-                    <span>UX Analysis, Design Documentation, Principles</span>
+                    <span>UX Analysis, Design Principles Draft, Solution Sketches</span>
                 </div>
                 <div class="role-item">
                     <strong>Duration</strong>
                     <span>Ongoing (2026–present)</span>
                 </div>
                 <div class="role-item">
-                    <strong>Deliverables</strong>
-                    <span>Principles, analysis, roadmap, recommendations</span>
+                    <strong>Deliverables & Results</strong>
+                    <span>Analysis, Principles, recommendations to enhance UX and learnability</span>
                 </div>
+
+                            <div class="tldr">
+                <div class="tldr-label">Context</div>
+                <p>SysML is short for Systems Systems modeling language for systems engineering applications. The release of v2.0 in July 2025 has a new capability of textual AND graphic notation.</cite><a href="https://en.wikipedia.org/wiki/Systems_modeling_language">Source</a>
+            </div>
+
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Context</h2>
-            <p>System Forge is an early-stage model-based systems engineering (MBSE) tool built by Cauê Napier, a systems engineer at the Swedish Space Corporation. The goal: make SysML2 modeling accessible without requiring a course first.</p>
-            <p>I contribute UX analysis and design documentation as a side-project collaboration — establishing the foundations that guide development decisions downstream.</p>
+            <h2 class="section-title">Problem Definition</h2>
+            <p>The goal: make SysML v2 modeling accessible without requiring a course first. SysML v2 (released September 2025) specifies element semantics and core notation, but leaves presentation and interaction to individual tools. The interface must teach a complex modeling language while respecting a strict specification — so every design decision must distinguish between <em>what the standard requires</em> and <em>where tooling can innovate</em>.</p>
 
-            <div class="challenge-box">
-                <h3>The technical challenge</h3>
-                <p>SysML2 (released September 2025) specifies element semantics and core notation, but leaves presentation and interaction to individual tools. The interface must teach a complex modeling language while respecting a strict specification — so every design decision must distinguish between <em>what the standard requires</em> and <em>where tooling can innovate</em>.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Framing and Reframing</h2>
-            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts.</p>
-            <p><strong>The reframe:</strong> Before reviewing screens, define what principles those screens should follow, with learnability as the primary lens. SysML2 specifies semantics; presentation is where learning happens.</p>
-            <p><strong>What changed:</strong> The work became scoped to design foundations, not screen fixes — principles, an interface audit mapped to those principles, and a roadmap. Principles outlive individual screens.</p>
-
+            
             <div class="design-space-visual">
-                <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
+                <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML v2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
                     <rect x="20" y="30" width="300" height="200" rx="4" fill="#efece5" stroke="#d9d4ca" stroke-width="1.5"/>
                     <text x="170" y="55" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#7a756d">FIXED BY SPECIFICATION</text>
-                    <text x="170" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">SysML2 semantics</text>
+                    <text x="170" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">SysML v2 semantics</text>
 
                     <g font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#4a4641">
                         <rect x="40" y="95" width="100" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
@@ -686,6 +675,14 @@
                 <p class="design-space-caption">The standard fixes semantics. Everything else is the <strong>tool design space</strong> — and that's where the work happens.</p>
             </div>
         </section>
+        
+
+        <section>
+            <h2 class="section-title">Framing and Reframing</h2>
+            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts.</p>
+            <p><strong>The reframe:</strong> Before reviewing screens, define what principles those screens should follow, with learnability as the primary lens. SysML v2 specifies semantics; presentation is where learning happens.</p>
+            <p><strong>What changed:</strong> The work became scoped to design foundations, not screen fixes — principles, an interface audit mapped to those principles, and a roadmap. Principles outlive individual screens.</p>
+
 
         <section>
             <h2 class="section-title">Two Audiences, One Interface</h2>
@@ -707,9 +704,7 @@
         </section>
 
         <section>
-            <h2 class="section-title">Approach: Principles Before Pixels</h2>
-            <p>For a new product with a solo designer, establishing principles early prevents arbitrary decisions later. Five phases — each feeds the next, each can be revisited when new information surfaces.</p>
-
+           
             <div class="process-steps">
                 <div class="process-step complete">
                     <span class="num">01</span>
@@ -748,7 +743,7 @@
             <div class="sources-strip">
                 <div class="sources-strip-label">Synthesized from</div>
                 <div class="sources-strip-content">
-                    <strong>Tufte</strong> (data-ink, layering, small multiples) · <strong>Bertin</strong> (visual variables) · <strong>Nielsen</strong> (usability heuristics) · <strong>Shneiderman</strong> (overview + detail, linked views) · <strong>Norman</strong> (affordances, safe exploration) · <strong>Cognitive load theory</strong> (Sweller, Miller) · <strong>SysML2 specification</strong> · domain review with a practicing systems engineer.
+                    <strong>Tufte</strong> (data-ink, layering, small multiples) · <strong>Bertin</strong> (visual variables) · <strong>Nielsen</strong> (usability heuristics) · <strong>Shneiderman</strong> (overview + detail, linked views) · <strong>Norman</strong> (affordances, safe exploration) · <strong>Cognitive load theory</strong> (Sweller, Miller) · <strong>SysML v2 specification</strong> · domain review with a practicing systems engineer.
                 </div>
             </div>
 
@@ -827,13 +822,13 @@
         </section>
 
         <section>
-            <h2 class="section-title">SysML2 Constraint Map</h2>
+            <h2 class="section-title">SysML v2 Constraint Map</h2>
             <p>Where the specification constrains design, and where tooling can innovate. Shape and semantics are fixed by the standard. Presentation is where learnability improvements happen.</p>
 
             <div class="constraint-detail">
                 <div class="constraint-detail-header">
                     <span class="label fixed">Fixed</span>
-                    <h4>Must follow SysML2 specification</h4>
+                    <h4>Must follow SysML v2 specification</h4>
                 </div>
                 <p class="constraint-detail-intro">These elements carry semantic meaning. Changing their representation breaks interoperability and confuses engineers familiar with the spec.</p>
                 <table class="constraint-table fixed">
@@ -931,7 +926,7 @@
                         </div>
                         <div class="annotation-item strength">
                             <strong>✓ Tooltips teach in context</strong>
-                            <p>Hovering "Part" shows "Create an instance of a part" — explains SysML2 concepts where users meet them.</p>
+                            <p>Hovering "Part" shows "Create an instance of a part" — explains SysML v2 concepts where users meet them.</p>
                             <span class="tag">Supports: #03</span>
                         </div>
                         <div class="annotation-item strength">
@@ -966,42 +961,7 @@
             </div>
         </section>
 
-        <section>
-            <h2 class="section-title">Status &amp; Recommended Next Steps</h2>
-            <p>Phases don't run strictly in sequence — IA and interaction inform each other and overlap.</p>
-
-            <div class="roadmap-grid">
-                <div class="roadmap-item complete">
-                    <div class="phase">Phase 01</div>
-                    <strong>Design Principles</strong>
-                    <p>Ten principles synthesized from established UX literature, reviewed with Cauê.</p>
-                    <span class="status done">Complete</span>
-                </div>
-                <div class="roadmap-item complete">
-                    <div class="phase">Phase 02</div>
-                    <strong>Interface Analysis</strong>
-                    <p>Current-state audit. Observations mapped to principles; strengths and gaps documented.</p>
-                    <span class="status done">Complete</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="phase">Phase 03</div>
-                    <strong>Information Architecture</strong>
-                    <p>Model Explorer vs. File Explorer; Views / Editors / Tools grouping.</p>
-                    <span class="status current">In Progress</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="phase">Phase 04</div>
-                    <strong>Onboarding · First Model</strong>
-                    <p>First-run experience for engineers new to SysML. A five-minute path to a working first model — covered in the companion case study below.</p>
-                    <span class="status current">In Progress</span>
-                </div>
-                <div class="roadmap-item">
-                    <div class="phase">Phase 05</div>
-                    <strong>Design Foundations</strong>
-                    <p>Tokens and patterns extracted from real onboarding work. A full design system would be premature; foundations come first.</p>
-                    <span class="status next">Deferred</span>
-                </div>
-            </div>
+       
 
             <div class="recommendations-box">
                 <h3>Concrete recommendations</h3>
@@ -1011,7 +971,7 @@
                     <li><strong>Add v1 → v2 terminology bridging in search.</strong> Searching "Block" surfaces "Part" with the v1 label visible. High-leverage learnability win; small implementation.</li>
                     <li><strong>Standardize icon style and hover behavior.</strong> Mixed flat/filled icons weaken visual grammar. One-pass cleanup before IA hardens.</li>
                     <li><strong>Map core workflows end-to-end.</strong> Create → add parts → connect → review/validate. Surfaces interaction gaps static analysis misses.</li>
-                    <li><strong>Draft tooltip patterns that teach SysML2 concepts.</strong> Extend the "Part tooltip" pattern systematically — strongest lever for teaching through use.</li>
+                    <li><strong>Draft tooltip patterns that teach SysML v2 concepts.</strong> Extend the "Part tooltip" pattern systematically — strongest lever for teaching through use.</li>
                 </ol>
             </div>
         </section>
@@ -1045,13 +1005,7 @@
                         <span>PDF · Workflow evaluation with annotated screenshots</span>
                     </div>
                 </div>
-                <div class="deliverable-item">
-                    <div class="deliverable-icon">🗺️</div>
-                    <div class="deliverable-info">
-                        <strong>UX Roadmap</strong>
-                        <span>A4 diagram · Workstream structure and sequencing</span>
-                    </div>
-                </div>
+                
                 <div class="deliverable-item">
                     <div class="deliverable-icon">📝</div>
                     <div class="deliverable-info">
@@ -1064,15 +1018,7 @@
 
         <section>
             <h2 class="section-title">Reflection</h2>
-
-            <div class="thesis-quote">In early-stage products, clear documentation is as valuable as screens.</div>
-
-            <div class="reflection">
-                <p><strong>On documentation as design work:</strong> Principles and analysis create shared understanding and reduce rework. The analysis report and roadmap aren't byproducts — they're the foundation that makes future design decisions faster and more defensible.</p>
-            </div>
-            <div class="reflection">
-                <p><strong>On research and expert review:</strong> I'm not a systems engineer. My contribution was researching UX and information design literature and synthesizing it into principles specific to a SysML2 tool. Cauê reviewed each principle against real engineering practice — which caught things I'd have missed. The principles are grounded in theory and accurate to the domain because both steps happened.</p>
-            </div>
+        
             <div class="reflection">
                 <p><strong>On learnability as a design goal:</strong> Most MBSE tools assume training. System Forge asks: what if the interface itself teaches? Every tooltip, visual cue, and error message is an opportunity to help users learn — not just use — a complex modeling language.</p>
             </div>
@@ -1081,10 +1027,11 @@
         <section>
             <h2 class="section-title">Tools &amp; Methods</h2>
             <div class="tech-list">
-                <span class="tech-tag">Figma</span>
-                <span class="tech-tag">SysML2 Specification</span>
+                <span class="tech-tag">Figma, Gimp, Preview</span>
+                <span class="tech-tag">SysML v2 Specification</span>
                 <span class="tech-tag">Heuristic Evaluation</span>
                 <span class="tech-tag">Workflow Analysis</span>
+                <span class="tech-tag">Claude.ai</span>
                 <span class="tech-tag">Obsidian</span>
             </div>
         </section>
