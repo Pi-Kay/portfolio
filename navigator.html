@@ -5,302 +5,300 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI compliance tools for music creators. Interactive navigator app and open-source documentation covering EU AI Act, GDPR, and artist rights.">
     <title>Navigator · Sound AI Regulations Web App Prototype — Petra Kühnle</title>
-
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
     <style>
         /* ===== NAVIGATOR-SPECIFIC ===== */
-
         .deliverables-intro {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin: 24px 0 40px;
         }
-
         .deliverable-card {
             background: var(--bg-raised);
             border: 1px solid var(--hairline);
             padding: 24px;
             transition: border-color 0.2s;
         }
-
-        .deliverable-card:hover {
-            border-color: var(--ink);
-        }
-
+        .deliverable-card:hover { border-color: var(--ink); }
         .deliverable-label {
-            font-size: 0.75em;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--ink-faint);
-            margin-bottom: 8px;
+            font-size: 0.75em; font-weight: 500;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--ink-faint); margin-bottom: 8px;
         }
-
         .deliverable-title {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 8px;
+            font-size: 1.1em; font-weight: 500;
+            color: var(--ink); margin-bottom: 8px;
         }
-
         .deliverable-desc {
-            font-size: 0.85em;
-            color: var(--ink-muted);
-            line-height: 1.5;
-            margin-bottom: 16px;
+            font-size: 0.85em; color: var(--ink-muted);
+            line-height: 1.5; margin-bottom: 16px;
         }
-
         .deliverable-card .deliverable-link {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: none !important;
-        }
-
-        .doc-preview {
-            display: flex;
-            gap: 24px;
-            margin: 20px 0;
-            padding: 24px;
-            background: var(--bg-raised);
-            border: 1px solid var(--hairline);
-            align-items: flex-start;
-        }
-
-        .doc-thumbnail {
-            flex-shrink: 0;
-            width: 160px;
-            height: 210px;
-            background: var(--bg-sunken);
-            border: 1px solid var(--hairline);
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .doc-thumbnail:hover {
-            box-shadow: 0 4px 12px rgba(42, 40, 36, 0.10);
-            transform: translateY(-2px);
-        }
-
-        .doc-thumbnail embed {
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .doc-info { flex: 1; }
-
-        .doc-info-title {
-            font-size: 1em;
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 8px;
-        }
-
-        .doc-info-meta {
-            font-size: 0.85em;
-            color: var(--ink-muted);
-            margin-bottom: 16px;
-        }
-
-        .doc-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 16px 0;
+            opacity: 1 !important; visibility: visible !important; transform: none !important;
         }
 
         /* Status chip */
         .status-chip {
-            display: inline-block;
-            padding: 2px 8px;
-            margin-left: 8px;
-            font-size: 0.7em;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            display: inline-block; padding: 2px 8px; margin-left: 8px;
+            font-size: 0.7em; font-weight: 500; letter-spacing: 0.5px;
             text-transform: uppercase;
-            color: var(--ink-muted);
-            background: var(--bg-sunken);
+            color: var(--ink-muted); background: var(--bg-sunken);
             border: 1px solid var(--hairline);
             vertical-align: middle;
         }
-
         .status-chip.live {
-            color: var(--ink);
-            background: var(--bg-raised);
+            color: var(--ink); background: var(--bg-raised);
             border-color: var(--ink);
         }
+
+        /* Compact role meta strip (replaces verbose Role / Duration / Result blocks) */
+        .role-meta {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--hairline);
+            margin: 16px 0 24px;
+        }
+        .role-meta > div {
+            padding: 14px 16px;
+            border-right: 1px solid var(--hairline);
+        }
+        .role-meta > div:last-child { border-right: none; }
+        .role-meta .label {
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.65em; font-weight: 600;
+            letter-spacing: 1.2px; text-transform: uppercase;
+            color: var(--ink-muted); margin-bottom: 6px;
+        }
+        .role-meta .value { font-size: 0.88em; color: var(--ink); line-height: 1.45; }
 
         /* Phases strip */
         .phases {
-            display: flex;
-            align-items: stretch;
-            gap: 0;
-            margin: 24px 0 32px;
-            overflow-x: auto;
-            padding-bottom: 4px;
+            display: flex; align-items: stretch; gap: 0;
+            margin: 24px 0 32px; overflow-x: auto; padding-bottom: 4px;
         }
-
         .phase {
-            flex: 1 1 0;
-            min-width: 140px;
+            flex: 1 1 0; min-width: 140px;
             padding: 14px 14px 16px;
             background: var(--bg-raised);
             border: 1px solid var(--hairline);
-            font-size: 0.85em;
-            line-height: 1.4;
+            font-size: 0.85em; line-height: 1.4;
             position: relative;
         }
-
         .phase + .phase { border-left: none; }
-
         .phase + .phase::before {
-            content: "›";
-            position: absolute;
-            left: -8px;
-            top: 50%;
+            content: "›"; position: absolute; left: -8px; top: 50%;
             transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background: var(--bg-raised);
-            color: var(--ink-faint);
-            font-size: 14px;
-            line-height: 14px;
-            text-align: center;
-            z-index: 2;
+            width: 16px; height: 16px;
+            background: var(--bg-raised); color: var(--ink-faint);
+            font-size: 14px; line-height: 14px; text-align: center; z-index: 2;
         }
-
-        .phase.current {
-            background: var(--ink);
-            color: var(--bg);
-            border-color: var(--ink);
-        }
-
+        .phase.current { background: var(--ink); color: var(--bg); border-color: var(--ink); }
         .phase-num {
             font-family: 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 0.7em;
-            letter-spacing: 1px;
-            color: var(--ink-faint);
-            display: block;
-            margin-bottom: 6px;
+            font-size: 0.7em; letter-spacing: 1px;
+            color: var(--ink-faint); display: block; margin-bottom: 6px;
         }
-
         .phase.current .phase-num { color: var(--hairline-strong); }
-
-        .phase-title {
-            font-weight: 500;
-            color: var(--ink);
-            margin-bottom: 2px;
-        }
-
+        .phase-title { font-weight: 500; color: var(--ink); margin-bottom: 2px; }
         .phase.current .phase-title { color: var(--bg); }
-
-        .phase-meta {
-            font-size: 0.85em;
-            color: var(--ink-faint);
-        }
-
+        .phase-meta { font-size: 0.85em; color: var(--ink-faint); }
         .phase.current .phase-meta { color: var(--hairline-strong); }
 
-        /* Split role block */
+        /* Split role block (AI / human) */
         .split-role {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
             margin: 20px 0;
         }
-
         .role-col {
             background: var(--bg-raised);
             border: 1px solid var(--hairline);
             padding: 20px;
         }
-
         .role-col h4 {
             margin: 0 0 10px 0;
-            font-size: 0.95em;
-            font-weight: 500;
-            color: var(--ink);
+            font-size: 0.95em; font-weight: 500; color: var(--ink);
         }
-
         .role-col ul {
-            margin: 0;
-            padding-left: 18px;
-            font-size: 0.9em;
-            color: var(--ink-soft);
-            line-height: 1.55;
+            margin: 0; padding-left: 18px;
+            font-size: 0.9em; color: var(--ink-soft); line-height: 1.55;
         }
-
         .role-col li { margin-bottom: 4px; }
-        /* Override project's em-dash bullets inside role-col */
         .role-col ul { list-style: disc; }
         .role-col li { padding-left: 0; }
         .role-col li:before { content: none; }
 
+        /* ===== SHARED ADDITIONS: Why card + flow diagram ===== */
+        .why-card {
+            border: 1px solid var(--ink);
+            background: var(--bg-raised);
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+        .why-card-label {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.7em; font-weight: 600;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--ink); margin-bottom: 12px; display: block;
+        }
+        .why-card ol { margin: 0; padding-left: 20px; list-style: decimal; }
+        .why-card ol li {
+            font-size: 0.92em; margin-bottom: 6px;
+            padding-left: 4px; color: var(--ink-soft);
+        }
+        .why-card ol li:before { content: none; }
+        .why-card ol li strong { color: var(--ink); font-weight: 600; }
+
+        .flow-diagram {
+            background: #ffffff;
+            border: 1px solid var(--hairline);
+            padding: 28px 20px;
+            margin: 20px 0;
+        }
+        .flow-diagram svg { display: block; width: 100%; height: auto; max-width: 920px; margin: 0 auto; }
+        .flow-caption {
+            text-align: center; font-size: 0.8em;
+            color: var(--ink-muted); margin-top: 14px; font-style: italic;
+        }
+        .flow-diagram svg text { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
+        .flow-diagram svg .mono { font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
+
         @media (max-width: 768px) {
             .deliverables-intro { grid-template-columns: 1fr; }
-            .doc-preview { flex-direction: column; }
-            .doc-thumbnail { width: 100%; max-width: 200px; }
             .phase { min-width: 160px; }
             .split-role { grid-template-columns: 1fr; }
+            .role-meta { grid-template-columns: 1fr 1fr; }
+            .role-meta > div:nth-child(2) { border-right: none; }
         }
     </style>
 </head>
 <body class="project">
     <header>
         <h1>⬡ Navigator · Sound AI Regulations App</h1>
-        <p>Tools helping musicians, sound designers, labels, and music-tech companies navigate AI regulations</p>
+        <p>Tools helping musicians, sound designers, labels, and music-tech companies navigate AI regulations.</p>
         <p class="meta">2025–26 · EU AI Act, GDPR, European Accessibility Act · Music, soundscapes, sound design</p>
     </header>
-
     <main>
         <section>
             <div class="highlight-box">
-                <p><strong>Project status · Work in progress.</strong> Navigator is an ongoing, exemplary side project developed together with a backend engineer as a shared learning exercise.
-                Original concept and initial designs and code prototype were drafted by Petra Kühnle.</p>
+                <p><strong>Project status · Work in progress.</strong> Navigator is an ongoing side project developed with a backend engineer as a shared learning exercise. Original concept, initial design, and code prototype drafted by Petra Kühnle.</p>
             </div>
         </section>
 
- <section>
-            <h2 class="section-title">Role</h2>
-                <div class="phases">
-                    <p>Designer, Prototyper with AI - testing out what AI can and can't do well, Collaborator working with two backend engineers</p>
-                </div>
-           <h2 class="section-title">Duration</h2>
-                <div class="phases">
-                    <p>Jan - February 2026 for Concept and Prototyping; Ongoing collaboration to develop project further.</p>
-                </div>
+        <section>
+            <h2 class="section-title">Why this case matters</h2>
+            <div class="why-card">
+                <span class="why-card-label">Design-engineering signal</span>
+                <ol>
+                    <li><strong>Shipped a working product.</strong> React V1 live on GitHub Pages, then submitted to the Mozilla Fellowship 2026 — passed the first round of evaluations.</li>
+                    <li><strong>Explicit AI/human split.</strong> The decision matrix below documents what AI did and what I called, by name. Senior judgment, not retrofit.</li>
+                    <li><strong>Regulatory domain depth.</strong> GDPR + EU AI Act + creator-side framing — primary sources verified, not a generic compliance template.</li>
+                </ol>
+            </div>
+        </section>
 
-            <h2 class="section-title">Result</h2>
-                <div class="phases">
-                    <p>After working on this case for my portfolio, I saw a call for Mozilla Fellowship submissions and submitted the project. I passed the first round of evaluations and invited two backend developers to work on the project. Currently the navigator runs as a side project and is being refined</p>
-                 </div>
-</section>
+        <section>
+            <div class="role-meta">
+                <div>
+                    <div class="label">Role</div>
+                    <div class="value">Designer · prototyper with AI · collaborator</div>
+                </div>
+                <div>
+                    <div class="label">Duration</div>
+                    <div class="value">Jan–Feb 2026 concept &amp; prototype · ongoing</div>
+                </div>
+                <div>
+                    <div class="label">Outcome</div>
+                    <div class="value">Mozilla Fellowship 2026 — passed first round · two backend devs joined</div>
+                </div>
+                <div>
+                    <div class="label">Status</div>
+                    <div class="value">Live V1 · V2 in development with engineers</div>
+                </div>
+            </div>
+        </section>
 
-    
+        <section>
+            <h2 class="section-title">How it works</h2>
+            <div class="flow-diagram">
+                <svg viewBox="0 0 920 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Navigator flow: creator question to use-case branch to decision tree to compliance output">
+                    <!-- Stage labels -->
+                    <text x="90" y="38" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">01 — ASK</text>
+                    <text x="370" y="38" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">02 — BRANCH</text>
+                    <text x="630" y="38" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">03 — WALK</text>
+                    <text x="840" y="38" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">04 — RESULT</text>
+
+                    <!-- Stage 1: User question -->
+                    <rect x="20" y="60" width="140" height="90" fill="#fff" stroke="#000" stroke-width="1.2"/>
+                    <text x="90" y="92" text-anchor="middle" font-size="13" font-weight="500" fill="#000">Creator question</text>
+                    <text x="90" y="112" text-anchor="middle" font-size="10" fill="#666" font-style="italic">"Can I use this</text>
+                    <text x="90" y="126" text-anchor="middle" font-size="10" fill="#666" font-style="italic">sample legally?"</text>
+
+                    <!-- Arrow 1 -->
+                    <line x1="165" y1="105" x2="205" y2="105" stroke="#000" stroke-width="1.2"/>
+                    <polygon points="205,100 215,105 205,110" fill="#000"/>
+
+                    <!-- Stage 2: 5 use cases (stacked compact) -->
+                    <rect x="220" y="50" width="300" height="120" fill="#fff" stroke="#000" stroke-width="1.2"/>
+                    <text x="370" y="68" text-anchor="middle" font-size="10" fill="#999" class="mono" letter-spacing="1">5 USE CASES</text>
+                    <line x1="240" y1="76" x2="500" y2="76" stroke="#ddd" stroke-width="0.5"/>
+                    <text x="235" y="92" font-size="11" fill="#000">• Consent &amp; attribution</text>
+                    <text x="235" y="108" font-size="11" fill="#000">• Training-data provenance</text>
+                    <text x="235" y="124" font-size="11" fill="#000">• Generated-output rights</text>
+                    <text x="235" y="140" font-size="11" fill="#000">• Transparency &amp; disclosure</text>
+                    <text x="235" y="156" font-size="11" fill="#000">• Authenticity &amp; recognition</text>
+
+                    <!-- Arrow 2 -->
+                    <line x1="525" y1="110" x2="565" y2="110" stroke="#000" stroke-width="1.2"/>
+                    <polygon points="565,105 575,110 565,115" fill="#000"/>
+
+                    <!-- Stage 3: Decision tree (small visual) -->
+                    <rect x="580" y="60" width="120" height="90" fill="#fff" stroke="#000" stroke-width="1.2"/>
+                    <text x="640" y="80" text-anchor="middle" font-size="11" font-weight="500" fill="#000">Decision tree</text>
+                    <!-- mini tree -->
+                    <circle cx="615" cy="100" r="3" fill="#000"/>
+                    <circle cx="640" cy="115" r="3" fill="#000"/>
+                    <circle cx="665" cy="100" r="3" fill="#000"/>
+                    <circle cx="610" cy="130" r="3" fill="#000"/>
+                    <circle cx="630" cy="135" r="3" fill="#000"/>
+                    <circle cx="650" cy="135" r="3" fill="#000"/>
+                    <circle cx="670" cy="130" r="3" fill="#000"/>
+                    <line x1="615" y1="100" x2="640" y2="115" stroke="#000" stroke-width="1"/>
+                    <line x1="665" y1="100" x2="640" y2="115" stroke="#000" stroke-width="1"/>
+                    <line x1="640" y1="115" x2="610" y2="130" stroke="#000" stroke-width="0.6"/>
+                    <line x1="640" y1="115" x2="630" y2="135" stroke="#000" stroke-width="0.6"/>
+                    <line x1="640" y1="115" x2="650" y2="135" stroke="#000" stroke-width="0.6"/>
+                    <line x1="640" y1="115" x2="670" y2="130" stroke="#000" stroke-width="0.6"/>
+
+                    <!-- Arrow 3 -->
+                    <line x1="705" y1="105" x2="745" y2="105" stroke="#000" stroke-width="1.2"/>
+                    <polygon points="745,100 755,105 745,110" fill="#000"/>
+
+                    <!-- Stage 4: Output -->
+                    <rect x="760" y="60" width="140" height="90" fill="#000" stroke="#000" stroke-width="1.2"/>
+                    <text x="830" y="86" text-anchor="middle" font-size="11" fill="#fff" class="mono" letter-spacing="0.5">REQUIREMENTS</text>
+                    <text x="830" y="106" text-anchor="middle" font-size="11" fill="#fff" class="mono" letter-spacing="0.5">RISKS</text>
+                    <text x="830" y="126" text-anchor="middle" font-size="11" fill="#fff" class="mono" letter-spacing="0.5">ACTION STEPS</text>
+
+                    <!-- Bottom annotation -->
+                    <text x="460" y="200" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Creator-side framing — guidance for a specific scenario, not a full compliance audit.</text>
+                </svg>
+                <p class="flow-caption">Decision-tree app rather than a static compliance document — creators want a path through, not a glossary.</p>
+            </div>
+        </section>
+
         <section>
             <h2 class="section-title">Navigator Interface</h2>
             <div class="video-container">
                 <video src="navigator_screenrecording.mov" autoplay loop muted playsinline></video>
             </div>
-
-            <h3>Use Cases</h3>
-            <ul>
-                <li><strong>Consent &amp; Attribution</strong> — Was this work used with permission?</li>
-                <li><strong>Training Data Provenance</strong> — Where did training data come from?</li>
-                <li><strong>Generated Output Rights</strong> — Who owns AI-generated work?</li>
-                <li><strong>Transparency &amp; Disclosure</strong> — When must I disclose AI use?</li>
-                <li><strong>Authenticity &amp; Recognition</strong> — How can creators prove and protect original work?</li>
-            </ul>
-            <p class="note">Use cases lean creator-side — individual artists typically want guidance for their specific scenario, not a full compliance audit.</p>
         </section>
 
-
         <section>
-            <h2 class="section-title">Documentation</h2>
+            <h2 class="section-title">Documentation pipeline</h2>
             <div class="phases">
                 <div class="phase">
                     <span class="phase-num">01 — DONE</span>
@@ -324,12 +322,10 @@
                 </div>
                 <div class="phase">
                     <span class="phase-num">05 — NEXT</span>
-                    <div class="phase-title">Handbook, user stories, user guide</div>
+                    <div class="phase-title">Handbook, user stories</div>
                     <div class="phase-meta">Draft in hand</div>
                 </div>
             </div>
-
-     
 
             <div class="deliverables-intro">
                 <div class="deliverable-card">
@@ -341,29 +337,15 @@
                 <div class="deliverable-card">
                     <div class="deliverable-label">Documentation</div>
                     <div class="deliverable-title">Compliance Guide <span class="status-chip live">Published · v1.0</span></div>
-                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented. Some content points still being finalised; open to expert review.</div>
+                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented; open to expert review.</div>
                     <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
-                </div>
-            </div>
-
-        </section>
-
-
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Handover & Collaboration</h2>
-
-            <div class="highlight-box">
-                <p><strong>Handover &amp; Collaboration</strong></p>
-                <p>Prototype handed over to a backend engineer for professional implementation. Ongoing collaboration on: tool logic and decision-tree structure, auto-updating regulations from official sources, accessibility and language translation (my responsibility). This is a mutual learning exercise — we each teach the other what our discipline knows.</p>
-            </div>
-
-            <h3>AI + human: where each does what</h3>
-            <p>This project is deliberately honest about where AI helped and where I made the calls. The split below is the actual working arrangement, not a retrofit.</p>
-
+            <h2 class="section-title">AI + human: where each does what</h2>
+            <p>The split below is the actual working arrangement, not a retrofit. Prototype handed to a backend engineer for professional implementation; ongoing collaboration on tool logic, auto-updating regulations from official sources, and accessibility / translation (my responsibility).</p>
             <div class="split-role">
                 <div class="role-col">
                     <h4>AI-assisted</h4>
@@ -372,7 +354,7 @@
                         <li>Cross-verification across models (Claude, Grok) to catch single-source errors</li>
                         <li>Rapid React prototyping for the decision-tree UI</li>
                         <li>Scaffolding drafts for the developer-facing handbook</li>
-                        <li>Reformulating legal text into plain language candidates</li>
+                        <li>Reformulating legal text into plain-language candidates</li>
                     </ul>
                 </div>
                 <div class="role-col">
@@ -402,10 +384,7 @@
                 <span class="tech-tag">Claude</span>
                 <span class="tech-tag">Grok</span>
             </div>
-        </section>
-
-
-            <div class="doc-links">
+            <div class="doc-links" style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;">
                 <a href="https://pi-kay.github.io/music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Navigator App</a>
                 <a href="https://github.com/Pi-Kay/music-ai-compliance-navigator" target="_blank" class="deliverable-link outline">GitHub (App)</a>
                 <a href="https://github.com/Pi-Kay/Music-AI-Vault/tree/main/docs" target="_blank" class="deliverable-link outline">GitHub (Guide)</a>
@@ -417,7 +396,6 @@
             <a href="valispace.html">Valispace →</a>
         </nav>
     </main>
-
     <footer>
         <p>© 2026 Petra Kühnle</p>
     </footer>
