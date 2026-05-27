@@ -237,7 +237,7 @@
         }
         .design-space-caption strong { color: var(--accent-positive); font-weight: 600; }
 
-        /* ===== SHARED ADDITIONS: Why card + flow diagram ===== */
+        /* ===== SHARED: Why card + flow diagram ===== */
         .why-card {
             border: 1px solid var(--ink);
             background: var(--bg-raised);
@@ -271,23 +271,6 @@
         }
         .flow-diagram svg text { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
         .flow-diagram svg .mono { font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
-
-        /* Deliverables list (kept, simplified) */
-        .deliverables-list { margin: 16px 0; }
-        .deliverable-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px; border-bottom: 1px solid var(--hairline);
-        }
-        .deliverable-item:last-child { border-bottom: none; }
-        .deliverable-icon {
-            width: 36px; height: 36px;
-            background: var(--bg-sunken); border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; font-size: 0.8em;
-        }
-        .deliverable-info strong {
-            font-size: 0.85em; display: block; margin-bottom: 2px; color: var(--ink);
-        }
-        .deliverable-info span { font-size: 0.75em; color: var(--ink-muted); }
 
         @media (max-width: 768px) {
             .role-summary { grid-template-columns: 1fr; }
@@ -324,7 +307,7 @@
                 </div>
                 <div class="role-item">
                     <strong>Context</strong>
-                    <span>SysML v2 — released July 2025. New capability: textual <em>and</em> graphic notation.</span>
+                    <span>SysML v2 — released July 2025. New: textual <em>and</em> graphic notation.</span>
                 </div>
             </div>
         </section>
@@ -334,16 +317,16 @@
             <div class="why-card">
                 <span class="why-card-label">Design-engineering signal</span>
                 <ol>
-                    <li><strong>Reframed the scope.</strong> Brief was "support the product with UX — review screens." Outcome is principles + audit + roadmap. Principles outlive screens.</li>
-                    <li><strong>Designing inside a specification.</strong> Separated what the SysML v2 standard fixes from what tooling can innovate — rare skill for B2B / enterprise design.</li>
-                    <li><strong>MBSE domain literacy.</strong> SysML v2, systems-of-systems modelling, B2B expert workflows — domain depth that generic frontend candidates don't have.</li>
+                    <li><strong>Reframed the scope.</strong> Brief: "review the screens." Outcome: principles, audit, roadmap. Principles outlive screens.</li>
+                    <li><strong>Designed inside a specification.</strong> Separated what SysML v2 fixes from what tooling can change. Rare skill in B2B / enterprise.</li>
+                    <li><strong>MBSE domain literacy.</strong> SysML v2, systems-of-systems, expert workflows. Not generic frontend depth.</li>
                 </ol>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Problem Definition</h2>
-            <p>The goal: make SysML v2 modeling accessible without requiring a course first. SysML v2 (released September 2025) specifies element semantics and core notation, but leaves presentation and interaction to individual tools. The interface must teach a complex modeling language while respecting a strict specification — so every design decision must distinguish between <em>what the standard requires</em> and <em>where tooling can innovate</em>.</p>
+            <h2 class="section-title">Problem</h2>
+            <p>Make SysML v2 modeling learnable without a course first. The spec (released September 2025) fixes element semantics and notation; presentation and interaction are left to each tool. So every decision sits on one side of a boundary — what the standard requires, or what the tool can change.</p>
 
             <div class="design-space-visual">
                 <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML v2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
@@ -392,12 +375,12 @@
                     </g>
                     <text x="530" y="215" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#4a4641">Where learnability is designed in</text>
                 </svg>
-                <p class="design-space-caption">The standard fixes semantics. Everything else is the <strong>tool design space</strong> — and that's where the work happens.</p>
+                <p class="design-space-caption">The standard fixes semantics. Everything else is the <strong>tool design space</strong>.</p>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Framing and Reframing</h2>
+            <h2 class="section-title">Framing &amp; reframing</h2>
             <div class="flow-diagram">
                 <svg viewBox="0 0 920 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Reframe flow: initial brief to reframe to outcome">
                     <text x="155" y="32" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">01 — BRIEF</text>
@@ -422,26 +405,26 @@
 
                     <rect x="630" y="50" width="270" height="86" fill="#000" stroke="#000" stroke-width="1.2"/>
                     <text x="765" y="78" text-anchor="middle" font-size="12" font-weight="500" fill="#fff">Principles · audit · roadmap.</text>
-                    <text x="765" y="96" text-anchor="middle" font-size="12" font-weight="500" fill="#fff">Design foundations, not fixes.</text>
+                    <text x="765" y="96" text-anchor="middle" font-size="12" font-weight="500" fill="#fff">Foundations, not fixes.</text>
                     <text x="765" y="120" text-anchor="middle" font-size="10" fill="#ccc" font-style="italic">Outlives any individual screen.</text>
                 </svg>
-                <p class="flow-caption">Reframing the brief is the most consequential design decision in the project.</p>
+                <p class="flow-caption">The reframe is the most consequential decision in the project.</p>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Two Audiences, One Interface</h2>
-            <p>The tool must serve two distinct learning paths simultaneously — and the interface itself has to do the teaching.</p>
+            <h2 class="section-title">Two audiences, one interface</h2>
+            <p>Two learning paths the interface must teach simultaneously.</p>
             <div class="learnability-goal">
                 <h3>Designing for learnability</h3>
                 <div class="user-types">
                     <div class="user-type">
                         <strong>New to SysML</strong>
-                        <p>Engineers who need MBSE but haven't used SysML before. The tool should teach the language through use — progressive disclosure, clear feedback, safe exploration.</p>
+                        <p>Engineers who need MBSE but haven't used SysML. The tool teaches through use — progressive disclosure, clear feedback, safe exploration.</p>
                     </div>
                     <div class="user-type">
-                        <strong>Transitioning v1 → v2</strong>
-                        <p>Experienced SysML users adapting to v2's new terminology. The tool should bridge old and new — showing familiar names alongside v2 equivalents.</p>
+                        <strong>v1 → v2 transition</strong>
+                        <p>Experienced users adapting to v2's terminology. Show familiar names alongside v2 equivalents.</p>
                     </div>
                 </div>
             </div>
@@ -455,11 +438,11 @@
                     <p>Values &amp; decision criteria</p>
                 </div>
                 <div class="process-step complete">
-                    <span class="num">02</span><strong>Interface Analysis</strong>
+                    <span class="num">02</span><strong>Interface analysis</strong>
                     <p>Current state audit</p>
                 </div>
                 <div class="process-step">
-                    <span class="num">03</span><strong>Information Architecture</strong>
+                    <span class="num">03</span><strong>IA</strong>
                     <p>Content hierarchy</p>
                 </div>
                 <div class="process-step">
@@ -467,90 +450,90 @@
                     <p>First-run experience</p>
                 </div>
                 <div class="process-step">
-                    <span class="num">05</span><strong>Design Foundations</strong>
+                    <span class="num">05</span><strong>Design foundations</strong>
                     <p>Tokens &amp; patterns</p>
                 </div>
             </div>
-            <p>The order is intentional. Principles make decisions defensible rather than arbitrary. Analysis reveals where principles are supported and where gaps exist. IA defines where things live. Only at the end does a design system lock in component-level decisions — tokens are expensive to change once in production.</p>
+            <p>Order matters. Principles make decisions defensible. Analysis shows where they hold and where gaps sit. IA defines where things live. The design system goes last — tokens are expensive to change once in production.</p>
         </section>
 
         <section>
-            <h2 class="section-title">Design Principles</h2>
-            <p>Ten principles synthesized from UX and information design literature, then reviewed with Cauê to ensure each held up against how systems engineers actually work. <span style="color: var(--accent-positive); font-weight: 500;">Green</span> marks principles that directly support learnability.</p>
+            <h2 class="section-title">Design principles</h2>
+            <p>Ten principles drawn from UX and information design literature, then reviewed with Cauê against how systems engineers actually work. <span style="color: var(--accent-positive); font-weight: 500;">Green</span> = directly supports learnability.</p>
             <div class="sources-strip">
                 <div class="sources-strip-label">Synthesized from</div>
                 <div class="sources-strip-content">
-                    <strong>Tufte</strong> (data-ink, layering, small multiples) · <strong>Bertin</strong> (visual variables) · <strong>Nielsen</strong> (usability heuristics) · <strong>Shneiderman</strong> (overview + detail, linked views) · <strong>Norman</strong> (affordances, safe exploration) · <strong>Cognitive load theory</strong> (Sweller, Miller) · <strong>SysML v2 specification</strong> · domain review with a practicing systems engineer.
+                    <strong>Tufte</strong> (data-ink, layering, small multiples) · <strong>Bertin</strong> (visual variables) · <strong>Nielsen</strong> (heuristics) · <strong>Shneiderman</strong> (overview + detail, linked views) · <strong>Norman</strong> (affordances, safe exploration) · <strong>Cognitive load</strong> (Sweller, Miller) · <strong>SysML v2 spec</strong> · domain review with a practicing systems engineer.
                 </div>
             </div>
             <div class="principles-grid">
                 <div class="principle-card">
                     <div class="principle-num">01</div>
                     <div class="principle-content">
-                        <strong>One Model, Many Views</strong>
+                        <strong>One model, many views</strong>
                         <p>Single source of truth. Diagram, tree, table, text all sync. <span class="principle-source">Shneiderman; linked views</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">02</div>
                     <div class="principle-content">
-                        <strong>Consistent Visual Grammar</strong>
+                        <strong>Consistent visual grammar</strong>
                         <p>Same meaning = same appearance. Enables pattern recognition. <span class="principle-source">Bertin; Tufte</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">03</div>
                     <div class="principle-content">
-                        <strong>Progressive Disclosure</strong>
-                        <p>Show what the task requires, hide the rest. <span class="principle-source">Miller's Law; NNGroup</span></p>
+                        <strong>Progressive disclosure</strong>
+                        <p>Show what the task needs. Hide the rest. <span class="principle-source">Miller's Law; NNGroup</span></p>
                     </div>
                 </div>
                 <div class="principle-card">
                     <div class="principle-num">04</div>
                     <div class="principle-content">
-                        <strong>Click Anywhere, Land Everywhere</strong>
-                        <p>Selection syncs across all views instantly. <span class="principle-source">Linked views pattern</span></p>
+                        <strong>Click anywhere, land everywhere</strong>
+                        <p>Selection syncs across all views instantly. <span class="principle-source">Linked views</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">05</div>
                     <div class="principle-content">
-                        <strong>Context Preservation</strong>
-                        <p>Never "zoom in and get lost." Orientation supports learning. <span class="principle-source">Shneiderman's mantra</span></p>
+                        <strong>Context preservation</strong>
+                        <p>Never zoom in and get lost. Orientation supports learning. <span class="principle-source">Shneiderman's mantra</span></p>
                     </div>
                 </div>
                 <div class="principle-card">
                     <div class="principle-num">06</div>
                     <div class="principle-content">
-                        <strong>Type-First Organization</strong>
-                        <p>Group by element type, not creation order. <span class="principle-source">Information architecture</span></p>
+                        <strong>Type-first organization</strong>
+                        <p>Group by element type, not creation order. <span class="principle-source">IA</span></p>
                     </div>
                 </div>
                 <div class="principle-card">
                     <div class="principle-num">07</div>
                     <div class="principle-content">
-                        <strong>Edge Density Management</strong>
-                        <p>Filter or limit edges to reduce visual noise. <span class="principle-source">Tufte, Layering &amp; Separation</span></p>
+                        <strong>Edge density management</strong>
+                        <p>Filter or limit edges to reduce noise. <span class="principle-source">Tufte: layering &amp; separation</span></p>
                     </div>
                 </div>
                 <div class="principle-card">
                     <div class="principle-num">08</div>
                     <div class="principle-content">
-                        <strong>Validation Timing</strong>
-                        <p>Real-time vs. on-demand error checking — user controls interruption. <span class="principle-source">B2B expert workflows</span></p>
+                        <strong>Validation timing</strong>
+                        <p>Real-time vs. on-demand. User controls interruption. <span class="principle-source">B2B expert workflows</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">09</div>
                     <div class="principle-content">
-                        <strong>Safe Exploration</strong>
-                        <p>Generous undo, non-destructive defaults. Mistakes are cheap. <span class="principle-source">Norman</span></p>
+                        <strong>Safe exploration</strong>
+                        <p>Generous undo. Non-destructive defaults. Mistakes are cheap. <span class="principle-source">Norman</span></p>
                     </div>
                 </div>
                 <div class="principle-card learnability">
                     <div class="principle-num">10</div>
                     <div class="principle-content">
-                        <strong>Leverage Familiar Patterns</strong>
+                        <strong>Leverage familiar patterns</strong>
                         <p>Build on IDE/CAD conventions users already know. <span class="principle-source">Jakob's Law</span></p>
                     </div>
                 </div>
@@ -558,16 +541,16 @@
         </section>
 
         <section>
-            <h2 class="section-title">SysML v2 Constraint Map</h2>
-            <p>Where the specification constrains design, and where tooling can innovate. Shape and semantics are fixed by the standard. Presentation is where learnability improvements happen.</p>
+            <h2 class="section-title">SysML v2 constraint map</h2>
+            <p>Where the spec constrains design, and where it doesn't. Shape and semantics are fixed. Presentation is where learnability happens.</p>
             <div class="constraint-detail">
                 <div class="constraint-detail-header">
                     <span class="label fixed">Fixed</span>
-                    <h4>Must follow SysML v2 specification</h4>
+                    <h4>Set by SysML v2 specification</h4>
                 </div>
                 <table class="constraint-table fixed">
                     <thead>
-                        <tr><th>Element</th><th>Standard Representation</th></tr>
+                        <tr><th>Element</th><th>Standard representation</th></tr>
                     </thead>
                     <tbody>
                         <tr><td>Part def / Part usage</td><td>Rectangle with «part def» / «part» keyword</td></tr>
@@ -581,29 +564,29 @@
             <div class="constraint-detail">
                 <div class="constraint-detail-header">
                     <span class="label flexible">Flexible</span>
-                    <h4>Open to design — presentation choices</h4>
+                    <h4>Open to design</h4>
                 </div>
                 <table class="constraint-table flexible">
                     <thead>
-                        <tr><th>Aspect</th><th>Design Freedom</th></tr>
+                        <tr><th>Aspect</th><th>Design freedom</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Color</td><td>Not specified. Can encode element type, subsystem, status, health.</td></tr>
+                        <tr><td>Color</td><td>Unspecified. Can encode type, subsystem, status, health.</td></tr>
                         <tr><td>Size</td><td>Can encode information (node size = child count, criticality).</td></tr>
-                        <tr><td>Layout &amp; edge routing</td><td>Auto-layout algorithm, spacing, alignment, orthogonal vs. curved, bundling.</td></tr>
+                        <tr><td>Layout &amp; edge routing</td><td>Auto-layout, spacing, alignment, orthogonal vs. curved, bundling.</td></tr>
                         <tr><td>Hierarchy display</td><td>Containment vs. separate diagrams.</td></tr>
-                        <tr><td>Labels, filtering, animation</td><td>Defaults, truncation, hover expansion; what's visible; transitions and zoom behaviour.</td></tr>
+                        <tr><td>Labels, filtering, animation</td><td>Defaults, truncation, hover expansion; visibility; zoom transitions.</td></tr>
                     </tbody>
                 </table>
             </div>
             <div class="constraint-boundary-note">
-                <strong>The boundary matters:</strong> Shape is fixed. Color, size, and layout are presentation. Keeping the layers orthogonal — shape = type, color = status, size = magnitude — means each reads independently without visual conflict.
+                <strong>Why the boundary matters:</strong> Shape is fixed. Color, size, layout are presentation. Keeping the layers orthogonal — shape = type, color = status, size = magnitude — means each reads independently.
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Interface Analysis</h2>
-            <p>The audit evaluated first impressions and key workflow moments. Representative example below.</p>
+            <h2 class="section-title">Interface analysis</h2>
+            <p>Audit covered first impressions and key workflow moments. Representative example below.</p>
             <div class="screenshot-annotation">
                 <div class="screenshot-header">Add Element Palette</div>
                 <div class="screenshot-body">
@@ -613,17 +596,17 @@
                     <div class="annotation-list">
                         <div class="annotation-item strength">
                             <strong>✓ Grouped by category</strong>
-                            <p>Structure, Behavior, Requirements, Connections, Organization, Documentation — not a flat list.</p>
+                            <p>Structure, Behavior, Requirements, Connections, Organization, Documentation. Not a flat list.</p>
                             <span class="tag">Supports: #06</span>
                         </div>
                         <div class="annotation-item strength">
                             <strong>✓ Tooltips teach in context</strong>
-                            <p>Hovering "Part" shows "Create an instance of a part" — explains SysML v2 concepts where users meet them.</p>
+                            <p>Hovering "Part" shows "Create an instance of a part." Concepts explained where users meet them.</p>
                             <span class="tag">Supports: #03</span>
                         </div>
                         <div class="annotation-item strength">
-                            <strong>✓ Search supports browse + expert</strong>
-                            <p>Both browse (novice) and search (expert) patterns in one palette.</p>
+                            <strong>✓ Browse + expert search</strong>
+                            <p>Both novice browse and expert search in one palette.</p>
                             <span class="tag">Supports: Flexibility</span>
                         </div>
                         <div class="annotation-item consideration">
@@ -641,11 +624,11 @@
                 <h3>Concrete recommendations</h3>
                 <p class="recommendations-intro">Near-term moves, ordered by what unblocks the most downstream work.</p>
                 <ol class="recommendations-list">
-                    <li><strong>Resolve Model Explorer vs. File Explorer.</strong> Most consequential IA decision — gates sidebar hierarchy, icon weight, default view.</li>
-                    <li><strong>Add v1 → v2 terminology bridging in search.</strong> Searching "Block" surfaces "Part" with the v1 label visible. High-leverage learnability win; small implementation.</li>
-                    <li><strong>Standardize icon style and hover behavior.</strong> Mixed flat/filled icons weaken visual grammar. One-pass cleanup before IA hardens.</li>
-                    <li><strong>Map core workflows end-to-end.</strong> Create → add parts → connect → review/validate. Surfaces interaction gaps static analysis misses.</li>
-                    <li><strong>Draft tooltip patterns that teach SysML v2 concepts.</strong> Extend the "Part tooltip" pattern systematically — strongest lever for teaching through use.</li>
+                    <li><strong>Resolve Model Explorer vs. File Explorer.</strong> Biggest IA decision. Gates sidebar hierarchy, icon weight, default view.</li>
+                    <li><strong>v1 → v2 bridging in search.</strong> "Block" surfaces "Part" with the v1 label visible. High-leverage, small implementation.</li>
+                    <li><strong>Standardize icon style and hover behavior.</strong> Mixed flat/filled icons weaken the visual grammar. One-pass cleanup before IA hardens.</li>
+                    <li><strong>Map core workflows end-to-end.</strong> Create → add parts → connect → review/validate. Surfaces gaps static analysis misses.</li>
+                    <li><strong>Tooltip patterns that teach SysML v2.</strong> Extend the Part tooltip systematically. Strongest lever for teaching through use.</li>
                 </ol>
             </div>
         </section>
@@ -653,12 +636,15 @@
         <section>
             <h2 class="section-title">Reflection</h2>
             <div class="reflection">
-                <p><strong>On learnability as a design goal:</strong> Most MBSE tools assume training. System Forge asks: what if the interface itself teaches? Every tooltip, visual cue, and error message is an opportunity to help users learn — not just use — a complex modeling language.</p>
+                <p><strong>Limit I couldn't resolve:</strong> learnability is testable only with real users mid-task. Until then, every principle here is a hypothesis. The recommendations are ranked by leverage, not by evidence.</p>
+            </div>
+            <div class="reflection">
+                <p>Most MBSE tools assume training. System Forge asks what happens if the interface itself teaches. Every tooltip, cue, and error message becomes a chance to help users learn — not just use — the language.</p>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Tools &amp; Methods</h2>
+            <h2 class="section-title">Tools &amp; methods</h2>
             <div class="tech-list">
                 <span class="tech-tag">Figma, Gimp, Preview</span>
                 <span class="tech-tag">SysML v2 Specification</span>
