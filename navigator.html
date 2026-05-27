@@ -10,6 +10,21 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* ===== NAVIGATOR-SPECIFIC ===== */
+
+        /* Role summary — matches System Forge */
+        .role-summary {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin: 16px 0;
+            padding: 16px; background: var(--bg-sunken);
+            border-left: 3px solid var(--accent-neutral);
+        }
+        .role-item strong {
+            font-size: 0.75em; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--ink-muted);
+            display: block; margin-bottom: 4px;
+        }
+        .role-item span { font-size: 0.9em; color: var(--ink); }
+
         .deliverables-intro {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -53,27 +68,6 @@
             color: var(--ink); background: var(--bg-raised);
             border-color: var(--ink);
         }
-
-        /* Compact role meta strip (replaces verbose Role / Duration / Result blocks) */
-        .role-meta {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-            border: 1px solid var(--hairline);
-            margin: 16px 0 24px;
-        }
-        .role-meta > div {
-            padding: 14px 16px;
-            border-right: 1px solid var(--hairline);
-        }
-        .role-meta > div:last-child { border-right: none; }
-        .role-meta .label {
-            font-family: 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 0.65em; font-weight: 600;
-            letter-spacing: 1.2px; text-transform: uppercase;
-            color: var(--ink-muted); margin-bottom: 6px;
-        }
-        .role-meta .value { font-size: 0.88em; color: var(--ink); line-height: 1.45; }
 
         /* Phases strip */
         .phases {
@@ -131,7 +125,7 @@
         .role-col li { padding-left: 0; }
         .role-col li:before { content: none; }
 
-        /* ===== SHARED ADDITIONS: Why card + flow diagram ===== */
+        /* ===== SHARED: Why card + flow diagram ===== */
         .why-card {
             border: 1px solid var(--ink);
             background: var(--bg-raised);
@@ -166,25 +160,46 @@
         .flow-diagram svg text { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
         .flow-diagram svg .mono { font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
 
+        /* Reflection — matches System Forge */
+        .reflection {
+            background: var(--bg-sunken); border: 1px solid var(--hairline);
+            padding: 16px; margin: 12px 0;
+        }
+        .reflection p { margin-bottom: 0; font-size: 0.85em; }
+
         @media (max-width: 768px) {
             .deliverables-intro { grid-template-columns: 1fr; }
             .phase { min-width: 160px; }
             .split-role { grid-template-columns: 1fr; }
-            .role-meta { grid-template-columns: 1fr 1fr; }
-            .role-meta > div:nth-child(2) { border-right: none; }
+            .role-summary { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body class="project">
     <header>
         <h1>⬡ Navigator · Sound AI Regulations App</h1>
-        <p>Tools helping musicians, sound designers, labels, and music-tech companies navigate AI regulations.</p>
+        <p>Tools for musicians, sound designers, labels, and music-tech companies navigating AI regulations.</p>
         <p class="meta">2025–26 · EU AI Act, GDPR, European Accessibility Act · Music, soundscapes, sound design</p>
     </header>
     <main>
         <section>
-            <div class="highlight-box">
-                <p><strong>Project status · Work in progress.</strong> Navigator is an ongoing side project developed with a backend engineer as a shared learning exercise. Original concept, initial design, and code prototype drafted by Petra Kühnle.</p>
+            <div class="role-summary">
+                <div class="role-item">
+                    <strong>Role</strong>
+                    <span>Designer · prototyper · collaborator</span>
+                </div>
+                <div class="role-item">
+                    <strong>Duration</strong>
+                    <span>Jan–Feb 2026 prototype · ongoing</span>
+                </div>
+                <div class="role-item">
+                    <strong>Outcome</strong>
+                    <span>V1 live · Mozilla Fellowship 2026, round 1 passed · 2 backend devs joined</span>
+                </div>
+                <div class="role-item">
+                    <strong>Status</strong>
+                    <span>V1 shipped · V2 in development with engineers</span>
+                </div>
             </div>
         </section>
 
@@ -193,31 +208,10 @@
             <div class="why-card">
                 <span class="why-card-label">Design-engineering signal</span>
                 <ol>
-                    <li><strong>Shipped a working product.</strong> React V1 live on GitHub Pages, then submitted to the Mozilla Fellowship 2026 — passed the first round of evaluations.</li>
-                    <li><strong>Explicit AI/human split.</strong> The decision matrix below documents what AI did and what I called, by name. Senior judgment, not retrofit.</li>
-                    <li><strong>Regulatory domain depth.</strong> GDPR + EU AI Act + creator-side framing — primary sources verified, not a generic compliance template.</li>
+                    <li><strong>Shipped a working product.</strong> React V1 live on GitHub Pages. Submitted to Mozilla Fellowship 2026, passed round 1.</li>
+                    <li><strong>Explicit AI/human split.</strong> The decision matrix below names what AI did and what I called. Stated, not retrofitted.</li>
+                    <li><strong>Regulatory domain depth.</strong> GDPR + EU AI Act + creator-side framing. Primary sources verified, not a generic template.</li>
                 </ol>
-            </div>
-        </section>
-
-        <section>
-            <div class="role-meta">
-                <div>
-                    <div class="label">Role</div>
-                    <div class="value">Designer · prototyper with AI · collaborator</div>
-                </div>
-                <div>
-                    <div class="label">Duration</div>
-                    <div class="value">Jan–Feb 2026 concept &amp; prototype · ongoing</div>
-                </div>
-                <div>
-                    <div class="label">Outcome</div>
-                    <div class="value">Mozilla Fellowship 2026 — passed first round · two backend devs joined</div>
-                </div>
-                <div>
-                    <div class="label">Status</div>
-                    <div class="value">Live V1 · V2 in development with engineers</div>
-                </div>
             </div>
         </section>
 
@@ -241,7 +235,7 @@
                     <line x1="165" y1="105" x2="205" y2="105" stroke="#000" stroke-width="1.2"/>
                     <polygon points="205,100 215,105 205,110" fill="#000"/>
 
-                    <!-- Stage 2: 5 use cases (stacked compact) -->
+                    <!-- Stage 2: 5 use cases -->
                     <rect x="220" y="50" width="300" height="120" fill="#fff" stroke="#000" stroke-width="1.2"/>
                     <text x="370" y="68" text-anchor="middle" font-size="10" fill="#999" class="mono" letter-spacing="1">5 USE CASES</text>
                     <line x1="240" y1="76" x2="500" y2="76" stroke="#ddd" stroke-width="0.5"/>
@@ -255,10 +249,9 @@
                     <line x1="525" y1="110" x2="565" y2="110" stroke="#000" stroke-width="1.2"/>
                     <polygon points="565,105 575,110 565,115" fill="#000"/>
 
-                    <!-- Stage 3: Decision tree (small visual) -->
+                    <!-- Stage 3: Decision tree -->
                     <rect x="580" y="60" width="120" height="90" fill="#fff" stroke="#000" stroke-width="1.2"/>
                     <text x="640" y="80" text-anchor="middle" font-size="11" font-weight="500" fill="#000">Decision tree</text>
-                    <!-- mini tree -->
                     <circle cx="615" cy="100" r="3" fill="#000"/>
                     <circle cx="640" cy="115" r="3" fill="#000"/>
                     <circle cx="665" cy="100" r="3" fill="#000"/>
@@ -284,14 +277,14 @@
                     <text x="830" y="126" text-anchor="middle" font-size="11" fill="#fff" class="mono" letter-spacing="0.5">ACTION STEPS</text>
 
                     <!-- Bottom annotation -->
-                    <text x="460" y="200" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Creator-side framing — guidance for a specific scenario, not a full compliance audit.</text>
+                    <text x="460" y="200" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Creator-side guidance for a specific scenario — not a full compliance audit.</text>
                 </svg>
-                <p class="flow-caption">Decision-tree app rather than a static compliance document — creators want a path through, not a glossary.</p>
+                <p class="flow-caption">A decision-tree app, not a static document. Creators want a path through, not a glossary.</p>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Navigator Interface</h2>
+            <h2 class="section-title">Interface</h2>
             <div class="video-container">
                 <video src="navigator_screenrecording.mov" autoplay loop muted playsinline></video>
             </div>
@@ -331,30 +324,30 @@
                 <div class="deliverable-card">
                     <div class="deliverable-label">Interactive</div>
                     <div class="deliverable-title">Navigator App <span class="status-chip live">Live · V1</span></div>
-                    <div class="deliverable-desc">Decision-tree tool for step-by-step compliance guidance. Input a use case, get requirements, risks, and action steps.</div>
-                    <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch App →</a>
+                    <div class="deliverable-desc">Decision tree for step-by-step compliance. Input a use case, get requirements, risks, action steps.</div>
+                    <a href="https://pi-kay.github.io/Music-ai-compliance-navigator/" target="_blank" class="deliverable-link">Launch app →</a>
                 </div>
                 <div class="deliverable-card">
                     <div class="deliverable-label">Documentation</div>
                     <div class="deliverable-title">Compliance Guide <span class="status-chip live">Published · v1.0</span></div>
-                    <div class="deliverable-desc">Open-source reference covering GDPR, EU AI Act, and sound + copyright. Full methodology and sources documented; open to expert review.</div>
+                    <div class="deliverable-desc">Open-source reference: GDPR, EU AI Act, sound + copyright. Methodology and sources documented. Open to expert review.</div>
                     <a href="Music AI Compliance.pdf" target="_blank" class="deliverable-link outline">View PDF →</a>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">AI + human: where each does what</h2>
-            <p>The split below is the actual working arrangement, not a retrofit. Prototype handed to a backend engineer for professional implementation; ongoing collaboration on tool logic, auto-updating regulations from official sources, and accessibility / translation (my responsibility).</p>
+            <h2 class="section-title">AI + human: who does what</h2>
+            <p>The split below is the actual working arrangement. Prototype handed to a backend engineer for proper implementation; ongoing collaboration on logic, auto-updating regulations from official sources, and accessibility / translation (mine).</p>
             <div class="split-role">
                 <div class="role-col">
                     <h4>AI-assisted</h4>
                     <ul>
                         <li>Requirement gathering across scattered regulatory sources</li>
-                        <li>Cross-verification across models (Claude, Grok) to catch single-source errors</li>
-                        <li>Rapid React prototyping for the decision-tree UI</li>
+                        <li>Cross-checking across models (Claude, Grok) to catch single-source errors</li>
+                        <li>Rapid React prototyping of the decision tree</li>
                         <li>Scaffolding drafts for the developer-facing handbook</li>
-                        <li>Reformulating legal text into plain-language candidates</li>
+                        <li>Plain-language candidates for legal text</li>
                     </ul>
                 </div>
                 <div class="role-col">
@@ -363,11 +356,18 @@
                         <li>Design direction, information architecture, editorial decisions</li>
                         <li>Audience framing — who reads this, at what reading age, in what context</li>
                         <li>Source verification against primary regulation texts</li>
-                        <li>Accessibility review (WCAG 2.2 AA), tagged structure, alt text</li>
-                        <li>Reconciling tensions — e.g. creator-protective vs. developer-facing framings</li>
+                        <li>Accessibility (WCAG 2.2 AA), tagged structure, alt text</li>
+                        <li>Tension calls — creator-protective vs. developer-facing framings</li>
                         <li>Engineering collaboration, handover decisions, scope control</li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Reflection</h2>
+            <div class="reflection">
+                <p><strong>Limit I haven't resolved:</strong> regulations move. The V2 plan is auto-updating from official sources, but that's still a problem for engineers, not a fix in V1. Today's tool ages every quarter.</p>
             </div>
         </section>
 
