@@ -31,6 +31,20 @@
         }
         .fullscreen-link:hover { color: var(--ink); }
 
+        /* Role summary — matches System Forge */
+        .role-summary {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin: 16px 0;
+            padding: 16px; background: var(--bg-sunken);
+            border-left: 3px solid var(--accent-neutral);
+        }
+        .role-item strong {
+            font-size: 0.75em; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--ink-muted);
+            display: block; margin-bottom: 4px;
+        }
+        .role-item span { font-size: 0.9em; color: var(--ink); }
+
         /* Mapping cards */
         .mappings { display: flex; gap: 24px; margin: 20px 0; flex-wrap: wrap; }
         .mapping {
@@ -66,7 +80,14 @@
         }
         .appendix .section-title { color: var(--ink-soft); }
 
-        /* ===== SHARED ADDITIONS: Why card + flow diagram ===== */
+        /* Reflection — matches System Forge */
+        .reflection {
+            background: var(--bg-sunken); border: 1px solid var(--hairline);
+            padding: 16px; margin: 12px 0;
+        }
+        .reflection p { margin-bottom: 0; font-size: 0.85em; }
+
+        /* ===== SHARED: Why card + flow diagram ===== */
         .why-card {
             border: 1px solid var(--ink);
             background: var(--bg-raised);
@@ -104,6 +125,7 @@
         @media (max-width: 768px) {
             .canvas-container { max-width: 100%; }
             .mappings { flex-direction: column; gap: 16px; }
+            .role-summary { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -123,6 +145,39 @@
     </header>
     <main>
         <section>
+            <div class="role-summary">
+                <div class="role-item">
+                    <strong>Role</strong>
+                    <span>Design · code · sound design (solo)</span>
+                </div>
+                <div class="role-item">
+                    <strong>Duration</strong>
+                    <span>2026</span>
+                </div>
+                <div class="role-item">
+                    <strong>Deliverables</strong>
+                    <span>Python pipeline · MIDI · audio · interactive demo</span>
+                </div>
+                <div class="role-item">
+                    <strong>Context</strong>
+                    <span>NASA Moon Crater Database · scientific data sonification · accessibility</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Why this case matters</h2>
+            <div class="why-card">
+                <span class="why-card-label">Design-engineering signal</span>
+                <ol>
+                    <li><strong>Shipped code-first.</strong> Python → MIDI → Logic Pro → JS / Web Audio. The interactive demo below is the output, not a mock.</li>
+                    <li><strong>AI-in-the-loop, honestly documented.</strong> Caught a perceptual bug the code couldn't see. The ear flagged the contradiction.</li>
+                    <li><strong>Perception-aligned mapping.</strong> Grounded in crossmodal research (Spence, 2011), not arbitrary parameter choices.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
             <div class="canvas-container" id="moonCanvasContainer" role="button" tabindex="0" aria-label="Interactive moon visualization — click to start sonification" aria-pressed="false">
                 <canvas id="moonCanvas" width="600" height="600" aria-hidden="true"></canvas>
             </div>
@@ -131,40 +186,28 @@
         </section>
 
         <section>
-            <h2 class="section-title">Why this case matters</h2>
-            <div class="why-card">
-                <span class="why-card-label">Design-engineering signal</span>
-                <ol>
-                    <li><strong>Shipped code-first.</strong> Python pipeline → MIDI → Logic Pro → JavaScript / Web Audio. The interactive demo above is the output, not a mock.</li>
-                    <li><strong>AI-in-the-loop, honestly documented.</strong> Caught a specific perceptual bug AI couldn't see — code reviewed itself fine, the ear flagged the contradiction.</li>
-                    <li><strong>Perception-aligned mapping.</strong> Grounded in crossmodal perception research (Spence, 2011) rather than arbitrary parameter choices.</li>
-                </ol>
-            </div>
+            <h2 class="section-title">Question</h2>
+            <p>Can sonification reveal patterns visual representation misses?</p>
         </section>
 
         <section>
-            <h2 class="section-title">Research Question</h2>
-            <p>How can sonification enhance perception of scientific data and reveal patterns not immediately visible in traditional representations?</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Methodology</h2>
-            <p>Approach inspired by Matt Russo's sonification work — scientific accuracy combined with perceptual clarity. Physical crater properties map to audible properties so that visual size and pitch reinforce, rather than contradict, each other.</p>
+            <h2 class="section-title">Mapping</h2>
+            <p>Inspired by Matt Russo. Crater properties map to audible ones so size and pitch reinforce each other rather than fight.</p>
             <div class="mappings">
                 <div class="mapping">
-                    <div class="mapping-name">Diameter → Pitch &amp; Duration</div>
+                    <div class="mapping-name">Diameter → pitch &amp; duration</div>
                     <div class="mapping-desc">Inverted: larger craters sound lower (110–330 Hz) and sustain longer (1.5–4.0 s).</div>
                 </div>
                 <div class="mapping">
-                    <div class="mapping-name">Latitude / Longitude → Position</div>
+                    <div class="mapping-name">Lat / lon → position</div>
                     <div class="mapping-desc">Impact location mapped to the visible sphere.</div>
                 </div>
                 <div class="mapping">
-                    <div class="mapping-name">Size → Volume</div>
-                    <div class="mapping-desc">Volume scaled to crater diameter (56–100).</div>
+                    <div class="mapping-name">Size → volume</div>
+                    <div class="mapping-desc">Volume scaled to diameter (56–100).</div>
                 </div>
             </div>
-            <p class="note">Dataset: 9 craters selected from ~9,000 catalogued formations based on parameter diversity (diameter 32–101 km, depth 1.0–4.7 km, age 108–3800 Ma) and geographical distribution.</p>
+            <p class="note">Dataset: 9 craters of ~9,000 catalogued, picked for parameter diversity (diameter 32–101 km, depth 1.0–4.7 km, age 108–3800 Ma) and geographical spread.</p>
         </section>
 
         <section>
@@ -217,19 +260,19 @@
                 <p class="flow-caption">Each stage independently testable. <a href="https://github.com/Pi-Kay/Open-Space-Sonification" target="_blank" class="link">Notebook, data, MIDI on GitHub →</a></p>
             </div>
             <img src="midi-temporal.webp" alt="MIDI temporal structure" class="midi-chart">
-            <p class="note" style="text-align:center;">MIDI temporal structure generated in Python.</p>
+            <p class="note" style="text-align:center;">MIDI temporal structure, generated in Python.</p>
         </section>
 
         <section>
-            <h2 class="section-title">AI–Human Collaboration</h2>
-            <p>During development I identified a critical error in AI-generated pitch values: tones weren't inversely correlated with visible crater sizes. Aristarchus (40 km) sounded higher than Kepler (32 km) — a contradiction the code didn't surface but the ear caught immediately. Required systematic recalculation:</p>
+            <h2 class="section-title">AI + human</h2>
+            <p>I caught a critical error in AI-generated pitch values: tones weren't inversely correlated with visible crater size. Aristarchus (40 km) sounded higher than Kepler (32 km). The code reviewed itself fine; the ear caught the contradiction. Required systematic recalculation:</p>
             <p><code>pitch = 330 − ((diameter − 32) / (101 − 32)) × 220</code></p>
-            <p class="note">Takeaway: AI handles code structure and arithmetic reliably. Human perception catches relationship inconsistencies. Effective collaboration requires iterative verification against perceptual goals — not only functional ones.</p>
+            <p class="note">AI handles structure and arithmetic. Human perception catches relationship inconsistencies. Effective collaboration means iterating against perceptual goals, not only functional ones.</p>
         </section>
 
         <section>
-            <h2 class="section-title">Audio Output</h2>
-            <p>Logic Pro composition using Orchestral Organ, Studio Grand, and Time Delay Synth. Layered soundscape addresses temporal compression — animation plays at 3–5 s between impacts; geological reality is millions of years.</p>
+            <h2 class="section-title">Audio</h2>
+            <p>Logic Pro composition: Orchestral Organ, Studio Grand, Time Delay Synth. Layered to address temporal compression — animation plays at 3–5 s between impacts; geological reality is millions of years.</p>
             <audio controls>
                 <source src="OpenSpaceAudio.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
@@ -238,24 +281,35 @@
 
         <section>
             <h2 class="section-title">Applications</h2>
-            <p>The pipeline pattern transfers to other NASA datasets (exoplanet discoveries, Mars seismic activity) and adjacent scientific domains — climate research, particle physics, biological signals. Sonification provides alternative access for visually impaired audiences; synchronised visuals support those with hearing differences.</p>
-        </section>
-
-        <section>
-            <h2 class="section-title">Tools</h2>
-            <p>Python (numpy, pandas, matplotlib, midiutil), Logic Pro, JavaScript / Web Audio API, Claude, Grok.</p>
+            <p>The pattern transfers to other NASA datasets (exoplanets, Mars seismic) and to climate, particle physics, biological signals. Sonification provides access for visually impaired audiences; synced visuals support hearing differences.</p>
         </section>
 
         <section>
             <h2 class="section-title">Reflection</h2>
-            <p>The mapping that works — larger craters sounding lower and longer — aligns with how the brain already connects size and pitch, grounded in physical acoustics and crossmodal perception research (Spence, 2011). When the mapping runs with that, rather than against it, the data becomes easier to hold.</p>
-            <p class="note">One limit the project couldn't resolve: geological time. Compressing millions of years into seconds produces a coherent animation but no felt sense of duration. That's a separate research question.</p>
+            <div class="reflection">
+                <p><strong>What works:</strong> larger craters sounding lower and longer aligns with how the brain already links size and pitch (Spence, 2011). The data becomes easier to hold when the mapping runs with perception, not against it.</p>
+            </div>
+            <div class="reflection">
+                <p><strong>Limit I couldn't resolve:</strong> geological time. Compressing millions of years into seconds produces a coherent animation but no felt sense of duration. Separate research question.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Tools</h2>
+            <div class="tech-list">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">numpy · pandas · matplotlib · midiutil</span>
+                <span class="tech-tag">Logic Pro</span>
+                <span class="tech-tag">JS · Web Audio API</span>
+                <span class="tech-tag">Claude</span>
+                <span class="tech-tag">Grok</span>
+            </div>
         </section>
 
         <div class="appendix">
             <section>
-                <h2 class="section-title">Appendix · Extended Dataset</h2>
-                <p>Initial exploration with 20 craters across the full parameter range (diameter 32–225 km, age 108–4000 Ma).</p>
+                <h2 class="section-title">Appendix · Extended dataset</h2>
+                <p>Earlier exploration with 20 craters across the full range (diameter 32–225 km, age 108–4000 Ma).</p>
                 <div class="btn-group">
                     <button id="btnName">Name</button>
                     <button id="btnDiameter">Diameter</button>
