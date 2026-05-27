@@ -5,20 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="UX analysis and design documentation for System Forge — a SysML v2 modeling tool.">
     <title>System Forge · UX Analysis &amp; Documentation — Petra Kühnle</title>
-
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== SYSTEMFORGE-SPECIFIC =====
-           Uses softened semantic accents from style.css:
-           --accent-neutral  (slate blue, replaces #1565c0)
-           --accent-positive (forest,   replaces #2e7d32)
-           --accent-warn     (ochre,    replaces #f57c00)
-           These carry information-design meaning: neutral = principle,
-           positive = learnability / flexible / open, warn = challenge / fixed. */
-
-        /* TL;DR */
+        /* ===== SYSTEMFORGE-SPECIFIC ===== */
         .tldr {
             background: var(--bg-raised);
             border-left: 3px solid var(--accent-neutral);
@@ -29,544 +20,274 @@
             font-size: 0.7em; font-weight: 600; letter-spacing: 1.5px;
             text-transform: uppercase; color: var(--accent-neutral); margin-bottom: 8px;
         }
-        .tldr p {
-            font-size: 0.95em; color: var(--ink); margin: 0; line-height: 1.55;
-        }
+        .tldr p { font-size: 0.95em; color: var(--ink); margin: 0; line-height: 1.55; }
         .tldr p + p { margin-top: 8px; }
 
         /* Role summary */
         .role-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin: 16px 0;
-            padding: 16px;
-            background: var(--bg-sunken);
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin: 16px 0;
+            padding: 16px; background: var(--bg-sunken);
             border-left: 3px solid var(--accent-neutral);
         }
         .role-item strong {
-            font-size: 0.75em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--ink-muted);
-            display: block;
-            margin-bottom: 4px;
+            font-size: 0.75em; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--ink-muted);
+            display: block; margin-bottom: 4px;
         }
-        .role-item span {
-            font-size: 0.9em;
-            color: var(--ink);
-        }
+        .role-item span { font-size: 0.9em; color: var(--ink); }
 
-        /* Challenge box (warn accent) */
-        .challenge-box {
-            background: var(--accent-warn-bg);
-            border: 1px solid var(--hairline);
-            border-left: 3px solid var(--accent-warn);
-            padding: 20px;
-            margin: 16px 0;
-        }
-        .challenge-box h3 {
-            font-size: 0.9em;
-            font-weight: 600;
-            color: var(--accent-warn);
-            margin-bottom: 10px;
-        }
-        .challenge-box p {
-            font-size: 0.9em;
-            color: var(--accent-warn-ink);
-            margin: 0;
-        }
-
-        /* Learnability goal (positive accent) */
+        /* Learnability goal */
         .learnability-goal {
             background: var(--accent-positive-bg);
             border: 1px solid var(--hairline);
             border-left: 3px solid var(--accent-positive);
-            padding: 20px;
-            margin: 16px 0;
+            padding: 20px; margin: 16px 0;
         }
         .learnability-goal h3 {
-            font-size: 0.9em;
-            font-weight: 600;
-            color: var(--accent-positive);
-            margin-bottom: 12px;
+            font-size: 0.9em; font-weight: 600;
+            color: var(--accent-positive); margin-bottom: 12px;
         }
-        .user-types {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
+        .user-types { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .user-type {
-            background: var(--bg-raised);
-            padding: 14px;
+            background: var(--bg-raised); padding: 14px;
             border-left: 3px solid var(--accent-positive);
         }
         .user-type strong {
-            font-size: 0.85em;
-            display: block;
-            margin-bottom: 4px;
-            color: var(--ink);
+            font-size: 0.85em; display: block;
+            margin-bottom: 4px; color: var(--ink);
         }
-        .user-type p {
-            font-size: 0.8em;
-            color: var(--ink-soft);
-            margin: 0;
-        }
+        .user-type p { font-size: 0.8em; color: var(--ink-soft); margin: 0; }
 
         /* Process steps */
         .process-steps {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin: 16px 0;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0;
         }
         .process-step {
-            padding: 14px;
-            background: var(--bg-raised);
-            border-top: 3px solid var(--hairline);
-            text-align: center;
+            padding: 14px; background: var(--bg-raised);
+            border-top: 3px solid var(--hairline); text-align: center;
         }
         .process-step.complete { border-top-color: var(--accent-positive); }
         .process-step .num {
-            font-size: 0.7em;
-            font-weight: 600;
-            color: var(--ink-faint);
-            display: block;
-            margin-bottom: 4px;
+            font-size: 0.7em; font-weight: 600;
+            color: var(--ink-faint); display: block; margin-bottom: 4px;
         }
-        .process-step strong {
-            font-size: 0.85em;
-            display: block;
-            margin-bottom: 4px;
-            color: var(--ink);
-        }
-        .process-step p {
-            font-size: 0.75em;
-            color: var(--ink-muted);
-            margin: 0;
-        }
+        .process-step strong { font-size: 0.85em; display: block; margin-bottom: 4px; color: var(--ink); }
+        .process-step p { font-size: 0.75em; color: var(--ink-muted); margin: 0; }
 
         /* Screenshot annotation */
         .screenshot-annotation {
-            border: 1px solid var(--hairline);
-            margin: 20px 0;
-            background: var(--bg-raised);
+            border: 1px solid var(--hairline); margin: 20px 0; background: var(--bg-raised);
         }
         .screenshot-header {
-            padding: 12px 16px;
-            background: var(--bg-sunken);
+            padding: 12px 16px; background: var(--bg-sunken);
             border-bottom: 1px solid var(--hairline);
-            font-size: 0.85em;
-            font-weight: 600;
-            color: var(--ink);
+            font-size: 0.85em; font-weight: 600; color: var(--ink);
         }
         .screenshot-body { padding: 20px; }
-        .screenshot-image {
-            margin-bottom: 16px;
-            text-align: center;
-        }
+        .screenshot-image { margin-bottom: 16px; text-align: center; }
         .screenshot-image img {
-            max-width: 100%;
-            border: 1px solid var(--hairline);
-            border-radius: 4px;
+            max-width: 100%; border: 1px solid var(--hairline); border-radius: 4px;
         }
-        .annotation-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+        .annotation-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .annotation-item {
-            padding: 12px;
-            background: var(--bg-raised);
+            padding: 12px; background: var(--bg-raised);
             border-left: 3px solid var(--accent-neutral);
         }
         .annotation-item.strength { border-left-color: var(--accent-positive); }
         .annotation-item.consideration { border-left-color: var(--accent-warn); }
         .annotation-item strong {
-            font-size: 0.8em;
-            display: block;
-            margin-bottom: 4px;
-            color: var(--ink);
+            font-size: 0.8em; display: block; margin-bottom: 4px; color: var(--ink);
         }
         .annotation-item p {
-            font-size: 0.78em;
-            color: var(--ink-soft);
-            margin: 0;
-            line-height: 1.5;
+            font-size: 0.78em; color: var(--ink-soft);
+            margin: 0; line-height: 1.5;
         }
         .annotation-item .tag {
-            display: inline-block;
-            font-size: 0.65em;
-            padding: 2px 6px;
-            background: var(--bg-sunken);
-            color: var(--ink-muted);
-            margin-top: 6px;
-            border-radius: 2px;
+            display: inline-block; font-size: 0.65em;
+            padding: 2px 6px; background: var(--bg-sunken);
+            color: var(--ink-muted); margin-top: 6px; border-radius: 2px;
         }
 
         /* Principles grid */
         .principles-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 16px 0;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin: 16px 0;
         }
         .principle-card {
-            display: flex;
-            gap: 10px;
-            padding: 12px;
+            display: flex; gap: 10px; padding: 12px;
             background: var(--bg-raised);
             border-left: 3px solid var(--accent-neutral);
         }
         .principle-card.learnability { border-left-color: var(--accent-positive); }
         .principle-num {
-            font-size: 0.75em;
-            font-weight: 600;
-            color: var(--ink-faint);
-            min-width: 20px;
+            font-size: 0.75em; font-weight: 600;
+            color: var(--ink-faint); min-width: 20px;
         }
         .principle-content strong {
-            font-size: 0.85em;
-            color: var(--ink);
-            display: block;
-            margin-bottom: 2px;
+            font-size: 0.85em; color: var(--ink);
+            display: block; margin-bottom: 2px;
         }
         .principle-content p {
-            font-size: 0.75em;
-            color: var(--ink-soft);
-            line-height: 1.4;
-            margin: 0;
+            font-size: 0.75em; color: var(--ink-soft); line-height: 1.4; margin: 0;
         }
         .principle-source { font-size: 0.65em; color: var(--ink-faint); }
 
-        /* Constraint detail tables */
+        /* Constraint tables */
         .constraint-detail { margin: 20px 0; }
         .constraint-detail-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
         }
         .constraint-detail-header .label {
-            font-size: 0.7em;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 2px;
+            font-size: 0.7em; font-weight: 600;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 2px;
         }
         .constraint-detail-header .label.fixed { background: var(--bg-sunken); color: var(--ink-muted); }
         .constraint-detail-header .label.flexible { background: var(--accent-positive-bg); color: var(--accent-positive); }
-        .constraint-detail-header h4 {
-            font-size: 0.9em;
-            font-weight: 600;
-            color: var(--ink);
-        }
-        .constraint-detail-intro {
-            font-size: 0.85em;
-            color: var(--ink-soft);
-            margin-bottom: 12px;
-        }
+        .constraint-detail-header h4 { font-size: 0.9em; font-weight: 600; color: var(--ink); }
+        .constraint-detail-intro { font-size: 0.85em; color: var(--ink-soft); margin-bottom: 12px; }
         .constraint-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.82em;
-            border: 1px solid var(--hairline);
+            width: 100%; border-collapse: collapse;
+            font-size: 0.82em; border: 1px solid var(--hairline);
         }
         .constraint-table thead { background: var(--bg-sunken); }
         .constraint-table.flexible thead { background: var(--accent-positive-bg); }
         .constraint-table th {
-            text-align: left;
-            padding: 10px 12px;
-            font-size: 0.75em;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: var(--ink-muted);
-            border-bottom: 1px solid var(--hairline);
+            text-align: left; padding: 10px 12px;
+            font-size: 0.75em; font-weight: 600;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            color: var(--ink-muted); border-bottom: 1px solid var(--hairline);
         }
         .constraint-table.flexible th { color: var(--accent-positive); }
         .constraint-table td {
-            padding: 9px 12px;
-            border-bottom: 1px solid var(--hairline);
-            color: var(--ink-soft);
-            vertical-align: top;
+            padding: 9px 12px; border-bottom: 1px solid var(--hairline);
+            color: var(--ink-soft); vertical-align: top;
         }
         .constraint-table tr:last-child td { border-bottom: none; }
-        .constraint-table td:first-child {
-            font-weight: 500;
-            color: var(--ink);
-            width: 35%;
-        }
+        .constraint-table td:first-child { font-weight: 500; color: var(--ink); width: 35%; }
         .constraint-boundary-note {
             background: var(--accent-warn-bg);
             border-left: 3px solid var(--accent-warn);
-            padding: 12px 14px;
-            margin: 16px 0;
-            font-size: 0.85em;
-            color: var(--accent-warn-ink);
+            padding: 12px 14px; margin: 16px 0;
+            font-size: 0.85em; color: var(--accent-warn-ink);
         }
         .constraint-boundary-note strong { color: var(--accent-warn); }
 
-        /* Summary box */
-        .summary-box {
-            background: var(--bg-sunken);
-            border: 1px solid var(--hairline);
-            padding: 16px;
-            margin: 16px 0;
-        }
-        .summary-box h4 {
-            font-size: 0.85em;
-            margin-bottom: 10px;
-            color: var(--ink);
-        }
-        .summary-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        .summary-item {
-            font-size: 0.8em;
-            padding: 8px 10px;
-            background: var(--bg-raised);
-            border-left: 2px solid var(--accent-positive);
-            color: var(--ink-soft);
-        }
-
-        /* Roadmap */
-        .roadmap-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin: 16px 0;
-        }
-        @media (max-width: 1100px) {
-            .roadmap-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        .roadmap-item {
-            padding: 16px;
-            background: var(--bg-raised);
-            border-left: 3px solid var(--accent-neutral);
-        }
-        .roadmap-item.complete {
-            border-left-color: var(--accent-positive);
-            background: var(--accent-positive-bg);
-        }
-        .roadmap-item .phase {
-            font-size: 0.7em;
-            font-weight: 600;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .roadmap-item strong {
-            font-size: 0.9em;
-            display: block;
-            margin-bottom: 6px;
-            color: var(--ink);
-        }
-        .roadmap-item p {
-            font-size: 0.8em;
-            color: var(--ink-soft);
-            margin: 0;
-        }
-        .roadmap-item .status {
-            font-size: 0.7em;
-            margin-top: 8px;
-            padding: 3px 8px;
-            display: inline-block;
-            border-radius: 3px;
-        }
-        .status.done { background: var(--accent-positive-bg); color: var(--accent-positive); }
-        .status.current { background: var(--accent-neutral-bg); color: var(--accent-neutral); }
-        .status.next { background: var(--bg-sunken); color: var(--ink-muted); }
-
         /* Recommendations box */
         .recommendations-box {
-            margin: 24px 0 0;
-            padding: 20px 22px;
+            margin: 24px 0 0; padding: 20px 22px;
             background: var(--accent-positive-bg);
             border: 1px solid var(--hairline);
             border-left: 3px solid var(--accent-positive);
         }
         .recommendations-box h3 {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: var(--accent-positive);
-            margin-bottom: 6px;
+            font-size: 0.95em; font-weight: 600;
+            color: var(--accent-positive); margin-bottom: 6px;
         }
         .recommendations-intro {
-            font-size: 0.85em;
-            color: var(--ink-soft);
-            margin-bottom: 14px;
+            font-size: 0.85em; color: var(--ink-soft); margin-bottom: 14px;
         }
         .recommendations-list { margin: 0; padding-left: 20px; list-style: decimal; }
         .recommendations-list li {
-            font-size: 0.85em;
-            color: var(--ink-soft);
-            line-height: 1.55;
-            margin-bottom: 10px;
-            padding-left: 0;
+            font-size: 0.85em; color: var(--ink-soft);
+            line-height: 1.55; margin-bottom: 10px; padding-left: 0;
         }
         .recommendations-list li:before { content: none; }
         .recommendations-list li:last-child { margin-bottom: 0; }
         .recommendations-list li strong { color: var(--ink); font-weight: 600; }
 
-        /* Deliverables */
-        .deliverables-list { margin: 16px 0; }
-        .deliverable-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            border-bottom: 1px solid var(--hairline);
-        }
-        .deliverable-item:last-child { border-bottom: none; }
-        .deliverable-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-sunken);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-        }
-        .deliverable-info strong {
-            font-size: 0.85em;
-            display: block;
-            margin-bottom: 2px;
-            color: var(--ink);
-        }
-        .deliverable-info span {
-            font-size: 0.75em;
-            color: var(--ink-muted);
-        }
-
         /* Reflection */
         .reflection {
-            background: var(--bg-sunken);
-            border: 1px solid var(--hairline);
-            padding: 16px;
-            margin: 12px 0;
+            background: var(--bg-sunken); border: 1px solid var(--hairline);
+            padding: 16px; margin: 12px 0;
         }
-        .reflection p {
-            margin-bottom: 0;
-            font-size: 0.85em;
-        }
+        .reflection p { margin-bottom: 0; font-size: 0.85em; }
 
         /* Sources strip */
         .sources-strip {
-            background: var(--bg-sunken);
-            border: 1px solid var(--hairline);
+            background: var(--bg-sunken); border: 1px solid var(--hairline);
             border-left: 3px solid var(--accent-neutral);
-            padding: 14px 16px;
-            margin: 16px 0;
+            padding: 14px 16px; margin: 16px 0;
         }
         .sources-strip-label {
-            font-size: 0.7em;
-            font-weight: 600;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--accent-neutral);
-            margin-bottom: 8px;
+            font-size: 0.7em; font-weight: 600;
+            letter-spacing: 1.2px; text-transform: uppercase;
+            color: var(--accent-neutral); margin-bottom: 8px;
         }
         .sources-strip-content {
-            font-size: 0.82em;
-            color: var(--ink-soft);
-            line-height: 1.55;
+            font-size: 0.82em; color: var(--ink-soft); line-height: 1.55;
         }
         .sources-strip-content strong { color: var(--ink); font-weight: 600; }
 
         /* Design space visual */
         .design-space-visual {
-            margin: 20px 0 8px;
-            padding: 24px 20px 16px;
-            background: var(--bg-sunken);
-            border: 1px solid var(--hairline);
+            margin: 20px 0 8px; padding: 24px 20px 16px;
+            background: var(--bg-sunken); border: 1px solid var(--hairline);
         }
         .design-space-visual svg {
-            display: block;
-            width: 100%;
-            height: auto;
-            max-width: 720px;
-            margin: 0 auto;
+            display: block; width: 100%; height: auto;
+            max-width: 720px; margin: 0 auto;
         }
         .design-space-caption {
-            text-align: center;
-            font-size: 0.8em;
-            color: var(--ink-muted);
-            margin-top: 14px;
-            max-width: 560px;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: center; font-size: 0.8em;
+            color: var(--ink-muted); margin-top: 14px;
+            max-width: 560px; margin-left: auto; margin-right: auto;
             line-height: 1.5;
         }
         .design-space-caption strong { color: var(--accent-positive); font-weight: 600; }
 
-        /* Next case study card */
-        .next-case-card {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 18px 22px;
-            margin: 16px 0;
+        /* ===== SHARED ADDITIONS: Why card + flow diagram ===== */
+        .why-card {
+            border: 1px solid var(--ink);
             background: var(--bg-raised);
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+        .why-card-label {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.7em; font-weight: 600;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--ink); margin-bottom: 12px; display: block;
+        }
+        .why-card ol { margin: 0; padding-left: 20px; list-style: decimal; }
+        .why-card ol li {
+            font-size: 0.92em; margin-bottom: 6px;
+            padding-left: 4px; color: var(--ink-soft);
+        }
+        .why-card ol li:before { content: none; }
+        .why-card ol li strong { color: var(--ink); font-weight: 600; }
+
+        .flow-diagram {
+            background: #ffffff;
             border: 1px solid var(--hairline);
-            border-left: 3px solid var(--accent-neutral);
+            padding: 28px 20px;
+            margin: 20px 0;
         }
-        .next-case-meta {
-            font-size: 0.7em;
-            font-weight: 600;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--accent-neutral);
+        .flow-diagram svg { display: block; width: 100%; height: auto; max-width: 920px; margin: 0 auto; }
+        .flow-caption {
+            text-align: center; font-size: 0.8em;
+            color: var(--ink-muted); margin-top: 14px; font-style: italic;
         }
-        .next-case-card strong {
-            font-size: 1em;
-            color: var(--ink);
-        }
-        .next-case-card p {
-            font-size: 0.88em;
-            color: var(--ink-soft);
-            margin: 0;
-            line-height: 1.55;
-        }
-        .next-case-link {
-            font-size: 0.82em;
-            color: var(--accent-neutral);
-            margin-top: 6px;
-            font-weight: 500;
-        }
+        .flow-diagram svg text { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
+        .flow-diagram svg .mono { font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
 
-        /* Thesis pull-quote */
-        .thesis-quote {
-            margin: 24px 0;
-            padding: 18px 24px;
-            border-left: 3px solid var(--accent-neutral);
-            background: var(--bg-sunken);
-            font-size: 1.05em;
-            color: var(--ink);
-            font-style: italic;
-            line-height: 1.5;
+        /* Deliverables list (kept, simplified) */
+        .deliverables-list { margin: 16px 0; }
+        .deliverable-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; border-bottom: 1px solid var(--hairline);
         }
-        .thesis-quote::before { content: "\201C"; color: var(--accent-neutral); font-size: 1.3em; margin-right: 2px; }
-        .thesis-quote::after { content: "\201D"; color: var(--accent-neutral); font-size: 1.3em; margin-left: 2px; }
-
-        /* Override project's em-dash bullets for structured lists inside cards */
-        .user-types li,
-        .summary-list .summary-item,
-        .deliverables-list li,
-        .skills-grid li {
-            padding-left: 0;
+        .deliverable-item:last-child { border-bottom: none; }
+        .deliverable-icon {
+            width: 36px; height: 36px;
+            background: var(--bg-sunken); border-radius: 4px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8em;
         }
-        .user-types li:before,
-        .summary-list .summary-item:before,
-        .deliverables-list li:before,
-        .skills-grid li:before {
-            content: none;
+        .deliverable-info strong {
+            font-size: 0.85em; display: block; margin-bottom: 2px; color: var(--ink);
         }
+        .deliverable-info span { font-size: 0.75em; color: var(--ink-muted); }
 
         @media (max-width: 768px) {
             .role-summary { grid-template-columns: 1fr; }
@@ -574,9 +295,7 @@
             .process-steps { grid-template-columns: repeat(2, 1fr); }
             .user-types { grid-template-columns: 1fr; }
             .annotation-list { grid-template-columns: 1fr; }
-            .roadmap-grid { grid-template-columns: 1fr; }
             .recommendations-box { padding: 16px; }
-            .summary-list { grid-template-columns: 1fr; }
             .constraint-table { font-size: 0.78em; }
             .constraint-table td, .constraint-table th { padding: 8px 10px; }
         }
@@ -585,32 +304,40 @@
 <body class="project wide">
     <header>
         <h1>⬠ System Forge · UX Analysis &amp; Learnability</h1>
-        <p>Making SysML v2 learnable through UX</p>
+        <p>Making SysML v2 learnable through UX.</p>
         <p class="meta">2026 · UX input for side project of Cauê Napier, Systems Engineer at Swedish Space Corporation</p>
     </header>
-
     <main>
         <section>
-
             <div class="role-summary">
                 <div class="role-item">
                     <strong>Role</strong>
-                    <span>UX Analysis, Design Principles Draft, Solution Sketches</span>
+                    <span>UX analysis · design principles · solution sketches</span>
                 </div>
                 <div class="role-item">
                     <strong>Duration</strong>
                     <span>Ongoing (2026–present)</span>
                 </div>
                 <div class="role-item">
-                    <strong>Deliverables & Results</strong>
-                    <span>Analysis, Principles, recommendations to enhance UX and learnability</span>
+                    <strong>Deliverables</strong>
+                    <span>Analysis · principles · learnability recommendations</span>
                 </div>
-
                 <div class="role-item">
-                <strong>Context</strong>
-                  <span>SysML is short for Systems Systems modeling language for systems engineering applications. The release of v2.0 in July 2025 has a new capability of textual AND graphic notation.</span><a href="https://en.wikipedia.org/wiki/Systems_modeling_language">Source</a>
+                    <strong>Context</strong>
+                    <span>SysML v2 — released July 2025. New capability: textual <em>and</em> graphic notation.</span>
+                </div>
             </div>
+        </section>
 
+        <section>
+            <h2 class="section-title">Why this case matters</h2>
+            <div class="why-card">
+                <span class="why-card-label">Design-engineering signal</span>
+                <ol>
+                    <li><strong>Reframed the scope.</strong> Brief was "support the product with UX — review screens." Outcome is principles + audit + roadmap. Principles outlive screens.</li>
+                    <li><strong>Designing inside a specification.</strong> Separated what the SysML v2 standard fixes from what tooling can innovate — rare skill for B2B / enterprise design.</li>
+                    <li><strong>MBSE domain literacy.</strong> SysML v2, systems-of-systems modelling, B2B expert workflows — domain depth that generic frontend candidates don't have.</li>
+                </ol>
             </div>
         </section>
 
@@ -618,13 +345,11 @@
             <h2 class="section-title">Problem Definition</h2>
             <p>The goal: make SysML v2 modeling accessible without requiring a course first. SysML v2 (released September 2025) specifies element semantics and core notation, but leaves presentation and interaction to individual tools. The interface must teach a complex modeling language while respecting a strict specification — so every design decision must distinguish between <em>what the standard requires</em> and <em>where tooling can innovate</em>.</p>
 
-            
             <div class="design-space-visual">
                 <svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing SysML v2 specification on the left (element types, relationships, notation, diagram types, syntax) and the tool design space on the right (color, layout, navigation, tooltips, filtering, search, edge routing, labels, animation).">
                     <rect x="20" y="30" width="300" height="200" rx="4" fill="#efece5" stroke="#d9d4ca" stroke-width="1.5"/>
                     <text x="170" y="55" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#7a756d">FIXED BY SPECIFICATION</text>
                     <text x="170" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">SysML v2 semantics</text>
-
                     <g font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#4a4641">
                         <rect x="40" y="95" width="100" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="90" y="111" text-anchor="middle">Element types</text>
@@ -639,16 +364,12 @@
                         <rect x="160" y="165" width="130" height="24" rx="12" fill="#fbfaf7" stroke="#d9d4ca" stroke-width="1"/>
                         <text x="225" y="181" text-anchor="middle">Textual syntax</text>
                     </g>
-
                     <text x="170" y="215" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#7a756d">Interoperable across tools</text>
-
                     <line x1="340" y1="50" x2="340" y2="230" stroke="#a67849" stroke-width="2" stroke-dasharray="4,4"/>
                     <text x="340" y="22" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="9" font-weight="600" fill="#a67849">boundary</text>
-
                     <rect x="360" y="30" width="340" height="200" rx="4" fill="#eef2ec" stroke="#b8b1a4" stroke-width="1.5"/>
                     <text x="530" y="55" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-weight="600" letter-spacing="1.2" fill="#6b8761">OPEN TO DESIGN</text>
                     <text x="530" y="72" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="500" fill="#2a2824">Tool presentation &amp; interaction</text>
-
                     <g font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#6b8761">
                         <rect x="380" y="95" width="70" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="415" y="111" text-anchor="middle">Color</text>
@@ -669,25 +390,48 @@
                         <rect x="580" y="165" width="90" height="24" rx="12" fill="#fbfaf7" stroke="#b8b1a4" stroke-width="1"/>
                         <text x="625" y="181" text-anchor="middle">Animation</text>
                     </g>
-
                     <text x="530" y="215" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10" font-style="italic" fill="#4a4641">Where learnability is designed in</text>
                 </svg>
                 <p class="design-space-caption">The standard fixes semantics. Everything else is the <strong>tool design space</strong> — and that's where the work happens.</p>
             </div>
         </section>
-        
 
         <section>
             <h2 class="section-title">Framing and Reframing</h2>
-            <p><strong>Initial framing:</strong> Support the product with UX — review screens, improve layouts.</p>
-            <p><strong>The reframe:</strong> Before reviewing screens, define what principles those screens should follow, with learnability as the primary lens. SysML v2 specifies semantics; presentation is where learning happens.</p>
-            <p><strong>What changed:</strong> The work became scoped to design foundations, not screen fixes — principles, an interface audit mapped to those principles, and a roadmap. Principles outlive individual screens.</p>
+            <div class="flow-diagram">
+                <svg viewBox="0 0 920 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Reframe flow: initial brief to reframe to outcome">
+                    <text x="155" y="32" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">01 — BRIEF</text>
+                    <text x="460" y="32" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">02 — REFRAME</text>
+                    <text x="765" y="32" text-anchor="middle" font-size="9" fill="#999" class="mono" letter-spacing="1.5">03 — OUTCOME</text>
 
+                    <rect x="20" y="50" width="270" height="86" fill="#fff" stroke="#000" stroke-width="1.2"/>
+                    <text x="155" y="80" text-anchor="middle" font-size="13" font-weight="500" fill="#000">"Review screens.</text>
+                    <text x="155" y="98" text-anchor="middle" font-size="13" font-weight="500" fill="#000">Improve layouts."</text>
+                    <text x="155" y="120" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Original ask</text>
+
+                    <line x1="295" y1="93" x2="320" y2="93" stroke="#000" stroke-width="1.2"/>
+                    <polygon points="320,88 330,93 320,98" fill="#000"/>
+
+                    <rect x="335" y="50" width="250" height="86" fill="#fff" stroke="#000" stroke-width="1.2"/>
+                    <text x="460" y="78" text-anchor="middle" font-size="12" font-weight="500" fill="#000">Define principles first.</text>
+                    <text x="460" y="96" text-anchor="middle" font-size="12" font-weight="500" fill="#000">Learnability as the lens.</text>
+                    <text x="460" y="120" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Spec fixes meaning; presentation teaches.</text>
+
+                    <line x1="590" y1="93" x2="615" y2="93" stroke="#000" stroke-width="1.2"/>
+                    <polygon points="615,88 625,93 615,98" fill="#000"/>
+
+                    <rect x="630" y="50" width="270" height="86" fill="#000" stroke="#000" stroke-width="1.2"/>
+                    <text x="765" y="78" text-anchor="middle" font-size="12" font-weight="500" fill="#fff">Principles · audit · roadmap.</text>
+                    <text x="765" y="96" text-anchor="middle" font-size="12" font-weight="500" fill="#fff">Design foundations, not fixes.</text>
+                    <text x="765" y="120" text-anchor="middle" font-size="10" fill="#ccc" font-style="italic">Outlives any individual screen.</text>
+                </svg>
+                <p class="flow-caption">Reframing the brief is the most consequential design decision in the project.</p>
+            </div>
+        </section>
 
         <section>
             <h2 class="section-title">Two Audiences, One Interface</h2>
             <p>The tool must serve two distinct learning paths simultaneously — and the interface itself has to do the teaching.</p>
-
             <div class="learnability-goal">
                 <h3>Designing for learnability</h3>
                 <div class="user-types">
@@ -704,49 +448,41 @@
         </section>
 
         <section>
-           
+            <h2 class="section-title">Process</h2>
             <div class="process-steps">
                 <div class="process-step complete">
-                    <span class="num">01</span>
-                    <strong>Principles</strong>
+                    <span class="num">01</span><strong>Principles</strong>
                     <p>Values &amp; decision criteria</p>
                 </div>
                 <div class="process-step complete">
-                    <span class="num">02</span>
-                    <strong>Interface Analysis</strong>
+                    <span class="num">02</span><strong>Interface Analysis</strong>
                     <p>Current state audit</p>
                 </div>
                 <div class="process-step">
-                    <span class="num">03</span>
-                    <strong>Information Architecture</strong>
+                    <span class="num">03</span><strong>Information Architecture</strong>
                     <p>Content hierarchy</p>
                 </div>
                 <div class="process-step">
-                    <span class="num">04</span>
-                    <strong>Onboarding</strong>
+                    <span class="num">04</span><strong>Onboarding</strong>
                     <p>First-run experience</p>
                 </div>
                 <div class="process-step">
-                    <span class="num">05</span>
-                    <strong>Design Foundations</strong>
+                    <span class="num">05</span><strong>Design Foundations</strong>
                     <p>Tokens &amp; patterns</p>
                 </div>
             </div>
-
-            <p>The order is intentional. Principles make decisions defensible rather than arbitrary. Analysis reveals where principles are supported and where gaps exist. IA defines where things live. Interaction works out how users move through tasks. Only at the end does a design system lock in component-level decisions — tokens are expensive to change once in production.</p>
+            <p>The order is intentional. Principles make decisions defensible rather than arbitrary. Analysis reveals where principles are supported and where gaps exist. IA defines where things live. Only at the end does a design system lock in component-level decisions — tokens are expensive to change once in production.</p>
         </section>
 
         <section>
             <h2 class="section-title">Design Principles</h2>
-            <p>Ten principles synthesized from UX and information design literature, then reviewed with Cauê to ensure each held up against how systems engineers actually work. Not invented — curated from existing theory and mapped onto System Forge's context. <span style="color: var(--accent-positive); font-weight: 500;">Green</span> marks principles that directly support learnability.</p>
-
+            <p>Ten principles synthesized from UX and information design literature, then reviewed with Cauê to ensure each held up against how systems engineers actually work. <span style="color: var(--accent-positive); font-weight: 500;">Green</span> marks principles that directly support learnability.</p>
             <div class="sources-strip">
                 <div class="sources-strip-label">Synthesized from</div>
                 <div class="sources-strip-content">
                     <strong>Tufte</strong> (data-ink, layering, small multiples) · <strong>Bertin</strong> (visual variables) · <strong>Nielsen</strong> (usability heuristics) · <strong>Shneiderman</strong> (overview + detail, linked views) · <strong>Norman</strong> (affordances, safe exploration) · <strong>Cognitive load theory</strong> (Sweller, Miller) · <strong>SysML v2 specification</strong> · domain review with a practicing systems engineer.
                 </div>
             </div>
-
             <div class="principles-grid">
                 <div class="principle-card">
                     <div class="principle-num">01</div>
@@ -824,37 +560,29 @@
         <section>
             <h2 class="section-title">SysML v2 Constraint Map</h2>
             <p>Where the specification constrains design, and where tooling can innovate. Shape and semantics are fixed by the standard. Presentation is where learnability improvements happen.</p>
-
             <div class="constraint-detail">
                 <div class="constraint-detail-header">
                     <span class="label fixed">Fixed</span>
                     <h4>Must follow SysML v2 specification</h4>
                 </div>
-                <p class="constraint-detail-intro">These elements carry semantic meaning. Changing their representation breaks interoperability and confuses engineers familiar with the spec.</p>
                 <table class="constraint-table fixed">
                     <thead>
                         <tr><th>Element</th><th>Standard Representation</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Part def</td><td>Rectangle with «part def» keyword</td></tr>
-                        <tr><td>Part usage</td><td>Rectangle with «part» keyword, shows type</td></tr>
+                        <tr><td>Part def / Part usage</td><td>Rectangle with «part def» / «part» keyword</td></tr>
                         <tr><td>Composition</td><td>Filled diamond on parent end</td></tr>
-                        <tr><td>Port</td><td>Small square on block edge</td></tr>
-                        <tr><td>Connector</td><td>Line between ports</td></tr>
+                        <tr><td>Port / Connector</td><td>Small square on block edge / line between ports</td></tr>
                         <tr><td>Requirement</td><td>Rectangle with «requirement», id field</td></tr>
-                        <tr><td>State</td><td>Rounded rectangle</td></tr>
-                        <tr><td>Transition</td><td>Arrow between states with trigger label</td></tr>
-                        <tr><td>Initial / end state</td><td>Filled circle / bullseye</td></tr>
+                        <tr><td>State / Transition</td><td>Rounded rectangle / arrow with trigger label</td></tr>
                     </tbody>
                 </table>
             </div>
-
             <div class="constraint-detail">
                 <div class="constraint-detail-header">
                     <span class="label flexible">Flexible</span>
                     <h4>Open to design — presentation choices</h4>
                 </div>
-                <p class="constraint-detail-intro">These aspects are not specified. Where tooling differentiates and where learnability improvements happen — without changing model meaning.</p>
                 <table class="constraint-table flexible">
                     <thead>
                         <tr><th>Aspect</th><th>Design Freedom</th></tr>
@@ -862,58 +590,22 @@
                     <tbody>
                         <tr><td>Color</td><td>Not specified. Can encode element type, subsystem, status, health.</td></tr>
                         <tr><td>Size</td><td>Can encode information (node size = child count, criticality).</td></tr>
-                        <tr><td>Layout</td><td>Auto-layout algorithm, spacing, alignment are design choices.</td></tr>
+                        <tr><td>Layout &amp; edge routing</td><td>Auto-layout algorithm, spacing, alignment, orthogonal vs. curved, bundling.</td></tr>
                         <tr><td>Hierarchy display</td><td>Containment vs. separate diagrams.</td></tr>
-                        <tr><td>Edge routing</td><td>Orthogonal vs. curved. Bundling. Crossing minimization.</td></tr>
-                        <tr><td>Labels</td><td>Defaults, truncation, hover expansion.</td></tr>
-                        <tr><td>Filtering</td><td>What's visible by default. Filter UI design.</td></tr>
-                        <tr><td>Animation</td><td>Transitions between states. Zoom behavior.</td></tr>
+                        <tr><td>Labels, filtering, animation</td><td>Defaults, truncation, hover expansion; what's visible; transitions and zoom behaviour.</td></tr>
                     </tbody>
                 </table>
             </div>
-
             <div class="constraint-boundary-note">
                 <strong>The boundary matters:</strong> Shape is fixed. Color, size, and layout are presentation. Keeping the layers orthogonal — shape = type, color = status, size = magnitude — means each reads independently without visual conflict.
             </div>
         </section>
 
         <section>
-            <h2 class="section-title">Interface Analysis: Annotated Examples</h2>
-            <p>The audit evaluated first impressions and key workflow moments. Two representative examples below.</p>
-
+            <h2 class="section-title">Interface Analysis</h2>
+            <p>The audit evaluated first impressions and key workflow moments. Representative example below.</p>
             <div class="screenshot-annotation">
-                <div class="screenshot-header">Example 1: Main Interface Layout</div>
-                <div class="screenshot-body">
-                    <div class="screenshot-image">
-                        <img src="sf-main-interface.webp" alt="System Forge main interface with sidebar and package tree">
-                    </div>
-                    <div class="annotation-list">
-                        <div class="annotation-item strength">
-                            <strong>✓ Clear layout structure</strong>
-                            <p>Users can identify where tools and diagrams appear. Sidebar icons logically separated by function.</p>
-                            <span class="tag">Supports: Jakob's Law</span>
-                        </div>
-                        <div class="annotation-item strength">
-                            <strong>✓ Restrained color scheme</strong>
-                            <p>More modern than most systems engineering tools on first impression. Minimal clutter supports focus.</p>
-                            <span class="tag">Supports: Professional trust</span>
-                        </div>
-                        <div class="annotation-item consideration">
-                            <strong>→ Sidebar icon differentiation</strong>
-                            <p>Icons have similar visual weight. Model Explorer could dominate — SE workflows start there.</p>
-                            <span class="tag">Principle #06</span>
-                        </div>
-                        <div class="annotation-item consideration">
-                            <strong>→ Icon style consistency</strong>
-                            <p>Mix of flat line and filled icons weakens visual grammar.</p>
-                            <span class="tag">Principle #02</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="screenshot-annotation">
-                <div class="screenshot-header">Example 2: Add Element Palette</div>
+                <div class="screenshot-header">Add Element Palette</div>
                 <div class="screenshot-body">
                     <div class="screenshot-image">
                         <img src="sf-element-palette.webp" alt="System Forge element palette with category groups and tooltip">
@@ -930,8 +622,8 @@
                             <span class="tag">Supports: #03</span>
                         </div>
                         <div class="annotation-item strength">
-                            <strong>✓ Search available</strong>
-                            <p>Supports both browse (novice) and search (expert) patterns in one palette.</p>
+                            <strong>✓ Search supports browse + expert</strong>
+                            <p>Both browse (novice) and search (expert) patterns in one palette.</p>
                             <span class="tag">Supports: Flexibility</span>
                         </div>
                         <div class="annotation-item consideration">
@@ -945,24 +637,6 @@
         </section>
 
         <section>
-            <h2 class="section-title">What's Already Working</h2>
-            <p>Strengths surfaced in the analysis, worth preserving as the product evolves.</p>
-
-            <div class="summary-box">
-                <h4>Key strengths identified</h4>
-                <div class="summary-list">
-                    <div class="summary-item">Clean, modern interface vs. typical SE tools</div>
-                    <div class="summary-item">Restrained color scheme supports focus</div>
-                    <div class="summary-item">Elements grouped by category, not flat list</div>
-                    <div class="summary-item">Diagram type selection includes explanations</div>
-                    <div class="summary-item">Search available for element types</div>
-                    <div class="summary-item">Auto Layout and MiniMap for navigation</div>
-                </div>
-            </div>
-        </section>
-
-       
-
             <div class="recommendations-box">
                 <h3>Concrete recommendations</h3>
                 <p class="recommendations-intro">Near-term moves, ordered by what unblocks the most downstream work.</p>
@@ -977,48 +651,7 @@
         </section>
 
         <section>
-            <h2 class="section-title">Next · Companion Case Study</h2>
-            <p>Phase 04 continues as a focused companion case study. Where this study set the foundations — principles, audit, roadmap — the next one applies them to a single concrete moment: the first five minutes for an engineer who has never seen SysML before.</p>
-
-            <div class="next-case-card">
-                <div class="next-case-meta">Continues this case study</div>
-                <strong>System Forge · Onboarding Foundations</strong>
-                <p>One slice, deeply: B2B context and competitive scan, a before/after analysis of the current first-run experience, the onboarding flow itself, and the design foundations — tokens and patterns — pulled from real onboarding work.</p>
-                <span class="next-case-link">→ In progress · Coming Q2 2026</span>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="section-title">Deliverables</h2>
-            <div class="deliverables-list">
-                <div class="deliverable-item">
-                    <div class="deliverable-icon">📋</div>
-                    <div class="deliverable-info">
-                        <strong>Design Principles Document</strong>
-                        <span>10 principles with rationale and references · HTML page</span>
-                    </div>
-                </div>
-                <div class="deliverable-item">
-                    <div class="deliverable-icon">📊</div>
-                    <div class="deliverable-info">
-                        <strong>Interface Analysis Report</strong>
-                        <span>PDF · Workflow evaluation with annotated screenshots</span>
-                    </div>
-                </div>
-                
-                <div class="deliverable-item">
-                    <div class="deliverable-icon">📝</div>
-                    <div class="deliverable-info">
-                        <strong>Terminology Reference</strong>
-                        <span>SysML v1 → v2 mapping for search and tooltips</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section>
             <h2 class="section-title">Reflection</h2>
-        
             <div class="reflection">
                 <p><strong>On learnability as a design goal:</strong> Most MBSE tools assume training. System Forge asks: what if the interface itself teaches? Every tooltip, visual cue, and error message is an opportunity to help users learn — not just use — a complex modeling language.</p>
             </div>
@@ -1041,7 +674,6 @@
             <a href="valispace.html">Valispace →</a>
         </nav>
     </main>
-
     <footer>
         <p>© 2026 Petra Kühnle</p>
     </footer>
