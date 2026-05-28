@@ -3,17 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hero — Petra Kühnle</title>
+<meta name="description" content="Petra Kühnle — interaction design & technical documentation for audio, aerospace and developer tools. Berlin / Remote.">
+<title>Petra Kühnle — Interaction Design &amp; Technical Documentation · Audio, Aerospace, Developer Tools</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
 
 <!--
   PREVIEW FALLBACKS ONLY.
   On your real site these come from style.css and will override the values below.
-  Delete this <style id="preview-tokens"> block when you paste the hero into index.
+  Delete this <style id="preview-tokens"> block once style.css is linked.
 -->
 <style id="preview-tokens">
 :root{
   --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f2f0ea;
-  --ink:#1a1a1a; --ink-soft:#444444; --ink-muted:#8a8a85;
+  --ink:#1a1a1a; --ink-soft:#444444; --ink-muted:#8a8a85; --ink-faint:#a8a39a;
   --hairline:#e3dfd6; --accent-neutral:#c9c4b8;
   --mono:'SF Mono','Monaco','Consolas',monospace;
 }
@@ -27,19 +31,16 @@ body{
 <!-- ===== HERO STYLES — keep / merge into style.css ===== -->
 <style>
 .hero{ max-width:1040px; margin:0 auto; padding:24px 24px 8px; }
-
 .hero__topbar{
   display:flex; align-items:center; justify-content:space-between;
   font-family:var(--mono); font-size:11px; letter-spacing:0.14em;
   text-transform:uppercase; color:var(--ink-muted);
   padding-bottom:14px; border-bottom:1px solid var(--hairline);
 }
-
 .hero__grid{
   display:grid; grid-template-columns:1.2fr 0.9fr; gap:40px;
   align-items:center; padding:48px 0 40px;
 }
-
 .hero__eyebrow{
   font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--ink-muted); margin:0 0 18px;
@@ -57,7 +58,6 @@ body{
   font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
   line-height:1.9; color:var(--ink-muted); margin:0;
 }
-
 .hero__visual{ display:flex; flex-direction:column; align-items:center; }
 .hero__canvas-wrap{
   position:relative; width:100%; max-width:360px; aspect-ratio:1/1;
@@ -67,7 +67,6 @@ body{
 .hero__canvas-wrap:hover{ border-color:var(--ink-soft); }
 .hero__canvas-wrap:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
 .hero__canvas-wrap canvas{ display:block; width:100%; height:100%; }
-
 .hero__sonify{
   position:absolute; top:12px; right:12px;
   display:inline-flex; align-items:center; gap:6px;
@@ -77,12 +76,10 @@ body{
   pointer-events:none;
 }
 .hero__sonify svg{ width:11px; height:11px; }
-
 .hero__caption{
   font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
   color:var(--ink-muted); margin:16px 0 0; text-align:center;
 }
-
 @media (max-width:768px){
   .hero{ padding:20px 18px 8px; }
   .hero__grid{ grid-template-columns:1fr; gap:32px; padding:32px 0; }
@@ -90,10 +87,59 @@ body{
   .hero__lede{ max-width:none; }
 }
 </style>
+
+<!-- ===== SELECTED WORK + FOOTER STYLES — keep / merge into style.css ===== -->
+<style>
+.shell{ max-width:1040px; margin:0 auto; padding:0 24px; }
+.work{ padding:8px 0 48px; }
+.work__heading{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--ink-muted);
+  margin:0 0 4px; font-weight:600;
+}
+.work__list{ list-style:none; margin:0; padding:0; }
+.work__item{ border-bottom:1px solid var(--hairline); }
+.work__item:first-child{ border-top:1px solid var(--hairline); }
+.work__link{
+  display:grid; grid-template-columns:auto 1fr auto; gap:22px; align-items:start;
+  padding:22px 6px; text-decoration:none; color:inherit;
+  transition:background .2s ease;
+}
+.work__link:hover{ background:var(--bg-raised); }
+.work__num{ font-family:var(--mono); font-size:12px; color:var(--ink-faint); padding-top:4px; }
+.work__title{ font-size:1.15rem; font-weight:500; color:var(--ink); display:block; }
+.work__sub{ font-size:0.95rem; color:var(--ink-soft); display:block; margin-top:2px; }
+.work__desc{
+  font-size:0.9rem; color:var(--ink-muted); display:block;
+  margin-top:8px; line-height:1.5; max-width:62ch;
+}
+.work__tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.work__tags .tag{
+  font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+  color:var(--ink-muted); border:1px solid var(--hairline); padding:3px 8px; border-radius:2px;
+}
+.work__arrow{ font-size:1.1rem; color:var(--ink-faint); padding-top:3px; transition:transform .2s ease, color .2s ease; }
+.work__link:hover .work__arrow{ transform:translateX(4px); color:var(--ink); }
+
+.site-footer{ border-top:1px solid var(--hairline); padding:28px 0 56px; }
+.site-footer p{ margin:0; font-size:0.95rem; color:var(--ink-soft); line-height:1.6; }
+.site-footer a{ color:var(--ink); }
+.site-footer .foot-mono{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
+  text-transform:uppercase; color:var(--ink-muted); margin-top:14px;
+}
+.site-footer .foot-mono a{ color:var(--ink-muted); text-decoration:none; }
+.site-footer .foot-mono a:hover{ color:var(--ink); }
+
+@media (max-width:768px){
+  .work__link{ grid-template-columns:auto 1fr; gap:14px; }
+  .work__arrow{ display:none; }
+}
+</style>
 </head>
 <body>
 
-<!-- ===================== DROP-IN HERO START ===================== -->
+<!-- ===================== HERO ===================== -->
 <header class="hero">
   <div class="hero__topbar">
     <span>A = 440 Hz</span>
@@ -126,6 +172,102 @@ body{
   </div>
 </header>
 
+<!-- ===================== SELECTED WORK ===================== -->
+<main class="shell">
+  <section class="work">
+    <h2 class="work__heading">Selected work</h2>
+    <ol class="work__list">
+
+      <li class="work__item">
+        <a class="work__link" href="valispace.html">
+          <span class="work__num">01</span>
+          <span class="work__body">
+            <span class="work__title">Valispace → Altium 365</span>
+            <span class="work__sub">Aerospace requirements traceability</span>
+            <span class="work__desc">Sole designer on a systems-engineering platform. Interactive prototypes secured a €100k+ development contract and ship in Altium 365 today.</span>
+            <span class="work__tags">
+              <span class="tag">Aerospace</span><span class="tag">Shipped</span><span class="tag">Sole designer</span><span class="tag">2021–23</span>
+            </span>
+          </span>
+          <span class="work__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <li class="work__item">
+        <a class="work__link" href="systemforge.html">
+          <span class="work__num">02</span>
+          <span class="work__body">
+            <span class="work__title">SystemForge</span>
+            <span class="work__sub">Systems-engineering tool UX · SysML v2</span>
+            <span class="work__desc">Making MBSE learnable: ten design principles and a spec-vs-tool constraint map, developed with a systems engineer at the Swedish Space Corporation.</span>
+            <span class="work__tags">
+              <span class="tag">Space</span><span class="tag">Dev-tool UX</span><span class="tag">Concept</span><span class="tag">2026</span>
+            </span>
+          </span>
+          <span class="work__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <li class="work__item">
+        <a class="work__link" href="navigator.html">
+          <span class="work__num">03</span>
+          <span class="work__body">
+            <span class="work__title">Navigator</span>
+            <span class="work__sub">AI compliance for music &amp; sound</span>
+            <span class="work__desc">A decision-tree web app helping music makers navigate the EU AI Act and GDPR. V1 live; passed round one of the Mozilla Fellowship 2026.</span>
+            <span class="work__tags">
+              <span class="tag">Audio</span><span class="tag">AI</span><span class="tag">Shipped V1</span><span class="tag">2026</span>
+            </span>
+          </span>
+          <span class="work__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <li class="work__item">
+        <a class="work__link" href="sonification.html">
+          <span class="work__num">04</span>
+          <span class="work__body">
+            <span class="work__title">Sonification</span>
+            <span class="work__sub">NASA lunar data → sound</span>
+            <span class="work__desc">Moon-crater data turned into an interactive audio-visual piece through a Python → MIDI → Web Audio pipeline. Self-initiated; the source of this page's hero.</span>
+            <span class="work__tags">
+              <span class="tag">Space</span><span class="tag">Sound</span><span class="tag">Code</span><span class="tag">2026</span>
+            </span>
+          </span>
+          <span class="work__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      <li class="work__item">
+        <a class="work__link" href="apple.html">
+          <span class="work__num">05</span>
+          <span class="work__body">
+            <span class="work__title">Apple Pro Apps</span>
+            <span class="work__sub">Logic Pro &amp; Final Cut support</span>
+            <span class="work__desc">Four years supporting Logic Pro and Final Cut professionals across the EU — the edge-case intuition my design work runs on. Apple Care Excellence Award.</span>
+            <span class="work__tags">
+              <span class="tag">Audio / Video</span><span class="tag">Domain depth</span><span class="tag">2016–20</span>
+            </span>
+          </span>
+          <span class="work__arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+    </ol>
+  </section>
+
+  <footer class="site-footer">
+    <p>Open to interaction design and technical documentation work — audio, aerospace, and developer tools.<br>
+       <a href="mailto:petra.kuehnle@gmail.com">petra.kuehnle@gmail.com</a></p>
+    <p class="foot-mono">
+      <a href="bio.html">Bio</a> ·
+      <a href="https://github.com/Pi-Kay" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener">LinkedIn</a> ·
+      © 2026 Petra Kühnle
+    </p>
+  </footer>
+</main>
+
 <script>
 /* Hero moon — adapted from sonification.html (same drawMoon / crater / Web Audio code),
    scoped in an IIFE, static-until-clicked so the landing page idles at zero CPU and no audio. */
@@ -150,7 +292,6 @@ body{
   let fallingStars = [], craters = [];
 
   function seedCraters() {
-    /* a few resting craters so the idle moon reads as the Moon, not a blank disc */
     const seed = ["Plato","Copernicus","Kepler","Eratosthenes"];
     craters = seed.map(n => {
       const d = CRATER_DATA.find(c => c.name === n);
@@ -246,7 +387,6 @@ body{
     if (audioContext.state === 'suspended') audioContext.resume();
 
     if (reduceMotion) {
-      /* honour reduced-motion: sonify + pop craters in place, no flying animation */
       let i = 0;
       const tick = () => {
         if (!soundEnabled) return;
@@ -298,7 +438,6 @@ body{
   });
 })();
 </script>
-<!-- ====================== DROP-IN HERO END ====================== -->
 
 </body>
 </html>
