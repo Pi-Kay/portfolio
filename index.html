@@ -1,593 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Petra Kühnle — Technical UX for audio & engineering software. Berlin / Remote.">
-    <title>Petra Kühnle — Interaction Design & Technical Documentation for audio, aerospace & developer tools</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero — Petra Kühnle</title>
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Petra Kühnle — Technical UX · Audio & Engineering Software">
-    <meta property="og:description" content="Technical UX for audio & engineering software. Berlin · Remote.">
+<!--
+  PREVIEW FALLBACKS ONLY.
+  On your real site these come from style.css and will override the values below.
+  Delete this <style id="preview-tokens"> block when you paste the hero into index.
+-->
+<style id="preview-tokens">
+:root{
+  --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f2f0ea;
+  --ink:#1a1a1a; --ink-soft:#444444; --ink-muted:#8a8a85;
+  --hairline:#e3dfd6; --accent-neutral:#c9c4b8;
+  --mono:'SF Mono','Monaco','Consolas',monospace;
+}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+</style>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+<!-- ===== HERO STYLES — keep / merge into style.css ===== -->
+<style>
+.hero{ max-width:1040px; margin:0 auto; padding:24px 24px 8px; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+.hero__topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:var(--mono); font-size:11px; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--ink-muted);
+  padding-bottom:14px; border-bottom:1px solid var(--hairline);
+}
 
-        :root {
-            --bg: #f3f0ea;
-            --ink: #232118;
-            --ink-soft: #45413a;
-            --ink-muted: #76716a;
-            --ink-faint: #9a948b;
-            --hairline: #d6d0c4;
-            --hairline-strong: #b8b1a4;
-            --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
-            --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
+.hero__grid{
+  display:grid; grid-template-columns:1.2fr 0.9fr; gap:40px;
+  align-items:center; padding:48px 0 40px;
+}
 
-        html { scroll-behavior: smooth; }
+.hero__eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--ink-muted); margin:0 0 18px;
+}
+.hero__title{
+  font-size:clamp(1.8rem,3.6vw,2.55rem); font-weight:500;
+  line-height:1.16; letter-spacing:-0.012em; margin:0 0 18px;
+  text-wrap:balance;
+}
+.hero__lede{
+  font-size:1.12rem; line-height:1.55; color:var(--ink-soft);
+  margin:0 0 24px; max-width:34ch;
+}
+.hero__meta{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.06em;
+  line-height:1.9; color:var(--ink-muted); margin:0;
+}
 
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--ink);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 72px 32px 96px;
-            font-weight: 400;
-            -webkit-font-smoothing: antialiased;
-        }
+.hero__visual{ display:flex; flex-direction:column; align-items:center; }
+.hero__canvas-wrap{
+  position:relative; width:100%; max-width:360px; aspect-ratio:1/1;
+  background:#000; border:1px solid var(--hairline);
+  cursor:pointer; outline:none; transition:border-color .25s ease;
+}
+.hero__canvas-wrap:hover{ border-color:var(--ink-soft); }
+.hero__canvas-wrap:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+.hero__canvas-wrap canvas{ display:block; width:100%; height:100%; }
 
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            animation: fadeIn 0.7s ease-out;
-        }
+.hero__sonify{
+  position:absolute; top:12px; right:12px;
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em;
+  text-transform:uppercase; color:#cfcfcf;
+  border:1px solid #444; border-radius:999px; padding:4px 11px;
+  pointer-events:none;
+}
+.hero__sonify svg{ width:11px; height:11px; }
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 56px;
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.06em;
-        }
+.hero__caption{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+  color:var(--ink-muted); margin:16px 0 0; text-align:center;
+}
 
-        .locale-left {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            color: var(--ink-muted);
-            letter-spacing: 0.08em;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .locale {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.08em;
-        }
-
-        header { margin-bottom: 96px; }
-
-        .name {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--ink);
-            letter-spacing: -0.005em;
-            margin-bottom: 44px;
-        }
-
-        h1 {
-            font-size: clamp(1.4rem, 2.4vw, 1.55rem);
-            font-weight: 400;
-            letter-spacing: -0.008em;
-            line-height: 1.5;
-            color: var(--ink);
-            margin-bottom: 32px;
-            text-wrap: balance;
-            max-width: 44ch;
-        }
-
-        .lede {
-            font-size: 0.95rem;
-            font-weight: 300;
-            color: var(--ink-soft);
-            line-height: 1.8;
-            max-width: 58ch;
-            letter-spacing: 0.005em;
-        }
-        .lede strong {
-            font-weight: 500;
-            color: var(--ink);
-            box-shadow: inset 0 -1px 0 var(--ink-muted);
-        }
-
-        .meta-row {
-            margin-top: 56px;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 14px 32px;
-            font-size: 0.82rem;
-            line-height: 1.55;
-        }
-        .meta-key {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            padding-top: 2px;
-        }
-        .meta-val {
-            color: var(--ink-soft);
-            font-weight: 400;
-            letter-spacing: 0.005em;
-        }
-        .meta-val a {
-            color: var(--ink);
-            text-decoration: none;
-            border-bottom: 1px solid var(--hairline-strong);
-            padding-bottom: 1px;
-            transition: border-color 0.25s ease, color 0.25s ease;
-        }
-        .meta-val a:hover { border-bottom-color: var(--ink); }
-        .meta-val .dim {
-            color: var(--ink-muted);
-            margin: 0 6px;
-        }
-
-        .section-label {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .section-label::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: var(--hairline);
-        }
-        .section-count {
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.08em;
-        }
-
-        nav ul { list-style: none; }
-
-        nav li { border-bottom: 1px solid var(--hairline); }
-        nav li:first-child { border-top: 1px solid var(--hairline); }
-
-        nav a {
-            text-decoration: none;
-            color: var(--ink);
-            display: grid;
-            grid-template-columns: 56px 1fr auto;
-            align-items: baseline;
-            gap: 18px;
-            padding: 22px 0 22px 4px;
-            transition: padding 0.3s ease;
-            position: relative;
-        }
-        nav a::before {
-            content: "";
-            position: absolute;
-            left: -32px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 1px;
-            background: var(--ink);
-            transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
-        }
-        nav a:hover { padding-left: 16px; }
-        nav a:hover::before { width: 18px; }
-        nav a:hover .project-name { color: var(--ink-soft); }
-        nav a:hover .arrow { opacity: 1; transform: translateX(0); }
-
-        .project-idx {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.04em;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .project-body { min-width: 0; }
-
-        .project-name {
-            font-size: 1.02rem;
-            font-weight: 500;
-            color: var(--ink);
-            letter-spacing: -0.005em;
-            transition: color 0.25s ease;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .project-name .sep-dot {
-            color: var(--ink-faint);
-            margin: 0 6px;
-            font-weight: 300;
-        }
-        .project-client {
-            font-weight: 400;
-            color: var(--ink-muted);
-        }
-
-        .project-context {
-            font-size: 0.85rem;
-            color: var(--ink-muted);
-            font-weight: 400;
-            line-height: 1.5;
-            letter-spacing: 0.005em;
-            max-width: 52ch;
-        }
-        .project-context strong {
-            font-weight: 500;
-            color: var(--ink);
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-        .tag {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            font-weight: 500;
-            color: var(--ink-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            padding: 3px 8px;
-            border: 1px solid var(--hairline-strong);
-            border-radius: 2px;
-            background: transparent;
-            white-space: nowrap;
-        }
-        .tag.live {
-            color: var(--ink-soft);
-            border-color: var(--ink-soft);
-        }
-        .tag.shipped {
-            color: var(--ink);
-            border-color: var(--ink);
-        }
-
-        .project-meta {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-        }
-
-        .project-note {
-            font-size: 0.78rem;
-            color: var(--ink-muted);
-            line-height: 1.55;
-            padding: 0 0 22px 78px;
-            margin-top: -10px;
-            max-width: 64ch;
-            letter-spacing: 0.005em;
-        }
-        .project-note .note-label {
-            font-family: var(--mono);
-            font-size: 0.66rem;
-            font-weight: 500;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            margin-right: 8px;
-        }
-        .project-note a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            border-bottom: 1px solid var(--hairline-strong);
-            padding-bottom: 1px;
-            transition: color 0.25s ease, border-color 0.25s ease;
-            white-space: nowrap;
-        }
-        .project-note a:hover {
-            color: var(--ink);
-            border-bottom-color: var(--ink);
-        }
-        .project-date {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.04em;
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-        }
-        .arrow {
-            font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--ink);
-            opacity: 0;
-            transform: translateX(-4px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            white-space: nowrap;
-        }
-
-        .sign-off { margin-top: 72px; }
-        .sign-off-text {
-            font-size: 0.88rem;
-            font-weight: 300;
-            color: var(--ink-muted);
-            line-height: 1.65;
-            letter-spacing: 0.005em;
-            max-width: 56ch;
-        }
-        .sign-off-text a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            border-bottom: 1px solid var(--hairline);
-            padding-bottom: 1px;
-            transition: border-color 0.25s ease, color 0.25s ease;
-            white-space: nowrap;
-        }
-        .sign-off-text a:hover {
-            color: var(--ink);
-            border-bottom-color: var(--ink-muted);
-        }
-
-        footer {
-            margin-top: 72px;
-            padding-top: 28px;
-            border-top: 1px solid var(--hairline);
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            color: var(--ink-faint);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            opacity: 0.85;
-        }
-        footer a {
-            color: var(--ink-faint);
-            text-decoration: none;
-            transition: color 0.25s ease;
-        }
-        footer a:hover { color: var(--ink-muted); }
-        .colophon {
-            display: flex;
-            gap: 18px;
-        }
-
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--ink);
-            color: var(--bg);
-            padding: 8px 12px;
-            text-decoration: none;
-            z-index: 100;
-            font-size: 0.85rem;
-        }
-        .skip-link:focus { top: 0; }
-
-        a:focus-visible {
-            outline: 1px solid var(--ink);
-            outline-offset: 3px;
-            border-radius: 2px;
-        }
-
-        @media (max-width: 640px) {
-            body { padding: 40px 22px 64px; }
-            .topbar { margin-bottom: 40px; }
-            header { margin-bottom: 56px; }
-            h1 { font-size: 1.9rem; max-width: none; }
-            .meta-row { grid-template-columns: 1fr; gap: 4px 0; }
-            .meta-key { padding-top: 14px; }
-            .meta-row > .meta-key:first-child { padding-top: 2px; }
-            nav a { grid-template-columns: 28px 1fr; gap: 12px; padding: 20px 0; }
-            nav a:hover { padding-left: 8px; }
-            .project-note { padding-left: 40px; margin-top: -6px; }
-            .project-meta {
-                grid-column: 2;
-                flex-direction: row;
-                align-items: center;
-                gap: 10px;
-                text-align: left;
-                margin-top: 6px;
-            }
-            .arrow { display: none; }
-            .sign-off { margin-top: 48px; }
-            footer { font-size: 0.65rem; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.001ms !important;
-                transition-duration: 0.001ms !important;
-            }
-        }
-    </style>
+@media (max-width:768px){
+  .hero{ padding:20px 18px 8px; }
+  .hero__grid{ grid-template-columns:1fr; gap:32px; padding:32px 0; }
+  .hero__visual{ order:2; }
+  .hero__lede{ max-width:none; }
+}
+</style>
 </head>
-
 <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
 
-    <div class="container">
+<!-- ===================== DROP-IN HERO START ===================== -->
+<header class="hero">
+  <div class="hero__topbar">
+    <span>A = 440 Hz</span>
+    <span>Berlin · UTC+1</span>
+  </div>
 
-        <div class="topbar">
-            <span class="locale-left">A = 440 Hz</span>
-            <span class="locale">Berlin · UTC+1</span>
-        </div>
-
-        <header>
-            <p class="name">Petra Kühnle</p>
-
-            <h1>Interaction Design & Technical Documentation for audio, aerospace & developer tools</h1>
-
-            <p class="lede">
-                I turn domain-expert knowledge into interfaces, prototypes, and documentation engineers can build from. <br> As sole designer at Valispace (acquired by Altium), my prototypes secured €100k+ in contracts and ship in Altium 365 today — after four years at Apple as a Pro Apps specialist for Logic Pro and Final Cut.
-            </p>
-
-            <div class="meta-row">
-                <span class="meta-key">Based</span>
-                <span class="meta-val">Berlin <span class="dim">·</span> Remote-friendly</span>
-
-                <span class="meta-key">Currently</span>
-                <span class="meta-val">Mozilla AI Fellowship 2026 (shortlisted) <span class="dim">·</span> <a href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3APi-Kay+is%3Aclosed">MDN Web Audio API contributor</a></span>
-
-                <span class="meta-key">Stack</span>
-                <span class="meta-val">Figma  <span class="dim">·</span> Claude.ai & Claude.design<span class="dim">·</span> Python <span class="dim">·</span> HTML / CSS <span class="dim">·</span> Technical writing</span>
-
-                <span class="meta-key">Speak</span>
-                <span class="meta-val">DE native <span class="dim">·</span> EN fluent <span class="dim">·</span> NL fluent</span>
-
-                <span class="meta-key">Online</span>
-                <span class="meta-val"><a href="https://github.com/Pi-Kay" target="_blank" rel="noopener">GitHub</a> <span class="dim">·</span> <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener">LinkedIn</a></span>
-            </div>
-        </header>
-
-        <main id="main">
-            <p class="section-label">
-                <span>Selected work</span>
-                <span class="section-count">05 / 2016—26</span>
-            </p>
-
-            <nav aria-label="Portfolio projects">
-                <ul>
-                    <li>
-                        <a href="systemforge.html">
-                            <span class="project-idx">01</span>
-                            <div class="project-body">
-                                <span class="project-name">SystemForge <span class="sep-dot">/</span><span class="project-client">Systems engineering software</span></span>
-                                <span class="project-context">Evaluating design opportunities for standardized diagramming in engineering, built around the <strong>SysML v2</strong> spec.</span>
-                                <div class="project-tags">
-                                    <span class="tag">In progress</span>
-                                    <span class="tag">Concept</span>
-                                    <span class="tag">Research</span>
-                                </div>
-                            </div>
-                            <div class="project-meta">
-                                <span class="project-date">2026 —</span>
-                                <span class="arrow">View →</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="navigator.html">
-                            <span class="project-idx">02</span>
-                            <div class="project-body">
-                                <span class="project-name">Navigator <span class="sep-dot">/</span><span class="project-client">EU AI compliance for music & sound</span></span>
-                                <span class="project-context">A web app that helps independent musicians and sound designers navigate AI regulation. Conceptualized, prototyped, and nominated for the <strong>Mozilla AI Fellowship</strong>.</span>
-                                <div class="project-tags">
-                                    <span class="tag">Concept</span>
-                                    <span class="tag">Prototype</span>
-                                    <span class="tag">AI workflow</span>
-                                </div>
-                            </div>
-                            <div class="project-meta">
-                                <span class="project-date">2026</span>
-                                <span class="arrow">View →</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="sonification.html">
-                            <span class="project-idx">03</span>
-                            <div class="project-body">
-                                <span class="project-name">Crater <span class="sep-dot">/</span><span class="project-client">NASA open data sonification</span></span>
-                                <span class="project-context">Turned moon crater datasets into sound — Python with the <strong>librosa</strong> library, terminal sessions, and a critical evaluation of AI-assisted workflows.</span>
-                                <div class="project-tags">
-                                    <span class="tag">Python</span>
-                                    <span class="tag">librosa</span>
-                                    <span class="tag">Self-initiated</span>
-                                </div>
-                            </div>
-                            <div class="project-meta">
-                                <span class="project-date">2026</span>
-                                <span class="arrow">View →</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="valispace.html">
-                            <span class="project-idx">04</span>
-                            <div class="project-body">
-                                <span class="project-name">Valispace → Altium 365 <span class="sep-dot">/</span><span class="project-client">Aerospace systems engineering</span></span>
-                                <span class="project-context">Sole designer working alongside hardware and software engineers. Figma prototypes translated into €100k+ in contracts and features that <strong>ship in Altium 365 today</strong>.</span>
-                                <div class="project-tags">
-                                    <span class="tag">Shipped</span>
-                                    <span class="tag">Sole designer</span>
-                                    <span class="tag">API & docs</span>
-                                </div>
-                            </div>
-                            <div class="project-meta">
-                                <span class="project-date">2021 — 23</span>
-                                <span class="arrow">View →</span>
-                            </div>
-                        </a>
-                        <p class="project-note">
-                            <span class="note-label">Note</span>Altium provides electronic design automation software to engineers for designing printed circuit boards. <a href="https://en.wikipedia.org/wiki/Altium" target="_blank" rel="noopener">Wikipedia ↗</a>
-                        </p>
-                    </li>
-
-                    <li>
-                        <a href="apple.html">
-                            <span class="project-idx">05</span>
-                            <div class="project-body">
-                                <span class="project-name">Apple Pro Apps <span class="sep-dot">/</span><span class="project-client">Logic Pro & Final Cut</span></span>
-                                <span class="project-context">Four years as T4 Creative Media Advisor for Logic Pro and Final Cut professionals across the EU. <strong>Apple Care Excellence Award 2019</strong> — technical precision paired with clear communication, verbal and written.</span>
-                                <div class="project-tags">
-                                    <span class="tag">Workflow</span>
-                                    <span class="tag">Pro audio / video</span>
-                                    <span class="tag">ACEA 2019</span>
-                                </div>
-                            </div>
-                            <div class="project-meta">
-                                <span class="project-date">2016 — 20</span>
-                                <span class="arrow">View →</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <section class="sign-off" aria-label="Contact">
-                <p class="sign-off-text">Open to conversations about technical design or documentation engagements. <a href="mailto:petra.kuehnle@gmail.com">petra.kuehnle@gmail.com</a></p>
-            </section>
-        </main>
-
-        <footer>
-            <span>© 2026 Petra Kühnle</span>
-            <span class="colophon">
-                <a href="bio.html">Bio</a>
-                <span>Berlin · UTC+1</span>
-            </span>
-        </footer>
-
+  <div class="hero__grid">
+    <div class="hero__text">
+      <p class="hero__eyebrow">Petra Kühnle</p>
+      <h1 class="hero__title">Interaction Design &amp; Technical Documentation for Audio, Aerospace &amp; Developer Tools</h1>
+      <p class="hero__lede">I turn domain-expert knowledge into interfaces, prototypes, and documentation engineers can build from.</p>
+      <p class="hero__meta">
+        Berlin · Remote-friendly<br>
+        ex-Valispace (acquired by Altium) · ex-Apple Pro Apps
+      </p>
     </div>
+
+    <div class="hero__visual">
+      <div class="hero__canvas-wrap" id="heroMoonWrap"
+           role="button" tabindex="0" aria-pressed="false"
+           aria-label="Lunar crater sonification — activate to map crater diameter to pitch and play the audio">
+        <canvas id="heroMoon" width="600" height="600" aria-hidden="true"></canvas>
+        <span class="hero__sonify" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          sonify
+        </span>
+      </div>
+      <p class="hero__caption">diameter → pitch · 9 / ~9,000 craters · click to sonify</p>
+    </div>
+  </div>
+</header>
+
+<script>
+/* Hero moon — adapted from sonification.html (same drawMoon / crater / Web Audio code),
+   scoped in an IIFE, static-until-clicked so the landing page idles at zero CPU and no audio. */
+(function () {
+  const CRATER_DATA = [
+    {name:"Tycho",        latitude:-43.31, longitude:-11.36, diameter_km:85,  pitch_hz:148, volume:95},
+    {name:"Copernicus",   latitude:9.62,   longitude:-20.08, diameter_km:93,  pitch_hz:135, volume:97},
+    {name:"Kepler",       latitude:8.13,   longitude:-38.04, diameter_km:32,  pitch_hz:330, volume:56},
+    {name:"Aristarchus",  latitude:23.73,  longitude:-47.40, diameter_km:40,  pitch_hz:304, volume:63},
+    {name:"Plato",        latitude:51.62,  longitude:-9.33,  diameter_km:101, pitch_hz:110, volume:100},
+    {name:"Eratosthenes", latitude:14.47,  longitude:-11.29, diameter_km:60,  pitch_hz:238, volume:77},
+    {name:"Archimedes",   latitude:29.72,  longitude:-4.00,  diameter_km:83,  pitch_hz:154, volume:91},
+    {name:"Aristoteles",  latitude:50.17,  longitude:17.42,  diameter_km:88,  pitch_hz:142, volume:94},
+    {name:"Autolycus",    latitude:30.70,  longitude:1.48,   diameter_km:39,  pitch_hz:310, volume:62}
+  ];
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let canvas, ctx, audioContext;
+  let soundEnabled = false, rafId = null, scheduleTimer = null, craterIndex = 0;
+  let fallingStars = [], craters = [];
+
+  function seedCraters() {
+    /* a few resting craters so the idle moon reads as the Moon, not a blank disc */
+    const seed = ["Plato","Copernicus","Kepler","Eratosthenes"];
+    craters = seed.map(n => {
+      const d = CRATER_DATA.find(c => c.name === n);
+      const cx = canvas.width/2, cy = canvas.height/2;
+      const r = Math.min(canvas.width, canvas.height) * 0.35;
+      const la = d.latitude*Math.PI/180, lo = d.longitude*Math.PI/180;
+      return {
+        x: cx + r*Math.cos(la)*Math.sin(lo),
+        y: cy - r*Math.sin(la),
+        size: Math.min(30, (d.diameter_km/100)*25),
+        age: 40
+      };
+    });
+  }
+
+  function drawMoon() {
+    const cx = canvas.width/2, cy = canvas.height/2;
+    const r = Math.min(canvas.width, canvas.height) * 0.35;
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const g = ctx.createRadialGradient(cx - r*0.3, cy - r*0.3, r*0.1, cx, cy, r);
+    g.addColorStop(0, '#e8e8e8'); g.addColorStop(0.7, '#c0c0c0'); g.addColorStop(1, '#888');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
+    craters.forEach(c => drawCrater(c.x, c.y, c.size, c.age));
+  }
+
+  function drawCrater(x, y, size, age) {
+    const op = Math.max(0.18, 1 - age/100);
+    ctx.strokeStyle = `rgba(80,80,80,${op*0.7})`; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = `rgba(50,50,50,${op*0.3})`;
+    ctx.beginPath(); ctx.arc(x+size*0.2, y+size*0.2, size*0.8, 0, Math.PI*2); ctx.fill();
+  }
+
+  function createFallingStar(d) {
+    const cx = canvas.width/2, cy = canvas.height/2;
+    const r = Math.min(canvas.width, canvas.height)*0.35;
+    const la = d.latitude*Math.PI/180, lo = d.longitude*Math.PI/180;
+    return {
+      x: Math.random()*canvas.width, y: -50,
+      targetX: cx + r*Math.cos(la)*Math.sin(lo),
+      targetY: cy - r*Math.sin(la),
+      speed: 3+Math.random()*2, size: 2+Math.random()*2,
+      craterSize: Math.min(30, (d.diameter_km/100)*25),
+      freq: d.pitch_hz, dur: 1.5+(d.diameter_km/100)*2.5, volume: d.volume/100
+    };
+  }
+
+  function drawFallingStar(s) {
+    const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size*3);
+    g.addColorStop(0,'rgba(255,255,255,1)');
+    g.addColorStop(0.5,'rgba(255,255,255,0.5)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, s.size*3, 0, Math.PI*2); ctx.fill();
+  }
+
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+    drawMoon();
+    for (let i = fallingStars.length - 1; i >= 0; i--) {
+      const s = fallingStars[i];
+      drawFallingStar(s);
+      const dx = s.targetX-s.x, dy = s.targetY-s.y, dist = Math.hypot(dx,dy);
+      if (dist < s.speed) {
+        craters.push({x:s.targetX, y:s.targetY, size:s.craterSize, age:0});
+        playImpactTone(s.freq, s.dur, s.volume);
+        fallingStars.splice(i,1);
+      } else { s.x += (dx/dist)*s.speed; s.y += (dy/dist)*s.speed; }
+    }
+    craters.forEach(c => c.age++);
+    if (craters.length > 18) craters.shift();
+  }
+
+  function playImpactTone(freq, dur, vol) {
+    if (!audioContext) return;
+    const now = audioContext.currentTime;
+    const osc = audioContext.createOscillator(), gain = audioContext.createGain();
+    const delay = audioContext.createDelay(), fb = audioContext.createGain(), dg = audioContext.createGain();
+    osc.type='sine'; osc.frequency.value=freq;
+    delay.delayTime.value=0.3; fb.gain.value=0.4; dg.gain.value=0.5;
+    gain.gain.setValueAtTime(0,now);
+    gain.gain.linearRampToValueAtTime(0.12*vol, now+0.05);
+    gain.gain.linearRampToValueAtTime(0.10*vol, now+dur*0.6);
+    gain.gain.exponentialRampToValueAtTime(0.00001, now+dur+0.2);
+    osc.connect(gain); gain.connect(audioContext.destination);
+    gain.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(dg); dg.connect(audioContext.destination);
+    osc.start(now); osc.stop(now+dur+0.3);
+  }
+
+  function start() {
+    soundEnabled = true;
+    wrap.setAttribute('aria-pressed','true');
+    if (!audioContext) audioContext = new (window.AudioContext||window.webkitAudioContext)();
+    if (audioContext.state === 'suspended') audioContext.resume();
+
+    if (reduceMotion) {
+      /* honour reduced-motion: sonify + pop craters in place, no flying animation */
+      let i = 0;
+      const tick = () => {
+        if (!soundEnabled) return;
+        const d = CRATER_DATA[i++ % CRATER_DATA.length];
+        const cx = canvas.width/2, cy = canvas.height/2, r = Math.min(canvas.width,canvas.height)*0.35;
+        const la = d.latitude*Math.PI/180, lo = d.longitude*Math.PI/180;
+        craters.push({x:cx+r*Math.cos(la)*Math.sin(lo), y:cy-r*Math.sin(la),
+                      size:Math.min(30,(d.diameter_km/100)*25), age:0});
+        if (craters.length > 18) craters.shift();
+        drawMoon();
+        playImpactTone(d.pitch_hz, 1.5+(d.diameter_km/100)*2.5, d.volume/100);
+        scheduleTimer = setTimeout(tick, 3200);
+      };
+      tick();
+      return;
+    }
+
+    if (!rafId) animate();
+    const next = () => {
+      if (!soundEnabled) return;
+      fallingStars.push(createFallingStar(CRATER_DATA[craterIndex++ % CRATER_DATA.length]));
+      scheduleTimer = setTimeout(next, 3000 + Math.random()*2000);
+    };
+    next();
+  }
+
+  function stop() {
+    soundEnabled = false;
+    wrap.setAttribute('aria-pressed','false');
+    clearTimeout(scheduleTimer);
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    fallingStars = [];
+    seedCraters();
+    drawMoon();
+  }
+
+  let wrap;
+  document.addEventListener('DOMContentLoaded', function () {
+    canvas = document.getElementById('heroMoon');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+    wrap = document.getElementById('heroMoonWrap');
+    seedCraters();
+    drawMoon();
+    wrap.addEventListener('click', () => soundEnabled ? stop() : start());
+    wrap.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); wrap.click(); }
+    });
+  });
+})();
+</script>
+<!-- ====================== DROP-IN HERO END ====================== -->
+
 </body>
 </html>
