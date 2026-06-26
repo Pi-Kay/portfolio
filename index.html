@@ -1,383 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Petra Kühnle — Product Designer</title>
-<meta name="description" content="Petra Kühnle — product designer for complex, data-rich tools. Sole designer at Valispace (acquired by Altium 365).">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petra Kühnle — Product &amp; UX Design</title>
+<meta name="description" content="Petra Kühnle, product designer for complex, technical software. First designer at Valispace; work ships in Altium 365.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *{ box-sizing:border-box; }
-  body{ margin:0; background:#f4f2ed; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-  ::selection{ background:#1c1b19; color:#f4f2ed; }
-  a{ color:inherit; }
-  html{ scroll-behavior:smooth; }
-  .feat:hover{ padding-left:10px !important; }
-  @media (prefers-reduced-motion:reduce){ *{ transition-duration:.001ms !important; } html{ scroll-behavior:auto; } }
+  :root{
+    --sheet:#F4F4F1;
+    --ink:#16191C;
+    --graphite:#5A6068;
+    --hairline:#C9CFD1;
+    --grid:#E6E7E3;
+    --accent:#2B3FC4;
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--sheet);
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:30px 30px;
+    color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--ink);color:var(--sheet);}
+
+  .sheet{max-width:880px;margin:0 auto;padding:clamp(20px,4vw,40px);position:relative;}
+  .frame{position:relative;border:1px solid var(--ink);
+    padding:clamp(26px,5vw,56px) clamp(22px,5vw,56px) clamp(34px,5vw,56px);
+    background:rgba(244,244,241,.72);}
+  .tick{position:absolute;width:13px;height:13px;pointer-events:none;}
+  .tick-tl{top:-1px;left:-1px;border-top:2px solid var(--ink);border-left:2px solid var(--ink);}
+  .tick-tr{top:-1px;right:-1px;border-top:2px solid var(--ink);border-right:2px solid var(--ink);}
+  .tick-bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--ink);border-left:2px solid var(--ink);}
+  .tick-br{bottom:-1px;right:-1px;border-bottom:2px solid var(--ink);border-right:2px solid var(--ink);}
+
+  .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--graphite);}
+
+  .strip{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding-bottom:18px;margin-bottom:clamp(28px,5vw,46px);border-bottom:1px solid var(--hairline);}
+
+  header h1{font-family:var(--display);font-weight:500;
+    font-size:clamp(40px,8.5vw,82px);line-height:.96;letter-spacing:-.025em;margin:0 0 18px;}
+  .role{font-family:var(--mono);font-size:13px;letter-spacing:.05em;color:var(--ink);margin:0 0 26px;}
+  .thesis{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.5vw,23px);
+    line-height:1.42;max-width:28em;margin:0 0 22px;color:var(--ink);}
+  .intro{max-width:36em;color:var(--ink);margin:0;}
+  .intro p{margin:0;}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;transition:color .15s;}
+  a:hover{color:var(--ink);}
+
+  .titleblock{margin:clamp(34px,5vw,48px) 0;border:1px solid var(--ink);
+    display:grid;grid-template-columns:repeat(4,1fr);}
+  .tb{padding:13px 15px;border-right:1px solid var(--hairline);border-top:1px solid var(--hairline);}
+  .tb:nth-child(-n+4){border-top:none;}
+  .tb:nth-child(4n){border-right:none;}
+  .tb .k{display:block;margin-bottom:5px;}
+  .tb .v{font-family:var(--display);font-size:15px;font-weight:500;letter-spacing:-.01em;}
+
+  section{margin-top:clamp(46px,7vw,72px);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;
+    padding-bottom:12px;margin-bottom:26px;border-bottom:1px solid var(--ink);}
+  .sec-head .no{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;color:var(--accent);}
+  .sec-head h2{font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.15em;
+    text-transform:uppercase;margin:0;color:var(--ink);}
+  .lede{max-width:42em;margin:0 0 28px;color:var(--ink);}
+
+  .feat{display:grid;grid-template-columns:1fr;gap:4px;padding:20px 0;border-top:1px solid var(--hairline);}
+  .feat:first-of-type{border-top:none;padding-top:2px;}
+  .feat .ft{font-family:var(--display);font-size:20px;font-weight:500;letter-spacing:-.01em;color:var(--ink);}
+  .feat .fd{font-size:15px;color:var(--graphite);line-height:1.5;max-width:44em;}
+  .note{font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--graphite);margin:14px 0 0;letter-spacing:.02em;}
+
+  .item{padding:24px 0;border-top:1px solid var(--hairline);}
+  .item:first-of-type{border-top:none;padding-top:2px;}
+  .cap-tag{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+  .item-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:4px;}
+  .item h3{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.01em;margin:0;}
+  .pid{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--graphite);white-space:nowrap;}
+  .item .meta{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--graphite);margin:0 0 12px;text-transform:uppercase;}
+  .body-txt{max-width:44em;color:var(--ink);margin:0;}
+  .mini-link{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    margin-left:2px;}
+
+  .recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:36px;}
+  .recs figure{margin:0;}
+  .recs blockquote{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.45;
+    letter-spacing:-.01em;color:var(--ink);margin:0 0 18px;}
+  .recs figcaption{border-top:1px solid var(--hairline);padding-top:13px;}
+  .recs .who{font-size:14px;color:var(--ink);}
+  .recs .rr{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);margin-top:5px;}
+
+  .roles{list-style:none;margin:18px 0 0;padding:0;}
+  .roles li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-top:1px solid var(--hairline);font-size:15px;}
+  .roles .yr{font-family:var(--mono);font-size:11px;color:var(--graphite);white-space:nowrap;}
+  .roles .award{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--accent);margin-top:5px;}
+  strong{font-weight:500;color:var(--ink);}
+
+  .bg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px 40px;margin-top:30px;}
+  .bg-grid .k{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+  .bg-grid .v{font-size:15px;color:var(--ink);line-height:1.5;}
+  .bg-grid .v .s{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--graphite);margin-top:3px;}
+  .skills{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--graphite);
+    line-height:2;margin:30px 0 0;padding-top:18px;border-top:1px solid var(--hairline);}
+  .skills .skills-k{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);line-height:1.4;margin-bottom:9px;}
+  .deepening{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--graphite);margin:8px 0 0;}
+
+  .avail{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--graphite);margin:0 0 18px;}
+  .contact{display:flex;flex-wrap:wrap;gap:8px 30px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;margin-top:4px;}
+  footer{margin-top:clamp(46px,7vw,70px);padding-top:18px;border-top:1px solid var(--ink);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  .fade{opacity:0;transform:translateY(10px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  .tick{opacity:0;animation:tk .5s ease forwards;}
+  @keyframes tk{to{opacity:1;}}
+
+  @media (max-width:620px){
+    body{font-size:16px;background-size:24px 24px;}
+    .titleblock{grid-template-columns:repeat(2,1fr);}
+    .tb:nth-child(-n+2){border-top:none;}
+    .tb:nth-child(n+3){border-top:1px solid var(--hairline);}
+    .tb:nth-child(2n){border-right:none;}
+    .tb:nth-child(3){border-right:1px solid var(--hairline);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .fade,.tick{animation:none;opacity:1;transform:none;}
+    body{background-image:none;}
+  }
 </style>
 </head>
 <body>
-<div style="font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;color:#1c1b19;line-height:1.6;background:#f4f2ed;--ink:#1c1b19;--ink-2:#56524b;--ink-3:#8a847a;--line:#d8d3c8;--line-2:#e7e3da;--paper:#f4f2ed;--paper-2:#fbfaf6;--accent:#2b3fc4;min-height:100vh;overflow-x:hidden;">
+<div class="sheet">
+  <div class="frame">
+    <span class="tick tick-tl" style="animation-delay:.05s"></span>
+    <span class="tick tick-tr" style="animation-delay:.15s"></span>
+    <span class="tick tick-bl" style="animation-delay:.25s"></span>
+    <span class="tick tick-br" style="animation-delay:.35s"></span>
 
-<!-- ===================== MASTHEAD ===================== -->
-<header style="max-width:1000px;margin:0 auto;padding:24px 32px 0;">
-  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:13px;border-bottom:1px solid var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;">
-    <span style="color:var(--ink);font-weight:500;">Petra Kühnle</span>
-    <span style="color:var(--ink-3);">Portfolio — 2026</span>
-  </div>
-
-  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-end;justify-content:space-between;padding:84px 0 0;">
-    <div style="flex:1 1 540px;min-width:300px;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:500;margin:0 0 28px;">Senior Product Designer</p>
-      <h1 style="font-size:clamp(2.4rem,5.6vw,3.7rem);font-weight:300;line-height:1.02;letter-spacing:-0.035em;color:var(--ink);margin:0 0 30px;text-wrap:balance;">Product designer for complex, data-rich tools.</h1>
-      <p style="font-size:1.22rem;line-height:1.5;color:var(--ink-2);font-weight:300;margin:0;max-width:42ch;">Sole designer at Valispace. Made complex, high-stakes systems data usable. Ships in Altium 365 today.</p>
+    <div class="strip mono fade" style="animation-delay:.05s">
+      <span>Product &amp; UX Design</span>
+      <span>Berlin</span>
     </div>
 
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:14px;">
-      <svg viewBox="0 0 240 240" width="184" height="184" style="display:block;overflow:visible;">
-        <line x1="120" y1="8" x2="120" y2="232" stroke="#8a847a" stroke-width="1" stroke-dasharray="2 4"></line>
-        <line x1="8" y1="120" x2="232" y2="120" stroke="#8a847a" stroke-width="1" stroke-dasharray="2 4"></line>
-        <rect x="24" y="24" width="192" height="192" fill="none" stroke="#56524b" stroke-width="1.2"></rect>
-        <rect x="68" y="68" width="104" height="104" fill="none" stroke="#6b5236" stroke-width="1.2"></rect>
-        <rect x="104" y="104" width="32" height="32" fill="none" stroke="#56524b" stroke-width="1.2"></rect>
-        <circle cx="24" cy="24" r="2.5" fill="#56524b"></circle>
-        <circle cx="216" cy="24" r="2.5" fill="#56524b"></circle>
-        <circle cx="24" cy="216" r="2.5" fill="#56524b"></circle>
-        <circle cx="216" cy="216" r="2.5" fill="#56524b"></circle>
-        <circle cx="120" cy="68" r="2" fill="#6b5236"></circle>
-        <circle cx="120" cy="172" r="2" fill="#6b5236"></circle>
-        <circle cx="68" cy="120" r="2" fill="#6b5236"></circle>
-        <circle cx="172" cy="120" r="2" fill="#6b5236"></circle>
-        <circle cx="120" cy="120" r="4.5" fill="var(--accent)"></circle>
-      </svg>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:var(--ink-3);margin:0;max-width:184px;line-height:1.6;">fig. 00 — reading order, from system to signal</p>
-    </div>
-  </div>
-</header>
-
-<!-- ===================== CONCEPT / SPINE ===================== -->
-<section style="max-width:1000px;margin:0 auto;padding:88px 32px 92px;">
-  <div style="border-top:1px solid var(--line);padding-top:40px;display:grid;grid-template-columns:140px 1fr;gap:40px;align-items:start;">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);padding-top:8px;">Practice</span>
-    <div>
-      <p style="font-size:clamp(1.45rem,3vw,2.05rem);font-weight:300;line-height:1.28;letter-spacing:-0.02em;color:var(--ink);margin:0;max-width:24ch;text-wrap:balance;">I design how people read complex information — and act on it.</p>
-      <p style="font-size:1.05rem;line-height:1.6;color:var(--ink-2);font-weight:300;margin:22px 0 0;max-width:52ch;">Rooted in perception psychology and audio-visual media; sharpened on mission-critical tools where a misread has real consequences.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 0;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">Complex, data-rich tools</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">Data visualization</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">End-to-end ownership</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">AI-first practice</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">Rapid prototyping · Figma</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">Regulatory / compliance</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-2);border:1px solid var(--line);padding:6px 11px;">New space / aerospace</span>
+    <header>
+      <h1 class="fade" style="animation-delay:.12s">Petra<br>Kühnle</h1>
+      <p class="role fade" style="animation-delay:.2s">Product / UX Designer</p>
+      <p class="thesis fade" style="animation-delay:.28s">I work on complex, technical software, mostly in engineering domains. I learn the field before I design for it.</p>
+      <div class="intro fade" style="animation-delay:.36s">
+        <p>I was the first designer at Valispace, an aerospace systems engineering company that had shipped for six years without one. The job was to learn the field, earn the engineers' trust, and make their tools usable. That work ships today in Altium 365.</p>
       </div>
-    </div>
-  </div>
-</section>
+    </header>
 
-<!-- ===================== 01 · CASE STUDY ===================== -->
-<section id="valispace" style="background:var(--paper-2);border-top:1px solid var(--ink);">
-  <div style="max-width:1000px;margin:0 auto;padding:56px 32px 88px;">
-
-    <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:48px;">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.05em;color:var(--accent);font-weight:500;">01</span>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;">Case study</span>
-      <span style="flex:1;height:1px;background:var(--line);"></span>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Valispace → Altium 365</span>
+    <div class="titleblock fade" style="animation-delay:.44s" aria-label="Summary">
+      <div class="tb"><span class="k mono">Role</span><span class="v">Product / UX Designer</span></div>
+      <div class="tb"><span class="k mono">Based</span><span class="v">Berlin, DE</span></div>
+      <div class="tb"><span class="k mono">Focus</span><span class="v">Complex / technical UX</span></div>
+      <div class="tb"><span class="k mono">Status</span><span class="v">Open to senior roles</span></div>
     </div>
 
-    <h2 style="font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:400;line-height:1.12;letter-spacing:-0.025em;color:var(--ink);margin:0 0 36px;max-width:20ch;text-wrap:balance;">Making aerospace systems data readable enough to win a contract on.</h2>
+    <!-- 01 · SHIPPED -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">01</span><h2>Shipped in Altium 365</h2></div>
+      <p class="lede">I designed these as Valispace's first and only designer. They ship today in the Altium 365 Requirements &amp; Systems Portal, the product Valispace became after Altium acquired it in 2024. The work helped win a six-figure development contract with an aerospace client.</p>
 
-    <!-- meta line -->
-    <div style="display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:56px;">
-      <div style="flex:1 1 180px;padding:16px 24px 16px 0;border-right:1px solid var(--line-2);">
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;">Role</span>
-        <span style="font-size:0.92rem;color:var(--ink);">Sole designer</span>
+      <div class="feat">
+        <span class="ft">Master-Follower</span>
+        <span class="fd">Propagates linked requirements across a system hierarchy. Every connection carries state, so engineers see what a change affects downstream. <a class="mini-link" href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" rel="noopener">Docs ↗</a></span>
       </div>
-      <div style="flex:1 1 180px;padding:16px 24px;border-right:1px solid var(--line-2);">
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;">Duration</span>
-        <span style="font-size:0.92rem;color:var(--ink);">2021 – 2023</span>
+      <div class="feat">
+        <span class="ft">Verification &amp; Validation Matrix</span>
+        <span class="fd">Traceability between each requirement and the activity that verifies it. Built for projects with hundreds of engineers running over many years. <a class="mini-link" href="https://www.altium.com/documentation/altium-365/requirements-portal/verification-validation-module" target="_blank" rel="noopener">Docs ↗</a></span>
       </div>
-      <div style="flex:1 1 180px;padding:16px 24px;border-right:1px solid var(--line-2);">
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;">Domain</span>
-        <span style="font-size:0.92rem;color:var(--ink);">Systems engineering (MBSE)</span>
+      <div class="feat">
+        <span class="ft">Review Center</span>
+        <span class="fd">Review workflows with clear state, so distributed teams reach decisions in one place.<!-- ADD WHEN VERIFIED: <a class="mini-link" href="REVIEW_CENTER_DOC_URL" target="_blank" rel="noopener">Docs ↗</a> --></span>
       </div>
-      <div style="flex:1 1 180px;padding:16px 0 16px 24px;">
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;">Status</span>
-        <span style="font-size:0.92rem;color:var(--accent);">Ships in Altium 365 since 2024</span>
-      </div>
-    </div>
 
-    <!-- problem / approach / outcome — typographic, ruled -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:64px;border-top:1px solid var(--line);padding-top:30px;">
-      <div>
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:13px;">Problem</span>
-        <p style="font-size:1.0rem;line-height:1.55;color:var(--ink-2);margin:0;">Formalized MBSE models linking requirements across every subsystem — readable only to specialists.</p>
-      </div>
-      <div>
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:13px;">Approach</span>
-        <p style="font-size:1.0rem;line-height:1.55;color:var(--ink-2);margin:0;">Research with real users → user stories → high-fidelity Figma prototypes → fast iteration.</p>
-      </div>
-      <div style="border-left:2px solid var(--accent);padding-left:18px;">
-        <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:13px;">Outcome</span>
-        <p style="font-size:1.0rem;line-height:1.55;color:var(--ink);margin:0;">A six-figure development contract. Those features ship in Altium 365 today.</p>
-      </div>
-    </div>
+      <p class="note">Links go to Altium's public product documentation.</p>
+    </section>
 
-    <!-- schematic figure -->
-    <figure style="margin:0 0 64px;border:1px solid var(--line);">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line);">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">fig. 01 — interaction pattern, abstracted</span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;color:var(--ink-3);">schematic</span>
-      </div><div style="display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:center;padding:48px 32px;background-color:var(--paper);background-image:radial-gradient(circle, var(--line) 0.8px, transparent 0.8px);background-size:20px 20px;">
+    <!-- 02 · HIGHLIGHTS -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">02</span><h2>Highlights</h2></div>
 
-        <div style="flex:0 1 210px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-          <svg viewBox="0 0 200 190" width="100%" style="display:block;max-width:210px;">
-            <line x1="34" y1="40" x2="92" y2="34" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="34" y1="40" x2="48" y2="112" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="92" y1="34" x2="158" y2="52" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="92" y1="34" x2="118" y2="100" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="158" y1="52" x2="118" y2="100" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="158" y1="52" x2="172" y2="124" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="48" y1="112" x2="118" y2="100" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="48" y1="112" x2="66" y2="166" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="118" y1="100" x2="66" y2="166" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="118" y1="100" x2="136" y2="160" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="172" y1="124" x2="136" y2="160" stroke="#5d574d" stroke-width="1"></line>
-            <line x1="66" y1="166" x2="136" y2="160" stroke="#5d574d" stroke-width="1"></line>
-            <circle cx="34" cy="40" r="3.5" fill="#5c4630"></circle>
-            <circle cx="92" cy="34" r="3.5" fill="#5c4630"></circle>
-            <circle cx="158" cy="52" r="3.5" fill="#5c4630"></circle>
-            <circle cx="48" cy="112" r="3.5" fill="#5c4630"></circle>
-            <circle cx="118" cy="100" r="3.5" fill="#5c4630"></circle>
-            <circle cx="172" cy="124" r="3.5" fill="#5c4630"></circle>
-            <circle cx="66" cy="166" r="3.5" fill="#5c4630"></circle>
-            <circle cx="136" cy="160" r="3.5" fill="#5c4630"></circle>
-          </svg>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);">MBSE model data</span>
+      <div class="item">
+        <span class="cap-tag">Complex, data-rich UX</span>
+        <div class="item-top">
+          <h3>Making systems data usable for teams of hundreds</h3>
+          <span class="pid">VALISPACE</span>
         </div>
+        <p class="meta">Sole designer · MBSE / traceability</p>
+        <p class="body-txt">I designed a verification matrix and traceability workflows for engineering projects with hundreds of contributors. I owned them from pencil sketch to shipped UI. They run in Altium 365 today.</p>
+      </div>
 
-        <div style="flex:0 0 auto;font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--accent);">→</div>
-
-        <div style="flex:0 1 210px;display:flex;flex-direction:column;align-items:center;gap:16px;">
-          <div style="width:100%;max-width:210px;background:var(--paper-2);border:1px solid #6b665d;padding:13px;display:flex;flex-direction:column;gap:7px;">
-            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:7px;align-items:center;padding-bottom:8px;border-bottom:1px solid #6b665d;">
-              <span style="height:6px;width:72%;background:#56524b;"></span>
-              <span style="height:6px;background:#6b5236;"></span>
-              <span style="height:6px;background:#6b5236;"></span>
-              <span style="height:6px;background:#6b5236;"></span>
-            </div>
-            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:7px;align-items:center;">
-              <span style="height:6px;width:88%;background:#56524b;"></span>
-              <span style="height:11px;background:#56524b;"></span>
-              <span style="height:11px;background:transparent;border:1px solid #6b665d;"></span>
-              <span style="height:11px;background:#56524b;"></span>
-            </div>
-            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:7px;align-items:center;">
-              <span style="height:6px;width:80%;background:#56524b;"></span>
-              <span style="height:11px;background:#6b5236;"></span>
-              <span style="height:11px;background:#56524b;"></span>
-              <span style="height:11px;background:transparent;border:1px solid #6b665d;"></span>
-            </div>
-            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:7px;align-items:center;border-left:2px solid var(--accent);padding-left:6px;margin-left:-8px;">
-              <span style="height:6px;width:84%;background:#56524b;"></span>
-              <span style="height:11px;background:transparent;border:1px solid #6b665d;"></span>
-              <span style="height:11px;background:var(--accent);"></span>
-              <span style="height:11px;background:#56524b;"></span>
-            </div>
-            <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:7px;align-items:center;">
-              <span style="height:6px;width:76%;background:#56524b;"></span>
-              <span style="height:11px;background:#56524b;"></span>
-              <span style="height:11px;background:#6b5236;"></span>
-              <span style="height:11px;background:transparent;border:1px solid #6b665d;"></span>
-            </div>
-          </div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);">Tables, matrices</span>
+      <div class="item">
+        <span class="cap-tag">Working with engineers</span>
+        <div class="item-top">
+          <h3>Designing the logic, not just the screens</h3>
+          <span class="pid">VALISPACE</span>
         </div>
-
-      </div>
-    </figure>
-
-    <!-- shipped features -->
-    <div style="margin-bottom:64px;">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 4px;padding-bottom:11px;border-bottom:1px solid var(--ink);">
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink);margin:0;">Shipped features</p>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;color:var(--ink-3);margin:0;text-align:right;">designed at Valispace · live in Altium 365</p>
+        <p class="meta">With the CPO, engineers, and clients</p>
+        <p class="body-txt">I designed complex features in Figma in enough detail to settle how they were built. Working that closely once let me catch a spec miscommunication between product and backend before it caused a rebuild.</p>
       </div>
 
-      <a href="https://www.altium.com/documentation/altium-365/requirements-systems-portal/requirements-module/master-follower-feature" target="_blank" rel="noopener" style="display:grid;grid-template-columns:1fr auto;gap:14px 20px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding-left .18s ease;" class="feat">
-        <span>
-          <span style="display:block;font-size:1.08rem;font-weight:400;color:var(--ink);letter-spacing:-0.01em;">Master-Follower</span>
-          <span style="display:block;font-size:0.88rem;color:var(--ink-3);margin-top:4px;line-height:1.5;">Propagating linked requirements across system hierarchies, with state on every connection.</span>
-        </span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap;">Public docs <span aria-hidden="true">↗</span></span>
-      </a>
-
-      <a href="https://www.altium.com/documentation/altium-365/requirements-portal/verification-validation-module" target="_blank" rel="noopener" style="display:grid;grid-template-columns:1fr auto;gap:14px 20px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding-left .18s ease;" class="feat">
-        <span>
-          <span style="display:block;font-size:1.08rem;font-weight:400;color:var(--ink);letter-spacing:-0.01em;">Verification &amp; Validation Matrix</span>
-          <span style="display:block;font-size:0.88rem;color:var(--ink-3);margin-top:4px;line-height:1.5;">Traceability between each requirement and the activity that verifies it.</span>
-        </span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap;">Public docs <span aria-hidden="true">↗</span></span>
-      </a>
-
-      <a href="https://www.altium.com/documentation/altium-365/requirements-portal" target="_blank" rel="noopener" style="display:grid;grid-template-columns:1fr auto;gap:14px 20px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding-left .18s ease;" class="feat">
-        <span>
-          <span style="display:block;font-size:1.08rem;font-weight:400;color:var(--ink);letter-spacing:-0.01em;">Review Center</span>
-          <span style="display:block;font-size:0.88rem;color:var(--ink-3);margin-top:4px;line-height:1.5;">Collaborative review workflows with clear state signalling across the team.</span>
-        </span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap;">Public docs <span aria-hidden="true">↗</span></span>
-      </a>
-
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.6;color:var(--ink-3);margin:14px 0 0;">Links go to Altium's public product documentation.</p>
-    </div>
-
-    <!-- scope + approach: two columns -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:56px;">
-
-      <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px;">Scope &amp; ownership</p>
-        <p style="font-size:0.98rem;line-height:1.62;color:var(--ink-2);margin:0 0 22px;">First designer the company hired, six years in. Sole designer through a 20-to-50 headcount phase, then drafted the role and onboarded the senior designer who still owns the work today. Stayed through the Altium acquisition.</p>
-        <ul style="list-style:none;margin:0;padding:0;">
-          <li style="font-size:0.92rem;color:var(--ink);padding:11px 0;border-top:1px solid var(--line-2);display:flex;gap:12px;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:0.82rem;">—</span>Research &amp; high-fidelity prototyping, end to end</li>
-          <li style="font-size:0.92rem;color:var(--ink);padding:11px 0;border-top:1px solid var(--line-2);display:flex;gap:12px;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:0.82rem;">—</span>Founded a cross-functional UX guild</li>
-          <li style="font-size:0.92rem;color:var(--ink);padding:11px 0;border-top:1px solid var(--line-2);display:flex;gap:12px;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:0.82rem;">—</span>Drafted the role, led hiring for the second designer</li>
-        </ul>
+      <div class="item">
+        <span class="cap-tag">User research</span>
+        <div class="item-top">
+          <h3>Research and validation as the first designer</h3>
+          <span class="pid">VALISPACE</span>
+        </div>
+        <p class="meta">User interviews · usability testing</p>
+        <p class="body-txt">I learned the real problems from expert users and tested prototypes with them most weeks. I checked my findings with in-house specialists and iterated over several months.</p>
       </div>
 
-      <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px;">Method</p>
-        <ol style="list-style:none;margin:0;padding:0;counter-reset:m;">
-          <li style="display:grid;grid-template-columns:auto 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line-2);align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);">01</span><span style="font-size:0.95rem;color:var(--ink);">Question the experts — engineers &amp; real users</span></li>
-          <li style="display:grid;grid-template-columns:auto 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line-2);align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);">02</span><span style="font-size:0.95rem;color:var(--ink);">Write the story — authored user stories</span></li>
-          <li style="display:grid;grid-template-columns:auto 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line-2);align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);">03</span><span style="font-size:0.95rem;color:var(--ink);">Prototype — interactive, high-fidelity</span></li>
-          <li style="display:grid;grid-template-columns:auto 1fr;gap:16px;padding:13px 0;border-top:1px solid var(--line-2);align-items:baseline;"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);">04</span><span style="font-size:0.95rem;color:var(--ink);">Iterate fast — validate, refine, repeat</span></li>
-        </ol>
-        <p style="font-size:0.9rem;line-height:1.6;color:var(--ink-3);margin:20px 0 0;">A non-domain expert by design: asking fundamental questions forced precise feedback and produced accurate, well-aligned work.</p>
+      <div class="item">
+        <span class="cap-tag">Founding design</span>
+        <div class="item-top">
+          <h3>Introducing UX to an engineering-led startup</h3>
+          <span class="pid">VALISPACE</span>
+        </div>
+        <p class="meta">Founding designer · 0 to 1</p>
+        <p class="body-txt">I built the design function from zero, in a product that had shipped for six years without one. I started a UX guild with the engineers, hired the senior designer who still runs the work today, and joined the product team.</p>
       </div>
 
-    </div>
+      <!-- =====================================================================
+           DETAILED WRITE-UP, NOT SHOWN YET.
+           To publish: move this block outside the comment and fill the TODOs.
+           Keep it factual and general. The public Altium links are the proof.
+      ========================================================================
+      <div class="item">
+        <span class="cap-tag">Complex, data-rich UX</span>
+        <div class="item-top">
+          <h3>Master-Follower, propagating requirements with state</h3>
+          <span class="pid">WRITE-UP · 01</span>
+        </div>
+        <p class="meta">Valispace · Sole designer</p>
+        <p class="body-txt">
+          Context. [TODO: who the users were and what they were doing.]
+          Problem. [TODO: the breakdown before the design existed.]
+          Approach. Domain interviews, then user stories, then high-fidelity prototypes, then weekly iteration with engineers and users.
+          Decisions. [TODO: two or three concrete design calls and why.]
+          Outcome. Shipped; live in Altium 365 today. [TODO: a result you can state plainly.]
+        </p>
+      </div>
+      ===================================================================== -->
+    </section>
 
-  </div>
-</section>
+    <!-- 03 · PROJECTS -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">03</span><h2>Projects</h2></div>
 
-<!-- ===================== 02 · CURRENT ===================== -->
-<section style="max-width:1000px;margin:0 auto;padding:56px 32px 24px;">
-  <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:48px;">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.05em;color:var(--accent);font-weight:500;">02</span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;">Current</span>
-    <span style="flex:1;height:1px;background:var(--line);"></span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">self-directed · 2025 – present</span>
-  </div>
+      <div class="item">
+        <div class="item-top">
+          <h3>System Forge</h3>
+          <span class="pid">SELF · SYSML</span>
+        </div>
+        <p class="meta">Self-initiated · SysML v2 / MBSE</p>
+        <p class="body-txt">A side project on design and UX improvements for SysML v2, the next-generation systems modeling language for model-based systems engineering. I build it hands on with LLMs and the terminal.</p>
+      </div>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:start;">
+      <div class="item">
+        <div class="item-top">
+          <h3>Navigator</h3>
+          <span class="pid">SELF · NAV</span>
+        </div>
+        <p class="meta">Self-initiated · AI law tracker for musicians</p>
+        <p class="body-txt">An AI-assisted tracker for legal changes that affect working musicians. Built out of curiosity about the tooling. It advanced past the first round of <strong>Mozilla Fellowship nominations</strong>.</p>
+      </div>
 
-    <div style="border-left:2px solid var(--accent);padding-left:22px;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;">AI-first · regulatory design</p>
-      <h3 style="font-size:1.45rem;font-weight:400;letter-spacing:-0.02em;color:var(--ink);margin:0 0 16px;">Sound AI Navigator</h3>
-      <p style="font-size:1.0rem;line-height:1.6;color:var(--ink-2);margin:0 0 18px;max-width:50ch;">An EU AI Act / GDPR compliance tool for musicians and sound engineers — using AI as both the subject and the design tool. Dense, shifting regulation made legible from the first interaction.</p>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;color:var(--accent);margin:0;">Mozilla Fellowship 2026 — shortlist</p>
-    </div>
+      <!-- ADD WHEN READY — data-visualisation project:
+      <div class="item">
+        <div class="item-top">
+          <h3>Data-visualisation project</h3>
+          <span class="pid">SELF · DV</span>
+        </div>
+        <p class="meta">Self-initiated · Python · Matplotlib / Plotly</p>
+        <p class="body-txt">[TODO: short description, link to the repo, and open-source contributions to geospatial-data and design-system libraries.]</p>
+      </div>
+      -->
+    </section>
 
-    <div>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;">Independent practice · Berlin</p>
-      <p style="font-size:1.05rem;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:48ch;">Self-directed product work — owning research, prototyping and direction end to end, and evolving how I work as the tooling changes.</p>
-      <ul style="list-style:none;margin:0;padding:0;">
-        <li style="padding:12px 0;border-top:1px solid var(--line);"><span style="display:block;font-size:0.92rem;color:var(--ink);">MDN Web Docs · Web Audio API</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--ink-3);">Docs-as-code: Git, Markdown, Diátaxis</span></li>
-        <li style="padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);"><span style="display:block;font-size:0.92rem;color:var(--ink);">Data Analytics &amp; Python</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--ink-3);">StackFuel, 2026</span></li>
+    <!-- 04 · RECOMMENDATIONS -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">04</span><h2>Recommendations</h2></div>
+      <div class="recs">
+        <figure>
+          <blockquote>“She took the initiative to start a UX guild that brought designers and developers together to improve the overall user experience.”</blockquote>
+          <figcaption>
+            <div class="who">Louise Lindblad</div>
+            <div class="rr">Co-founder · Valispace (now Altium)</div>
+          </figcaption>
+        </figure>
+        <figure>
+          <blockquote>“In a very short time she learned a previously unknown field by talking to users and iterating fast with them on mockups and prototypes.”</blockquote>
+          <figcaption>
+            <div class="who">Florian Reger</div>
+            <div class="rr">Solution Management · Valispace (now Altium)</div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 05 · BACKGROUND -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">05</span><h2>Background</h2></div>
+      <p class="body-txt">Four years at Apple, supporting users of its creative and productivity apps: music production (Logic Pro, GarageBand), video editing (Final Cut Pro, iMovie), presentations (Keynote), spreadsheets (Numbers), and word processing (Pages). I learned how expert tools fail in real use, and later carried good patterns into engineering software that lacked them.</p>
+      <ul class="roles">
+        <li><span>Pro Apps Specialist (T4) · Apple</span><span class="yr">2019–2020</span></li>
+        <li><span>Senior Advisor, Media Products · Apple</span><span class="yr">2018–2019</span></li>
+        <li><span>Media App Advisor · Apple<span class="award">AppleCare Excellence Award · 2018</span></span><span class="yr">2016–2018</span></li>
       </ul>
-    </div>
 
+      <div class="bg-grid">
+        <div>
+          <span class="k">Education</span>
+          <span class="v">BFA, Audio-Visual Media<span class="s">Specialism in audio-visual data</span></span>
+        </div>
+        <div>
+          <span class="k">Languages</span>
+          <span class="v">German (native)<span class="s">English (fluent), Dutch (fluent)</span></span>
+        </div>
+      </div>
+
+      <p class="skills"><span class="skills-k">Skills</span>UX/UI · interaction design · design systems · rapid prototyping · accessibility · visual design · Figma (auto-layout, components) · HTML / CSS / JS · AI-native practice · Python · data analysis</p>
+      <!-- ADD WHEN READY: open-source contributions to geospatial-data and design-system libraries -->
+    </section>
+
+    <!-- 06 · CONTACT -->
+    <section class="fade" style="animation-delay:.1s">
+      <div class="sec-head"><span class="no">06</span><h2>Contact</h2></div>
+      <p class="avail">Open to senior product roles. Berlin or remote.</p>
+      <div class="contact">
+        <a href="mailto:petra.kuehnle@gmail.com">EMAIL →</a>
+        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener">LINKEDIN →</a>
+        <a href="https://github.com/Pi-Kay" target="_blank" rel="noopener">GITHUB →</a>
+      </div>
+    </section>
+
+    <footer class="mono">
+      <span>Petra Kühnle · Product &amp; UX Design</span>
+      <span>Berlin</span>
+    </footer>
   </div>
-</section>
-
-<!-- ===================== 03 · FOUNDATION ===================== -->
-<section style="max-width:1000px;margin:0 auto;padding:56px 32px 24px;">
-  <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:48px;">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.05em;color:var(--accent);font-weight:500;">03</span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;">Foundation</span>
-    <span style="flex:1;height:1px;background:var(--line);"></span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">where the practice comes from</span>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:56px;align-items:start;">
-
-    <div>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;">Apple · 2016 – 2020</p>
-      <p style="font-size:1.05rem;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:50ch;">Four years supporting pro users of <span style="color:var(--ink);">Logic Pro</span> and <span style="color:var(--ink);">Final Cut Pro</span> — carrying interaction patterns from a mature creative tool into engineering software that lacked them, and documenting how expert tools fail in real use.</p>
-      <ul style="list-style:none;margin:0;padding:0;">
-        <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--line);font-size:0.9rem;"><span style="color:var(--ink);">Pro Apps Specialist</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);white-space:nowrap;">2019–2020</span></li>
-        <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--line);font-size:0.9rem;"><span style="color:var(--ink);">Senior Advisor, Media Products</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);white-space:nowrap;">2018–2019</span></li>
-        <li style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:0.9rem;"><span style="color:var(--ink);">Technical Advisor, Media Products</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);white-space:nowrap;">2016–2018</span></li>
-      </ul>
-    </div>
-
-    <div>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;">Origin</p>
-      <p style="font-size:1.05rem;line-height:1.6;color:var(--ink-2);margin:0 0 26px;max-width:46ch;">The throughline runs back to where I started — how people see, read and make sense of what's in front of them.</p>
-      <ul style="list-style:none;margin:0;padding:0;">
-        <li style="padding:12px 0;border-top:1px solid var(--line);"><span style="display:block;font-size:0.92rem;color:var(--ink);">BA · Psychology of Perception &amp; Creativity</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--ink-3);">HAN University, Netherlands</span></li>
-        <li style="padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);"><span style="display:block;font-size:0.92rem;color:var(--ink);">BFA · Audio-Visual Media</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--ink-3);">Hanze University, Netherlands</span></li>
-      </ul>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:var(--ink-3);margin:22px 0 0;">German (native) · English (fluent) · Dutch (fluent)</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ===================== 03 · RECOMMENDATIONS ===================== -->
-<section style="max-width:1000px;margin:0 auto;padding:64px 32px 24px;">
-  <div style="display:flex;align-items:baseline;gap:24px;margin-bottom:48px;">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.05em;color:var(--accent);font-weight:500;">04</span>
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;">Recommendations LinkedIn</span>
-    <span style="flex:1;height:1px;background:var(--line);"></span>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;">
-
-    <figure style="margin:0;">
-      <blockquote style="margin:0 0 22px;font-size:1.15rem;line-height:1.5;font-weight:300;color:var(--ink);letter-spacing:-0.01em;">“She took the initiative to start a UX guild that brought designers and developers together to improve the overall user experience.”</blockquote>
-      <figcaption style="border-top:1px solid var(--line);padding-top:14px;">
-        <div style="font-size:0.92rem;font-weight:500;color:var(--ink);">Louise Lindblad</div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;line-height:1.5;">VP of Product, Systems Engineering · Valispace (->Altium)</div>
-      </figcaption>
-    </figure>
-
-    <figure style="margin:0;">
-      <blockquote style="margin:0 0 22px;font-size:1.15rem;line-height:1.5;font-weight:300;color:var(--ink);letter-spacing:-0.01em;">“In a very short time she learned a previously unknown field by talking to users and iterating fast with them on mockups and prototypes.”</blockquote>
-      <figcaption style="border-top:1px solid var(--line);padding-top:14px;">
-        <div style="font-size:0.92rem;font-weight:500;color:var(--ink);">Florian Reger</div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-top:6px;line-height:1.5;">Solution Management, · Valispace (->Altium)</div>
-      </figcaption>
-    </figure>
-
-  </div>
-</section>
-
-<!-- ===================== FOOTER ===================== -->
-<footer style="max-width:1000px;margin:0 auto;padding:72px 32px 64px;">
-  <div style="border-top:1px solid var(--ink);padding-top:36px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;">
-    <div>
-      <p style="font-size:1.05rem;color:var(--ink-2);margin:0 0 12px;font-weight:300;">Open to senior product design roles — Berlin, hybrid or remote.</p>
-      <a href="mailto:petra.kuehnle@gmail.com" style="font-size:1.12rem;color:var(--ink);text-decoration:none;letter-spacing:-0.01em;border-bottom:2px solid var(--accent);padding-bottom:2px;">petra.kuehnle@gmail.com</a>
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:var(--ink-3);margin:26px 0 0;">
-        <a href="https://github.com/Pi-Kay" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink-3);">GitHub</a>
-        <span style="margin:0 10px;">·</span>
-        <a href="https://www.linkedin.com/in/petrakuhnle" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink-3);">LinkedIn</a>
-        <span style="margin:0 10px;">·</span>
-        © 2026 Petra Kühnle
-      </p>
-    </div>
-    <svg viewBox="0 0 60 60" width="44" height="44" style="display:block;opacity:0.9;">
-      <rect x="2" y="2" width="56" height="56" fill="none" stroke="var(--ink-3)" stroke-width="1"></rect>
-      <rect x="15" y="15" width="30" height="30" fill="none" stroke="var(--ink-3)" stroke-width="1"></rect>
-      <rect x="26" y="26" width="8" height="8" fill="var(--accent)"></rect>
-    </svg>
-  </div>
-</footer>
-
 </div>
 </body>
 </html>
